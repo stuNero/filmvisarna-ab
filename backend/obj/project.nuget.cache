@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "lk4vGcepVKc=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\maxve\\repos\\filmvisarna-ab\\backend\\Backend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\maxve\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\maxve\\.nuget\\packages\\dyndata\\1.0.5\\dyndata.1.0.5.nupkg.sha512",
+    "C:\\Users\\maxve\\.nuget\\packages\\fracturedjson\\4.0.0\\fracturedjson.4.0.0.nupkg.sha512",
+    "C:\\Users\\maxve\\.nuget\\packages\\mysqlconnector\\2.5.0\\mysqlconnector.2.5.0.nupkg.sha512",
+    "C:\\Users\\maxve\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
