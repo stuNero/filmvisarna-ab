@@ -197,7 +197,7 @@ public static class DbQuery
             command.ExecuteNonQuery();
         }
 
-        // Seed users
+        /* // Seed users
         command.CommandText = "SELECT COUNT(*) FROM users";
         if (Convert.ToInt32(command.ExecuteScalar()) == 0)
         {
@@ -209,41 +209,7 @@ public static class DbQuery
             ";
             command.CommandText = usersData;
             command.ExecuteNonQuery();
-        }
-
-        // Seed products
-        command.CommandText = "SELECT COUNT(*) FROM products";
-        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
-        {
-            var productsData = new List<string>
-            {
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Croissant', 'Buttery, flaky French-style croissant baked fresh daily with premium European butter. Perfect for breakfast with jam, afternoon coffee, or as the base for elegant sandwiches.\nGolden layers that melt in your mouth with authentic French pastry techniques.', '1 large', 0.99, 'croissant', '[""Bread & rice""]')",
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Gherkins', 'Crisp, tangy gherkin pickles packed in traditional brine with dill and spices. These small pickles add perfect acidity to sandwiches, charcuterie boards, and salads.\nA classic European-style pickle with authentic flavor that brightens any meal.', 'A can of 10', 4.5, 'gherkins', '[""Vegetables"",""Canned food""]')",
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Bay Leaves', 'Aromatic dried bay leaves from the Mediterranean, essential for soups, stews, and braised dishes. These whole leaves release their subtle, woodsy flavor slowly during cooking.\nRemove before serving for the perfect herbal note in your favorite recipes.', '1 bundle', 3.45, 'bay-leaves', '[""Vegetables"",""Spices""]')",
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Tomatoes', 'Fresh, vine-ripened tomatoes bursting with sweet, balanced flavor. Perfect for salads, sandwiches, or cooking.\nThese tomatoes have been allowed to ripen naturally on the vine for maximum taste and vibrant red color.', '1 lb', 2.5, 'tomatoes-on-the-vine', '[""Vegetables""]')",
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Basmati Rice', 'Premium long-grain basmati rice with a distinctive nutty aroma and fluffy texture. Aged for optimal flavor, this rice cooks to perfection with separate, non-sticky grains.\nIdeal for Indian dishes, pilafs, and everyday meals where quality matters.', '4 lb', 6.99, 'basmati-rice', '[""Bread & rice""]')",
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Green Olives', 'Plump, buttery green olives cured in traditional Mediterranean style. These olives have a mild, fruity flavor with a satisfying firm texture.\nPerfect for antipasto platters, salads, or enjoying straight from the can.', '1 lb, canned', 9.75, 'green-olives', '[""Canned food""]')",
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Parsley', 'Fresh, vibrant flat-leaf parsley with bright, clean flavor. Essential for Mediterranean cooking, garnishing, and adding fresh herb notes to any dish.\nThis aromatic herb brightens sauces, soups, and grain dishes beautifully.', '1 bundle', 2.75, 'parsley', '[""Vegetables"",""Spices""]')",
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Artichoke', 'Fresh, globe artichoke with tender heart and meaty leaves. Steam, grill, or stuff for an elegant side dish.\nThis versatile vegetable offers a subtle, nutty flavor and satisfying texture when properly prepared.', '1', 1.75, 'artichoke', '[""Vegetables""]')",
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Focaccia', 'Rustic Italian focaccia bread with herbs and olive oil, baked to golden perfection. Soft, airy interior with a slightly crispy crust.\nPerfect for sandwiches, dipping in olive oil, or serving alongside Mediterranean meals.', '1 large', 4.3, 'focaccia', '[""Bread & rice""]')",
-                @"INSERT INTO products (name, description, quantity, `price$`, slug, categories) VALUES
-                ('Rosemary', 'Fresh rosemary plant in a convenient pot for your kitchen windowsill. This aromatic herb adds pine-like fragrance to roasted meats, potatoes, and bread.\nSnip fresh sprigs as needed for cooking or cocktail garnishes.', '1 pot', 3.6, 'rosemary', '[""Vegetables"",""Spices""]')"
-            };
-            foreach (var sql in productsData)
-            {
-                command.CommandText = sql;
-                command.ExecuteNonQuery();
-            }
-        }
+        } */
     }
 
     // Helper to create an object from the DataReader
