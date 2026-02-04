@@ -61,17 +61,17 @@ public static class DbQuery
                 UNIQUE KEY unique_acl (userRoles, method, route)
             );
 
+            CREATE TABLE IF NOT EXISTS Venues (
+                ID INT PRIMARY KEY AUTO_INCREMENT,
+                VenueName VARCHAR(255) NOT NULL
+            );
+
             CREATE TABLE IF NOT EXISTS Seats (
                 ID INT PRIMARY KEY AUTO_INCREMENT,
                 SeatRow INT NOT NULL,
                 SeatColumn INT NOT NULL,
                 VenueID INT NOT NULL,
                 FOREIGN KEY (VenueID) REFERENCES Venues(ID)
-            );
-
-            CREATE TABLE IF NOT EXISTS Venues (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                Name VARCHAR(255) NOT NULL
             );
 
             CREATE TABLE IF NOT EXISTS Films (
