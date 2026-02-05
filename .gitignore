@@ -31,5 +31,7 @@ dist-ssr
 *.sw?
 
 backend/db-config.json
+backend/obj/
+backend/bin/
 backend/obj/*
 backend/bin/*
