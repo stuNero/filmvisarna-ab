@@ -63,7 +63,8 @@ public static class DbQuery
 
             CREATE TABLE IF NOT EXISTS Venues (
                 ID INT PRIMARY KEY AUTO_INCREMENT,
-                VenueName VARCHAR(255) NOT NULL
+                VenueName VARCHAR(255) NOT NULL,
+                VenueInfo TEXT
             );
 
             CREATE TABLE IF NOT EXISTS Seats (
@@ -126,6 +127,28 @@ public static class DbQuery
                 FOREIGN KEY (ActorID) REFERENCES Actors(ID)
             );
 
+            CREATE TABLE IF NOT EXISTS Products (
+                ID INT PRIMARY KEY AUTO_INCREMENT,
+                ProductName VARCHAR(255) NOT NULL,
+                InStock BOOL DEFAULT 1,
+                Price INT NOT NULL,
+                Description TEXT
+            );
+
+            CREATE TABLE IF NOT EXISTS Orders (
+                ID INT PRIMARY KEY UNIQUE,
+                Cost INT NOT NULL,
+                CreatedAt TIMESTAMP NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS OrderedItems (
+                ProductID INT NOT NULL,
+                OrderID INT NOT NULL,
+                PRIMARY KEY (ProductID, OrderID),
+                FOREIGN KEY (ProductID) REFERENCES Products(ID),
+                FOREIGN KEY (OrderID) REFERENCES Orders(ID)
+            );
+
             CREATE TABLE IF NOT EXISTS Bookings (
                 ID INT PRIMARY KEY UNIQUE,
                 Cost INT NOT NULL,
@@ -157,6 +180,12 @@ public static class DbQuery
                 Email VARCHAR(255) NOT NULL,
                 PRIMARY KEY (BookingID),
                 FOREIGN KEY (BookingID) REFERENCES Bookings(ID)
+            );
+
+            CREATE TABLE IF NOT EXISTS UserOrders (
+                Email VARCHAR(255) NOT NULL,
+                PRIMARY KEY (OrderID),
+                FOREIGN KEY (OrderID) REFERENCES Orders(ID)
             );
         ";
 
