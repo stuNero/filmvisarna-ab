@@ -7,7 +7,7 @@ HomePage.route = {
 export default function HomePage() {
   return <>
     <div>
-      <h2>Welcome</h2>
+      <h2>Välkommen!</h2>
       <p></p>
     </div>
   </>;
