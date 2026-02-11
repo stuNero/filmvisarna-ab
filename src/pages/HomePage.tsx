@@ -6,9 +6,12 @@ HomePage.route = {
 
 export default function HomePage() {
   return <>
-    <div>
+    <section>
       <h2>Välkommen!</h2>
       <p></p>
-    </div>
+    </section>
+    <section>
+
+    </section>
   </>;
 }

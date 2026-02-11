@@ -13,7 +13,12 @@ export default function Header() {
   const isActive = (path: string) =>
     path === currentRoute?.path || path === currentRoute?.parent;
 
-  return <header>
-    <Link to="/">Filmvisarna</Link>
-  </header>;
+  return <header className='w-full bg-opacity-20 backdrop-blur-lg border-b-2 border-solid border-white fixed'>
+    <Link to="/" className='flex flex-row w-fit'>
+      < img src="/logo-cinesharp.webp" width="50px" height="auto" ></img >
+      <h1 className='font-bold content-center pl-[10px] '>
+        CineSharp
+      </h1>
+    </Link >
+  </header >;
 }
