@@ -163,8 +163,8 @@ public static class DbQuery
             );
 
             CREATE TABLE IF NOT EXISTS UserBookings (
+                BookingID INT PRIMARY KEY,
                 Email VARCHAR(255) NOT NULL,
-                PRIMARY KEY (BookingID),
                 FOREIGN KEY (BookingID) REFERENCES Bookings(ID)
             );
 
