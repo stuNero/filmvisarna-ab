@@ -135,20 +135,6 @@ public static class DbQuery
                 Description TEXT
             );
 
-            CREATE TABLE IF NOT EXISTS Orders (
-                ID INT PRIMARY KEY UNIQUE,
-                Cost INT NOT NULL,
-                CreatedAt TIMESTAMP NOT NULL
-            );
-
-            CREATE TABLE IF NOT EXISTS OrderedItems (
-                ProductID INT NOT NULL,
-                OrderID INT NOT NULL,
-                PRIMARY KEY (ProductID, OrderID),
-                FOREIGN KEY (ProductID) REFERENCES Products(ID),
-                FOREIGN KEY (OrderID) REFERENCES Orders(ID)
-            );
-
             CREATE TABLE IF NOT EXISTS Bookings (
                 ID INT PRIMARY KEY UNIQUE,
                 Cost INT NOT NULL,
@@ -182,11 +168,6 @@ public static class DbQuery
                 FOREIGN KEY (BookingID) REFERENCES Bookings(ID)
             );
 
-            CREATE TABLE IF NOT EXISTS UserOrders (
-                Email VARCHAR(255) NOT NULL,
-                PRIMARY KEY (OrderID),
-                FOREIGN KEY (OrderID) REFERENCES Orders(ID)
-            );
         ";
 
         // Execute each statement separately
