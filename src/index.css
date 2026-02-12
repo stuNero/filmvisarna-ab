@@ -21,3 +21,41 @@ body {
   background-attachment: local;
   background-repeat: no-repeat;
 }
+
+#notFoundCtn {
+  min-height: 75vh;
+  justify-content: center;
+  background-image: url("/404.png");
+  background-size: contain;
+  background-position: center;
+  background-attachment: local;
+  background-repeat: no-repeat;
+}
+
+#notFoundTxt {
+  padding: 0px 100px;
+  display: flex;
+  flex-direction: column;
+  align-content: space-evenly;
+}
+
+#notFoundTxt h2 {
+  padding: 50px 0;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px hsl(0, 0%, 50%);
+}
+
+#notFoundTxt p {
+  padding: 25px 0;
+  display: inline-block;
+  font-size: 1.3rem;
+  text-shadow: 2px 2px 5px hsl(0, 0%, 50%);
+  transition: 0.2s ease;
+}
+
+#notFoundLinkTxt:hover {
+  color: hsl(0, 70%, 40%);
+  font-weight: 600;
+  text-shadow: 3px 3px 10px hsl(0, 0%, 50%);
+}
