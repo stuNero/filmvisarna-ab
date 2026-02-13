@@ -6,12 +6,11 @@ NotFoundPage.route = {
 
 export default function NotFoundPage() {
   return <>
-    <h2>Not Found: 404</h2>
+    <h2>Inte hittad: 404</h2>
     <p>
-      We are sorry, but there doesn't seem to be any page on this
-      site that matches the url:
+      Vi ber om ursäkt det verkar inte finnas något på denna sidan som matchar din url:
     </p>
     <p><strong>{useLocation().pathname.slice(1)}</strong></p>
-    <p>Please <Link to="/">visit the start page</Link> instead.</p>
+    <p><Link to="/">Gå till start sidan</Link> istället.</p>
   </>;
 }
