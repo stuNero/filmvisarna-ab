@@ -14,7 +14,7 @@ export default function Header() {
   const isActive = (path: string) =>
     path === currentRoute?.path || path === currentRoute?.parent;
 
-  return <header className='w-full bg-opacity-20 backdrop-blur-lg border-b-2 border-solid border-white fixed '>
+  return <header className='w-full bg-opacity-20 backdrop-blur-lg border-b-2 border-solid border-stone-800 fixed '>
     <div className='max-w-7xl mx-auto flex flex-row justify-between'>
       <Link to="/" className='hover:text-red-800 transition-colors duration-400 flex flex-row w-fit my-[10px]'>
         < img src="/logo-cinesharp.webp" width="40px" height="auto" ></img >
