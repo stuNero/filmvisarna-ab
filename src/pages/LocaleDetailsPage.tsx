@@ -1,6 +1,6 @@
 LocaleDetailsPage.route = {
   path: '/localedetails',
-  menuLabel: 'Locale Details',
+  menuLabel: 'Våra Salonger',
   index: 9
 };
 

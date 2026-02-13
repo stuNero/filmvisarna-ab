@@ -1,6 +1,6 @@
 CancelBookingPage.route = {
   path: '/CancelBooking',
-  menuLabel: 'Cancel booking',
+  menuLabel: 'Avboka Biljett',
   index: 5
 };
 
