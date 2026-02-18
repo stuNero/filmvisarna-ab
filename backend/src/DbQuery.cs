@@ -61,111 +61,111 @@ public static class DbQuery
                 UNIQUE KEY unique_acl (userRoles, method, route)
             );
 
-            CREATE TABLE IF NOT EXISTS Venues (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                VenueName VARCHAR(255) NOT NULL,
-                VenueInfo TEXT
+            CREATE TABLE IF NOT EXISTS venues (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                name VARCHAR(255) NOT NULL,
+                info TEXT
             );
 
-            CREATE TABLE IF NOT EXISTS Seats (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                SeatRow INT NOT NULL,
-                SeatColumn INT NOT NULL,
-                VenueID INT NOT NULL,
-                FOREIGN KEY (VenueID) REFERENCES Venues(ID)
+            CREATE TABLE IF NOT EXISTS seats (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                row INT NOT NULL,
+                column INT NOT NULL,
+                venueId INT NOT NULL,
+                FOREIGN KEY (venueId) REFERENCES venues(id)
             );
 
-            CREATE TABLE IF NOT EXISTS Films (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                Title VARCHAR(255) NOT NULL,
-                ProductionYear INT,
-                Length INT,
-                Genre VARCHAR(255),
-                Distributor VARCHAR(255),
-                Audio VARCHAR(255),
-                Subtitles VARCHAR(255),
-                Director VARCHAR(255),
-                FilmDescription TEXT,
-                Youtube VARCHAR(255)
+            CREATE TABLE IF NOT EXISTS films (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                title VARCHAR(255) NOT NULL,
+                productionYear INT,
+                length INT,
+                genre VARCHAR(255),
+                distributor VARCHAR(255),
+                audio VARCHAR(255),
+                subtitles VARCHAR(255),
+                director VARCHAR(255),
+                filmDescription TEXT,
+                youtube VARCHAR(255)
             );
 
-            CREATE TABLE IF NOT EXISTS Reviews (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                ReviewSource VARCHAR(255) NOT NULL,
-                Quote TEXT NOT NULL,
-                Stars VARCHAR(255) NOT NULL,
-                FilmID INT NOT NULL,
-                FOREIGN KEY (FilmID) REFERENCES Films(ID)
+            CREATE TABLE IF NOT EXISTS reviews (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                source VARCHAR(255) NOT NULL,
+                quote TEXT NOT NULL,
+                stars VARCHAR(255) NOT NULL,
+                filmId INT NOT NULL,
+                FOREIGN KEY (filmId) REFERENCES films(id)
             );
 
-            CREATE TABLE IF NOT EXISTS Showings (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                TimeSlot DATETIME NOT NULL,
-                FilmID INT NOT NULL,
-                VenueID INT NOT NULL,
-                FOREIGN KEY (FilmID) REFERENCES Films(ID),
-                FOREIGN KEY (VenueID) REFERENCES Venues(ID)
+            CREATE TABLE IF NOT EXISTS showings (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                timeSlot DATETIME NOT NULL,
+                filmID INT NOT NULL,
+                venueID INT NOT NULL,
+                FOREIGN KEY (filmId) REFERENCES films(id),
+                FOREIGN KEY (venueId) REFERENCES venues(id)
             );
 
-            CREATE TABLE IF NOT EXISTS Images (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                FileName VARCHAR(255) NOT NULL,
-                FilmID INT NOT NULL,
-                FOREIGN KEY (FilmID) REFERENCES Films(ID)
+            CREATE TABLE IF NOT EXISTS images (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                fileName VARCHAR(255) NOT NULL,
+                filmId INT NOT NULL,
+                FOREIGN KEY (filmId) REFERENCES films(id)
             );
 
-            CREATE TABLE IF NOT EXISTS Actors (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                ActorName VARCHAR(255) NOT NULL
+            CREATE TABLE IF NOT EXISTS actors (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                name VARCHAR(255) NOT NULL
             );
 
-            CREATE TABLE IF NOT EXISTS FilmActors (
-                FilmID INT NOT NULL,
-                ActorID INT NOT NULL,
-                PRIMARY KEY (FilmID, ActorID),
-                FOREIGN KEY (FilmID) REFERENCES Films(ID),
-                FOREIGN KEY (ActorID) REFERENCES Actors(ID)
+            CREATE TABLE IF NOT EXISTS filmActors (
+                filmId INT NOT NULL,
+                actorId INT NOT NULL,
+                PRIMARY KEY (filmId, actorId),
+                FOREIGN KEY (filmId) REFERENCES films(id),
+                FOREIGN KEY (actorId) REFERENCES Actors(id)
             );
 
-            CREATE TABLE IF NOT EXISTS Products (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                ProductName VARCHAR(255) NOT NULL,
-                InStock BOOL DEFAULT 1,
-                Price INT NOT NULL,
-                Description TEXT
+            CREATE TABLE IF NOT EXISTS products (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                productName VARCHAR(255) NOT NULL,
+                inStock BOOL DEFAULT 1,
+                price INT NOT NULL,
+                description TEXT
             );
 
-            CREATE TABLE IF NOT EXISTS Bookings (
-                ID INT PRIMARY KEY UNIQUE,
-                Cost INT NOT NULL,
-                CreatedAt TIMESTAMP NOT NULL,
-                ShowingID INT NOT NULL,
-                FOREIGN KEY (ShowingID) REFERENCES Showings(ID)
+            CREATE TABLE IF NOT EXISTS bookings (
+                id INT PRIMARY KEY UNIQUE,
+                cost INT NOT NULL,
+                createdAt TIMESTAMP NOT NULL,
+                showingId INT NOT NULL,
+                FOREIGN KEY (showingId) REFERENCES showings(id)
             );
 
-            CREATE TABLE IF NOT EXISTS BookedSeat (
-                SeatID INT NOT NULL,
-                BookingID INT NOT NULL,
-                PRIMARY KEY (SeatID, BookingID),
-                FOREIGN KEY (SeatID) REFERENCES Seats(ID),
-                FOREIGN KEY (BookingID) REFERENCES Bookings(ID)
+            CREATE TABLE IF NOT EXISTS bookedSeat (
+                seatId INT NOT NULL,
+                bookingId INT NOT NULL,
+                PRIMARY KEY (seatId, bookingId),
+                FOREIGN KEY (seatId) REFERENCES seats(id),
+                FOREIGN KEY (bookingId) REFERENCES bookings(id)
             );
 
-            CREATE TABLE IF NOT EXISTS Users (
-                ID INT PRIMARY KEY AUTO_INCREMENT,
-                Email VARCHAR(254) NOT NULL,
-                Pass VARCHAR(255) NOT NULL,
+            CREATE TABLE IF NOT EXISTS users (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                email VARCHAR(254) NOT NULL,
+                pass VARCHAR(255) NOT NULL,
                 firstName VARCHAR(255),
                 lastName VARCHAR(255),
                 role VARCHAR(50) NOT NULL DEFAULT 'user',
                 created TIMESTAMP NOT NULL,
-                LastVisited DATETIME NOT NULL
+                lastVisited DATETIME NOT NULL
             );
 
-            CREATE TABLE IF NOT EXISTS UserBookings (
-                BookingID INT PRIMARY KEY,
-                Email VARCHAR(255) NOT NULL,
-                FOREIGN KEY (BookingID) REFERENCES Bookings(ID)
+            CREATE TABLE IF NOT EXISTS userBookings (
+                bookingId INT PRIMARY KEY,
+                email VARCHAR(255) NOT NULL,
+                FOREIGN KEY (bookingId) REFERENCES bookings(id)
             );
 
         ";
