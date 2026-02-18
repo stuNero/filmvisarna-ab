@@ -23,13 +23,13 @@ export default function Header() {
                       px-4 sm:px-6 lg:px-8">
         <Link
           to="/"
-          className="hover:text-red-800 transition-colors duration-400 flex flex-row w-fit my-[10px]">
+          className="red_hover flex flex-row w-fit my-[10px]">
           <img src="/logo-cinesharp.webp" width="40px" height="auto"></img>
           <h1 className="font-bold content-center pl-[10px] ">CineSharp</h1>
         </Link>
         <Link
           to="/LoginPage"
-          className="hover:text-red-800 transition-colors duration-400 my-[10px] w-[30px] h-auto">
+          className="red_hover my-[10px] w-[30px] h-auto">
           <User className="my-[10px] w-[30px] h-auto" />
         </Link>
       </div>
