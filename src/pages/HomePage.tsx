@@ -7,16 +7,15 @@ HomePage.route = {
 export default function HomePage() {
   return <div className="hero flex flex-col 
                         ">
-    <section className="bg-[url('/bg-image.svg')]
-                        bg-center
-                        top-0 bottom-0 left-0
-                        content-center
-                        h-[75vh]
+    <section className="
+                        bg-[url('/bg-image.svg')] bg-center
+                        top-0 bottom-0 left-0 h-[75vh]
+                        content-center justify-center
                         ">
-      <div className="">
+      <div className="scale-90 mb-50 md:w-[50vw] md:ml-50 md:scale-125">
         <h1 className="text-3xl">Upplev bio som aldrig förr</h1>
         <p>
-          Fördjupa dig i de senaste storfilmerna med toppmodern ljudteknik och fantastisk bild. Boka dina biljetter nu.
+          Fördjupa dig i de senaste storfilmerna med toppmodern ljudteknik och <br /> fantastisk bild. Boka dina biljetter nu.
         </p>
       </div>
     </section>

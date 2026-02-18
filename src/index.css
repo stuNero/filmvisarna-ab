@@ -10,6 +10,6 @@ body {
 /* 
 CUSTOM CLASS FOR RED HOVERING EFFECT ON ELEMENTS 
 */
-.red_hover {
+.hover-red {
   @apply hover:text-red-800 transition-colors duration-400;
 }
