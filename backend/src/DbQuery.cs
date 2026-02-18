@@ -69,8 +69,8 @@ public static class DbQuery
 
             CREATE TABLE IF NOT EXISTS seats (
                 id INT PRIMARY KEY AUTO_INCREMENT,
-                row INT NOT NULL,
-                column INT NOT NULL,
+                rowNr INT NOT NULL,
+                columnNr INT NOT NULL,
                 venueId INT NOT NULL,
                 FOREIGN KEY (venueId) REFERENCES venues(id)
             );
@@ -86,7 +86,8 @@ public static class DbQuery
                 subtitles VARCHAR(255),
                 director VARCHAR(255),
                 filmDescription TEXT,
-                youtube VARCHAR(255)
+                youtube VARCHAR(255),
+                coverImage VARCHAR(255)
             );
 
             CREATE TABLE IF NOT EXISTS reviews (
@@ -105,13 +106,6 @@ public static class DbQuery
                 venueID INT NOT NULL,
                 FOREIGN KEY (filmId) REFERENCES films(id),
                 FOREIGN KEY (venueId) REFERENCES venues(id)
-            );
-
-            CREATE TABLE IF NOT EXISTS images (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                fileName VARCHAR(255) NOT NULL,
-                filmId INT NOT NULL,
-                FOREIGN KEY (filmId) REFERENCES films(id)
             );
 
             CREATE TABLE IF NOT EXISTS actors (
