@@ -12,13 +12,14 @@ export default function Header() {
                       px-4 sm:px-6 lg:px-8">
         <Link
           to="/"
-          className="red_hover flex flex-row w-fit my-[10px]">
+          className="hover-red
+          flex flex-row w-fit my-[10px]">
           <img src="/logo-cinesharp.webp" width="40px" height="auto"></img>
           <h1 className="font-bold content-center pl-[10px] ">CineSharp</h1>
         </Link>
         <Link
           to="/LoginPage"
-          className="red_hover my-[10px] w-[30px] h-auto">
+          className="hover-red my-[10px] w-[30px] h-auto">
           <User className="my-[10px] w-[30px] h-auto" />
         </Link>
       </div>
