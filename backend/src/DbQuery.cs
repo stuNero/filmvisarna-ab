@@ -102,7 +102,7 @@ public static class DbQuery
             CREATE TABLE IF NOT EXISTS showings (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 timeSlot DATETIME NOT NULL,
-                filmID INT NOT NULL,
+                filmId INT NOT NULL,
                 venueID INT NOT NULL,
                 FOREIGN KEY (filmId) REFERENCES films(id),
                 FOREIGN KEY (venueId) REFERENCES venues(id)
@@ -118,7 +118,7 @@ public static class DbQuery
                 actorId INT NOT NULL,
                 PRIMARY KEY (filmId, actorId),
                 FOREIGN KEY (filmId) REFERENCES films(id),
-                FOREIGN KEY (actorId) REFERENCES Actors(id)
+                FOREIGN KEY (actorId) REFERENCES actors(id)
             );
 
             CREATE TABLE IF NOT EXISTS products (
@@ -153,7 +153,7 @@ public static class DbQuery
                 firstName VARCHAR(255),
                 lastName VARCHAR(255),
                 role VARCHAR(50) NOT NULL DEFAULT 'user',
-                created TIMESTAMP NOT NULL,
+                created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 lastVisited DATETIME NOT NULL
             );
 
