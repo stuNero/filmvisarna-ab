@@ -3,13 +3,13 @@ export interface MovieDetails {
   id: number,
   title: string,
   productionYear: number,
-  lenght: number,
+  length: number,
   genre: string;
   distributor: string,
   audio: string,
   subtitles: string,
   director: string,
-  description: string,
+  filmDescription: string,
   youtube: string,
   coverImage: string;
 }
