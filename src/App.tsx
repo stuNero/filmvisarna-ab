@@ -9,9 +9,9 @@ export default function App() {
   useLocation();
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
-  return <>
+  return <div className='max-w-[100vw]'>
     <Header />
     <Main />
     <Footer />
-  </>;
+  </div>;
 };
