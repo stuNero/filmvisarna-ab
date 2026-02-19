@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
-import type { MovieDetails } from "../interfaces/MovieDetails";
+import type MovieDetails from "../interfaces/MovieDetails";
 
 MovieDetailShowingsPage.route = {
   path: '/moviedetailshowings/:id',
