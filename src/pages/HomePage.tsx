@@ -1,3 +1,5 @@
+import MovieCard from "./MovieCard.tsx";
+
 HomePage.route = {
   path: '/',
   menuLabel: 'Home',
@@ -20,6 +22,7 @@ export default function HomePage() {
         <h2>Visas Nu</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo eius officia illo in non quam omnis quas dolores tenetur cum quaerat reiciendis id, provident voluptatum natus. Blanditiis, obcaecati expedita! Molestias?</p>
       </div>
+      <MovieCard />
     </section>
   </>;
 }
