@@ -18,9 +18,8 @@ export default function HomePage() {
       </div>
     </section>
     <section>
-      <div >
-        <h2>Visas Nu</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo eius officia illo in non quam omnis quas dolores tenetur cum quaerat reiciendis id, provident voluptatum natus. Blanditiis, obcaecati expedita! Molestias?</p>
+      <div className="mt-5">
+        <h2 className="text-center text-6xl pt-2 pb-2">Visas nu</h2>
       </div>
       <MovieCard />
     </section>
