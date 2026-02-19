@@ -140,6 +140,7 @@ public static class DbQuery
             CREATE TABLE IF NOT EXISTS bookedSeat (
                 seatId INT NOT NULL,
                 bookingId INT NOT NULL,
+                ticketType ENUM ('child', 'adult', 'senior') NOT NULL DEFAULT('adult'),
                 PRIMARY KEY (seatId, bookingId),
                 FOREIGN KEY (seatId) REFERENCES seats(id),
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
