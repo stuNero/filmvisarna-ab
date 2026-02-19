@@ -1,4 +1,4 @@
-import type { MovieDetails } from "../interfaces/MovieDetails";
+import type MovieDetails from "../interfaces/MovieDetails";
 import { Link } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
 
