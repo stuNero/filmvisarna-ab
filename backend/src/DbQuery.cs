@@ -204,6 +204,145 @@ public static class DbQuery
             command.ExecuteNonQuery();
         }
 
+        // Seed Venues
+        command.CommandText = "SELECT COUNT(*) FROM venues";
+        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+        {
+            var venuesData = @"
+                INSERT IGNORE INTO venues (name, info) VALUES
+                ('Sal 1', 'Premium sal'),('Sal 2', 'Mysigt sal');
+            ";
+            command.CommandText = venuesData;
+            command.ExecuteNonQuery();
+        }
+
+        // Seed Seats
+        command.CommandText = "SELECT COUNT(*) FROM seats";
+        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+        {
+            var seatsData = @"
+            INSERT IGNORE INTO seats (rowNr, columnNr, venueId) VALUES
+                -- Sal 1
+                (1,1,1),(1,2,1),(1,3,1),(1,4,1),(1,5,1),(1,6,1),(1,7,1),(1,8,1),(2,1,1),(2,2,1),(2,3,1),(2,4,1),
+                (2,5,1),(2,6,1),(2,7,1),(2,8,1),(2,9,1),(3,1,1),(3,2,1),(3,3,1),(3,4,1),(3,5,1),(3,6,1),(3,7,1),
+                (3,8,1),(3,9,1),(3,10,1),(4,1,1),(4,2,1),(4,3,1),(4,4,1),(4,5,1),(4,6,1),(4,7,1),(4,8,1),(4,9,1),
+                (4,10,1),(5,1,1),(5,2,1),(5,3,1),(5,4,1),(5,5,1),(5,6,1),(5,7,1),(5,8,1),(5,9,1),(5,10,1),(6,1,1),
+                (6,2,1),(6,3,1),(6,4,1),(6,5,1),(6,6,1),(6,7,1),(6,8,1),(6,9,1),(6,10,1),(7,1,1),(7,2,1),(7,3,1),
+                (7,4,1),(7,5,1),(7,6,1),(7,7,1),(7,8,1),(7,9,1),(7,10,1),(7,11,1),(7,12,1),(8,1,1),(8,2,1),(8,3,1),
+                (8,4,1),(8,5,1),(8,6,1),(8,7,1),(8,8,1),(8,9,1),(8,10,1),(8,11,1),(8,12,1),
+                -- Sal 2
+                (1,1,2),(1,2,2),(1,3,2),(1,4,2),(1,5,2),(1,6,2),(2,1,2),(2,2,2),(2,3,2),(2,4,2),(2,5,2),(2,6,2),
+                (2,7,2),(2,8,2),(3,1,2),(3,2,2),(3,3,2),(3,4,2),(3,5,2),(3,6,2),(3,7,2),(3,8,2),(3,9,2),(4,1,2),
+                (4,2,2),(4,3,2),(4,4,2),(4,5,2),(4,6,2),(4,7,2),(4,8,2),(4,9,2),(4,10,2),(5,1,2),(5,2,2),(5,3,2),
+                (5,4,2),(5,5,2),(5,6,2),(5,7,2),(5,8,2),(5,9,2),(5,10,2),(6,1,2),(6,2,2),(6,3,2),(6,4,2),(6,5,2),
+                (6,6,2),(6,7,2),(6,8,2),(6,9,2),(6,10,2),(6,11,2),(6,12,2);
+            ";
+            command.CommandText = seatsData;
+            command.ExecuteNonQuery();
+        }
+
+        // Seed Films
+        command.CommandText = "SELECT COUNT(*) FROM films";
+        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+        {
+            var filmsData = @"
+                INSERT IGNORE INTO films (title, productionYear, length, ageRating , genre, distributor, audio, subtitles, director, filmDescription, youtube, coverImage) VALUES
+                ('Top Secret!', 1984, 90, 11, 'Komedi', 'Paramount Pictures', 'Engelska', 'Svenska',
+                'Zucker & Abrahams', 'En amerikansk popstjärna ska framträda i Östtyskland, men dras istället in i en internationell
+                intrig i denna knasiga spionparodi från skaparna av Titta vi flyger.', 'zoT28BPzVcI',
+                'https://storage.googleapis.com/pod_public/1300/262813.jpg'),
+                ('Dune: Part Two',2024,165, 11,'Sci-Fi','Warner Bros.','Engelska','Svenska','Denis Villeneuve',
+                'Paul Atreides förenar sig med Fremen-folket medan han är ute på en hämndlysten krigsfärd mot konspiratörerna som förstörde hans familj.
+                Ställd inför ett val mellan sitt livs kärlek och universums öde, försöker han förhindra en fruktansvärd framtid.','RaB32onQdeI',
+                'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.cqTlNDznTNOhqONRtkEnbQHaNK%3Fcb%3Ddefcachec2%26pid%3DApi&f=1&ipt=7d6d2074a065eebfb3fa2e725b34da10772faafbd4d2b31d7ef66a39d80bb6ce&ipo=images'),
+                ('Pulp Fiction', 1994, 154, 15,'Mörk komedi','Miramax Films', 'Engelska', 'Svenska',
+                'Quentin Tarantino', 'Livet för två maffiatorrödrar, en boxare, en gangster och hans fru, och ett par dinerbanditer flätas
+                samman i fyra berättelser om våld och försoning.', 'yMXB9u4z8Ic','https://storage.googleapis.com/pod_public/750/262754.jpg'),
+                ('12 Angry Men',1957,96,15 ,'Drama','Metro-Goldwyn-Meyer','Engelska','Svenska','Sidney Lumet',
+                'Juryn i en mordrättegång i New York blir frustrerade av en enda medlem vars skeptiska försiktighet tvingar dem att noggrant överväga bevisen
+                innan de fäller en förhastad dom.','_13J_9B5jEk','https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.mrChsuFytZXo6KLN-k8tpQHaLH%3Fpid%3DApi&f=1&ipt=a71345fd69c19342bbe1643bea3dee1a0a1e3ce56b6a3b132fad5222de8a0db4&ipo=images');
+            ";
+            command.CommandText = filmsData;
+            command.ExecuteNonQuery();
+        }
+
+        // Seed Reviews
+        command.CommandText = "SELECT COUNT(*) FROM reviews";
+        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+        {
+            var reviewsData = @"
+                INSERT IGNORE INTO reviews (source, quote, stars, filmId) VALUES
+                ('Variety','Den här gången är det försökta målet en kombination av den traditionella spionfilmen och
+                Elvis Presleys musikaliska upptåg, vilket i sig är roligt till en början. Och Val Kilmer visar sig vara en perfekt
+                blandning av trofast hjälte och drivkraftsfull hjärtekrossare.','4',1),
+                ('The AV Club','Top Secret! ersätter den spridda parodimetoden med en mer exakt återskapning av den
+                tokiga enkelheten i andra världskrigets romanser och Elvis-filmer.','3,5',1),
+                ('The Independient','Del två är lika storslagen som den är intim, och medan Hans Zimmers musik återigen
+                får dina trumhinnor att ge efter, och teatersätena mullrar av varje sandmask som springer i luften, är det de utvalda
+                ögonblicken av tystnad som verkligen sätter sina spår.','5',2),
+                ('Los Angeles Times','Villeneuve har lyckats med en av Hollywoods stora satsningar på senare tid och
+                levererat ett tvådelat epos med litterära nyanser, aktuell betydelse och kanske till och med löftet om ytterligare
+                en film eller två.','4,5',2),
+                ('Rolling Stone', 'Kriminalfilmernas nya King Kong... Grym underhållning utan ett spår av försiktighet,
+                självbelåtenhet eller politisk korrekthet som hämmar dess 154 ljuvligt makabra minuter.','5',3),
+                ('Wall Street Journal','Den mest fantasifulla filmen på evigheter.','5',3),
+                ('The New York Times','En genomträngande, känslig och ibland chockerande dissektion av hjärtan och sinnen
+                hos män som uppenbarligen är något mindre än gudar. Det skapar ett spänt, fängslande och fängslande drama som når långt
+                bortom juryrummets snäva ramar.','5',4),
+                ('Chicago Tribune','Baserad på Reginald Roses legendariska TV-pjäs, under Sidney Lumets sympatiska hand,
+                är detta en av 50-talets största skådespelare.','5',4);
+            ";
+            command.CommandText = reviewsData;
+            command.ExecuteNonQuery();
+        }
+
+        // Seed Showings
+        command.CommandText = "SELECT COUNT(*) FROM showings";
+        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+        {
+            var showingsData = @"
+                INSERT IGNORE INTO showings (timeSlot, filmId, venueId)VALUES
+                ('2026-04-01 16:00:00', 3, 1),('2026-04-01 16:00:00', 1, 2),
+                ('2026-04-01 18:00:00', 4, 1),('2026-04-01 18:00:00', 2, 2),
+                ('2026-04-01 20:00:00', 2, 1),('2026-04-01 20:00:00', 3, 2),
+                ('2026-04-02 16:00:00', 1, 1),('2026-04-02 16:00:00', 4, 2),
+                ('2026-04-02 18:00:00', 3, 1),('2026-04-02 18:00:00', 2, 2),
+                ('2026-04-02 20:00:00', 4, 1),('2026-04-02 20:00:00', 1, 2);
+            ";
+            command.CommandText = showingsData;
+            command.ExecuteNonQuery();
+        }
+
+        // Seed Actors
+        command.CommandText = "SELECT COUNT(*) FROM actors";
+        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+        {
+            var actorsData = @"
+                INSERT IGNORE INTO actors (name) VALUES
+                ('Val Kilmer'),('Lucy Gutteridge'),('Omar Sharif'),
+                ('Timotheé Chalamet'),('Zendaya'),('Rebecca Ferguson'),
+                ('John Travolta'),('Uma Thurman'),('Samuel L. Jackson'),('Bruce Willis'),
+                ('Henry Fonda'),('Lee J. Cobb'),('Martin Balsam');
+            ";
+            command.CommandText = actorsData;
+            command.ExecuteNonQuery();
+        }
+
+        // Seed Film Actors
+        command.CommandText = "SELECT COUNT(*) FROM filmActors";
+        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+        {
+            var filmActorsData = @"
+            INSERT IGNORE INTO filmActors (filmId, actorId) VALUES
+                (1,1),(1,2),(1,3),(2,4),(2,5),(2,6),
+                (3,7),(3,8),(3,9),(3,10),(4,11),(4,12),(4,13);
+            ";
+            command.CommandText = filmActorsData;
+            command.ExecuteNonQuery();
+        }
+
+        // Seed the rest of the tables/views here. 
+
         /* // Seed users
         command.CommandText = "SELECT COUNT(*) FROM users";
         if (Convert.ToInt32(command.ExecuteScalar()) == 0)
