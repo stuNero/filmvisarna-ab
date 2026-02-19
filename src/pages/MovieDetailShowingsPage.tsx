@@ -16,7 +16,7 @@ export default function MovieDetailShowingsPage() {
   const [details] = useFetchJson<MovieDetails | null>(`/api/films/${movieId}`);
 
   return <>
-    <div className="min-h-screen flex flex-col justify-center px-4">
+    <div className="min-h-screen flex flex-col justify-center px-4 bg-[url('/Cinema.webp')] bg-no-repeat bg-center">
       <div className="flex flex-col md:flex-row md:items-start">
         <img src={details?.coverImage} alt={details?.title} className="w-full md:max-w-sm h-auto p-5 rounded-3xl object-cover" />
         <div className="md:ml-8">
