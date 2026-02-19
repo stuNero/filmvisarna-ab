@@ -1,5 +1,4 @@
-
-export interface MovieDetails {
+export default interface MovieDetails {
   id: number,
   title: string,
   productionYear: number,

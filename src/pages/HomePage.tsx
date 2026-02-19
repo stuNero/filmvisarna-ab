@@ -1,4 +1,4 @@
-import MovieCard from "./MovieCard.tsx";
+import MovieCard from "../parts/MovieCard.tsx";
 
 HomePage.route = {
   path: '/',
