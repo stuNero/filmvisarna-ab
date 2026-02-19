@@ -80,6 +80,7 @@ public static class DbQuery
                 title VARCHAR(255) NOT NULL,
                 productionYear INT,
                 length INT,
+                ageRating INT,
                 genre VARCHAR(255),
                 distributor VARCHAR(255),
                 audio VARCHAR(255),
@@ -102,7 +103,7 @@ public static class DbQuery
             CREATE TABLE IF NOT EXISTS showings (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 timeSlot DATETIME NOT NULL,
-                filmID INT NOT NULL,
+                filmId INT NOT NULL,
                 venueID INT NOT NULL,
                 FOREIGN KEY (filmId) REFERENCES films(id),
                 FOREIGN KEY (venueId) REFERENCES venues(id)
@@ -118,7 +119,7 @@ public static class DbQuery
                 actorId INT NOT NULL,
                 PRIMARY KEY (filmId, actorId),
                 FOREIGN KEY (filmId) REFERENCES films(id),
-                FOREIGN KEY (actorId) REFERENCES Actors(id)
+                FOREIGN KEY (actorId) REFERENCES actors(id)
             );
 
             CREATE TABLE IF NOT EXISTS products (
@@ -153,7 +154,7 @@ public static class DbQuery
                 firstName VARCHAR(255),
                 lastName VARCHAR(255),
                 role VARCHAR(50) NOT NULL DEFAULT 'user',
-                created TIMESTAMP NOT NULL,
+                created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 lastVisited DATETIME NOT NULL
             );
 
@@ -197,6 +198,7 @@ public static class DbQuery
                 ('admin', '*', 'allow', '/api/sessions', 'true', 'Allow admins to see and edit sessions'),
                 ('admin', '*', 'allow', '/api/acl', 'true', 'Allow admins to see and edit acl rules'),
                 ('visitor,user,admin', 'GET', 'allow', '/api/products', 'true', 'Allow all user roles to read products');
+                ('visitor,user,admin', 'GET', 'allow', '/api/films', 'true', 'Allow all user roles to read products');
             ";
             command.CommandText = aclData;
             command.ExecuteNonQuery();
