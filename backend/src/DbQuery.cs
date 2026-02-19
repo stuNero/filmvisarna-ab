@@ -80,6 +80,7 @@ public static class DbQuery
                 title VARCHAR(255) NOT NULL,
                 productionYear INT,
                 length INT,
+                ageRating INT,
                 genre VARCHAR(255),
                 distributor VARCHAR(255),
                 audio VARCHAR(255),
@@ -197,6 +198,7 @@ public static class DbQuery
                 ('admin', '*', 'allow', '/api/sessions', 'true', 'Allow admins to see and edit sessions'),
                 ('admin', '*', 'allow', '/api/acl', 'true', 'Allow admins to see and edit acl rules'),
                 ('visitor,user,admin', 'GET', 'allow', '/api/products', 'true', 'Allow all user roles to read products');
+                ('visitor,user,admin', 'GET', 'allow', '/api/films', 'true', 'Allow all user roles to read products');
             ";
             command.CommandText = aclData;
             command.ExecuteNonQuery();
