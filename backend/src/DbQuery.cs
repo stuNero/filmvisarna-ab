@@ -212,7 +212,7 @@ public static class DbQuery
         CREATE VIEW comingFilms AS
             SELECT f.*  FROM showings s, films f
             WHERE s.filmId = f.id
-            AND s.timeSlot >= DATE(NOW())
+            AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
             GROUP BY f.id
         ;
 
