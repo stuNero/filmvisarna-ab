@@ -382,7 +382,7 @@ public static class DbQuery
             var filmActorsData = @"
             INSERT IGNORE INTO filmActors (filmId, actorId) VALUES
                 (1,1),(1,2),(1,3),(2,4),(2,5),(2,6),
-                (3,7),(3,8),(3,9),(3,10),(4,11),(4,12),(4,13)
+                (3,7),(3,8),(3,9),(3,10),(4,11),(4,12),(4,13),
                 (5,14),(5,15),(5,16);
             ";
             command.CommandText = filmActorsData;
