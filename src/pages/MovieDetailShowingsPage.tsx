@@ -4,7 +4,7 @@ import type MovieDetails from "../interfaces/MovieDetails";
 import NotFoundPage from "./NotFoundPage";
 
 MovieDetailShowingsPage.route = {
-  path: '/comingFilms/:id',
+  path: '/moviedetailshowings/:id',
   menuLabel: 'Movie Details And Showings',
   index: 2
 };
