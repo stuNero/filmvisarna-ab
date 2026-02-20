@@ -163,38 +163,50 @@ public static class DbQuery
                 email VARCHAR(255) NOT NULL,
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
             );
-            CREATE VIEW movieShowings AS
-                SELECT f.title,
-                    s.id AS showingId, s.timeSlot, s.venueID,
-                    v.name
-                FROM films f,
-                    showings s,
-                    venues v
-                WHERE f.id = s.filmId
-                AND s.venueID = v.id
-            ;
-
-            CREATE VIEW bookedSeatsWithShowings AS
-                SELECT bs.seatId, bs.bookingId, bs.ticketType,
-                    b.showingId,
-                    s.rowNr, s.columnNr
-                FROM bookedSeat bs,
-                    bookings b,
-                    seats s
-                WHERE bs.bookingId = b.id AND s.id = bs.seatId
-            ;
-
-            CREATE VIEW showingsWithOccupiedSeats AS
-                SELECT movieShowings.*,
-                    rowNr,columnNr
-                FROM movieShowings,
-                    bookedSeatsWithShowings
-                WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
-            ;
         ";
-
         // Execute each statement separately
         foreach (var sql in createTablesSql.Split(';'))
+        {
+            var trimmed = sql.Trim();
+            if (!string.IsNullOrEmpty(trimmed))
+            {
+                var command = db.CreateCommand();
+                command.CommandText = trimmed;
+                command.ExecuteNonQuery();
+            }
+        }
+        var createViews = @"
+        DROP VIEW IF EXISTS movieShowings;
+        CREATE VIEW movieShowings AS
+            SELECT f.title,
+                s.id AS showingId, s.timeSlot, s.venueID,
+                v.name
+            FROM films f,
+                showings s,
+                venues v
+            WHERE f.id = s.filmId
+            AND s.venueID = v.id
+        ;
+        DROP VIEW IF EXISTS bookedSeatsWithShowings;
+        CREATE VIEW bookedSeatsWithShowings AS
+            SELECT bs.seatId, bs.bookingId, bs.ticketType,
+                b.showingId,
+                s.rowNr, s.columnNr
+            FROM bookedSeat bs,
+                bookings b,
+                seats s
+            WHERE bs.bookingId = b.id AND s.id = bs.seatId
+        ;
+        DROP VIEW IF EXISTS showingsWithOccupiedSeats;
+        CREATE VIEW showingsWithOccupiedSeats AS
+            SELECT movieShowings.*,
+                rowNr,columnNr
+            FROM movieShowings,
+                bookedSeatsWithShowings
+            WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
+        ;";
+        // Execute each statement separately
+        foreach (var sql in createViews.Split(';'))
         {
             var trimmed = sql.Trim();
             if (!string.IsNullOrEmpty(trimmed))
