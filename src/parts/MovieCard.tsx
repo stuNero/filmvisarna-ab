@@ -20,7 +20,7 @@ export default function MovieCard() {
                      hover:shadow-red-800/70
                      hover:scale-110"
         >
-          <Link to={`/comingFilms/${film.id}`}>
+          <Link to={`/moviedetailshowings/${film.id}`}>
             <img
               src={film.coverImage}
               alt={film.title}
