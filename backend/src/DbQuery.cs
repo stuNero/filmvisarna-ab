@@ -208,7 +208,7 @@ public static class DbQuery
             WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
         ;
         
-        DROP VIEW IF EXISTS comingFilms
+        DROP VIEW IF EXISTS comingFilms;
         CREATE VIEW comingFilms AS
             SELECT f.*  FROM showings s, films f
             WHERE s.filmId = f.id
