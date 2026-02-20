@@ -187,6 +187,7 @@ public static class DbQuery
             WHERE f.id = s.filmId
             AND s.venueID = v.id
         ;
+
         DROP VIEW IF EXISTS bookedSeatsWithShowings;
         CREATE VIEW bookedSeatsWithShowings AS
             SELECT bs.seatId, bs.bookingId, bs.ticketType,
@@ -197,6 +198,7 @@ public static class DbQuery
                 seats s
             WHERE bs.bookingId = b.id AND s.id = bs.seatId
         ;
+
         DROP VIEW IF EXISTS showingsWithOccupiedSeats;
         CREATE VIEW showingsWithOccupiedSeats AS
             SELECT movieShowings.*,
@@ -204,7 +206,17 @@ public static class DbQuery
             FROM movieShowings,
                 bookedSeatsWithShowings
             WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
-        ;";
+        ;
+        
+        DROP VIEW IF EXISTS comingFilms
+        CREATE VIEW comingFilms AS
+            SELECT f.*  FROM showings s, films f
+            WHERE s.filmId = f.id
+            AND s.timeSlot >= DATE(NOW())
+            GROUP BY f.id
+        ;        
+        "
+        ;
         // Execute each statement separately
         foreach (var sql in createViews.Split(';'))
         {
