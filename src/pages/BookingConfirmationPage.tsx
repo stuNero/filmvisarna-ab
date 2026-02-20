@@ -22,10 +22,14 @@ export default function BookingConfirmationPage() {
               <h3 className="text-sm font-semibold text-gray-500 mb-2">Biljettsammanfattning</h3>  
             </div>
           </div>
-          <div className="bg-zinc-800 rounded-lg w-64 shadow-lg border border-zinc-700 flex flex-col justify-center items-center">
-           <h3 className="text-sm font-semibold text-gray-500 mb-2">Bokningsnummer</h3>
+          <div className="bg-zinc-800 rounded-lg w-64 shadow-lg border border-zinc-700 flex flex-col justify-start items-center p-4">
+            <div className="mb-4 w-full text-center">
+              <h3 className="text-sm font-semibold text-gray-500 mb-2">Bokningsnummer</h3>
               <h2 className="text-2xl font-bold text-white mb-2">BC-HUNQAGOVKYRQ</h2>
-            
+            </div>
+            <div className="w-full text-center">
+              <h3 className="text-sm font-semibold text-gray-500">Valda platser</h3>
+            </div>
           </div>
         </div>
       </div>
