@@ -5,11 +5,14 @@ BookingConfirmationPage.route = {
 };
 
 export default function BookingConfirmationPage() {
-  return <>
-    <div className="                        top-0 bottom-0 left-0 h-[75vh]
-                        content-center justify-center">
-      <h2>Detta är bokning bekräftelsesidan</h2>
-      <p>Den innehåller information om din bokning</p>
+  return (
+    <div className="min-h-[75vh] flex items-center justify-center">
+      <div className="bg-zinc-950 rounded-lg p-8 max-w-md w-full mx-4 shadow-lg border border-zinc-700">
+        <h2 className="text-2xl font-bold text-center mb-4 text-white">Bokningsbekräftelse</h2>
+        <p className="text-center text-white">Din bokning är bekräftad!</p>
+        
+       
+      </div>
     </div>
-  </>;
+  );
 }
