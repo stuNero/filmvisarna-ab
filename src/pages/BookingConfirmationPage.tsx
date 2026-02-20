@@ -15,10 +15,11 @@ export default function BookingConfirmationPage() {
         
         <div className="p-8">
           <div className="md p-4 ">
-            <h3 className="text-lg font-semibold text-white mb-2">Film Detaljer</h3>
+            <h3 className="text-sm font-semibold text-gray-500 mb-2">Filmdetaljer</h3>
+            <div className="text-2xl font-bold text-white mb-2">Dune 2</div>
           </div>
           <div className="md p-4 mt-4">
-            <h3 className="text-lg font-semibold text-white mb-2">Biljettsammanfattning</h3>  
+            <h3 className="text-sm font-semibold text-gray-500 mb-2">Biljettsammanfattning</h3>  
           </div>
         </div>
       </div>
