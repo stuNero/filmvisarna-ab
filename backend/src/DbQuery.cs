@@ -214,7 +214,14 @@ public static class DbQuery
             WHERE s.filmId = f.id
             AND s.timeSlot >= DATE(NOW())
             GROUP BY f.id
-        ;        
+        ;
+
+        DROP VIEW IF EXISTS movieActors;
+        CREATE VIEW movieActors AS
+        SELECT f.id, a.name FROM filmActors fa, films f, actors a
+        WHERE f.id = fa.filmId
+        AND fa.actorId = a.id
+        ;
         "
         ;
         // Execute each statement separately
