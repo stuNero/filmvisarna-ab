@@ -28,7 +28,12 @@ export default function BookingConfirmationPage() {
               <h2 className="text-2xl font-bold text-white mb-2">BC-HUNQAGOVKYRQ</h2>
             </div>
             <div className="w-full text-center">
-              <h3 className="text-sm font-semibold text-gray-500">Valda platser</h3>
+              <h3 className="text-sm font-semibold text-gray-500 mb-2">Valda platser</h3>
+              <div className="flex flex-wrap gap-2 justify-center">
+                <span className="bg-zinc-700 text-white text-xs rounded px-3 py-1">Rad 5, Plats 6</span>
+                <span className="bg-zinc-700 text-white text-xs rounded px-3 py-1">Rad 5, Plats 7</span>
+                <span className="bg-zinc-700 text-white text-xs rounded px-3 py-1">Rad 5, Plats 8</span>
+              </div>
             </div>
           </div>
         </div>
