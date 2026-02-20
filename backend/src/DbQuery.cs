@@ -204,6 +204,13 @@ public static class DbQuery
                 FROM movieShowings,
                     bookedSeatsWithShowings
                 WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
+            ;
+            DROP VIEW IF EXISTS showingsAllSeats;
+            CREATE VIEW showingsAllSeats AS
+                SELECT sh.id, s.id AS seatId, s.rowNr, s.columnNr
+                FROM showings sh,
+                    seats s
+                WHERE s.venueId = sh.venueID
             ;";
         // Execute each statement separately
         foreach (var sql in createViews.Split(';'))
