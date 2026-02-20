@@ -16,10 +16,10 @@ export default function MovieDetailShowingsPage() {
   const [details] = useFetchJson<MovieDetails | null>(`/api/films/${movieId}`);
 
   return <>
-    <div className="min-h-screen flex flex-col justify-center px-4 bg-[url('/Cinema.webp')] bg-no-repeat bg-center">
+    <div className="min-h-screen flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
       <div className="flex flex-col md:flex-row md:items-start">
-        <img src={details?.coverImage} alt={details?.title} className="w-full md:max-w-sm h-auto p-5 rounded-3xl object-cover" />
-        <div className="md:ml-8">
+        <img src={details?.coverImage} alt={details?.title} className="w-full md:max-w-sm max-h-137.5 p-5 rounded-3xl object-cover" />
+        <div className="md:ml-8 backdrop-blur-xs">
           <div className="flex flex-col lg:gap-10 md:flex-row md:items-center md:gap-2 pb-5 pt-5 mb-6 ">
             <h1 className="text-3xl md:text-5xl font-extrabold">{details?.title}</h1>
             <h3 className="text-xl md:text-3xl font-extrabold">{details?.productionYear}</h3>
