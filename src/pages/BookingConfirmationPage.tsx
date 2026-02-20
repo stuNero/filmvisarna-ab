@@ -14,12 +14,14 @@ export default function BookingConfirmationPage() {
         </div>
         <div className="p-8 flex flex-row gap-6">
           <div className="flex-1 flex flex-col gap-4">
-            <div className="md p-4 ">
-              <h3 className="text-sm font-semibold text-gray-500 mb-2">Filmdetaljer</h3>
-              <h2 className="text-2xl font-bold text-white mb-2">Dune 2</h2>
-            </div>
-            <div className="md p-4 ">
-              <h3 className="text-sm font-semibold text-gray-500 mb-2">Biljettsammanfattning</h3>  
+            <div className="bg-zinc-900 rounded-lg p-4 flex flex-col gap-4">
+              <div className="md">
+                <h3 className="text-sm font-semibold text-gray-500 mb-2">Filmdetaljer</h3>
+                <h2 className="text-2xl font-bold text-white mb-2">Dune 2</h2>
+              </div>
+              <div className="md">
+                <h3 className="text-sm font-semibold text-gray-500 mb-2">Biljettsammanfattning</h3>
+              </div>
             </div>
           </div>
           <div className="bg-zinc-800 rounded-lg w-64 shadow-lg border border-zinc-700 flex flex-col justify-start items-center p-4">
