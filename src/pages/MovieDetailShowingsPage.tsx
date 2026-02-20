@@ -4,7 +4,7 @@ import type MovieDetails from "../interfaces/MovieDetails";
 import NotFoundPage from "./NotFoundPage";
 
 MovieDetailShowingsPage.route = {
-  path: '/moviedetailshowings/:id',
+  path: '/comingFilms/:id',
   menuLabel: 'Movie Details And Showings',
   index: 2
 };
@@ -14,7 +14,7 @@ export default function MovieDetailShowingsPage() {
   const { id } = useParams<{ id: string; }>();
   const movieId = Number(id);
 
-  const [details] = useFetchJson<MovieDetails | null>(`/api/films/${movieId}`);
+  const [details] = useFetchJson<MovieDetails | null>(`/api/comingFilms/${movieId}`);
 
   if (details?.id === movieId) {
     return <>
