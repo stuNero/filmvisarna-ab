@@ -24,7 +24,7 @@ export default function MovieCard() {
             <img
               src={film.coverImage}
               alt={film.title}
-              className="p-5 rounded-3xl object-cover"
+              className="p-5 rounded-3xl object-cover w-full h-100"
             />
             <h3 className="font-mono font-medium text-3xl text-center">
               {film.title}

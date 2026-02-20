@@ -10,7 +10,8 @@ export default function HomePage() {
   return <div className="hero flex flex-col 
                         ">
     <section className="
-                        bg-[url('/bg-image.svg')] bg-center
+                        bg-[url('/bg-image.webp')] bg-center
+                        bg-no-repeat                        
                         top-0 bottom-0 left-0 h-[75vh]
                         content-center justify-center
                         ">
