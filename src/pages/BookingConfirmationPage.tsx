@@ -13,11 +13,12 @@ export default function BookingConfirmationPage() {
           <p className="text-white/90">Tack för att du väljer vår bio. Dina biljetter är klara.</p>
         </div>
         
-      
         <div className="p-8">
-          <div className=" md p-4 ">
+          <div className="md p-4 ">
             <h3 className="text-lg font-semibold text-white mb-2">Film Detaljer</h3>
-            
+          </div>
+          <div className="md p-4 mt-4">
+            <h3 className="text-lg font-semibold text-white mb-2">Biljettsammanfattning</h3>  
           </div>
         </div>
       </div>
