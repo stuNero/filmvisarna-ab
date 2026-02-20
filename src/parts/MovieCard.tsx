@@ -5,7 +5,7 @@ import useFetchJson from "../utils/useFetchJson";
 
 export default function MovieCard() {
 
-  const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/films');
+  const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
 
 
   return (
@@ -20,7 +20,7 @@ export default function MovieCard() {
                      hover:shadow-red-800/70
                      hover:scale-110"
         >
-          <Link to={`/moviedetailshowings/${film.id}`}>
+          <Link to={`/comingFilms/${film.id}`}>
             <img
               src={film.coverImage}
               alt={film.title}
