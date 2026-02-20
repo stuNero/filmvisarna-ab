@@ -176,35 +176,35 @@ public static class DbQuery
             }
         }
         var createViews = @"
-        DROP VIEW IF EXISTS movieShowings;
-        CREATE VIEW movieShowings AS
-            SELECT f.title,
-                s.id AS showingId, s.timeSlot, s.venueID,
-                v.name
-            FROM films f,
-                showings s,
-                venues v
-            WHERE f.id = s.filmId
-            AND s.venueID = v.id
-        ;
-        DROP VIEW IF EXISTS bookedSeatsWithShowings;
-        CREATE VIEW bookedSeatsWithShowings AS
-            SELECT bs.seatId, bs.bookingId, bs.ticketType,
-                b.showingId,
-                s.rowNr, s.columnNr
-            FROM bookedSeat bs,
-                bookings b,
-                seats s
-            WHERE bs.bookingId = b.id AND s.id = bs.seatId
-        ;
-        DROP VIEW IF EXISTS showingsWithOccupiedSeats;
-        CREATE VIEW showingsWithOccupiedSeats AS
-            SELECT movieShowings.*,
-                rowNr,columnNr
-            FROM movieShowings,
-                bookedSeatsWithShowings
-            WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
-        ;";
+            DROP VIEW IF EXISTS movieShowings;
+            CREATE VIEW movieShowings AS
+                SELECT f.title,
+                    s.id AS showingId, s.timeSlot, s.venueID,
+                    v.name
+                FROM films f,
+                    showings s,
+                    venues v
+                WHERE f.id = s.filmId
+                AND s.venueID = v.id
+            ;
+            DROP VIEW IF EXISTS bookedSeatsWithShowings;
+            CREATE VIEW bookedSeatsWithShowings AS
+                SELECT bs.seatId, bs.bookingId, bs.ticketType,
+                    b.showingId,
+                    s.rowNr, s.columnNr
+                FROM bookedSeat bs,
+                    bookings b,
+                    seats s
+                WHERE bs.bookingId = b.id AND s.id = bs.seatId
+            ;
+            DROP VIEW IF EXISTS showingsWithOccupiedSeats;
+            CREATE VIEW showingsWithOccupiedSeats AS
+                SELECT movieShowings.*,
+                    rowNr,columnNr
+                FROM movieShowings,
+                    bookedSeatsWithShowings
+                WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
+            ;";
         // Execute each statement separately
         foreach (var sql in createViews.Split(';'))
         {
