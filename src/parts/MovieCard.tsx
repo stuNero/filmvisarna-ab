@@ -7,13 +7,14 @@ import { Clock } from 'lucide-react';
 export default function MovieCard() {
 
   const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
-  const [movieShowings] = useFetchJson<MovieShowings[] | null>('/api/movieShowings');
+  const [showingsTemp] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings`);
 
-  console.log(movieShowings);
-  function ExtractMovieTimes(movieShowings: MovieShowings) {
-
-  };
-
+  function getShowingsByMovie(title: string) {
+    const showings = showingsTemp?.filter((s) => s.title === title);
+    let dayShowings = showings?.filter((s) => s.timeSlot.toString().slice(0, 10) === Date.now().toString().slice(0, 10));
+    console.log(dayShowings);
+    return showings;
+  }
 
   function FormatLength(length: number) {
     let inHours = Math.floor(length / 60);
@@ -46,10 +47,19 @@ export default function MovieCard() {
               </h3>
               <section className="flex flex-col font-medium mt-2 mb-5 text-stone-300">
                 <div className="flex flex-row">
-                  <p className="border border-white rounded-md mr-1 px-1">{film.ageRating} år</p>
-                  <p className="flex flex-row"> <Clock className="scale-70" />{FormatLength(film.length)}</p>
+                  <p className="opacity-70 border border-stone-300 rounded-md mr-1 px-1">{film.ageRating} år</p>
+                  <p className="flex flex-row opacity-70"> <Clock className="scale-70" />{FormatLength(film.length)}</p>
                 </div>
-                <p className="opacity-50 text-sm">{film.genre}</p>
+                <p className="opacity-50 text-sm pb-5">{film.genre}</p>
+                <div>
+                  <p className="text-sm opacity-70">Dagens visningar:</p>
+                  <div>
+                    {getShowingsByMovie(film.title)?.map((showing) => (
+                      <div key={showing.showingId}>{showing.timeSlot}</div>
+                    ))}
+                  </div>
+
+                </div>
               </section>
             </section>
           </Link>
