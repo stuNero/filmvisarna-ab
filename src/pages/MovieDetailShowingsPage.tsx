@@ -14,7 +14,9 @@ export default function MovieDetailShowingsPage() {
   const { id } = useParams<{ id: string; }>();
   const movieId = Number(id);
 
-  const [details] = useFetchJson<MovieDetails | null>(`/api/films/${movieId}`);
+  const [details] = useFetchJson<MovieDetails | null>(`/api/comingFilms/${movieId}`);
+  const [actors] = useFetchJson<{ name: string; }[]>(`/api/movieActors?WHERE=id=${movieId}`);
+
 
   if (details?.id === movieId) {
     return <>
@@ -27,6 +29,11 @@ export default function MovieDetailShowingsPage() {
               <h3 className="text-xl md:text-3xl font-extrabold">{details?.productionYear}</h3>
               <h3 className="text-xl md:text-3xl font-extrabold">{details?.length} minuter</h3>
               <h3 className="text-lg md:text-xl font-extrabold">{details?.genre} </h3>
+            </div>
+            <div className="flex flex-row gap-5 h-12.5 text-base md:text-xl font-medium">
+              {actors?.map((a, index) => (
+                <h5 key={index}>{a.name}</h5>
+              ))}
             </div>
             <div>
               <p className="text-base md:text-xl font-bold">{details?.filmDescription}</p>

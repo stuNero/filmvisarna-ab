@@ -5,7 +5,7 @@ import useFetchJson from "../utils/useFetchJson";
 
 export default function MovieCard() {
 
-  const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/films');
+  const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
 
 
   return (

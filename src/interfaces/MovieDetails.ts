@@ -3,6 +3,7 @@ export default interface MovieDetails {
   title: string,
   productionYear: number,
   length: number,
+  ageRating: number,
   genre: string;
   distributor: string,
   audio: string,
