@@ -52,11 +52,14 @@ export default function BookingConfirmationPage() {
                 <div className="text-white/80 text-sm mb-1">Barn: {mockData.ticketCounts.children}</div>
                 <div className="text-white/80 text-sm mb-1">Vuxna: {mockData.ticketCounts.regular}</div>
                 <div className="text-white/80 text-sm mb-1">Pensionärer: {mockData.ticketCounts.seniors}</div>
-                <div className="text-white/80 text-sm mb-1 font-bold">Totalt pris: {mockData.totalPrice} kr</div>
+                <div className="flex justify-between items-center border-t border-white/10 pt-4 mt-4">
+                      <span className="text-xl font-bold text-white">Totalt pris</span>
+                      <span className="text-2xl font-bold text-red-500">{mockData.totalPrice} SEK</span>
+                    </div>
               </div>
             </div>
           </div>
-          <div className="bg-zinc-800 rounded-lg w-full md:w-96 shadow-lg border border-zinc-700 flex flex-col justify-start items-center p-4 mt-4 md:mt-0">
+          <div className="bg-black/50 rounded-lg w-full md:w-96 shadow-lg border border-white/5 flex flex-col justify-start items-center p-4 mt-4 md:mt-0">
             <div className="mb-4 w-full text-center">
               <h3 className="text-sm font-semibold text-gray-500 mb-2">Bokningsnummer</h3>
               <h2 className="text-2xl font-bold text-white mb-2">BC-HUNQAGOVKYRQ</h2>
