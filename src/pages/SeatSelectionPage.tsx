@@ -49,7 +49,15 @@ export default function SeatSelectionPage() {
       <div className="top-0 bottom-0 left-0 h-[75vh] content-center justify-center">
         <h2>Detta är sidan för att reservera säten</h2>
 
-        <div className="p-8 max-w-full mx-auto">
+        {/* Ticket Selection */}
+        <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
+          <button className="px-4 py-2 text-white outline-solid rounded hover:bg-red-600">Child</button>
+          <button className="px-4 py-2 text-white outline-solid rounded hover:bg-red-600">Adult</button>
+          <button className="px-4 py-2 text-white outline-solid rounded hover:bg-red-600">Pensioner</button>
+        </div>
+
+        {/* Seat Selection */}
+        <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
           {Array.from({ length: rows }, (_, rowIndex) => (
             <div key={rowIndex} className="flex justify-center gap-4 mb-4">
               {seats?.filter(seat => seat.rowNr === rowIndex + 1).map((seat) => (
