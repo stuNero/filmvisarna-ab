@@ -24,7 +24,7 @@ const mockData = {
 export default function BookingConfirmationPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-2 sm:px-4">
-      <div className="bg-zinc-950 rounded-lg max-w-4xl mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden flex flex-col">
+      <div className="bg-zinc-950 rounded-3xl max-w-4xl mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden flex flex-col">
         <div className="bg-red-800 p-4 sm:p-6 text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-4">
               <CheckCircle2 className="w-10 h-10 text-white" />
@@ -47,7 +47,7 @@ export default function BookingConfirmationPage() {
                       <span>{mockData.time}</span>
                     </div>
               </div>
-              <div className="md">
+              <div className="md border-t border-white/10">
                 <h3 className="text-sm font-semibold text-gray-500 mb-2">Biljettsammanfattning</h3>
                 <div className="text-white/80 text-sm mb-1">Barn: {mockData.ticketCounts.children}</div>
                 <div className="text-white/80 text-sm mb-1">Vuxna: {mockData.ticketCounts.regular}</div>
