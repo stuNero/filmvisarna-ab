@@ -1,4 +1,4 @@
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Calendar, Clock } from "lucide-react";
 
 BookingConfirmationPage.route = {
   path: '/bookingconfirmation',
@@ -38,8 +38,14 @@ export default function BookingConfirmationPage() {
               <div className="md">
                 <h3 className="text-sm font-semibold text-gray-500 mb-2">Filmdetaljer</h3>
                 <h2 className="text-2xl font-bold text-white mb-2">{mockData.movie.title}</h2>
-                <div className="text-white/80 text-sm mb-1">Datum: {mockData.date.slice(0, 10)}</div>
-                <div className="text-white/80 text-sm mb-1">Tid: {mockData.time}</div>
+                                    <div className="flex items-center gap-3 text-gray-300">
+                      <Calendar className="w-5 h-5 text-red-500" />
+                      <span className="capitalize">{mockData.date.slice(0, 10)}</span>
+                    </div>
+                <div className="flex items-center gap-3 text-gray-300">
+                      <Clock className="w-5 h-5 text-red-500" />
+                      <span>{mockData.time}</span>
+                    </div>
               </div>
               <div className="md">
                 <h3 className="text-sm font-semibold text-gray-500 mb-2">Biljettsammanfattning</h3>
