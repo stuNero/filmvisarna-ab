@@ -75,6 +75,12 @@ export default function BookingConfirmationPage() {
             </div>
           </div>
         </div>
+        <div className="bg-zinc-900/50 p-6 sm:p-6 text-center">
+          <p className="text-sm text-gray-500">
+              En bokningsbekräftelse har skickats till din e-post. 
+              Vänligen kom 15 minuter före visningen börjar.
+            </p>
+        </div>
       </div>
     </div>
   );
