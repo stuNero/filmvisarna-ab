@@ -1,4 +1,4 @@
-import { CheckCircle2, Calendar, Clock } from "lucide-react";
+import { CheckCircle2, Calendar, Clock, Ticket } from "lucide-react";
 
 BookingConfirmationPage.route = {
   path: '/bookingconfirmation',
@@ -62,8 +62,10 @@ export default function BookingConfirmationPage() {
               <h2 className="text-2xl font-bold text-white mb-2">BC-HUNQAGOVKYRQ</h2>
             </div>
             <div className="w-full text-center">
-              <h3 className="text-sm font-semibold text-gray-500 mb-2">Valda platser</h3>
-              <div className="flex flex-wrap gap-2 justify-center">
+              <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <Ticket className="w-4 h-4" /> Valda platser
+                      </h2>
+              <div className="flex flex-wrap gap-2 ">
                 {mockData.selectedSeats.map((seat, idx) => (
                   <span key={idx} className="bg-zinc-700 text-white text-xs rounded px-3 py-1">
                     Rad {seat.row}, Plats {seat.number}
