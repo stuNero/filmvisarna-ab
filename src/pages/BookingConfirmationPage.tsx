@@ -2,6 +2,20 @@ BookingConfirmationPage.route = {
   path: '/bookingconfirmation',
   menuLabel: 'Booking Confirmation',
   index: 4
+
+};
+
+const mockData = {
+  movie: { title: "Dune: Part Two" },
+  date: new Date().toISOString(),
+  time: "20:00",
+  ticketCounts: { children: 1, regular: 2, seniors: 0 },
+  totalPrice: 360,
+  selectedSeats: [
+    { row: 4, number: 5 },
+    { row: 4, number: 6 },
+    { row: 4, number: 7 }
+  ]
 };
 
 export default function BookingConfirmationPage() {
@@ -17,10 +31,16 @@ export default function BookingConfirmationPage() {
             <div className=" p-4 flex flex-col gap-4">
               <div className="md">
                 <h3 className="text-sm font-semibold text-gray-500 mb-2">Filmdetaljer</h3>
-                <h2 className="text-2xl font-bold text-white mb-2">Dune 2</h2>
+                <h2 className="text-2xl font-bold text-white mb-2">{mockData.movie.title}</h2>
+                <div className="text-white/80 text-sm mb-1">Datum: {mockData.date.slice(0, 10)}</div>
+                <div className="text-white/80 text-sm mb-1">Tid: {mockData.time}</div>
               </div>
               <div className="md">
                 <h3 className="text-sm font-semibold text-gray-500 mb-2">Biljettsammanfattning</h3>
+                <div className="text-white/80 text-sm mb-1">Barn: {mockData.ticketCounts.children}</div>
+                <div className="text-white/80 text-sm mb-1">Vuxna: {mockData.ticketCounts.regular}</div>
+                <div className="text-white/80 text-sm mb-1">Pensionärer: {mockData.ticketCounts.seniors}</div>
+                <div className="text-white/80 text-sm mb-1 font-bold">Totalt pris: {mockData.totalPrice} kr</div>
               </div>
             </div>
           </div>
@@ -32,9 +52,11 @@ export default function BookingConfirmationPage() {
             <div className="w-full text-center">
               <h3 className="text-sm font-semibold text-gray-500 mb-2">Valda platser</h3>
               <div className="flex flex-wrap gap-2 justify-center">
-                <span className="bg-zinc-700 text-white text-xs rounded px-3 py-1">Rad 5, Plats 6</span>
-                <span className="bg-zinc-700 text-white text-xs rounded px-3 py-1">Rad 5, Plats 7</span>
-                <span className="bg-zinc-700 text-white text-xs rounded px-3 py-1">Rad 5, Plats 8</span>
+                {mockData.selectedSeats.map((seat, idx) => (
+                  <span key={idx} className="bg-zinc-700 text-white text-xs rounded px-3 py-1">
+                    Rad {seat.row}, Plats {seat.number}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
