@@ -56,7 +56,7 @@ export default function BookingConfirmationPage() {
               </div>
             </div>
           </div>
-          <div className="bg-zinc-800 rounded-lg w-full md:w-64 shadow-lg border border-zinc-700 flex flex-col justify-start items-center p-4 mt-4 md:mt-0">
+          <div className="bg-zinc-800 rounded-lg w-full md:w-96 shadow-lg border border-zinc-700 flex flex-col justify-start items-center p-4 mt-4 md:mt-0">
             <div className="mb-4 w-full text-center">
               <h3 className="text-sm font-semibold text-gray-500 mb-2">Bokningsnummer</h3>
               <h2 className="text-2xl font-bold text-white mb-2">BC-HUNQAGOVKYRQ</h2>
