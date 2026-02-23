@@ -6,12 +6,12 @@ import { Clock } from 'lucide-react';
 
 export default function MovieCard() {
 
-  const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/films');
+  const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
   const [movieShowings] = useFetchJson<MovieShowings[] | null>('/api/movieShowings');
 
   console.log(movieShowings);
-  function ExtractMovieTimes(movieShowings: any) {
-    // const [movie, times[]] = "";
+  function ExtractMovieTimes(movieShowings: MovieShowings) {
+
   };
 
 
