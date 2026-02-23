@@ -21,7 +21,7 @@ const mockData = {
 export default function BookingConfirmationPage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-zinc-950 rounded-lg max-w-3xl w-full shadow-lg border border-zinc-700 overflow-hidden flex flex-col">
+      <div className="bg-zinc-950 rounded-lg max-w-4xl mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden flex flex-col">
         <div className="bg-red-800 p-6 text-center">
           <h2 className="text-2xl font-bold text-white mb-2">Bokning bekräftad!</h2>
           <p className="text-white/90">Tack för att du väljer vår bio. Dina biljetter är klara.</p>
