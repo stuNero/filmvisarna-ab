@@ -1,9 +1,12 @@
+import { CheckCircle2 } from "lucide-react";
+
 BookingConfirmationPage.route = {
   path: '/bookingconfirmation',
   menuLabel: 'Booking Confirmation',
   index: 4
 
 };
+
 
 const mockData = {
   movie: { title: "Dune: Part Two" },
@@ -23,6 +26,9 @@ export default function BookingConfirmationPage() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-zinc-950 rounded-lg max-w-4xl mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden flex flex-col">
         <div className="bg-red-800 p-6 text-center">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-4">
+              <CheckCircle2 className="w-10 h-10 text-white" />
+            </div>
           <h2 className="text-2xl font-bold text-white mb-2">Bokning bekräftad!</h2>
           <p className="text-white/90">Tack för att du väljer vår bio. Dina biljetter är klara.</p>
         </div>
