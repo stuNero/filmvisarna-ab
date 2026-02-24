@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   CheckCircle2,
   Calendar,
@@ -28,10 +29,12 @@ const mockData = {
 export default function BookingConfirmationPage() {
   return (
     <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
-      <button className="inline-flex  gap-2 text-gray-400 hover:text-white mb-8 transition-colors group">
-        <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-        Tillbaka till filmerna
-      </button>
+      <Link to="/">
+        <button className="inline-flex  gap-2 text-gray-400 hover:text-white mb-8 transition-colors group">
+          <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+          Tillbaka till filmerna
+        </button>
+      </Link>
       <div className="bg-zinc-950 rounded-3xl  mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden ">
         <div className="bg-red-800 p-4 sm:p-6 text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-4">
