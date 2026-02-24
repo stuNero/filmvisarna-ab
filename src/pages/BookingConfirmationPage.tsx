@@ -27,7 +27,7 @@ const mockData = {
 
 export default function BookingConfirmationPage() {
   return (
-    <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18">
+    <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
       <button className="inline-flex  gap-2 text-gray-400 hover:text-white mb-8 transition-colors group">
         <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
         Tillbaka till filmerna
