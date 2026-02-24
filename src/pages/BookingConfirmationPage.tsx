@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import type BookedSeatsWithShowings from "../interfaces/BookedSeatsWithShowings";
+import useFetchJson from "../utils/useFetchJson";
 import {
   CheckCircle2,
   Calendar,
@@ -27,6 +29,10 @@ const mockData = {
 };
 
 export default function BookingConfirmationPage() {
+  const [BookedSeatsWithShowings] = useFetchJson<
+    BookedSeatsWithShowings[] | null
+  >("/api/bookedSeatsWithShowings");
+
   return (
     <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
       <Link to="/">
