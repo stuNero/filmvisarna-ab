@@ -1,11 +1,8 @@
 export default interface MovieShowings {
+  id: number,
   title: string,
   showingId: number,
-  timeSlot: number,
+  timeSlot: Date,
   venueID: number,
   name: string;
 };
-export interface movieWithShowings {
-  title: string,
-  timeSlots: string[];
-}
