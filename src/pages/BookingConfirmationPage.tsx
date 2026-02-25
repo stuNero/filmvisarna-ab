@@ -54,6 +54,16 @@ export default function BookingConfirmationPage() {
     minute: "2-digit",
   });
 
+  const ticketTypeCounts = filteredBooking.reduce(
+    (acc, curr) => {
+      if (curr.ticketType === "child") acc.children++;
+      else if (curr.ticketType === "adult") acc.regular++;
+      else if (curr.ticketType === "senior") acc.seniors++;
+      return acc;
+    },
+    { children: 0, regular: 0, seniors: 0 },
+  );
+
   return (
     <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
       <Link to="/">
@@ -98,13 +108,13 @@ export default function BookingConfirmationPage() {
                   Biljettsammanfattning
                 </h3>
                 <div className="text-white/80 text-sm mb-1">
-                  Barn: {mockData.ticketCounts.children}
+                  Barn: {ticketTypeCounts.children}
                 </div>
                 <div className="text-white/80 text-sm mb-1">
-                  Vuxna: {mockData.ticketCounts.regular}
+                  Vuxna: {ticketTypeCounts.regular}
                 </div>
                 <div className="text-white/80 text-sm mb-1">
-                  Pensionärer: {mockData.ticketCounts.seniors}
+                  Pensionärer: {ticketTypeCounts.seniors}
                 </div>
                 <div className="flex justify-between items-center border-t border-white/10 pt-4 mt-4">
                   <span className="text-xl font-bold text-white">
