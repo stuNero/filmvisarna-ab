@@ -31,17 +31,21 @@ const mockData = {
 export default function BookingConfirmationPage() {
   const [BookingInfo] = useFetchJson<bookingInfo[] | null>("/api/bookingInfo");
 
-  if (!BookingInfo || BookingInfo.length === 0) {
+  const filteredBooking = BookingInfo
+    ? BookingInfo.filter((b) => b.bookingId === 1)
+    : [];
+
+  if (filteredBooking.length === 0) {
     return (
       <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
         <p className="text-white text-center mt-10">
-          Ingen bokningsinformation hittades.
+          Ingen bokningsinformation hittades för bookingId 1.
         </p>
       </div>
     );
   }
 
-  const booking = BookingInfo[0];
+  const booking = filteredBooking[0];
 
   return (
     <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
