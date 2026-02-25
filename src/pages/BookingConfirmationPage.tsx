@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type BookedSeatsWithShowings from "../interfaces/BookedSeatsWithShowings";
+import type BookedSeatsWithShowings from "../interfaces/BookingInfo";
 import useFetchJson from "../utils/useFetchJson";
 import {
   CheckCircle2,
@@ -8,6 +8,7 @@ import {
   Ticket,
   ChevronLeft,
 } from "lucide-react";
+import type bookingInfo from "../interfaces/BookingInfo";
 
 BookingConfirmationPage.route = {
   path: "/bookingconfirmation",
@@ -29,9 +30,9 @@ const mockData = {
 };
 
 export default function BookingConfirmationPage() {
-  const [BookedSeatsWithShowings] = useFetchJson<
-    BookedSeatsWithShowings[] | null
-  >("/api/bookedSeatsWithShowings");
+  const [BookingInfo] = useFetchJson<bookingInfo[] | null>(
+    "/api/bookedSeatsWithShowings",
+  );
 
   return (
     <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
