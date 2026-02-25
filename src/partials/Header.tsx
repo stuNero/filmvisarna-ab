@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <header className="w-full 
                       bg-opacity-10 backdrop-blur-lg 
-                      fixed">
+                      fixed z-[5000]">
       <div className="max-w-7xl 
                       mx-auto flex flex-row justify-between items-center
                       px-4 sm:px-6 lg:px-8">
