@@ -64,6 +64,12 @@ export default function BookingConfirmationPage() {
     { children: 0, regular: 0, seniors: 0 },
   );
 
+  const selectedSeats = filteredBooking.map((seat) => ({
+    row: seat.rowNr,
+    number: seat.columnNr,
+    ticketType: seat.ticketType,
+  }));
+
   return (
     <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
       <Link to="/">
@@ -141,7 +147,7 @@ export default function BookingConfirmationPage() {
                 <Ticket className="w-4 h-4" /> Valda platser
               </h2>
               <div className="flex flex-wrap gap-2 ">
-                {mockData.selectedSeats.map((seat, idx) => (
+                {selectedSeats.map((seat, idx) => (
                   <span
                     key={idx}
                     className="bg-zinc-700 text-white text-xs rounded px-3 py-1"
