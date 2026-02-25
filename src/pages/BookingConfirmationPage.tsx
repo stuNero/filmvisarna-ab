@@ -39,7 +39,7 @@ export default function BookingConfirmationPage() {
     return (
       <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
         <p className="text-white text-center mt-10">
-          Ingen bokningsinformation hittades för bookingId 1.
+          Ingen bokningsinformation hittades för detta bookningsnummer.
         </p>
       </div>
     );
