@@ -47,6 +47,13 @@ export default function BookingConfirmationPage() {
 
   const booking = filteredBooking[0];
 
+  const dateObj = new Date(booking.timeSlot);
+  const dateStr = dateObj.toLocaleDateString("sv-SE");
+  const timeStr = dateObj.toLocaleTimeString("sv-SE", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
   return (
     <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
       <Link to="/">
@@ -79,13 +86,11 @@ export default function BookingConfirmationPage() {
                 </h2>
                 <div className="flex items-center gap-3 text-gray-300">
                   <Calendar className="w-5 h-5 text-red-500" />
-                  <span className="capitalize">
-                    {mockData.date.slice(0, 10)}
-                  </span>
+                  <span className="capitalize">{dateStr}</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-300">
                   <Clock className="w-5 h-5 text-red-500" />
-                  <span>{mockData.time}</span>
+                  <span>{timeStr}</span>
                 </div>
               </div>
               <div className="md border-t border-white/10">
