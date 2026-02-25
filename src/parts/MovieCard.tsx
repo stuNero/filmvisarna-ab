@@ -10,12 +10,9 @@ export default function MovieCard() {
   const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
   const [showingsTemp] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings`);
 
-  function GetShowings(title: string) {
-    const expDate = new Date();
-    expDate.setDate(expDate.getDate() + 30);
-
-    const showings = showingsTemp?.filter((s) => s.title === title);
-    let dayShowings = showings?.filter((s) => s.timeSlot.toString().slice(0, 10) >= today);
+  function GetShowings(id: number) {
+    const showings = showingsTemp?.filter((s) => s.id === id);
+    let dayShowings = showings?.filter((s) => s.timeSlot.toString().slice(0, 10) === today);
     return dayShowings;
   }
 
@@ -56,12 +53,13 @@ export default function MovieCard() {
                 <p className="opacity-50 text-sm pb-5">{film.genre}</p>
                 <div>
                   <p className="text-sm opacity-70">Dagens visningar:</p>
-                  <div>
-                    {GetShowings(film.title)?.map((showing) => (
-                      <div key={showing.showingId}>{showing.timeSlot.toString().slice(11, 16)} {showing.name}</div>
-                    ))}
+                  <div className="flex flex-row text-sm gap-2">
+                    {GetShowings(film.id)?.length === 0 ? <div className="border rounded border-black bg-white/5 px-3 py-1.5">Inga visningar idag</div> :
+                      GetShowings(film.id)?.map((showing) => (
+                        <div className="border rounded border-black bg-white/5 px-3 py-1.5" key={showing.showingId}>
+                          {showing.timeSlot.toString().slice(11, 16)}</div>
+                      ))}
                   </div>
-
                 </div>
               </section>
             </section>
