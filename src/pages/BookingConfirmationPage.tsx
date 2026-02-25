@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type BookedSeatsWithShowings from "../interfaces/BookingInfo";
+import type bookingInfo from "../interfaces/BookingInfo";
 import useFetchJson from "../utils/useFetchJson";
 import {
   CheckCircle2,
@@ -8,7 +8,6 @@ import {
   Ticket,
   ChevronLeft,
 } from "lucide-react";
-import type bookingInfo from "../interfaces/BookingInfo";
 
 BookingConfirmationPage.route = {
   path: "/bookingconfirmation",
@@ -30,9 +29,19 @@ const mockData = {
 };
 
 export default function BookingConfirmationPage() {
-  const [BookingInfo] = useFetchJson<bookingInfo[] | null>(
-    "/api/bookedSeatsWithShowings",
-  );
+  const [BookingInfo] = useFetchJson<bookingInfo[] | null>("/api/bookingInfo");
+
+  if (!BookingInfo || BookingInfo.length === 0) {
+    return (
+      <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
+        <p className="text-white text-center mt-10">
+          Ingen bokningsinformation hittades.
+        </p>
+      </div>
+    );
+  }
+
+  const booking = BookingInfo[0];
 
   return (
     <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
@@ -62,7 +71,7 @@ export default function BookingConfirmationPage() {
                   Filmdetaljer
                 </h3>
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  {mockData.movie.title}
+                  {booking.filmTitle}
                 </h2>
                 <div className="flex items-center gap-3 text-gray-300">
                   <Calendar className="w-5 h-5 text-red-500" />
