@@ -96,7 +96,9 @@ export default function BookingConfirmationPage() {
                 </div>
                 <div className="flex items-center gap-3 text-gray-300">
                   <MapPin className="w-5 h-5 text-red-500" />
-                  <span>Salong 2, Lyxsalongen</span>
+                  <span>
+                    {booking.venueName}, {booking.venueInfo}
+                  </span>
                 </div>
               </div>
               <div className="md border-t border-white/10">
