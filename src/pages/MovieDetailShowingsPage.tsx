@@ -55,7 +55,7 @@ export default function MovieDetailShowingsPage() {
         <div className="flex justify-center pt-5 pb-5">
           <h2 className="text-2xl font-bold">Visningar</h2>
         </div>
-        <div className="flex flex-row gap-2 p-5">
+        <div className="flex flex-col md:flex-row gap-2 p-5 ">
 
           {showings?.map((showing) => (
             <article key={showing.showingId} className="border rounded-xl border-stone-500 p-1 w-60 bg-black">
