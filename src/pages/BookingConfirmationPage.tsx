@@ -27,7 +27,7 @@ export default function BookingConfirmationPage() {
     `/api/bookingInfo?WHERE=bookingid=${bookingId}`,
   );
 
-  if (!BookingInfo) {
+  if (!BookingInfo || BookingInfo.length === 0) {
     return (
       <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
         <p className="text-white text-center mt-10">
