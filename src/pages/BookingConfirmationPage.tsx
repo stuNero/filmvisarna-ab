@@ -15,19 +15,6 @@ BookingConfirmationPage.route = {
   index: 4,
 };
 
-const mockData = {
-  movie: { title: "Dune: Part Two" },
-  date: new Date().toISOString(),
-  time: "20:00",
-  ticketCounts: { children: 1, regular: 2, seniors: 0 },
-  totalPrice: 360,
-  selectedSeats: [
-    { row: 4, number: 5 },
-    { row: 4, number: 6 },
-    { row: 4, number: 7 },
-  ],
-};
-
 export default function BookingConfirmationPage() {
   const [BookingInfo] = useFetchJson<bookingInfo[] | null>("/api/bookingInfo");
 
@@ -127,7 +114,7 @@ export default function BookingConfirmationPage() {
                     Totalt pris
                   </span>
                   <span className="text-2xl font-bold text-red-500">
-                    {mockData.totalPrice} SEK
+                    {booking.totalPrice} SEK
                   </span>
                 </div>
               </div>
