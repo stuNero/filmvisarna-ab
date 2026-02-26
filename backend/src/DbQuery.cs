@@ -176,35 +176,6 @@ public static class DbQuery
             }
         }
         var createViews = @"
-            DROP VIEW IF EXISTS movieShowings;
-            CREATE VIEW movieShowings AS
-                SELECT f.title,
-                    s.id AS showingId, s.timeSlot, s.venueID,
-                    v.name
-                FROM films f,
-                    showings s,
-                    venues v
-                WHERE f.id = s.filmId
-                AND s.venueID = v.id
-            ;
-            DROP VIEW IF EXISTS bookedSeatsWithShowings;
-            CREATE VIEW bookedSeatsWithShowings AS
-                SELECT bs.seatId, bs.bookingId, bs.ticketType,
-                    b.showingId,
-                    s.rowNr, s.columnNr
-                FROM bookedSeat bs,
-                    bookings b,
-                    seats s
-                WHERE bs.bookingId = b.id AND s.id = bs.seatId
-            ;
-            DROP VIEW IF EXISTS showingsWithOccupiedSeats;
-            CREATE VIEW showingsWithOccupiedSeats AS
-                SELECT movieShowings.*,
-                    rowNr,columnNr
-                FROM movieShowings,
-                    bookedSeatsWithShowings
-                WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
-            ;
             DROP VIEW IF EXISTS showingsAllSeats;
             CREATE VIEW showingsAllSeats AS
                 SELECT sh.id, s.id AS seatId, s.rowNr, s.columnNr
@@ -212,6 +183,54 @@ public static class DbQuery
                     seats s
                 WHERE s.venueId = sh.venueID
             ;";
+        DROP VIEW IF EXISTS movieShowings;
+        CREATE VIEW movieShowings AS
+            SELECT f.id, f.title,
+                s.id AS showingId, s.timeSlot, s.venueID,
+                v.name
+            FROM films f,
+                showings s,
+                venues v
+            WHERE f.id = s.filmId
+            AND s.venueID = v.id
+        ;
+
+        DROP VIEW IF EXISTS bookedSeatsWithShowings;
+        CREATE VIEW bookedSeatsWithShowings AS
+            SELECT bs.seatId, bs.bookingId, bs.ticketType,
+                b.showingId,
+                s.rowNr, s.columnNr
+            FROM bookedSeat bs,
+                bookings b,
+                seats s
+            WHERE bs.bookingId = b.id AND s.id = bs.seatId
+        ;
+
+        DROP VIEW IF EXISTS showingsWithOccupiedSeats;
+        CREATE VIEW showingsWithOccupiedSeats AS
+            SELECT movieShowings.*,
+                rowNr,columnNr
+            FROM movieShowings,
+                bookedSeatsWithShowings
+            WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
+        ;
+        
+        DROP VIEW IF EXISTS comingFilms;
+        CREATE VIEW comingFilms AS
+            SELECT f.*  FROM showings s, films f
+            WHERE s.filmId = f.id
+            AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
+            GROUP BY f.id
+        ;
+
+        DROP VIEW IF EXISTS movieActors;
+        CREATE VIEW movieActors AS
+        SELECT f.id, a.name FROM filmActors fa, films f, actors a
+        WHERE f.id = fa.filmId
+        AND fa.actorId = a.id
+        ;
+        "
+        ;
         // Execute each statement separately
         foreach (var sql in createViews.Split(';'))
         {
@@ -306,7 +325,10 @@ public static class DbQuery
                 samman i fyra berättelser om våld och försoning.', 'yMXB9u4z8Ic','https://storage.googleapis.com/pod_public/750/262754.jpg'),
                 ('12 Angry Men',1957,96,15 ,'Drama','Metro-Goldwyn-Meyer','Engelska','Svenska','Sidney Lumet',
                 'Juryn i en mordrättegång i New York blir frustrerade av en enda medlem vars skeptiska försiktighet tvingar dem att noggrant överväga bevisen
-                innan de fäller en förhastad dom.','_13J_9B5jEk','https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.mrChsuFytZXo6KLN-k8tpQHaLH%3Fpid%3DApi&f=1&ipt=a71345fd69c19342bbe1643bea3dee1a0a1e3ce56b6a3b132fad5222de8a0db4&ipo=images');
+                innan de fäller en förhastad dom.','_13J_9B5jEk','https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.mrChsuFytZXo6KLN-k8tpQHaLH%3Fpid%3DApi&f=1&ipt=a71345fd69c19342bbe1643bea3dee1a0a1e3ce56b6a3b132fad5222de8a0db4&ipo=images'),
+                ('Terminator 2: Judgment Day',1991,137,15,'Action','Tri-Star Pictures','Engelska',
+                'Svenska','James Cameron','En cyborg från framtiden, identisk med den som misslyckades med att döda Sarah Connor,
+                måste nu skydda sin tioårige son John från en ännu mer avancerad och kraftfull cyborg.', 'CRRlbK5w8AE','https://image.tmdb.org/t/p/original/nRIfVniMh6FcJievGnNGpZdsN7d.jpg');
             ";
             command.CommandText = filmsData;
             command.ExecuteNonQuery();
@@ -336,7 +358,11 @@ public static class DbQuery
                 hos män som uppenbarligen är något mindre än gudar. Det skapar ett spänt, fängslande och fängslande drama som når långt
                 bortom juryrummets snäva ramar.','5',4),
                 ('Chicago Tribune','Baserad på Reginald Roses legendariska TV-pjäs, under Sidney Lumets sympatiska hand,
-                är detta en av 50-talets största skådespelare.','5',4);
+                är detta en av 50-talets största skådespelare.','5',4),
+                ('San Francisco Chronicle', 'Terminator 2 föreställer sig saker du troligtvis inte ens skulle drömma om och får dessa visioner
+                upp på skärmen med en sömlöshet som är häpnadsväckande.','5',5),
+                ('Entertaiment Weekly','Filmen är en stor festmåltid av vrakspill. Men det är också det som gör den lite avdomnande.',
+                '4',5);
             ";
             command.CommandText = reviewsData;
             command.ExecuteNonQuery();
@@ -347,13 +373,47 @@ public static class DbQuery
         if (Convert.ToInt32(command.ExecuteScalar()) == 0)
         {
             var showingsData = @"
-                INSERT IGNORE INTO showings (timeSlot, filmId, venueId)VALUES
-                ('2026-04-01 16:00:00', 3, 1),('2026-04-01 16:00:00', 1, 2),
-                ('2026-04-01 18:00:00', 4, 1),('2026-04-01 18:00:00', 2, 2),
-                ('2026-04-01 20:00:00', 2, 1),('2026-04-01 20:00:00', 3, 2),
-                ('2026-04-02 16:00:00', 1, 1),('2026-04-02 16:00:00', 4, 2),
-                ('2026-04-02 18:00:00', 3, 1),('2026-04-02 18:00:00', 2, 2),
-                ('2026-04-02 20:00:00', 4, 1),('2026-04-02 20:00:00', 1, 2);
+                INSERT IGNORE INTO showings (timeSlot, filmId, venueId) VALUES
+
+                -- Day 1 (Mars 20)
+                ('2026-03-20 17:15:00', 1, 1),
+                ('2026-03-20 20:15:00', 1, 2),
+                ('2026-03-20 17:15:00', 2, 2),
+                ('2026-03-20 20:15:00', 2, 1),
+                ('2026-03-20 17:15:00', 3, 1),
+                ('2026-03-20 20:15:00', 3, 2),
+                ('2026-03-20 17:15:00', 4, 2),
+                ('2026-03-20 20:15:00', 4, 1),
+
+                -- Day 2 (Mars 21) – swapped venues
+                ('2026-03-21 17:15:00', 1, 2),
+                ('2026-03-21 20:15:00', 1, 1),
+                ('2026-03-21 17:15:00', 2, 1),
+                ('2026-03-21 20:15:00', 2, 2),
+                ('2026-03-21 17:15:00', 3, 2),
+                ('2026-03-21 20:15:00', 3, 1),
+                ('2026-03-21 17:15:00', 4, 1),
+                ('2026-03-21 20:15:00', 4, 2),
+
+                -- Day 3 (Mars 22) – same as Day 1
+                ('2026-03-22 17:15:00', 1, 1),
+                ('2026-03-22 20:15:00', 1, 2),
+                ('2026-03-22 17:15:00', 2, 2),
+                ('2026-03-22 20:15:00', 2, 1),
+                ('2026-03-22 17:15:00', 3, 1),
+                ('2026-03-22 20:15:00', 3, 2),
+                ('2026-03-22 17:15:00', 4, 2),
+                ('2026-03-22 20:15:00', 4, 1),
+
+                -- Day 4 (Mars 23) – same as Day 2
+                ('2026-03-23 17:15:00', 1, 2),
+                ('2026-03-23 20:15:00', 1, 1),
+                ('2026-03-23 17:15:00', 2, 1),
+                ('2026-03-23 20:15:00', 2, 2),
+                ('2026-03-23 17:15:00', 3, 2),
+                ('2026-03-23 20:15:00', 3, 1),
+                ('2026-03-23 17:15:00', 4, 1),
+                ('2026-03-23 20:15:00', 4, 2);
             ";
             command.CommandText = showingsData;
             command.ExecuteNonQuery();
@@ -368,7 +428,8 @@ public static class DbQuery
                 ('Val Kilmer'),('Lucy Gutteridge'),('Omar Sharif'),
                 ('Timotheé Chalamet'),('Zendaya'),('Rebecca Ferguson'),
                 ('John Travolta'),('Uma Thurman'),('Samuel L. Jackson'),('Bruce Willis'),
-                ('Henry Fonda'),('Lee J. Cobb'),('Martin Balsam');
+                ('Henry Fonda'),('Lee J. Cobb'),('Martin Balsam'),
+                ('Arnold Schwarzenegger'),('Linda Hamilton'),('Robert Patrick');
             ";
             command.CommandText = actorsData;
             command.ExecuteNonQuery();
@@ -381,7 +442,8 @@ public static class DbQuery
             var filmActorsData = @"
             INSERT IGNORE INTO filmActors (filmId, actorId) VALUES
                 (1,1),(1,2),(1,3),(2,4),(2,5),(2,6),
-                (3,7),(3,8),(3,9),(3,10),(4,11),(4,12),(4,13);
+                (3,7),(3,8),(3,9),(3,10),(4,11),(4,12),(4,13),
+                (5,14),(5,15),(5,16);
             ";
             command.CommandText = filmActorsData;
             command.ExecuteNonQuery();
