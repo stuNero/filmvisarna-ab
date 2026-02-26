@@ -56,7 +56,6 @@ export default function SeatSelectionPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: email,
-          //  movieName: details?.title,
         }),
       });
 
@@ -79,11 +78,27 @@ export default function SeatSelectionPage() {
   );
   console.log(seats);
 
+  // Array with seat id
+  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+
   const [ticketCount, setTicketCount] = useState<TicketCount>({
     child: 0,
     adult: 0,
     senior: 0,
   });
+
+  const toggleSeat = (seatId: number) => {
+    setSelectedSeats((selected) => {
+      if (selected.includes(seatId)) {
+        // if the seat is already selected, remove selection
+        return selected.filter((id) => id !== seatId);
+      } else {
+        // if it is not selected, select it
+        return [...selected, seatId];
+      }
+    });
+  };
+  console.log(selectedSeats);
 
   var rows = 0;
 
@@ -148,7 +163,6 @@ export default function SeatSelectionPage() {
       <>
         <div className="top-0 bottom-0 left-0 content-center justify-center">
           <h2>Detta är sidan för att reservera säten</h2>
-
           {/* Ticket Selection */}
           <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
             <div className="max-w-2xl mx-auto space-y-4">
@@ -161,14 +175,27 @@ export default function SeatSelectionPage() {
               <div key={rowIndex} className="flex justify-center gap-4 mb-4">
                 {seats
                   ?.filter((seat) => seat.rowNr === rowIndex + 1)
-                  .map((seat) => (
-                    <button
-                      key={seat.seatId}
-                      className="px-4 py-2 text-white outline-solid rounded hover:bg-red-600"
-                    >
-                      {seat.seatId}
-                    </button>
-                  ))}
+                  .map((seat) => {
+                    const isSelected = selectedSeats.includes(seat.seatId);
+
+                    return (
+                      <button
+                        key={seat.seatId}
+                        onClick={() => toggleSeat(seat.seatId)}
+                        className={`
+                          px-4 py-2 text-white outline-solid rounded 
+                          transition-all duration-200
+                          ${
+                            isSelected
+                              ? "bg-green-600 hover:bg-green-700 "
+                              : "hover:bg-red-600"
+                          }
+                        `}
+                      >
+                        {seat.seatId}
+                      </button>
+                    );
+                  })}
               </div>
             ))}
           </div>
