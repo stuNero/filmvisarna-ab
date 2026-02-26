@@ -86,7 +86,7 @@ export default function BookingConfirmationPage() {
                 <h2 className="text-2xl font-bold text-white mb-2">
                   {booking.filmTitle}
                 </h2>
-                <div className="flex items-center gap-3 text-gray-300">
+                <div className="flex items-center gap-3 my-4 text-gray-300">
                   <Calendar className="w-5 h-5 text-red-500" />
                   <span className="capitalize">{dateStr}</span>
                 </div>
@@ -94,7 +94,7 @@ export default function BookingConfirmationPage() {
                   <Clock className="w-5 h-5 text-red-500" />
                   <span>{timeStr}</span>
                 </div>
-                <div className="flex items-center gap-3 text-gray-300">
+                <div className="flex items-center gap-3 my-4 text-gray-300">
                   <MapPin className="w-5 h-5 text-red-500" />
                   <span>
                     {booking.venueName}, {booking.venueInfo}
