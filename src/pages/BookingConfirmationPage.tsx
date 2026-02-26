@@ -131,7 +131,7 @@ export default function BookingConfirmationPage() {
               </div>
             </div>
           </div>
-          <div className="bg-black/50 rounded-lg w-full md:w-96 shadow-lg border border-white/5 flex flex-col justify-start items-center p-4 mt-4 md:mt-0">
+          <div className="bg-black/50 rounded-3xl w-full md:w-96 shadow-lg border border-white/5 flex flex-col justify-start items-center p-4 mt-4 md:mt-0">
             <div className="mb-4 w-full text-center">
               <h3 className="text-sm font-semibold text-gray-500 mb-2">
                 Bokningsnummer
