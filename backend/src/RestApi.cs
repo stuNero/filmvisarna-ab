@@ -1,4 +1,5 @@
 namespace WebApp;
+
 public static class RestApi
 {
     public static void Start()
