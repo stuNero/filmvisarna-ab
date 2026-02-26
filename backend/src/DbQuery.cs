@@ -176,6 +176,13 @@ public static class DbQuery
             }
         }
         var createViews = @"
+            DROP VIEW IF EXISTS showingsAllSeats;
+            CREATE VIEW showingsAllSeats AS
+                SELECT sh.id, s.id AS seatId, s.rowNr, s.columnNr
+                FROM showings sh,
+                    seats s
+                WHERE s.venueId = sh.venueID
+            ;";
         DROP VIEW IF EXISTS movieShowings;
         CREATE VIEW movieShowings AS
             SELECT f.id, f.title,
