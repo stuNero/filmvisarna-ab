@@ -16,13 +16,11 @@ BookingConfirmationPage.route = {
 };
 
 export default function BookingConfirmationPage() {
-  const [BookingInfo] = useFetchJson<bookingInfo[] | null>("/api/bookingInfo");
+  const [BookingInfo] = useFetchJson<bookingInfo[] | null>(
+    "/api/bookingInfo?WHERE=bookingid=1",
+  );
 
-  const filteredBooking = BookingInfo
-    ? BookingInfo.filter((b) => b.bookingId === 1)
-    : [];
-
-  if (filteredBooking.length === 0) {
+  if (!BookingInfo) {
     return (
       <div className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
         <p className="text-white text-center mt-10">
@@ -32,7 +30,7 @@ export default function BookingConfirmationPage() {
     );
   }
 
-  const booking = filteredBooking[0];
+  const booking = BookingInfo[0];
 
   const dateObj = new Date(booking.timeSlot);
   const dateStr = dateObj.toLocaleDateString("sv-SE");
@@ -41,7 +39,7 @@ export default function BookingConfirmationPage() {
     minute: "2-digit",
   });
 
-  const ticketTypeCounts = filteredBooking.reduce(
+  const ticketTypeCounts = BookingInfo.reduce(
     (acc, curr) => {
       if (curr.ticketType === "child") acc.children++;
       else if (curr.ticketType === "adult") acc.regular++;
@@ -51,7 +49,7 @@ export default function BookingConfirmationPage() {
     { children: 0, regular: 0, seniors: 0 },
   );
 
-  const selectedSeats = filteredBooking.map((seat) => ({
+  const selectedSeats = BookingInfo.map((seat) => ({
     row: seat.rowNr,
     number: seat.columnNr,
     ticketType: seat.ticketType,
