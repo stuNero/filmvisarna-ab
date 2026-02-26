@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type bookingInfo from "../interfaces/BookingInfo";
 import useFetchJson from "../utils/useFetchJson";
 import {
@@ -11,14 +11,20 @@ import {
 } from "lucide-react";
 
 BookingConfirmationPage.route = {
-  path: "/bookingconfirmation",
+  path: "/bookingconfirmation/:bookingId",
   menuLabel: "Booking Confirmation",
   index: 4,
 };
 
 export default function BookingConfirmationPage() {
+  const { bookingId } = useParams<{ bookingId: string }>();
+
+  if (!bookingId) {
+    return <div className="text-white">Ingen boknings-id i URL.</div>;
+  }
+
   const [BookingInfo] = useFetchJson<bookingInfo[] | null>(
-    "/api/bookingInfo?WHERE=bookingid=1",
+    `/api/bookingInfo?WHERE=bookingid=${bookingId}`,
   );
 
   if (!BookingInfo) {
