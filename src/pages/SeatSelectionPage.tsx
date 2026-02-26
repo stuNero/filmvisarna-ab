@@ -30,7 +30,6 @@ const TICKET_PRICES = {
 };
 
 const TICKET_KEYS = Object.keys(TICKET_TEXT) as Array<keyof typeof TICKET_TEXT>;
-const TICKET_SIZE = TICKET_KEYS.length;
 
 interface TicketCount {
   child: number;
