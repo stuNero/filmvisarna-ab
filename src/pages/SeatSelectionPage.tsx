@@ -44,6 +44,7 @@ export default function SeatSelectionPage() {
 
   const bookingConformation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!email) {
       setEmailError("Skriv in din email först!");
       return;
@@ -61,7 +62,7 @@ export default function SeatSelectionPage() {
 
       if (response.ok) {
         alert(`Bokningsbekräftelse skickad till ${email}!`);
-        setEmail(""); // Rensar fältet
+        setEmail(""); // remove the mail
       } else {
         alert("Något gick fel vid bokning");
       }
@@ -196,9 +197,10 @@ export default function SeatSelectionPage() {
                       type="email"
                       id="email"
                       value={email}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setEmail(e.target.value)
-                      }
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setEmail(e.target.value);
+                        setEmailError("");
+                      }}
                       placeholder="din.epost@exempel.se"
                       className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
                         emailError
