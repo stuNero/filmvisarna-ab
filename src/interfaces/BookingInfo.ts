@@ -6,5 +6,6 @@ export default interface bookingInfo {
   venueInfo: string,
   filmTitle: string,
   ticketType: string,
-  bookingId: number
+  bookingId: number,
+  totalPrice: number
 }
