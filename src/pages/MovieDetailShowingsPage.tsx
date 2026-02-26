@@ -60,9 +60,9 @@ export default function MovieDetailShowingsPage() {
           {showings?.map((showing) => (
             <article key={showing.showingId} className="border rounded-xl border-stone-500 p-1 w-60 bg-black">
               <div className="flex flex-col w-full justify-center items-center pb-2 pt-2">
-                <h2 className="font-medium">{new Date(showing.timeSlot).toLocaleDateString('sv-SE', { weekday: 'long' })}</h2>
+                <h2 className="font-medium">{new Date(showing.date).toLocaleDateString('sv-SE', { weekday: 'long' })}</h2>
                 <h3 className="font-extralight text-stone-500">
-                  {new Date(showing.timeSlot).getDate()}/{new Date(showing.timeSlot).getMonth()}
+                  {new Date(showing.date).getDate()}/{(new Date(showing.date).getMonth() + 1)}
                 </h3>
               </div>
               <div className="flex justify-center">
@@ -71,7 +71,7 @@ export default function MovieDetailShowingsPage() {
               <div className="flex flex-col gap-2 p-5">
                 <Link to={`/seatselection/${showing.showingId}`} className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300">
 
-                  <p>{new Date(showing.timeSlot).getHours()}.{new Date(showing.timeSlot).getMinutes()}</p>
+                  <p>{showing.time.toString().slice(0, 5)}</p>
                   <p>{showing.name}</p>
 
                 </Link>
