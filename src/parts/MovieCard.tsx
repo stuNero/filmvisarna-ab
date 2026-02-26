@@ -12,7 +12,7 @@ export default function MovieCard() {
 
   function GetShowings(id: number) {
     const showings = showingsTemp?.filter((s) => s.id === id);
-    let dayShowings = showings?.filter((s) => s.timeSlot.toString().slice(0, 10) === today);
+    let dayShowings = showings?.filter((s) => s.date.toString() === today);
     return dayShowings;
   }
 
@@ -57,7 +57,7 @@ export default function MovieCard() {
                     {GetShowings(film.id)?.length === 0 ? <div className="border rounded border-black bg-white/5 px-3 py-1.5">Inga visningar idag</div> :
                       GetShowings(film.id)?.map((showing) => (
                         <div className="border rounded border-black bg-white/5 px-3 py-1.5" key={showing.showingId}>
-                          {showing.timeSlot.toString().slice(11, 16)}</div>
+                          {showing.time.toString()}</div>
                       ))}
                   </div>
                 </div>

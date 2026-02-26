@@ -71,12 +71,11 @@ export default function SeatSelectionPage() {
     }
   };
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string; }>();
   const showingId = Number(id);
   const [seats] = useFetchJson<ShowingSeats[] | null>(
     `/api/showingsAllSeats?where=id=${showingId}`,
   );
-  console.log(seats);
 
   // Array with seat id
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
@@ -162,7 +161,6 @@ export default function SeatSelectionPage() {
     return (
       <>
         <div className="top-0 bottom-0 left-0 content-center justify-center">
-          <h2>Detta är sidan för att reservera säten</h2>
           {/* Ticket Selection */}
           <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
             <div className="max-w-2xl mx-auto space-y-4">
@@ -185,10 +183,9 @@ export default function SeatSelectionPage() {
                         className={`
                           px-4 py-2 text-white outline-solid rounded 
                           transition-all duration-200
-                          ${
-                            isSelected
-                              ? "bg-green-600 hover:bg-green-700 "
-                              : "hover:bg-red-600"
+                          ${isSelected
+                            ? "bg-green-600 hover:bg-green-700 "
+                            : "hover:bg-red-600"
                           }
                         `}
                       >
@@ -229,11 +226,10 @@ export default function SeatSelectionPage() {
                         setEmailError("");
                       }}
                       placeholder="din.epost@exempel.se"
-                      className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
-                        emailError
+                      className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
                           ? "border-red-700 focus:ring-red-700/50"
                           : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
-                      }`}
+                        }`}
                     />
                   </div>
                   {emailError && (
