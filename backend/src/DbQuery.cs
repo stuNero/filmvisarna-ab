@@ -176,54 +176,60 @@ public static class DbQuery
             }
         }
         var createViews = @"
-        DROP VIEW IF EXISTS movieShowings;
-        CREATE VIEW movieShowings AS
-            SELECT f.title,
-                s.id AS showingId, s.timeSlot, s.venueID,
-                v.name
-            FROM films f,
-                showings s,
-                venues v
-            WHERE f.id = s.filmId
-            AND s.venueID = v.id
-        ;
+            DROP VIEW IF EXISTS showingsAllSeats;
+            CREATE VIEW showingsAllSeats AS
+                SELECT sh.id, s.id AS seatId, s.rowNr, s.columnNr
+                FROM showings sh,
+                    seats s
+                WHERE s.venueId = sh.venueID
+            ;
+            DROP VIEW IF EXISTS movieShowings;
+            CREATE VIEW movieShowings AS
+                SELECT f.id, f.title,
+                    s.id AS showingId, s.timeSlot, s.venueID,
+                    v.name
+                FROM films f,
+                    showings s,
+                    venues v
+                WHERE f.id = s.filmId
+                AND s.venueID = v.id
+            ;
 
-        DROP VIEW IF EXISTS bookedSeatsWithShowings;
-        CREATE VIEW bookedSeatsWithShowings AS
-            SELECT bs.seatId, bs.bookingId, bs.ticketType,
-                b.showingId,
-                s.rowNr, s.columnNr
-            FROM bookedSeat bs,
-                bookings b,
-                seats s
-            WHERE bs.bookingId = b.id AND s.id = bs.seatId
-        ;
+            DROP VIEW IF EXISTS bookedSeatsWithShowings;
+            CREATE VIEW bookedSeatsWithShowings AS
+                SELECT bs.seatId, bs.bookingId, bs.ticketType,
+                    b.showingId,
+                    s.rowNr, s.columnNr
+                FROM bookedSeat bs,
+                    bookings b,
+                    seats s
+                WHERE bs.bookingId = b.id AND s.id = bs.seatId
+            ;
 
-        DROP VIEW IF EXISTS showingsWithOccupiedSeats;
-        CREATE VIEW showingsWithOccupiedSeats AS
-            SELECT movieShowings.*,
-                rowNr,columnNr
-            FROM movieShowings,
-                bookedSeatsWithShowings
-            WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
-        ;
-        
-        DROP VIEW IF EXISTS comingFilms;
-        CREATE VIEW comingFilms AS
-            SELECT f.*  FROM showings s, films f
-            WHERE s.filmId = f.id
-            AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
-            GROUP BY f.id
-        ;
+            DROP VIEW IF EXISTS showingsWithOccupiedSeats;
+            CREATE VIEW showingsWithOccupiedSeats AS
+                SELECT movieShowings.*,
+                    rowNr,columnNr
+                FROM movieShowings,
+                    bookedSeatsWithShowings
+                WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
+            ;
+            
+            DROP VIEW IF EXISTS comingFilms;
+            CREATE VIEW comingFilms AS
+                SELECT f.*  FROM showings s, films f
+                WHERE s.filmId = f.id
+                AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
+                GROUP BY f.id
+            ;
 
-        DROP VIEW IF EXISTS movieActors;
-        CREATE VIEW movieActors AS
-        SELECT f.id, a.name FROM filmActors fa, films f, actors a
-        WHERE f.id = fa.filmId
-        AND fa.actorId = a.id
-        ;
-        "
-        ;
+            DROP VIEW IF EXISTS movieActors;
+            CREATE VIEW movieActors AS
+            SELECT f.id, a.name FROM filmActors fa, films f, actors a
+            WHERE f.id = fa.filmId
+            AND fa.actorId = a.id
+            ;
+        ";
         // Execute each statement separately
         foreach (var sql in createViews.Split(';'))
         {
@@ -366,13 +372,47 @@ public static class DbQuery
         if (Convert.ToInt32(command.ExecuteScalar()) == 0)
         {
             var showingsData = @"
-                INSERT IGNORE INTO showings (timeSlot, filmId, venueId)VALUES
-                ('2026-04-01 16:00:00', 3, 1),('2026-04-01 16:00:00', 1, 2),
-                ('2026-04-01 18:00:00', 4, 1),('2026-04-01 18:00:00', 2, 2),
-                ('2026-04-01 20:00:00', 2, 1),('2026-04-01 20:00:00', 3, 2),
-                ('2026-04-02 16:00:00', 1, 1),('2026-04-02 16:00:00', 4, 2),
-                ('2026-04-02 18:00:00', 3, 1),('2026-04-02 18:00:00', 2, 2),
-                ('2026-04-02 20:00:00', 4, 1),('2026-04-02 20:00:00', 1, 2);
+                INSERT IGNORE INTO showings (timeSlot, filmId, venueId) VALUES
+
+                -- Day 1 (Mars 20)
+                ('2026-03-20 17:15:00', 1, 1),
+                ('2026-03-20 20:15:00', 1, 2),
+                ('2026-03-20 17:15:00', 2, 2),
+                ('2026-03-20 20:15:00', 2, 1),
+                ('2026-03-20 17:15:00', 3, 1),
+                ('2026-03-20 20:15:00', 3, 2),
+                ('2026-03-20 17:15:00', 4, 2),
+                ('2026-03-20 20:15:00', 4, 1),
+
+                -- Day 2 (Mars 21) – swapped venues
+                ('2026-03-21 17:15:00', 1, 2),
+                ('2026-03-21 20:15:00', 1, 1),
+                ('2026-03-21 17:15:00', 2, 1),
+                ('2026-03-21 20:15:00', 2, 2),
+                ('2026-03-21 17:15:00', 3, 2),
+                ('2026-03-21 20:15:00', 3, 1),
+                ('2026-03-21 17:15:00', 4, 1),
+                ('2026-03-21 20:15:00', 4, 2),
+
+                -- Day 3 (Mars 22) – same as Day 1
+                ('2026-03-22 17:15:00', 1, 1),
+                ('2026-03-22 20:15:00', 1, 2),
+                ('2026-03-22 17:15:00', 2, 2),
+                ('2026-03-22 20:15:00', 2, 1),
+                ('2026-03-22 17:15:00', 3, 1),
+                ('2026-03-22 20:15:00', 3, 2),
+                ('2026-03-22 17:15:00', 4, 2),
+                ('2026-03-22 20:15:00', 4, 1),
+
+                -- Day 4 (Mars 23) – same as Day 2
+                ('2026-03-23 17:15:00', 1, 2),
+                ('2026-03-23 20:15:00', 1, 1),
+                ('2026-03-23 17:15:00', 2, 1),
+                ('2026-03-23 20:15:00', 2, 2),
+                ('2026-03-23 17:15:00', 3, 2),
+                ('2026-03-23 20:15:00', 3, 1),
+                ('2026-03-23 17:15:00', 4, 1),
+                ('2026-03-23 20:15:00', 4, 2);
             ";
             command.CommandText = showingsData;
             command.ExecuteNonQuery();
