@@ -185,12 +185,12 @@ public static class DbQuery
             ;
             DROP VIEW IF EXISTS movieShowings;
             CREATE VIEW movieShowings AS
-                SELECT f.id, f.title,
-                    s.id AS showingId, s.timeSlot, s.venueID,
-                    v.name
-                FROM films f,
-                    showings s,
-                    venues v
+                SELECT
+                f.id, f.title, s.id AS showingId,
+                DATE(s.timeSlot) AS date,
+                TIME(s.timeSlot) AS time,
+                s.venueID, v.name
+                FROM films f, showings s, venues v
                 WHERE f.id = s.filmId
                 AND s.venueID = v.id
             ;
