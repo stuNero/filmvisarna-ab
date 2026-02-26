@@ -2,12 +2,15 @@ import { useParams } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
 import type MovieDetails from "../interfaces/MovieDetails";
 import NotFoundPage from "./NotFoundPage";
+import type MovieShowings from "../interfaces/MovieShowings";
+import { Link } from "react-router-dom";
 
 MovieDetailShowingsPage.route = {
   path: '/moviedetailshowings/:id',
   menuLabel: 'Movie Details And Showings',
   index: 2
 };
+
 
 export default function MovieDetailShowingsPage() {
 
@@ -17,6 +20,7 @@ export default function MovieDetailShowingsPage() {
   const [details] = useFetchJson<MovieDetails | null>(`/api/comingFilms/${movieId}`);
   const [actors] = useFetchJson<{ name: string; }[]>(`/api/movieActors?WHERE=id=${movieId}`);
 
+  const [showings] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings/?WHERE=id=${movieId}`);
 
   if (details?.id === movieId) {
     return <>
@@ -44,20 +48,6 @@ export default function MovieDetailShowingsPage() {
         </div>
       </section>
 
-      {/* # Section
-        ## Div
-        - Välj en visning
-        - Filtrera
-        ## Div (alla dagar)
-        ### Article (datum + tider)
-        #### Div
-        ##### h2 (datum + dag)
-        #### Div (tider)
-        ##### Link / Button (tid)
-        - showingID
-
-        # Views
-        - comingFilms */}
 
       <section className="flex flex-col 
                           bg-stone-950 border border-white
@@ -66,28 +56,31 @@ export default function MovieDetailShowingsPage() {
           <h2 className="text-2xl font-bold">Visningar</h2>
         </div>
         <div className="flex flex-row gap-2 p-5">
-          <article className="border rounded-xl border-stone-500 p-1 w-60 bg-black">
-            <div className="flex flex-col w-full justify-center items-center pb-2 pt-2">
-              <h2 className="font-medium">Idag</h2>
-              <h3 className="font-extralight text-stone-500">26/2</h3>
-            </div>
-            <div className="flex justify-center">
-              <hr className="text-stone-700 w-4/5 " />
-            </div>
-            <div className="flex flex-col gap-2 p-5">
-              <button className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300">
-                <p>17.00</p>
-                <p>Sal 1</p>
-              </button>
-              <button className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300">
-                <p>20.00</p>
-                <p>Sal 1</p>
-              </button>
-            </div>
-          </article>
 
+          {showings?.map((showing) => (
+            <article key={showing.showingId} className="border rounded-xl border-stone-500 p-1 w-60 bg-black">
+              <div className="flex flex-col w-full justify-center items-center pb-2 pt-2">
+                <h2 className="font-medium">{new Date(showing.timeSlot).toLocaleDateString('sv-SE', { weekday: 'long' })}</h2>
+                <h3 className="font-extralight text-stone-500">
+                  {new Date(showing.timeSlot).getDate()}/{new Date(showing.timeSlot).getMonth()}
+                </h3>
+              </div>
+              <div className="flex justify-center">
+                <hr className="text-stone-700 w-4/5 " />
+              </div>
+              <div className="flex flex-col gap-2 p-5">
+                <Link to={`/seatselection/${showing.showingId}`} className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300">
+
+                  <p>{new Date(showing.timeSlot).getHours()}.{new Date(showing.timeSlot).getMinutes()}</p>
+                  <p>{showing.name}</p>
+
+                </Link>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
+
     </>;
   }
   else {
