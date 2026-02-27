@@ -56,9 +56,10 @@ export default function SeatSelectionPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: email,
-          selectedSeats: selectedSeats.join(", "),
+          selectedSeats: selectedSeats.join("* "),
         }),
       });
+      console.log(selectedSeats);
 
       if (response.ok) {
         alert(`Bokningsbekräftelse skickad till ${email}!`);
@@ -100,6 +101,35 @@ export default function SeatSelectionPage() {
   };
   console.log(selectedSeats);
   console.log(ticketCount);
+
+  async function createBooking() {
+    const res = await fetch("/api/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: 10,
+        cost: 360,
+        showingId: 2,
+      }),
+    });
+    const data = await res.json();
+    // alert(JSON.stringify(data, null, 2));
+  }
+
+  async function createbookedSeat(seatNr: number) {
+    const res = await fetch("/api/bookedSeat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        seatId: seatNr,
+        bookingId: 2,
+        ticketType: 1,
+      }),
+    });
+
+    const data = await res.json();
+    // alert(JSON.stringify(data, null, 2));
+  }
 
   var rows = 0;
 
