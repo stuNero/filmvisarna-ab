@@ -202,7 +202,7 @@ export default function SeatSelectionPage() {
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
           <form onSubmit={bookingConformation}>
-            <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8">
+            <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
               <h2 className="text-2xl md:text-3xl text-center mb-8">
                 Slutför bokningen
               </h2>
