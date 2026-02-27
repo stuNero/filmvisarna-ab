@@ -13,7 +13,8 @@ public static class SpecialRoutes
 
       // Hämta värden från body
       string email = body.email;
-      string movieName = body.movieName;
+      string movieName = body.movieName?? "Film namn";
+      string selectedSeats = body.selectedSeats;
 
       try
       {
@@ -28,9 +29,9 @@ public static class SpecialRoutes
           <p><strong>Film:</strong> {movieName}</p>
           <p><strong>Datum:</strong> [Datum]</p>
           <p><strong>Tid:</strong> [Starttid]</p>
-          <p><strong>Antal biljetter:</strong> [Antal]</p>
-          <p><strong>Plats/Platser:</strong> [Platser eller “Onumrerat”]</p>
-          <p><strong>Salong:</strong> [Salongsnamn/Nummer]</p>
+          <p><strong>Antal biljetter:</strong> placeholder </p>
+          <p><strong>Plats/Platser:</strong> {selectedSeats}</p>
+          <p><strong>Salong:</strong> 1 </p>
           <br>
 
           <h2>Adress till biografen</h2>
