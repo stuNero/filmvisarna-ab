@@ -56,6 +56,7 @@ export default function SeatSelectionPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: email,
+          selectedSeats: selectedSeats.join(", "),
         }),
       });
 
@@ -71,7 +72,7 @@ export default function SeatSelectionPage() {
     }
   };
 
-  const { id } = useParams<{ id: string; }>();
+  const { id } = useParams<{ id: string }>();
   const showingId = Number(id);
   const [seats] = useFetchJson<ShowingSeats[] | null>(
     `/api/showingsAllSeats?where=id=${showingId}`,
@@ -98,6 +99,7 @@ export default function SeatSelectionPage() {
     });
   };
   console.log(selectedSeats);
+  console.log(ticketCount);
 
   var rows = 0;
 
@@ -183,9 +185,10 @@ export default function SeatSelectionPage() {
                         className={`
                           px-4 py-2 text-white outline-solid rounded 
                           transition-all duration-200
-                          ${isSelected
-                            ? "bg-green-600 hover:bg-green-700 "
-                            : "hover:bg-red-600"
+                          ${
+                            isSelected
+                              ? "bg-green-600 hover:bg-green-700 "
+                              : "hover:bg-red-600"
                           }
                         `}
                       >
@@ -226,10 +229,11 @@ export default function SeatSelectionPage() {
                         setEmailError("");
                       }}
                       placeholder="din.epost@exempel.se"
-                      className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
+                      className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+                        emailError
                           ? "border-red-700 focus:ring-red-700/50"
                           : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
-                        }`}
+                      }`}
                     />
                   </div>
                   {emailError && (
