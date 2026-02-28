@@ -42,6 +42,19 @@ export default function SeatSelectionPage() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
+  const { id } = useParams<{ id: string }>();
+  const showingId = Number(id);
+  const [movieShowings] = useFetchJson<any | null>(
+    `/api/movieShowings?where=showingId=${showingId}`,
+  );
+
+  const showingData = movieShowings?.[0];
+
+  const title = showingData?.title ?? "Okänd film";
+  const date = showingData?.date ?? "Okänt datum";
+  const time = showingData?.time ?? "Okänd tid";
+  const venue = showingData?.name ?? "Okänd salong";
+
   const bookingConformation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -52,18 +65,17 @@ export default function SeatSelectionPage() {
 
     const requestBody = {
       email: email,
-      //  movieName: title, // Använd titeln från film
+      movieName: title,
       selectedSeats: selectedSeats.join(", "),
       childCount: ticketCount.child,
       adultCount: ticketCount.adult,
       seniorCount: ticketCount.senior,
       totalTickets: ticketCount.child + ticketCount.adult + ticketCount.senior,
-      // Skicka med datum och tid också!
-      //  datum: datum,
-      //  tid: tid,
-      //  salong: salong,
-      //  showingId: showingId,
+      date: date.substring(0, 10),
+      time: time.substring(0, 5),
+      venue: venue,
     };
+
     try {
       const response = await fetch("/api/send-email", {
         method: "POST",
@@ -83,8 +95,6 @@ export default function SeatSelectionPage() {
     }
   };
 
-  const { id } = useParams<{ id: string }>();
-  const showingId = Number(id);
   const [seats] = useFetchJson<ShowingSeats[] | null>(
     `/api/showingsAllSeats?where=id=${showingId}`,
   );
@@ -97,6 +107,8 @@ export default function SeatSelectionPage() {
     adult: 0,
     senior: 0,
   });
+  console.log(selectedSeats);
+  console.log(title, date, time, venue);
 
   const toggleSeat = (seatId: number) => {
     setSelectedSeats((seat) => {
