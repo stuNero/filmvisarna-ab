@@ -50,10 +50,10 @@ export default function SeatSelectionPage() {
 
   const showingData = movieShowings?.[0];
 
-  const title = showingData?.title ?? "Okänd film";
-  const date = showingData?.date ?? "Okänt datum";
-  const time = showingData?.time ?? "Okänd tid";
-  const venue = showingData?.name ?? "Okänd salong";
+  const title = showingData?.title;
+  const date = showingData?.date;
+  const time = showingData?.time;
+  const venue = showingData?.name;
 
   const bookingConformation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -107,8 +107,6 @@ export default function SeatSelectionPage() {
     adult: 0,
     senior: 0,
   });
-  console.log(selectedSeats);
-  console.log(title, date, time, venue);
 
   const toggleSeat = (seatId: number) => {
     setSelectedSeats((seat) => {
