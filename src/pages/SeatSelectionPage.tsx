@@ -50,20 +50,30 @@ export default function SeatSelectionPage() {
       return;
     }
 
+    const requestBody = {
+      email: email,
+      //  movieName: title, // Använd titeln från film
+      selectedSeats: selectedSeats.join(", "),
+      childCount: ticketCount.child,
+      adultCount: ticketCount.adult,
+      seniorCount: ticketCount.senior,
+      totalTickets: ticketCount.child + ticketCount.adult + ticketCount.senior,
+      // Skicka med datum och tid också!
+      //  datum: datum,
+      //  tid: tid,
+      //  salong: salong,
+      //  showingId: showingId,
+    };
     try {
       const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          selectedSeats: selectedSeats.join("* "),
-        }),
+        body: JSON.stringify(requestBody),
       });
-      console.log(selectedSeats);
 
       if (response.ok) {
         alert(`Bokningsbekräftelse skickad till ${email}!`);
-        setEmail(""); // remove the mail
+        setEmail(""); // remove the mail from field when email is sent
       } else {
         alert("Något gick fel vid bokning");
       }
@@ -89,18 +99,16 @@ export default function SeatSelectionPage() {
   });
 
   const toggleSeat = (seatId: number) => {
-    setSelectedSeats((selected) => {
-      if (selected.includes(seatId)) {
+    setSelectedSeats((seat) => {
+      if (seat.includes(seatId)) {
         // if the seat is already selected, remove selection
-        return selected.filter((id) => id !== seatId);
+        return seat.filter((id) => id !== seatId);
       } else {
         // if it is not selected, select it
-        return [...selected, seatId];
+        return [...seat, seatId];
       }
     });
   };
-  console.log(selectedSeats);
-  console.log(ticketCount);
 
   async function createBooking() {
     const res = await fetch("/api/bookings", {
