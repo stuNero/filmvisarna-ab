@@ -11,10 +11,24 @@ public static class SpecialRoutes
     {
       var body = JSON.Parse(bodyJson.ToString());
 
-      // Hämta värden från body
-      string email = body.email;
+      // get values form the body
+      string email = body.email?? "";
       string movieName = body.movieName?? "Film namn";
-      string selectedSeats = body.selectedSeats;
+      string selectedSeats = body.selectedSeats?? "Inga platser valda";
+      // amount of tickets
+    // Ticket counts - med bättre felhantering
+    int childCount = 0;
+    int adultCount = 0;
+    int seniorCount = 0;
+    int totalTickets = 0;
+    
+    // Försök parse:a varje värde
+    if (body.childCount != null) int.TryParse(body.childCount.ToString(), out childCount);
+    if (body.adultCount != null) int.TryParse(body.adultCount.ToString(), out adultCount);
+    if (body.seniorCount != null) int.TryParse(body.seniorCount.ToString(), out seniorCount);
+    if (body.totalTickets != null) int.TryParse(body.totalTickets.ToString(), out totalTickets);
+
+
 
       try
       {
@@ -29,7 +43,7 @@ public static class SpecialRoutes
           <p><strong>Film:</strong> {movieName}</p>
           <p><strong>Datum:</strong> [Datum]</p>
           <p><strong>Tid:</strong> [Starttid]</p>
-          <p><strong>Antal biljetter:</strong> placeholder </p>
+          <p><strong>Antal biljetter:</strong> {totalTickets} </p>
           <p><strong>Plats/Platser:</strong> {selectedSeats}</p>
           <p><strong>Salong:</strong> 1 </p>
           <br>
