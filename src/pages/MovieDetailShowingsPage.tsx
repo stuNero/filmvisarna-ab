@@ -20,7 +20,12 @@ export default function MovieDetailShowingsPage() {
   const [details] = useFetchJson<MovieDetails | null>(`/api/comingFilms/${movieId}`);
   const [actors] = useFetchJson<{ name: string; }[]>(`/api/movieActors?WHERE=id=${movieId}`);
 
-  const [showings] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings/?WHERE=id=${movieId}`);
+  const [showingsRaw] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings/?WHERE=id=${movieId}&orderby=date,time`);
+  const showingsPerDate = [...new Set(showingsRaw?.map((x) => x.date))].map((x) => ({ date: x, showings: [] as any }));
+  for (let showing of showingsPerDate) {
+    showing.showings = showingsRaw?.filter((x) => x.date === showing.date);
+  }
+  console.log(showingsPerDate);
 
   if (details?.id === movieId) {
     return <>
@@ -57,25 +62,28 @@ export default function MovieDetailShowingsPage() {
         </div>
         <div className="flex flex-col md:flex-row gap-2 p-5 ">
 
-          {showings?.map((showing) => (
-            <article key={showing.showingId} className="border rounded-xl border-stone-500 p-1 w-60 bg-black">
+          {showingsPerDate?.map(({ date, showings }) => (
+            <article key={date} className="border rounded-xl border-stone-500 p-1 w-60 bg-black">
               <div className="flex flex-col w-full justify-center items-center pb-2 pt-2">
-                <h2 className="font-medium">{new Date(showing.date).toLocaleDateString('sv-SE', { weekday: 'long' })}</h2>
+                <h2 className="font-medium">{new Date(date).toLocaleDateString('sv-SE', { weekday: 'long' })}</h2>
                 <h3 className="font-extralight text-stone-500">
-                  {new Date(showing.date).getDate()}/{(new Date(showing.date).getMonth() + 1)}
+                  {new Date(date).getDate()}/{(new Date(date).getMonth() + 1)}
                 </h3>
               </div>
               <div className="flex justify-center">
                 <hr className="text-stone-700 w-4/5 " />
               </div>
-              <div className="flex flex-col gap-2 p-5">
-                <Link to={`/seatselection/${showing.showingId}`} className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300">
+              {/* One showing */}
+              {showings.map(({ showingId, time, name }: any) => (
+                <div className="flex flex-col gap-2 p-5">
+                  <Link to={`/seatselection/${showingId}`} className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300">
 
-                  <p>{showing.time.toString().slice(0, 5)}</p>
-                  <p>{showing.name}</p>
+                    <p>{time.toString().slice(0, 5)}</p>
+                    <p>{name}</p>
 
-                </Link>
-              </div>
+                  </Link>
+                </div>
+              ))}
             </article>
           ))}
         </div>
