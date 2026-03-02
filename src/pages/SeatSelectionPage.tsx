@@ -42,7 +42,7 @@ export default function SeatSelectionPage() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string; }>();
   const showingId = Number(id);
   const [movieShowings] = useFetchJson<any | null>(
     `/api/movieShowings?where=showingId=${showingId}`,
@@ -233,10 +233,9 @@ export default function SeatSelectionPage() {
                         className={`
                           px-4 py-2 text-white outline-solid rounded 
                           transition-all duration-200
-                          ${
-                            isSelected
-                              ? "bg-green-600 hover:bg-green-700 "
-                              : "hover:bg-red-600"
+                          ${isSelected
+                            ? "bg-green-600 hover:bg-green-700 "
+                            : "hover:bg-red-600"
                           }
                         `}
                       >
@@ -277,11 +276,10 @@ export default function SeatSelectionPage() {
                         setEmailError("");
                       }}
                       placeholder="din.epost@exempel.se"
-                      className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
-                        emailError
+                      className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
                           ? "border-red-700 focus:ring-red-700/50"
                           : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
-                      }`}
+                        }`}
                     />
                   </div>
                   {emailError && (
