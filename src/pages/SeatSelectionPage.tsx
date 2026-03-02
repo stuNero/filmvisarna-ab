@@ -42,6 +42,19 @@ export default function SeatSelectionPage() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
+  const { id } = useParams<{ id: string }>();
+  const showingId = Number(id);
+  const [movieShowings] = useFetchJson<any | null>(
+    `/api/movieShowings?where=showingId=${showingId}`,
+  );
+
+  const showingData = movieShowings?.[0];
+
+  const title = showingData?.title;
+  const date = showingData?.date;
+  const time = showingData?.time;
+  const venue = showingData?.name;
+
   const bookingConformation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -50,18 +63,29 @@ export default function SeatSelectionPage() {
       return;
     }
 
+    const requestBody = {
+      email: email,
+      movieName: title,
+      selectedSeats: selectedSeats.join(", "),
+      childCount: ticketCount.child,
+      adultCount: ticketCount.adult,
+      seniorCount: ticketCount.senior,
+      totalTickets: ticketCount.child + ticketCount.adult + ticketCount.senior,
+      date: date.substring(0, 10),
+      time: time.substring(0, 5),
+      venue: venue,
+    };
+
     try {
       const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (response.ok) {
         alert(`Bokningsbekräftelse skickad till ${email}!`);
-        setEmail(""); // remove the mail
+        setEmail(""); // remove the mail from field when email is sent
       } else {
         alert("Något gick fel vid bokning");
       }
@@ -71,8 +95,6 @@ export default function SeatSelectionPage() {
     }
   };
 
-  const { id } = useParams<{ id: string; }>();
-  const showingId = Number(id);
   const [seats] = useFetchJson<ShowingSeats[] | null>(
     `/api/showingsAllSeats?where=id=${showingId}`,
   );
@@ -87,17 +109,45 @@ export default function SeatSelectionPage() {
   });
 
   const toggleSeat = (seatId: number) => {
-    setSelectedSeats((selected) => {
-      if (selected.includes(seatId)) {
+    setSelectedSeats((seat) => {
+      if (seat.includes(seatId)) {
         // if the seat is already selected, remove selection
-        return selected.filter((id) => id !== seatId);
+        return seat.filter((id) => id !== seatId);
       } else {
         // if it is not selected, select it
-        return [...selected, seatId];
+        return [...seat, seatId];
       }
     });
   };
-  console.log(selectedSeats);
+
+  async function createBooking() {
+    const res = await fetch("/api/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: 10,
+        cost: 360,
+        showingId: 2,
+      }),
+    });
+    const data = await res.json();
+    // alert(JSON.stringify(data, null, 2));
+  }
+
+  async function createbookedSeat(seatNr: number) {
+    const res = await fetch("/api/bookedSeat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        seatId: seatNr,
+        bookingId: 2,
+        ticketType: 1,
+      }),
+    });
+
+    const data = await res.json();
+    // alert(JSON.stringify(data, null, 2));
+  }
 
   var rows = 0;
 
@@ -183,9 +233,10 @@ export default function SeatSelectionPage() {
                         className={`
                           px-4 py-2 text-white outline-solid rounded 
                           transition-all duration-200
-                          ${isSelected
-                            ? "bg-green-600 hover:bg-green-700 "
-                            : "hover:bg-red-600"
+                          ${
+                            isSelected
+                              ? "bg-green-600 hover:bg-green-700 "
+                              : "hover:bg-red-600"
                           }
                         `}
                       >
@@ -199,7 +250,7 @@ export default function SeatSelectionPage() {
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
           <form onSubmit={bookingConformation}>
-            <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8">
+            <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
               <h2 className="text-2xl md:text-3xl text-center mb-8">
                 Slutför bokningen
               </h2>
@@ -226,10 +277,11 @@ export default function SeatSelectionPage() {
                         setEmailError("");
                       }}
                       placeholder="din.epost@exempel.se"
-                      className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
+                      className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+                        emailError
                           ? "border-red-700 focus:ring-red-700/50"
                           : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
-                        }`}
+                      }`}
                     />
                   </div>
                   {emailError && (

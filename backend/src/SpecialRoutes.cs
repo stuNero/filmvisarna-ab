@@ -1,3 +1,5 @@
+using Org.BouncyCastle.Asn1.X509.SigI;
+
 namespace WebApp;
 
 public static class SpecialRoutes
@@ -11,13 +13,47 @@ public static class SpecialRoutes
     {
       var body = JSON.Parse(bodyJson.ToString());
 
-      // Hämta värden från body
-      string email = body.email;
-      string movieName = body.movieName;
+      // get values form the body
+      string email = body.email?? "";
+      string movieName = body.movieName?? "Film namn";
+      string selectedSeats = body.selectedSeats ?? "Inga platser valda";
+      string date = body.date ?? "Okänt datum";
+      string time = body.time ?? "Okänt tid";
+      string venue = body.venue ?? "Okänt salong";
+      
+        // amount of tickets set to zero to avoid having null value
+      int childCount = 0;
+      int adultCount = 0; 
+      int seniorCount = 0;
+      int totalTickets = 0;
+    
+      
+      // tryparsing to int
+      if (body.childCount != null) int.TryParse(body.childCount.ToString(), out childCount);
+      if (body.adultCount != null) int.TryParse(body.adultCount.ToString(), out adultCount);
+      if (body.seniorCount != null) int.TryParse(body.seniorCount.ToString(), out seniorCount);
+      if (body.totalTickets != null) int.TryParse(body.totalTickets.ToString(), out totalTickets);
+
+      string GetTicketDisplay(int child, int adult, int senior)
+      {
+        var display = new List<string>();
+        if (child > 0) display.Add($"Barn: {child}");
+        if (adult > 0) display.Add($"Vuxen: {adult}");
+        if (senior > 0) display.Add($"Pensionär: {senior}");
+
+        string ticketText = display.Count > 0
+            ? string.Join(",    ", display)
+            : "Inga biljetter";
+
+        return ticketText;
+      }
+
+      string ticketDisplay = GetTicketDisplay(childCount, adultCount, seniorCount);
+
 
       try
       {
-        string subject = $"Bokningsbekräftelse – {movieName}, [Datum]";
+        string subject = $"Bokningsbekräftelse – {movieName}, {date}";
         string htmlBody = $@"
           <h1>Hej!</h1>
 
@@ -26,11 +62,12 @@ public static class SpecialRoutes
           <h2>Bokningsinformation</h2>
 
           <p><strong>Film:</strong> {movieName}</p>
-          <p><strong>Datum:</strong> [Datum]</p>
-          <p><strong>Tid:</strong> [Starttid]</p>
-          <p><strong>Antal biljetter:</strong> [Antal]</p>
-          <p><strong>Plats/Platser:</strong> [Platser eller “Onumrerat”]</p>
-          <p><strong>Salong:</strong> [Salongsnamn/Nummer]</p>
+          <p><strong>Datum:</strong> {date}</p>
+          <p><strong>Tid:</strong> {time}</p>
+          <p><strong>Antal biljetter:</strong> {totalTickets} st </p>
+          <p>{ticketDisplay}</p>
+          <p><strong>Plats/Platser:</strong> {selectedSeats}</p>
+          <p><strong>Salong:</strong> {venue} </p>
           <br>
 
           <h2>Adress till biografen</h2>
