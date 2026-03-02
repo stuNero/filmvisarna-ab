@@ -7,12 +7,21 @@ import { Clock } from 'lucide-react';
 export default function MovieCard() {
 
   const today = new Date(Date.now()).toLocaleDateString('sv-SE');
+  const now = new Date(Date.now()).toLocaleTimeString('sv-SE');
   const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
   const [showingsTemp] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings`);
 
   function GetShowings(id: number) {
     const showings = showingsTemp?.filter((s) => s.id === id);
-    let dayShowings = showings?.filter((s) => s.date.toString() === today);
+    // Added time check to the filter so only would create the array (dayShowings) with the showings of the day
+    // that are after the current time (now)
+    let dayShowings = showings?.filter((s) => s.date.toString().slice(0, 10) === today && s.time.toString() >= now)
+      // And then sorted the times so the earliest would be first and the latest last.
+      // In order to do so it was necessary to convert the 'time' propery from number to string,
+      // slice it to take away the seconds and remove the ':', and then convert to number again to
+      // be able to sort the values.
+      .sort((a, b) => Number(a.time.toString().slice(0, 5).replace(":", "")) - Number(b.time.toString().slice(0, 5).replace(":", "")));
+
     return dayShowings;
   }
 
@@ -21,11 +30,10 @@ export default function MovieCard() {
     let inMinutes = length % 60;
     const movieLength = `${inHours}t ${inMinutes}m`;
     return movieLength;
-  };
+  }
+
   return (
     <div className="grid gap-8 p-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-
-
       {movieCard?.map((film) => (
         <div key={film.id}
         >
@@ -57,7 +65,8 @@ export default function MovieCard() {
                     {GetShowings(film.id)?.length === 0 ? <div className="border rounded border-black bg-white/5 px-3 py-1.5">Inga visningar idag</div> :
                       GetShowings(film.id)?.map((showing) => (
                         <div className="border rounded border-black bg-white/5 px-3 py-1.5" key={showing.showingId}>
-                          {showing.time.toString()}</div>
+                          {/* add 'slice' the remove the seconds */}
+                          {showing.time.toString().slice(0, 5)}</div>
                       ))}
                   </div>
                 </div>
