@@ -97,7 +97,6 @@ export default function SeatSelectionPage() {
       }
     });
   };
-  console.log(selectedSeats);
 
   var rows = 0;
 
@@ -227,8 +226,8 @@ export default function SeatSelectionPage() {
                       }}
                       placeholder="din.epost@exempel.se"
                       className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
-                          ? "border-red-700 focus:ring-red-700/50"
-                          : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
+                        ? "border-red-700 focus:ring-red-700/50"
+                        : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
                         }`}
                     />
                   </div>

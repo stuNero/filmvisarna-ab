@@ -20,12 +20,15 @@ export default function MovieDetailShowingsPage() {
   const [details] = useFetchJson<MovieDetails | null>(`/api/comingFilms/${movieId}`);
   const [actors] = useFetchJson<{ name: string; }[]>(`/api/movieActors?WHERE=id=${movieId}`);
 
-  const [showingsRaw] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings/?WHERE=id=${movieId}&orderby=date,time`);
-  const showingsPerDate = [...new Set(showingsRaw?.map((x) => x.date))].map((x) => ({ date: x, showings: [] as any }));
+  const today = new Date(Date.now()).toLocaleDateString('sv-SE');
+
+  const [showingsRaw] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings/?WHERE=id=${movieId}&ORDERBY=date,time`);
+  const showingsPerDate = [...new Set(showingsRaw?.map((x) => x.date)
+    .filter((x) => x.toString() >= today.toString()))]
+    .map((x) => ({ date: x, showings: [] as any }));
   for (let showing of showingsPerDate) {
     showing.showings = showingsRaw?.filter((x) => x.date === showing.date);
   }
-  console.log(showingsPerDate);
 
   if (details?.id === movieId) {
     return <>
@@ -75,7 +78,7 @@ export default function MovieDetailShowingsPage() {
               </div>
               {/* One showing */}
               {showings.map(({ showingId, time, name }: any) => (
-                <div className="flex flex-col gap-2 p-5">
+                <div key={showingId} className="flex flex-col gap-2 p-5">
                   <Link to={`/seatselection/${showingId}`} className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300">
 
                     <p>{time.toString().slice(0, 5)}</p>
