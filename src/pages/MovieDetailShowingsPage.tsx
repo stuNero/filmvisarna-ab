@@ -94,7 +94,7 @@ export default function MovieDetailShowingsPage() {
         <div className="flex justify-center pt-5 pb-5">
           <h2 className="text-2xl font-bold">Välj en visning</h2>
         </div>
-        <div className="flex flex-col md:flex-row gap-6 p-5 ">
+        <div className="flex flex-col md:flex-row gap-6 p-5 justify-center items-center">
           {/* Renders Date */}
           {showingsPerDate?.map(({ date, showings }) => (
             <article key={date} className="border rounded-xl border-stone-500 p-4 w-60 bg-black text-center">
