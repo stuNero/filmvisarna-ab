@@ -66,6 +66,11 @@ export default function MovieDetailShowingsPage() {
                     <span className="px-3 py-1 bg-white/5 rounded">
                     {details?.genre}
                     </span>
+                    <button
+                   className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors"
+                    >
+                    <p className="font-medium">Se trailer</p>
+                    </button>
                   </div>
                 </div>
               </div>
