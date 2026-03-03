@@ -6,33 +6,64 @@ public static class SpecialRoutes
 {
   public static void Start()
   {
+
+    App.MapPost("/api/send-confirm/{table}", (
+            HttpContext context, string table, JsonElement bodyJson
+        ) =>
+        {
+          var body = JSON.Parse(bodyJson.ToString());
+          var parsed = ReqBodyParse(table, body);
+          var columns = parsed.insertColumns;
+          var values = parsed.insertValues;
+          var sql = $"INSERT INTO {table}({columns}) VALUES({values})";
+          var result = SQLQueryOne(sql, parsed.body, context);
+          if (!result.HasKey("error"))
+          {
+            // Get the insert id and add to our result
+            result.insertId = SQLQueryOne(
+                @$"SELECT id AS __insertId 
+                       FROM {table} ORDER BY id DESC LIMIT 1"
+            ).__insertId;
+          }
+          return RestResult.Parse(context, result);
+        });
+
+
+
     App.MapPost("/api/send-email", (
       HttpContext context,
       JsonElement bodyJson
     ) =>
     {
-      var body = JSON.Parse(bodyJson.ToString());
+      // Deserialize JsonElement to dynamic object to access properties correctly
+      var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+      var bodyDict = JsonSerializer.Deserialize<Dictionary<string, object>>(bodyJson.GetRawText(), options) ?? new();
 
       // get values form the body
-      string email = body.email?? "";
-      string movieName = body.movieName?? "Film namn";
-      string selectedSeats = body.selectedSeats ?? "Inga platser valda";
-      string date = body.date ?? "Okänt datum";
-      string time = body.time ?? "Okänt tid";
-      string venue = body.venue ?? "Okänt salong";
-      
-        // amount of tickets set to zero to avoid having null value
+      string email = bodyDict.ContainsKey("email") ? bodyDict["email"]?.ToString() ?? "" : "";
+      string movieName = bodyDict.ContainsKey("movieName") ? bodyDict["movieName"]?.ToString() ?? "Film namn" : "Film namn";
+      string selectedSeats = bodyDict.ContainsKey("selectedSeats") ? bodyDict["selectedSeats"]?.ToString() ?? "Inga platser valda" : "Inga platser valda";
+      string date = bodyDict.ContainsKey("date") ? bodyDict["date"]?.ToString() ?? "Okänt datum" : "Okänt datum";
+      string time = bodyDict.ContainsKey("time") ? bodyDict["time"]?.ToString() ?? "Okänt tid" : "Okänt tid";
+      string venue = bodyDict.ContainsKey("venue") ? bodyDict["venue"]?.ToString() ?? "Okänt salong" : "Okänt salong";
+
+
+      // amount of tickets set to zero to avoid having null value
       int childCount = 0;
-      int adultCount = 0; 
+      int adultCount = 0;
       int seniorCount = 0;
       int totalTickets = 0;
-    
-      
+
+
       // tryparsing to int
-      if (body.childCount != null) int.TryParse(body.childCount.ToString(), out childCount);
-      if (body.adultCount != null) int.TryParse(body.adultCount.ToString(), out adultCount);
-      if (body.seniorCount != null) int.TryParse(body.seniorCount.ToString(), out seniorCount);
-      if (body.totalTickets != null) int.TryParse(body.totalTickets.ToString(), out totalTickets);
+      if (bodyDict.ContainsKey("childCount") && bodyDict["childCount"] != null)
+        int.TryParse(bodyDict["childCount"].ToString(), out childCount);
+      if (bodyDict.ContainsKey("adultCount") && bodyDict["adultCount"] != null)
+        int.TryParse(bodyDict["adultCount"].ToString(), out adultCount);
+      if (bodyDict.ContainsKey("seniorCount") && bodyDict["seniorCount"] != null)
+        int.TryParse(bodyDict["seniorCount"].ToString(), out seniorCount);
+      if (bodyDict.ContainsKey("totalTickets") && bodyDict["totalTickets"] != null)
+        int.TryParse(bodyDict["totalTickets"].ToString(), out totalTickets);
 
       string GetTicketDisplay(int child, int adult, int senior)
       {
