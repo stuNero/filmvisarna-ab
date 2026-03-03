@@ -63,7 +63,9 @@ export default function MovieDetailShowingsPage() {
                     </span>
                     <h3 className="text-xl md:text-3xl font-extrabold">{details?.productionYear}</h3>
                     <h3 className="text-xl md:text-3xl font-extrabold">{details?.length} minuter</h3>
-                    <h3 className="text-lg md:text-xl font-extrabold">{details?.genre}</h3>
+                    <span className="px-3 py-1 bg-white/5 rounded">
+                    {details?.genre}
+                    </span>
                   </div>
                 </div>
               </div>
