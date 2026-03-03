@@ -80,6 +80,9 @@ export default function MovieDetailShowingsPage() {
                 ))}
               </div>
               <div>
+                <h3 className="text-sm text-gray-400 mb-1">
+                  Sammanfattning
+                </h3>
                 <p className="text-base md:text-xl font-bold">{details?.filmDescription}</p>
               </div>
             </div>
