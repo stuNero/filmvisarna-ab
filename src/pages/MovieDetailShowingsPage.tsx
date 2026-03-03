@@ -92,7 +92,7 @@ export default function MovieDetailShowingsPage() {
                           bg-stone-950 border border-white
                           pt-2.5 pb-2.5 rounded-lg">
         <div className="flex justify-center pt-5 pb-5">
-          <h2 className="text-2xl font-bold">Visningar</h2>
+          <h2 className="text-2xl font-bold">Välj en visning</h2>
         </div>
         <div className="flex flex-col md:flex-row gap-2 p-5 ">
           {/* Renders Date */}
