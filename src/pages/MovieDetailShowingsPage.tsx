@@ -52,11 +52,17 @@ export default function MovieDetailShowingsPage() {
           <div className="flex flex-col md:flex-row md:items-start">
             <img src={details?.coverImage} alt={details?.title} className="w-full md:max-w-sm max-h-137.5 p-5 rounded-3xl object-cover" />
             <div className="md:ml-8 backdrop-blur-xs">
-              <div className="flex flex-col lg:gap-10 md:flex-row md:items-center md:gap-2 pb-5 pt-5 mb-6 ">
-                <h1 className="text-3xl md:text-5xl font-extrabold">{details?.title}</h1>
-                <h3 className="text-xl md:text-3xl font-extrabold">{details?.productionYear}</h3>
-                <h3 className="text-xl md:text-3xl font-extrabold">{details?.length} minuter</h3>
-                <h3 className="text-lg md:text-xl font-extrabold">{details?.genre} </h3>
+              <div className="flex flex-col lg:gap-10 md:gap-2 pb-5 pt-5 mb-6 w-full">
+                <div className="w-full block">
+                  <h1 className="text-3xl md:text-5xl font-extrabold w-full mb-4">{details?.title}</h1>
+                </div>
+                <div className="w-full block">
+                  <div className="flex flex-col gap-2 w-full mb-2">
+                    <h3 className="text-xl md:text-3xl font-extrabold">{details?.productionYear}</h3>
+                    <h3 className="text-xl md:text-3xl font-extrabold">{details?.length} minuter</h3>
+                    <h3 className="text-lg md:text-xl font-extrabold">{details?.genre}</h3>
+                  </div>
+                </div>
               </div>
               <div className="flex flex-row gap-5 h-12.5 text-base md:text-xl font-medium">
                 {actors?.map((a, index) => (
