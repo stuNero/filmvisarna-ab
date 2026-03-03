@@ -61,8 +61,8 @@ export default function MovieDetailShowingsPage() {
                     <span className="px-3 py-1 border border-gray-600 rounded text-white">
                     {details?.ageRating} år
                     </span>
-                    <h3 className="text-xl md:text-3xl font-extrabold">{details?.productionYear}</h3>
-                    <h3 className="text-xl md:text-3xl font-extrabold">{details?.length} minuter</h3>
+                    <h3 className="text-xl md:text-2xl font-extrabold">{details?.productionYear}</h3>
+                    <h3 className="text-xl md:text-2xl font-extrabold">{details?.length} minuter</h3>
                     <span className="px-3 py-1 bg-white/5 rounded">
                     {details?.genre}
                     </span>
@@ -89,8 +89,8 @@ export default function MovieDetailShowingsPage() {
 
 
       <section className="flex flex-col 
-                          bg-stone-950 border border-white
-                          pt-2.5 pb-2.5 rounded-lg">
+              bg-stone-950 border border-white
+              pt-2.5 pb-2.5 rounded-lg mb-16">
         <div className="flex justify-center pt-5 pb-5">
           <h2 className="text-2xl font-bold">Välj en visning</h2>
         </div>
