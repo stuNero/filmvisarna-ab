@@ -4,6 +4,7 @@ import type ShowingSeats from "../interfaces/ShowingSeats";
 import { useState, useEffect } from "react";
 import SeatType from "../parts/SeatType";
 import { Mail } from "lucide-react";
+import type MovieShowings from "../interfaces/MovieShowings";
 
 SeatSelectionPage.route = {
   path: "/seatselection/:id",
@@ -36,46 +37,70 @@ interface TicketCount {
   adult: number;
   senior: number;
 }
+function generateBookingID() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const array = new Uint8Array(10);
+  crypto.getRandomValues(array);
 
+  const newID = Array.from(array, x => chars[x % chars.length]).join("");
+  return newID;
+}
 export default function SeatSelectionPage() {
+
   // code for email confirmation
   const [email, setEmail] = useState("");
+
   const [emailError, setEmailError] = useState("");
 
   const { id } = useParams<{ id: string; }>();
   const showingId = Number(id);
-  const [movieShowings] = useFetchJson<any | null>(
+  const [showingsData] = useFetchJson<MovieShowings[] | null>(
     `/api/movieShowings?where=showingId=${showingId}`,
   );
 
-  const showingData = movieShowings?.[0];
-
-  const title = showingData?.title;
-  const date = showingData?.date;
-  const time = showingData?.time;
-  const venue = showingData?.name;
-
-  const bookingConformation = async (e: React.FormEvent<HTMLFormElement>) => {
+  // Extract first result from array
+  const showing = showingsData?.[0];
+  const bookingConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!email) {
-      setEmailError("Skriv in din email först!");
+
+    // Aborts if no ticket types are selected
+    if ((ticketCount.adult + ticketCount.child + ticketCount.senior) == 0) {
+      setEmailError("Du måste välja biljettyper.");
+      return;
+    }
+    // Aborts if no seats are selected
+    else if (selectedSeats.length == 0) {
+      setEmailError("Du måste välja säten.");
+      return;
+    }
+    // Aborts if email isn't input
+    else if (!email) {
+      setEmailError("Skriv in din email först.");
+      return;
+    }
+
+    try {
+      await createBooking();
+    }
+    catch (error) {
+      console.error("Fel:", error);
+      alert("Kunde inte skicka bokning");
       return;
     }
 
     const requestBody = {
       email: email,
-      movieName: title,
+      movieName: showing?.title,
       selectedSeats: selectedSeats.join(", "),
       childCount: ticketCount.child,
       adultCount: ticketCount.adult,
       seniorCount: ticketCount.senior,
       totalTickets: ticketCount.child + ticketCount.adult + ticketCount.senior,
-      date: date.substring(0, 10),
-      time: time.substring(0, 5),
-      venue: venue,
+      date: new Date(showing!.date).toLocaleDateString(),
+      time: showing?.time,
+      venue: showing?.name,
     };
-
     try {
       const response = await fetch("/api/send-email", {
         method: "POST",
@@ -89,7 +114,8 @@ export default function SeatSelectionPage() {
       } else {
         alert("Något gick fel vid bokning");
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error("Fel:", error);
       alert("Kunde inte skicka bokning");
     }
@@ -98,7 +124,6 @@ export default function SeatSelectionPage() {
   const [seats] = useFetchJson<ShowingSeats[] | null>(
     `/api/showingsAllSeats?where=id=${showingId}`,
   );
-
   // Array with seat id
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
 
@@ -121,17 +146,19 @@ export default function SeatSelectionPage() {
   };
 
   async function createBooking() {
-    const res = await fetch("/api/bookings", {
+
+    const res = await fetch("/api/send-confirm/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        id: 10,
+        id: generateBookingID(),
         cost: 360,
-        showingId: 2,
+        createdAt: new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10) + " " + new Date(Date.now()).toLocaleTimeString('sv-SE'),
+        showingId: showingId.toString(),
       }),
     });
     const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
+    alert(JSON.stringify(data, null, 2));
   }
 
   async function createbookedSeat(seatNr: number) {
@@ -248,7 +275,7 @@ export default function SeatSelectionPage() {
           </div>
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
-          <form onSubmit={bookingConformation}>
+          <form onSubmit={bookingConfirmation}>
             <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
               <h2 className="text-2xl md:text-3xl text-center mb-8">
                 Slutför bokningen
@@ -277,8 +304,8 @@ export default function SeatSelectionPage() {
                       }}
                       placeholder="din.epost@exempel.se"
                       className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
-                          ? "border-red-700 focus:ring-red-700/50"
-                          : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
+                        ? "border-red-700 focus:ring-red-700/50"
+                        : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
                         }`}
                     />
                   </div>
