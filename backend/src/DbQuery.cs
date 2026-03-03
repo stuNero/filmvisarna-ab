@@ -131,7 +131,7 @@ public static class DbQuery
             );
 
             CREATE TABLE IF NOT EXISTS bookings (
-                id INT PRIMARY KEY,
+                id VARCHAR(10) PRIMARY KEY,
                 cost INT NOT NULL,
                 createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 showingId INT NOT NULL,
@@ -140,7 +140,7 @@ public static class DbQuery
 
             CREATE TABLE IF NOT EXISTS bookedSeat (
                 seatId INT NOT NULL,
-                bookingId INT NOT NULL,
+                bookingId VARCHAR(10) NOT NULL,
                 ticketType ENUM ('child', 'adult', 'senior') NOT NULL DEFAULT('adult'),
                 PRIMARY KEY (seatId, bookingId),
                 FOREIGN KEY (seatId) REFERENCES seats(id),
@@ -159,7 +159,7 @@ public static class DbQuery
             );
 
             CREATE TABLE IF NOT EXISTS userBookings (
-                bookingId INT PRIMARY KEY,
+                bookingId VARCHAR(10) PRIMARY KEY,
                 email VARCHAR(255) NOT NULL,
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
             );
@@ -222,7 +222,7 @@ public static class DbQuery
                 AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
                 GROUP BY f.id
             ;
-
+            
             DROP VIEW IF EXISTS movieActors;
             CREATE VIEW movieActors AS
             SELECT f.id, a.name FROM filmActors fa, films f, actors a
