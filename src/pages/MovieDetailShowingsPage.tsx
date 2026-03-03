@@ -57,7 +57,7 @@ export default function MovieDetailShowingsPage() {
                   <h1 className="text-3xl md:text-5xl font-extrabold w-full mb-4">{details?.title}</h1>
                 </div>
                 <div className="w-full block">
-                  <div className="flex flex-col gap-2 w-full mb-2">
+                  <div className="flex flex-row flex-wrap gap-4 w-full mb-2">
                     <h3 className="text-xl md:text-3xl font-extrabold">{details?.productionYear}</h3>
                     <h3 className="text-xl md:text-3xl font-extrabold">{details?.length} minuter</h3>
                     <h3 className="text-lg md:text-xl font-extrabold">{details?.genre}</h3>
