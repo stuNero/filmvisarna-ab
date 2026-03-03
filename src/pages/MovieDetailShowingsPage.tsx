@@ -94,10 +94,10 @@ export default function MovieDetailShowingsPage() {
         <div className="flex justify-center pt-5 pb-5">
           <h2 className="text-2xl font-bold">Välj en visning</h2>
         </div>
-        <div className="flex flex-col md:flex-row gap-2 p-5 ">
+        <div className="flex flex-col md:flex-row gap-6 p-5 ">
           {/* Renders Date */}
           {showingsPerDate?.map(({ date, showings }) => (
-            <article key={date} className="border rounded-xl border-stone-500 p-1 w-60 bg-black text-center">
+            <article key={date} className="border rounded-xl border-stone-500 p-4 w-60 bg-black text-center">
               <div className="flex flex-col w-full justify-center items-center pb-2 pt-2 text-center">
                 <h2 className="font-medium">{new Date(date).toLocaleDateString('sv-SE', { weekday: 'long' })}</h2>
                 <h3 className="font-extralight text-stone-500">
