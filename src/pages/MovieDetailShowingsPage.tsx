@@ -58,6 +58,9 @@ export default function MovieDetailShowingsPage() {
                 </div>
                 <div className="w-full block">
                   <div className="flex flex-row flex-wrap gap-4 w-full mb-2">
+                    <span className="px-3 py-1 border border-gray-600 rounded text-white">
+                    {details?.ageRating} år
+                    </span>
                     <h3 className="text-xl md:text-3xl font-extrabold">{details?.productionYear}</h3>
                     <h3 className="text-xl md:text-3xl font-extrabold">{details?.length} minuter</h3>
                     <h3 className="text-lg md:text-xl font-extrabold">{details?.genre}</h3>
