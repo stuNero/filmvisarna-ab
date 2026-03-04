@@ -340,6 +340,7 @@ export default function SeatSelectionPage() {
 
                     <input
                       type="email"
+                      required
                       id="email"
                       value={email}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
