@@ -37,14 +37,18 @@ interface TicketCount {
   adult: number;
   senior: number;
 }
+
+// Generates random booking
 function generateBookingID() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  // Creating a bit array of length 10
   const array = new Uint8Array(10);
   crypto.getRandomValues(array);
 
   const newID = Array.from(array, x => chars[x % chars.length]).join("");
   return newID;
 }
+
 export default function SeatSelectionPage() {
 
   const navigate = useNavigate();
@@ -57,18 +61,24 @@ export default function SeatSelectionPage() {
 
   const { id } = useParams<{ id: string; }>();
   const showingId = Number(id);
+  // Fetch from showingId view in DB
   const [showingsData] = useFetchJson<MovieShowings[] | null>(
     `/api/movieShowings?where=showingId=${showingId}`,
   );
 
   // Extract first result from array
   const showing = showingsData?.[0];
+
+  // STARTS FINAL BOOKING LOGIC
   const bookingConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
 
+    // Variable to count the amount of tickets
     const ticketAmount = ticketCount.adult + ticketCount.child + ticketCount.senior;
 
     bookingID = "";
     e.preventDefault();
+
+    // Generates the random booking ID code
     bookingID = generateBookingID();
 
     // Aborts if email isn't input
@@ -90,7 +100,8 @@ export default function SeatSelectionPage() {
 
     try {
       let totalPrice = 0;
-
+      // Collects all tickets into a string array
+      // and calculates total price
       const tickets = [];
       for (let i = 0; i < ticketCount.adult; i++) {
         tickets.push('adult');
@@ -105,13 +116,15 @@ export default function SeatSelectionPage() {
         totalPrice += 120;
       }
 
+      // Zips tickets and seats together into one array based on index
+      // (assumes arrays are of same length)
       const seatsWithTypes = tickets.map(function (type, i) {
         return [type, selectedSeats[i]];
       });
 
       await createBooking(totalPrice);
 
-
+      // Calls the function for DB insert for each booked seat
       for (let seat of seatsWithTypes) {
         createbookedSeat(String(seat[0]), Number(seat[1]));
       }
@@ -176,6 +189,7 @@ export default function SeatSelectionPage() {
       if (seat.includes(seatId)) {
         // if the seat is already selected, remove selection
         return seat.filter((id) => id !== seatId);
+        // prevents seats being selected above ticket amount
       } else if (seat.length < totalTickets) {
         // if it is not selected, select it
         return [...seat, seatId];
@@ -220,11 +234,13 @@ export default function SeatSelectionPage() {
   var rows = 0;
 
   function incrementTicket(type: keyof TicketCount) {
+    // prevents incrementation above 8 tickets
     if ((ticketCount.child + ticketCount.adult + ticketCount.senior) < 8) {
       setTicketCount((prev) => ({ ...prev, [type]: prev[type] + 1 }));
     }
   }
   function decrementTicket(type: keyof TicketCount) {
+    // Removes the last selected seat when the ticket count decreases
     selectedSeats.pop();
     setTicketCount((prev) => ({
       ...prev,
