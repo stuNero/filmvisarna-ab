@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
 import type ShowingSeats from "../interfaces/ShowingSeats";
-import { useState } from "react";
+import { use, useState } from "react";
 import SeatType from "../parts/SeatType";
 import { Mail } from "lucide-react";
 import type MovieShowings from "../interfaces/MovieShowings";
@@ -65,6 +65,21 @@ export default function SeatSelectionPage() {
   const [showingsData] = useFetchJson<MovieShowings[] | null>(
     `/api/movieShowings?where=showingId=${showingId}`,
   );
+
+  // Fetching from view
+  const [bookedSeatsRaw] = useFetchJson<{
+    seatId: number,
+    bookingId: string,
+    ticketType: string,
+    showingId: number,
+    rowNr: number,
+    columnNr: number;
+  }[] | null>(`/api/bookedSeatsWithShowings?WHERE=showingId=${showingId}`);
+
+  // Extracts seatID from fetch array
+  const bookedSeats = bookedSeatsRaw?.map((x) => x.seatId);
+
+  console.log(bookedSeats);
 
   // Extract first result from array
   const showing = showingsData?.[0];
