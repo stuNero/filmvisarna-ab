@@ -79,7 +79,7 @@ export default function MovieDetailShowingsPage() {
                   <h5 key={index}>{a.name}</h5>
                 ))}
               </div>
-              <div>
+              <div className="mb-6 md:mb-0">
                 <h3 className="text-sm text-gray-400 mb-1">
                   Sammanfattning
                 </h3>
