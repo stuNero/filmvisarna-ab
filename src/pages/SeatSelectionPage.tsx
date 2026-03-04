@@ -359,7 +359,8 @@ export default function SeatSelectionPage() {
             </div> : <></>}
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
-          {selectedSeats.length === (ticketCount.adult + ticketCount.child + ticketCount.senior) ?
+          {selectedSeats.length === (ticketCount.adult + ticketCount.child + ticketCount.senior) &&
+            (ticketCount.adult + ticketCount.child + ticketCount.senior) > 0 ?
             <form onSubmit={bookingConfirmation}>
               <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
                 <h2 className="text-2xl md:text-3xl text-center mb-8">
