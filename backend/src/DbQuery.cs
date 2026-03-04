@@ -176,6 +176,25 @@ public static class DbQuery
             }
         }
         var createViews = @"
+            DROP VIEW IF EXISTS bookingInfo;
+                CREATE VIEW bookingInfo AS
+                SELECT
+                    s.rowNr,
+                    s.columnNr,
+                    sh.timeSlot,
+                    v.name AS venueName,
+                    v.info AS venueInfo,
+                    f.title AS filmTitle,
+                    bs.ticketType,
+                    b.id AS bookingId,
+                    b.cost AS totalPrice
+                FROM bookedSeat bs
+                JOIN bookings b ON bs.bookingId = b.id
+                JOIN seats s ON bs.seatId = s.id
+                JOIN showings sh ON b.showingId = sh.id
+                JOIN venues v ON sh.venueId = v.id
+                JOIN films f ON sh.filmId = f.id
+            ;
             DROP VIEW IF EXISTS showingsAllSeats;
             CREATE VIEW showingsAllSeats AS
                 SELECT sh.id, s.id AS seatId, s.rowNr, s.columnNr
