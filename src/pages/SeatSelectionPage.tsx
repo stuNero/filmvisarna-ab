@@ -52,6 +52,7 @@ export default function SeatSelectionPage() {
 
   const [emailError, setEmailError] = useState("");
 
+
   const { id } = useParams<{ id: string; }>();
   const showingId = Number(id);
   const [showingsData] = useFetchJson<MovieShowings[] | null>(
@@ -82,6 +83,36 @@ export default function SeatSelectionPage() {
 
     try {
       await createBooking();
+      const requestBody = {
+        email: email,
+        movieName: showing?.title,
+        selectedSeats: selectedSeats.join(", "),
+        childCount: ticketCount.child,
+        adultCount: ticketCount.adult,
+        seniorCount: ticketCount.senior,
+        totalTickets: ticketCount.child + ticketCount.adult + ticketCount.senior,
+        date: new Date(showing!.date).toLocaleDateString(),
+        time: showing?.time,
+        venue: showing?.name,
+      };
+      try {
+        const response = await fetch("/api/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+        });
+
+        if (response.ok) {
+          alert(`Bokningsbekräftelse skickad till ${email}!`);
+          setEmail(""); // remove the mail from field when email is sent
+        } else {
+          alert("Något gick fel vid bokning");
+        }
+      }
+      catch (error) {
+        console.error("Fel:", error);
+        alert("Kunde inte skicka bokning");
+      }
     }
     catch (error) {
       console.error("Fel:", error);
@@ -89,36 +120,6 @@ export default function SeatSelectionPage() {
       return;
     }
 
-    const requestBody = {
-      email: email,
-      movieName: showing?.title,
-      selectedSeats: selectedSeats.join(", "),
-      childCount: ticketCount.child,
-      adultCount: ticketCount.adult,
-      seniorCount: ticketCount.senior,
-      totalTickets: ticketCount.child + ticketCount.adult + ticketCount.senior,
-      date: new Date(showing!.date).toLocaleDateString(),
-      time: showing?.time,
-      venue: showing?.name,
-    };
-    try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (response.ok) {
-        alert(`Bokningsbekräftelse skickad till ${email}!`);
-        setEmail(""); // remove the mail from field when email is sent
-      } else {
-        alert("Något gick fel vid bokning");
-      }
-    }
-    catch (error) {
-      console.error("Fel:", error);
-      alert("Kunde inte skicka bokning");
-    }
   };
 
   const [seats] = useFetchJson<ShowingSeats[] | null>(
