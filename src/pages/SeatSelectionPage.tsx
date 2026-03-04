@@ -85,22 +85,28 @@ export default function SeatSelectionPage() {
     }
 
     try {
-      await createBooking();
+      let totalPrice = 0;
 
       const tickets = [];
       for (let i = 0; i < ticketCount.adult; i++) {
         tickets.push('adult');
+        totalPrice += 140;
       }
       for (let i = 0; i < ticketCount.child; i++) {
         tickets.push('child');
+        totalPrice += 80;
       }
       for (let i = 0; i < ticketCount.senior; i++) {
         tickets.push('senior');
+        totalPrice += 120;
       }
 
       const seatsWithTypes = tickets.map(function (type, i) {
         return [type, selectedSeats[i]];
       });
+
+      await createBooking(totalPrice);
+
 
       for (let seat of seatsWithTypes) {
         createbookedSeat(String(seat[0]), Number(seat[1]));
@@ -171,14 +177,14 @@ export default function SeatSelectionPage() {
     });
   };
 
-  async function createBooking() {
+  async function createBooking(totalPrice: number) {
 
     /* const res = */ await fetch("/api/send-confirm/bookings", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       id: bookingID,
-      cost: 360,
+      cost: totalPrice,
       createdAt: new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10) + " " + new Date(Date.now()).toLocaleTimeString('sv-SE'),
       showingId: showingId.toString(),
     }),
