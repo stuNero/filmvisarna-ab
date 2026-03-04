@@ -1,11 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
 import type ShowingSeats from "../interfaces/ShowingSeats";
-import { use, useState } from "react";
+import { useState } from "react";
 import SeatType from "../parts/SeatType";
 import { Mail } from "lucide-react";
 import type MovieShowings from "../interfaces/MovieShowings";
-import { OctagonX } from "lucide-react";
 
 SeatSelectionPage.route = {
   path: "/seatselection/:id",
