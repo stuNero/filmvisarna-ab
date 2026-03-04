@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
 import type ShowingSeats from "../interfaces/ShowingSeats";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SeatType from "../parts/SeatType";
 import { Mail } from "lucide-react";
+import type MovieShowings from "../interfaces/MovieShowings";
 
 SeatSelectionPage.route = {
   path: "/seatselection/:id",
@@ -37,68 +38,142 @@ interface TicketCount {
   senior: number;
 }
 
+// Generates random booking
+function generateBookingID() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  // Creating a bit array of length 10
+  const array = new Uint8Array(10);
+  crypto.getRandomValues(array);
+
+  const newID = Array.from(array, x => chars[x % chars.length]).join("");
+  return newID;
+}
+
 export default function SeatSelectionPage() {
+
+  const navigate = useNavigate();
   // code for email confirmation
   const [email, setEmail] = useState("");
+
   const [emailError, setEmailError] = useState("");
+
+  let bookingID = "";
 
   const { id } = useParams<{ id: string; }>();
   const showingId = Number(id);
-  const [movieShowings] = useFetchJson<any | null>(
+  // Fetch from showingId view in DB
+  const [showingsData] = useFetchJson<MovieShowings[] | null>(
     `/api/movieShowings?where=showingId=${showingId}`,
   );
 
-  const showingData = movieShowings?.[0];
+  // Extract first result from array
+  const showing = showingsData?.[0];
 
-  const title = showingData?.title;
-  const date = showingData?.date;
-  const time = showingData?.time;
-  const venue = showingData?.name;
+  // STARTS FINAL BOOKING LOGIC
+  const bookingConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
 
-  const bookingConformation = async (e: React.FormEvent<HTMLFormElement>) => {
+    // Variable to count the amount of tickets
+    const ticketAmount = ticketCount.adult + ticketCount.child + ticketCount.senior;
+
+    bookingID = "";
     e.preventDefault();
 
+    // Generates the random booking ID code
+    bookingID = generateBookingID();
+
+    // Aborts if email isn't input
     if (!email) {
-      setEmailError("Skriv in din email först!");
+      setEmailError("Skriv in din email först.");
+      return;
+    }
+    // Aborts if no ticket types are selected
+    else if (ticketAmount == 0) {
+      setEmailError("Du måste välja biljettyper.");
+      return;
+    }
+    // Aborts if incorrect amount of seats are chosen
+    else if (ticketAmount != selectedSeats.length) {
+      const diff = ticketAmount - selectedSeats.length;
+      setEmailError(`Du måste välja ${diff} ${diff > 2 ? 'säten' : 'säte'} till`);
       return;
     }
 
-    const requestBody = {
-      email: email,
-      movieName: title,
-      selectedSeats: selectedSeats.join(", "),
-      childCount: ticketCount.child,
-      adultCount: ticketCount.adult,
-      seniorCount: ticketCount.senior,
-      totalTickets: ticketCount.child + ticketCount.adult + ticketCount.senior,
-      date: date.substring(0, 10),
-      time: time.substring(0, 5),
-      venue: venue,
-    };
-
     try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
+      let totalPrice = 0;
+      // Collects all tickets into a string array
+      // and calculates total price
+      const tickets = [];
+      for (let i = 0; i < ticketCount.adult; i++) {
+        tickets.push('adult');
+        totalPrice += 140;
+      }
+      for (let i = 0; i < ticketCount.child; i++) {
+        tickets.push('child');
+        totalPrice += 80;
+      }
+      for (let i = 0; i < ticketCount.senior; i++) {
+        tickets.push('senior');
+        totalPrice += 120;
+      }
+
+      // Zips tickets and seats together into one array based on index
+      // (assumes arrays are of same length)
+      const seatsWithTypes = tickets.map(function (type, i) {
+        return [type, selectedSeats[i]];
       });
 
-      if (response.ok) {
-        alert(`Bokningsbekräftelse skickad till ${email}!`);
-        setEmail(""); // remove the mail from field when email is sent
-      } else {
-        alert("Något gick fel vid bokning");
+      await createBooking(totalPrice);
+
+      // Calls the function for DB insert for each booked seat
+      for (let seat of seatsWithTypes) {
+        createbookedSeat(String(seat[0]), Number(seat[1]));
       }
-    } catch (error) {
+
+      const requestBody = {
+        email: email,
+        movieName: showing?.title,
+        selectedSeats: selectedSeats.join(", "),
+        childCount: ticketCount.child,
+        adultCount: ticketCount.adult,
+        seniorCount: ticketCount.senior,
+        totalTickets: ticketAmount,
+        bookingID: bookingID,
+        date: new Date(showing!.date).toLocaleDateString("sv-SE"),
+        time: showing?.time.toString().slice(0, 5),
+        venue: showing?.name,
+      };
+      try {
+        const response = await fetch("/api/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+        });
+
+        if (response.ok) {
+          // alert(`Bokningsbekräftelse skickad till ${email}!`);
+          setEmail(""); // remove the mail from field when email is sent
+        } else {
+          alert("Något gick fel vid bokning");
+        }
+      }
+      catch (error) {
+        console.error("Fel:", error);
+        alert("Kunde inte skicka boknings email");
+      }
+
+      navigate(`/bookingconfirmation/${bookingID}`);
+    }
+    catch (error) {
       console.error("Fel:", error);
       alert("Kunde inte skicka bokning");
+      return;
     }
+
   };
 
   const [seats] = useFetchJson<ShowingSeats[] | null>(
     `/api/showingsAllSeats?where=id=${showingId}`,
   );
-
   // Array with seat id
   const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
 
@@ -109,52 +184,64 @@ export default function SeatSelectionPage() {
   });
 
   const toggleSeat = (seatId: number) => {
+    const totalTickets = (ticketCount.adult + ticketCount.child + ticketCount.senior);
     setSelectedSeats((seat) => {
       if (seat.includes(seatId)) {
         // if the seat is already selected, remove selection
         return seat.filter((id) => id !== seatId);
-      } else {
+        // prevents seats being selected above ticket amount
+      } else if (seat.length < totalTickets) {
         // if it is not selected, select it
         return [...seat, seatId];
+      }
+      else {
+        return seat;
       }
     });
   };
 
-  async function createBooking() {
-    const res = await fetch("/api/bookings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: 10,
-        cost: 360,
-        showingId: 2,
-      }),
-    });
-    const data = await res.json();
+  async function createBooking(totalPrice: number) {
+
+    /* const res = */ await fetch("/api/send-confirm/bookings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id: bookingID,
+      cost: totalPrice,
+      createdAt: new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10) + " " + new Date(Date.now()).toLocaleTimeString('sv-SE'),
+      showingId: showingId.toString(),
+    }),
+  });
+    // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
   }
 
-  async function createbookedSeat(seatNr: number) {
-    const res = await fetch("/api/bookedSeat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        seatId: seatNr,
-        bookingId: 2,
-        ticketType: 1,
-      }),
-    });
+  async function createbookedSeat(type: string, seatNr: number) {
+    /* const res =*/ await fetch("/api/bookedSeat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      seatId: seatNr,
+      bookingId: bookingID,
+      ticketType: type,
+    }),
+  });
 
-    const data = await res.json();
+    // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
   }
 
   var rows = 0;
 
   function incrementTicket(type: keyof TicketCount) {
-    setTicketCount((prev) => ({ ...prev, [type]: prev[type] + 1 }));
+    // prevents incrementation above 8 tickets
+    if ((ticketCount.child + ticketCount.adult + ticketCount.senior) < 8) {
+      setTicketCount((prev) => ({ ...prev, [type]: prev[type] + 1 }));
+    }
   }
   function decrementTicket(type: keyof TicketCount) {
+    // Removes the last selected seat when the ticket count decreases
+    selectedSeats.pop();
     setTicketCount((prev) => ({
       ...prev,
       [type]: Math.max(0, prev[type] - 1),
@@ -248,7 +335,7 @@ export default function SeatSelectionPage() {
           </div>
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
-          <form onSubmit={bookingConformation}>
+          <form onSubmit={bookingConfirmation}>
             <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
               <h2 className="text-2xl md:text-3xl text-center mb-8">
                 Slutför bokningen
@@ -269,6 +356,7 @@ export default function SeatSelectionPage() {
 
                     <input
                       type="email"
+                      required
                       id="email"
                       value={email}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -277,8 +365,8 @@ export default function SeatSelectionPage() {
                       }}
                       placeholder="din.epost@exempel.se"
                       className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
-                          ? "border-red-700 focus:ring-red-700/50"
-                          : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
+                        ? "border-red-700 focus:ring-red-700/50"
+                        : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
                         }`}
                     />
                   </div>

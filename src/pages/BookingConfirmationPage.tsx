@@ -17,7 +17,7 @@ BookingConfirmationPage.route = {
 };
 
 export default function BookingConfirmationPage() {
-  const { bookingId } = useParams<{ bookingId: string }>();
+  const { bookingId } = useParams<{ bookingId: string; }>();
 
   if (!bookingId) {
     return <div className="text-white">Ingen boknings-id i URL.</div>;
@@ -71,7 +71,7 @@ export default function BookingConfirmationPage() {
         </button>
       </Link>
       <div className="bg-zinc-950 rounded-3xl  mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden ">
-        <div className="bg-red-800 p-4 sm:p-6 text-center">
+        <div className="bg-green-800 p-4 sm:p-6 text-center">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-4">
             <CheckCircle2 className="w-10 h-10 text-white" />
           </div>
@@ -137,7 +137,7 @@ export default function BookingConfirmationPage() {
                 Bokningsnummer
               </h3>
               <h2 className="text-2xl font-bold text-white mb-2">
-                BC-HUNQAGOVKYRQ
+                {booking.bookingId}
               </h2>
             </div>
             <div className="w-full text-center">
