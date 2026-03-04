@@ -43,13 +43,13 @@ export default function MovieCard() {
 
   return (
     <div
-      className="grid gap-8  
-  grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-  w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 
-  justify-items-center"
+      className="grid gap-8 
+                grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
+                w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 
+                justify-items-center"
     >
       {movieCard?.map((film) => (
-        <div key={film.id} className="w-full">
+        <div key={film.id} className="w-full h-full">
           <Link to={`/moviedetailshowings/${film.id}`}>
             <section
               className="rounded-lg 
@@ -63,7 +63,7 @@ export default function MovieCard() {
               <img
                 src={film.coverImage}
                 alt={film.title}
-                className=" object-cover w-full h-100
+                className="absolut inset-0 h-full object-cover w-full
                 duration-300 hover:scale-110 "
               />
             </section>
