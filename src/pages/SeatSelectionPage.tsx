@@ -65,22 +65,26 @@ export default function SeatSelectionPage() {
   const showing = showingsData?.[0];
   const bookingConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
 
+    const ticketAmount = ticketCount.adult + ticketCount.child + ticketCount.senior;
+
     bookingID = "";
     e.preventDefault();
     bookingID = generateBookingID();
+
+    // Aborts if email isn't input
+    if (!email) {
+      setEmailError("Skriv in din email först.");
+      return;
+    }
     // Aborts if no ticket types are selected
-    if ((ticketCount.adult + ticketCount.child + ticketCount.senior) == 0) {
+    else if (ticketAmount == 0) {
       setEmailError("Du måste välja biljettyper.");
       return;
     }
-    // Aborts if no seats are selected
-    else if (selectedSeats.length == 0) {
-      setEmailError("Du måste välja säten.");
-      return;
-    }
-    // Aborts if email isn't input
-    else if (!email) {
-      setEmailError("Skriv in din email först.");
+    // Aborts if incorrect amount of seats are chosen
+    else if (ticketAmount != selectedSeats.length) {
+      const diff = ticketAmount - selectedSeats.length;
+      setEmailError(`Du måste välja ${diff} ${diff > 2 ? 'säten' : 'säte'} till`);
       return;
     }
 
@@ -119,9 +123,10 @@ export default function SeatSelectionPage() {
         childCount: ticketCount.child,
         adultCount: ticketCount.adult,
         seniorCount: ticketCount.senior,
-        totalTickets: ticketCount.child + ticketCount.adult + ticketCount.senior,
-        date: new Date(showing!.date).toLocaleDateString(),
-        time: showing?.time,
+        totalTickets: ticketAmount,
+        bookingID: bookingID,
+        date: new Date(showing!.date).toLocaleDateString("sv-SE"),
+        time: showing?.time.toString().slice(0, 5),
         venue: showing?.name,
       };
       try {
@@ -132,7 +137,7 @@ export default function SeatSelectionPage() {
         });
 
         if (response.ok) {
-          alert(`Bokningsbekräftelse skickad till ${email}!`);
+          // alert(`Bokningsbekräftelse skickad till ${email}!`);
           setEmail(""); // remove the mail from field when email is sent
         } else {
           alert("Något gick fel vid bokning");
@@ -166,13 +171,17 @@ export default function SeatSelectionPage() {
   });
 
   const toggleSeat = (seatId: number) => {
+    const totalTickets = (ticketCount.adult + ticketCount.child + ticketCount.senior);
     setSelectedSeats((seat) => {
       if (seat.includes(seatId)) {
         // if the seat is already selected, remove selection
         return seat.filter((id) => id !== seatId);
-      } else {
+      } else if (seat.length < totalTickets) {
         // if it is not selected, select it
         return [...seat, seatId];
+      }
+      else {
+        return seat;
       }
     });
   };
@@ -211,9 +220,12 @@ export default function SeatSelectionPage() {
   var rows = 0;
 
   function incrementTicket(type: keyof TicketCount) {
-    setTicketCount((prev) => ({ ...prev, [type]: prev[type] + 1 }));
+    if ((ticketCount.child + ticketCount.adult + ticketCount.senior) < 8) {
+      setTicketCount((prev) => ({ ...prev, [type]: prev[type] + 1 }));
+    }
   }
   function decrementTicket(type: keyof TicketCount) {
+    selectedSeats.pop();
     setTicketCount((prev) => ({
       ...prev,
       [type]: Math.max(0, prev[type] - 1),
