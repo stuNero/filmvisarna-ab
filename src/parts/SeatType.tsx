@@ -19,11 +19,11 @@ export default function SeatType({ name, info, price, ticketCount, incrementTick
             <div className="flex items-center gap-3">
                 <button className={ticketCount > 0 ? `px-4 py-2 font-extrabold size-10 text-stone-500 outline-solid rounded hover:bg-red-600`
                     : `px-4 py-2 text-stone-800 outline-solid rounded`
-                } onClick={ticketCount > 0 ? decrementTicketCount : () => { }}>-</button>
+                } onClick={decrementTicketCount}>-</button>
                 <p>{ticketCount}</p>
                 <button className={ticketCount < 8 ? `px-4 py-2 font-extrabold size-10 text-stone-500 outline-solid rounded hover:bg-red-600`
                     : `px-4 py-2 text-stone-800 outline-solid rounded`
-                } onClick={ticketCount < 8 ? incrementTicketCount : () => { }}>+</button>
+                } onClick={incrementTicketCount}>+</button>
             </div>
         </div>
     </>;
