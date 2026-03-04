@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
 import type ShowingSeats from "../interfaces/ShowingSeats";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SeatType from "../parts/SeatType";
 import { Mail } from "lucide-react";
 import type MovieShowings from "../interfaces/MovieShowings";
@@ -52,6 +52,7 @@ export default function SeatSelectionPage() {
 
   const [emailError, setEmailError] = useState("");
 
+  let bookingID = "";
 
   const { id } = useParams<{ id: string; }>();
   const showingId = Number(id);
@@ -62,9 +63,11 @@ export default function SeatSelectionPage() {
   // Extract first result from array
   const showing = showingsData?.[0];
   const bookingConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
+
+    bookingID = "";
     e.preventDefault();
-
-
+    bookingID = generateBookingID();
+    console.log(bookingID);
     // Aborts if no ticket types are selected
     if ((ticketCount.adult + ticketCount.child + ticketCount.senior) == 0) {
       setEmailError("Du måste välja biljettyper.");
@@ -83,6 +86,26 @@ export default function SeatSelectionPage() {
 
     try {
       await createBooking();
+
+      const tickets = [];
+      for (let i = 0; i < ticketCount.adult; i++) {
+        tickets.push('adult');
+      }
+      for (let i = 0; i < ticketCount.child; i++) {
+        tickets.push('child');
+      }
+      for (let i = 0; i < ticketCount.senior; i++) {
+        tickets.push('senior');
+      }
+
+      const seatsWithTypes = tickets.map(function (type, i) {
+        return [type, selectedSeats[i]];
+      });
+
+      for (let seat of seatsWithTypes) {
+        createbookedSeat(String(seat[0]), Number(seat[1]));
+      }
+
       const requestBody = {
         email: email,
         movieName: showing?.title,
@@ -148,32 +171,32 @@ export default function SeatSelectionPage() {
 
   async function createBooking() {
 
-    const res = await fetch("/api/send-confirm/bookings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: generateBookingID(),
-        cost: 360,
-        createdAt: new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10) + " " + new Date(Date.now()).toLocaleTimeString('sv-SE'),
-        showingId: showingId.toString(),
-      }),
-    });
-    const data = await res.json();
-    alert(JSON.stringify(data, null, 2));
+    /* const res = */ await fetch("/api/send-confirm/bookings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id: bookingID,
+      cost: 360,
+      createdAt: new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10) + " " + new Date(Date.now()).toLocaleTimeString('sv-SE'),
+      showingId: showingId.toString(),
+    }),
+  });
+    // const data = await res.json();
+    // alert(JSON.stringify(data, null, 2));
   }
 
-  async function createbookedSeat(seatNr: number) {
-    const res = await fetch("/api/bookedSeat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        seatId: seatNr,
-        bookingId: 2,
-        ticketType: 1,
-      }),
-    });
+  async function createbookedSeat(type: string, seatNr: number) {
+    /* const res =*/ await fetch("/api/bookedSeat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      seatId: seatNr,
+      bookingId: bookingID,
+      ticketType: type,
+    }),
+  });
 
-    const data = await res.json();
+    // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
   }
 
