@@ -40,6 +40,8 @@ public static class SpecialRoutes
       var bodyDict = JsonSerializer.Deserialize<Dictionary<string, object>>(bodyJson.GetRawText(), options) ?? new();
 
       // get values form the body
+
+      string bookingID = bodyDict.ContainsKey("bookingID") ? bodyDict["bookingID"]?.ToString() ?? "Boknings ID saknas" : "Boknings ID saknas";
       string email = bodyDict.ContainsKey("email") ? bodyDict["email"]?.ToString() ?? "" : "";
       string movieName = bodyDict.ContainsKey("movieName") ? bodyDict["movieName"]?.ToString() ?? "Film namn" : "Film namn";
       string selectedSeats = bodyDict.ContainsKey("selectedSeats") ? bodyDict["selectedSeats"]?.ToString() ?? "Inga platser valda" : "Inga platser valda";
@@ -107,7 +109,7 @@ public static class SpecialRoutes
           <p>302 50, Halmstad</p>
 
           <hr>
-          <p><strong>Vänligen visa denna bekräftelse vid ankomst. Insläpp påbörjas cirka [X] minuter innan föreställningen.</strong></p>
+          <p><strong>Vänligen visa denna bekräftelse vid ankomst. Insläpp påbörjas cirka 15 minuter innan föreställningen.</strong></p>
 
           <br>
 
@@ -117,9 +119,9 @@ public static class SpecialRoutes
           <br>
 
           <p>Tack för att du valt CineSharp. Vi ser fram emot att välkomna dig till föreställningen.</p>
-          <p>Referens nummer: placeholder</p>
+          <p>Referens nummer: {bookingID}</p>
 
-          <p>Avboka</p>
+          <p>Avboka med att svara på detta email med ditt boknings ID som ämne</p>
 
           <br>
         
