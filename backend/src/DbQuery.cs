@@ -131,7 +131,7 @@ public static class DbQuery
             );
 
             CREATE TABLE IF NOT EXISTS bookings (
-                id INT PRIMARY KEY,
+                id VARCHAR(10) PRIMARY KEY,
                 cost INT NOT NULL,
                 createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 showingId INT NOT NULL,
@@ -140,7 +140,7 @@ public static class DbQuery
 
             CREATE TABLE IF NOT EXISTS bookedSeat (
                 seatId INT NOT NULL,
-                bookingId INT NOT NULL,
+                bookingId VARCHAR(10) NOT NULL,
                 ticketType ENUM ('child', 'adult', 'senior') NOT NULL DEFAULT('adult'),
                 PRIMARY KEY (seatId, bookingId),
                 FOREIGN KEY (seatId) REFERENCES seats(id),
@@ -159,7 +159,7 @@ public static class DbQuery
             );
 
             CREATE TABLE IF NOT EXISTS userBookings (
-                bookingId INT PRIMARY KEY,
+                bookingId VARCHAR(10) PRIMARY KEY,
                 email VARCHAR(255) NOT NULL,
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
             );
@@ -176,6 +176,25 @@ public static class DbQuery
             }
         }
         var createViews = @"
+            DROP VIEW IF EXISTS bookingInfo;
+                CREATE VIEW bookingInfo AS
+                SELECT
+                    s.rowNr,
+                    s.columnNr,
+                    sh.timeSlot,
+                    v.name AS venueName,
+                    v.info AS venueInfo,
+                    f.title AS filmTitle,
+                    bs.ticketType,
+                    b.id AS bookingId,
+                    b.cost AS totalPrice
+                FROM bookedSeat bs
+                JOIN bookings b ON bs.bookingId = b.id
+                JOIN seats s ON bs.seatId = s.id
+                JOIN showings sh ON b.showingId = sh.id
+                JOIN venues v ON sh.venueId = v.id
+                JOIN films f ON sh.filmId = f.id
+            ;
             DROP VIEW IF EXISTS showingsAllSeats;
             CREATE VIEW showingsAllSeats AS
                 SELECT sh.id, s.id AS seatId, s.rowNr, s.columnNr
@@ -222,7 +241,7 @@ public static class DbQuery
                 AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
                 GROUP BY f.id
             ;
-
+            
             DROP VIEW IF EXISTS movieActors;
             CREATE VIEW movieActors AS
             SELECT f.id, a.name FROM filmActors fa, films f, actors a
