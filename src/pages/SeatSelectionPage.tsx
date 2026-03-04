@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
 import type ShowingSeats from "../interfaces/ShowingSeats";
 import { useState } from "react";
@@ -47,6 +47,7 @@ function generateBookingID() {
 }
 export default function SeatSelectionPage() {
 
+  const navigate = useNavigate();
   // code for email confirmation
   const [email, setEmail] = useState("");
 
@@ -67,7 +68,6 @@ export default function SeatSelectionPage() {
     bookingID = "";
     e.preventDefault();
     bookingID = generateBookingID();
-    console.log(bookingID);
     // Aborts if no ticket types are selected
     if ((ticketCount.adult + ticketCount.child + ticketCount.senior) == 0) {
       setEmailError("Du måste välja biljettyper.");
@@ -134,8 +134,10 @@ export default function SeatSelectionPage() {
       }
       catch (error) {
         console.error("Fel:", error);
-        alert("Kunde inte skicka bokning");
+        alert("Kunde inte skicka boknings email");
       }
+
+      navigate(`/bookingconfirmation/${bookingID}`);
     }
     catch (error) {
       console.error("Fel:", error);
