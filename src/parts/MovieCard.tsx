@@ -1,15 +1,15 @@
-import type MovieDetails from "../interfaces/MovieDetails";
-import type MovieShowings from "../interfaces/MovieShowings";
-import { Link } from "react-router-dom";
-import useFetchJson from "../utils/useFetchJson";
-import { Clock } from "lucide-react";
+import type MovieDetails from '../interfaces/MovieDetails';
+import type MovieShowings from '../interfaces/MovieShowings';
+import { Link } from 'react-router-dom';
+import useFetchJson from '../utils/useFetchJson';
+import { Clock } from 'lucide-react';
 
 export default function MovieCard() {
-  const today = new Date(Date.now()).toLocaleDateString("sv-SE");
-  const now = new Date(Date.now()).toLocaleTimeString("sv-SE");
-  const [movieCard] = useFetchJson<MovieDetails[] | null>("/api/comingFilms");
+  const today = new Date(Date.now()).toLocaleDateString('sv-SE');
+  const now = new Date(Date.now()).toLocaleTimeString('sv-SE');
+  const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
   const [showingsTemp] = useFetchJson<MovieShowings[] | null>(
-    `/api/movieShowings`,
+    `/api/movieShowings`
   );
 
   function GetShowings(id: number) {
@@ -19,7 +19,7 @@ export default function MovieCard() {
     let dayShowings = showings
       ?.filter(
         (s) =>
-          s.date.toString().slice(0, 10) === today && s.time.toString() >= now,
+          s.date.toString().slice(0, 10) === today && s.time.toString() >= now
       )
       // And then sorted the times so the earliest would be first and the latest last.
       // In order to do so it was necessary to convert the 'time' propery from number to string,
@@ -27,8 +27,8 @@ export default function MovieCard() {
       // be able to sort the values.
       .sort(
         (a, b) =>
-          Number(a.time.toString().slice(0, 5).replace(":", "")) -
-          Number(b.time.toString().slice(0, 5).replace(":", "")),
+          Number(a.time.toString().slice(0, 5).replace(':', '')) -
+          Number(b.time.toString().slice(0, 5).replace(':', ''))
       );
 
     return dayShowings;
@@ -76,7 +76,7 @@ export default function MovieCard() {
                     {film.ageRating} år
                   </p>
                   <p className="flex flex-row opacity-70">
-                    {" "}
+                    {' '}
                     <Clock className="scale-70" />
                     {FormatLength(film.length)}
                   </p>

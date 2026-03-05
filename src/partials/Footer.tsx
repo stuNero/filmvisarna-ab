@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import LocaleDetailsPage from "../pages/LocaleDetailsPage";
-import KioskInfoPage from "../pages/KioskPage";
-import CancelBookingPage from "../pages/CancelBookingPage";
+import LocaleDetailsPage from '../pages/LocaleDetailsPage';
+import KioskInfoPage from '../pages/KioskPage';
+import CancelBookingPage from '../pages/CancelBookingPage';
 
 export default function Footer() {
   return (
