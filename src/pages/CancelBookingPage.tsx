@@ -25,6 +25,8 @@ export default function CancelBookingPage() {
   const [bookingError, setBookingError] = useState('');
   const [bookingID, setBookingID] = useState('');
   const [switchSection, setSwitchSection] = useState(true);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   const [searchedBooking, setSearchedBooking] = useState<bookingInfo | null>(null);
 
   const [bookingInfo] = useFetchJson<BookingInfo[] | null>(`/api/bookingInfo?`);
@@ -44,15 +46,26 @@ export default function CancelBookingPage() {
     setBookingID('');
   };
 
+  async function cancelBooking() {
+    if (!searchedBooking?.bookingId) { return false; }
+    const result = await fetch(`/api/bookings/${searchedBooking?.bookingId}`,
+      {
+        method: 'DELETE'
+      },
+    );
+    if (result.ok) { setSwitchSection(false); return true; }
+    else { return false; }
+  }
+
   return (
     <div className="flex flex-col items-center">
       {switchSection ? (
-        <section id="cancel">
-          <form onSubmit={confirmSearch} className="bg-zinc-950 rounded-2xl 
-          border-2 border-stone-700/30
+        <section id="cancel" className="flex flex-col items-center w-3/4">
+          <form onSubmit={confirmSearch} className={`flex flex-col items-center bg-zinc-950 rounded-2xl 
+          border-2 border-stone-700/30 
           p-8 md:p-12 mb-8 mt-40 md:mt-70
-          md:w-1/2
-          ">
+          md:w-1/2 ${showConfirmation ? " blur-[2px]" : ""}`}
+          >
             <h2 className="text-2xl md:text-3xl text-center mb-8">
               Sök bokning
             </h2>
@@ -106,13 +119,15 @@ export default function CancelBookingPage() {
             </button>
           </form>
           {searchedBooking != null ?
-            <div className="
-          bg-zinc-950 rounded-2xl 
-          border-2 border-stone-700/30
-          p-8 md:p-12 mb-8
-          w-content
-          fit-content
-          ">
+
+            <div className={`flex flex-col items-center
+            bg-zinc-950 rounded-2xl 
+              border-2 border-stone-700/30
+              p-8 md:p-12 mb-8    
+              w-content
+              fit-content          
+              gap-5 ${showConfirmation ? "blur-[2px]" : ""}`}
+            >
               <h1 className="text-3xl">Bokningsdetaljer:</h1>
               <h2 className="text-2xl mt-5">{searchedBooking.filmTitle} </h2>
               <div className="grid grid-cols-2">
@@ -134,8 +149,11 @@ export default function CancelBookingPage() {
                   <p>{searchedBooking.venueName}</p>
                 </div>
               </div>
+
+              {/* Needs better styling and responsiveness from here */}
+
               <button
-                onClick={() => setSwitchSection(false)}
+                onClick={() => setShowConfirmation(true)}
                 className="mt-5 px-10 py-2 rounded-xl border-2 
                       bg-red-800 border-red-800 hover:bg-red-900 hover:border-red-900 text-white 
                       transition-all text-md font-medium
@@ -145,11 +163,30 @@ export default function CancelBookingPage() {
                 Avboka
               </button>
             </div> : <></>}
+          {showConfirmation && (
+            <div className="flex flex-col fixed top-80 m-auto justify-center items-center w-1/3 h-50  bg-zinc-950 border border-red-800
+                 text-white px-4 py-3 rounded-lg shadow-lg animate-fade-in gap-10">
+              <h2 className='text-2xl pt-5 px-5'>Är du säker du vill avboka?</h2>
+              <div className='flex gap-10'>
+                <button onClick={cancelBooking} className="mt-5 px-10 py-2 rounded-xl border-2 
+                      bg-red-800 border-red-800 hover:bg-red-900 hover:border-red-900 text-white 
+                      transition-all text-md font-medium
+                      fit-content
+                      ">JA</button>
+                <button onClick={() => setShowConfirmation(false)} className="mt-5 px-10 py-2 rounded-xl border-2 
+                      bg-red-800 border-red-800 hover:bg-red-900 hover:border-red-900 text-white 
+                      transition-all text-md font-medium
+                      fit-content
+                      " >NEJ</button>
+              </div>
+            </div>
+          )}
+
         </section>
       ) : (
         // Section when cancellation is confirmed
         <section className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
-          <div className="bg-zinc-950 rounded-3xl  mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden ">
+          <div className="bg-zinc-950 rounded-3xl  mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden">
             <div className="bg-green-800 p-4 sm:p-6 text-center">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-4">
                 <CheckCircle2 className="w-10 h-10 text-white" />
