@@ -66,6 +66,19 @@ export default function SeatSelectionPage() {
     `/api/movieShowings?where=showingId=${showingId}`,
   );
 
+  // Fetching from view
+  const [bookedSeatsRaw] = useFetchJson<{
+    seatId: number,
+    bookingId: string,
+    ticketType: string,
+    showingId: number,
+    rowNr: number,
+    columnNr: number;
+  }[] | null>(`/api/bookedSeatsWithShowings?WHERE=showingId=${showingId}`);
+
+  // Extracts seatID from fetch array
+  const bookedSeats = bookedSeatsRaw?.map((x) => x.seatId);
+
   // Extract first result from array
   const showing = showingsData?.[0];
 
@@ -304,94 +317,107 @@ export default function SeatSelectionPage() {
               <CreateSeatTypes />
             </div>
           </div>
-          {/* Seat Selection */}
-          <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
-            {Array.from({ length: rows }, (_, rowIndex) => (
-              <div key={rowIndex} className="flex justify-center gap-4 mb-4">
-                {seats
-                  ?.filter((seat) => seat.rowNr === rowIndex + 1)
-                  .map((seat) => {
-                    const isSelected = selectedSeats.includes(seat.seatId);
 
-                    return (
-                      <button
-                        key={seat.seatId}
-                        onClick={() => toggleSeat(seat.seatId)}
-                        className={`
-                          px-4 py-2 text-white outline-solid rounded 
-                          transition-all duration-200
+          {/* Seat Selection */}
+          {(ticketCount.adult + ticketCount.child + ticketCount.senior) > 0 ?
+            <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
+              {Array.from({ length: rows }, (_, rowIndex) => (
+                <div key={rowIndex} className="flex justify-center gap-4 mb-4">
+                  {seats
+                    ?.filter((seat) => seat.rowNr === rowIndex + 1)
+                    .map((seat) => {
+                      const isSelected = selectedSeats.includes(seat.seatId);
+
+                      return (
+
+                        bookedSeats?.includes(seat.seatId) ? <button
+                          key={seat.seatId}
+
+                          className={`
+                          px-4 py-2 rounded outline-solid outline-stone-700
+                          transition-all duration-200 bg-stone-800 h-8`}
+                        >
+                        </button> :
+                          <button
+                            key={seat.seatId}
+                            onClick={() => toggleSeat(seat.seatId)}
+                            className={`
+                          px-4 py-2 text-white rounded
+                          transition-all duration-200 h-8
                           ${isSelected
-                            ? "bg-green-600 hover:bg-green-700 "
-                            : "hover:bg-red-600"
-                          }
+                                ? "bg-green-600 hover:bg-green-700 outline-solid outline-green-700"
+                                : "hover:bg-red-600 bg-stone-700 hover:outline-red-700 outline-solid outline-stone-600"
+                              }
                         `}
-                      >
-                        {seat.seatId}
-                      </button>
-                    );
-                  })}
-              </div>
-            ))}
-          </div>
+                          >
+                            {/* {seat.seatId} */}
+                          </button>
+                      );
+                    })}
+                </div>
+              ))}
+            </div> : <></>}
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
-          <form onSubmit={bookingConfirmation}>
-            <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
-              <h2 className="text-2xl md:text-3xl text-center mb-8">
-                Slutför bokningen
-              </h2>
+          {selectedSeats.length === (ticketCount.adult + ticketCount.child + ticketCount.senior) &&
+            (ticketCount.adult + ticketCount.child + ticketCount.senior) > 0 ?
+            <form onSubmit={bookingConfirmation}>
+              <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
+                <h2 className="text-2xl md:text-3xl text-center mb-8">
+                  Slutför bokningen
+                </h2>
 
-              {/* Email Input */}
-              <div className="max-w-md mx-auto mb-8">
-                <div className="relative">
-                  <label
-                    htmlFor="email"
-                    className="block text-center mb-2 text-gray-400"
-                  >
-                    E-postadress <span className="text-red-500">*</span>
-                  </label>
-
+                {/* Email Input */}
+                <div className="max-w-md mx-auto mb-8">
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                    <label
+                      htmlFor="email"
+                      className="block text-center mb-2 text-gray-400"
+                    >
+                      E-postadress <span className="text-red-500">*</span>
+                    </label>
 
-                    <input
-                      type="email"
-                      required
-                      id="email"
-                      value={email}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setEmail(e.target.value);
-                        setEmailError("");
-                      }}
-                      placeholder="din.epost@exempel.se"
-                      className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
-                        ? "border-red-700 focus:ring-red-700/50"
-                        : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
-                        }`}
-                    />
-                  </div>
-                  {emailError && (
-                    <p className="mt-2 text-sm text-red-500 text-center">
-                      {emailError}
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+
+                      <input
+                        type="email"
+                        required
+                        id="email"
+                        value={email}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          setEmail(e.target.value);
+                          setEmailError("");
+                        }}
+                        placeholder="din.epost@exempel.se"
+                        className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
+                          ? "border-red-700 focus:ring-red-700/50"
+                          : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
+                          }`}
+                      />
+                    </div>
+                    {emailError && (
+                      <p className="mt-2 text-sm text-red-500 text-center">
+                        {emailError}
+                      </p>
+                    )}
+                    <p className="mt-2 text-xs text-gray-500 text-center">
+                      Din bokningsbekräftelse skickas till denna e-post
                     </p>
-                  )}
-                  <p className="mt-2 text-xs text-gray-500 text-center">
-                    Din bokningsbekräftelse skickas till denna e-post
-                  </p>
+                  </div>
+                </div>
+
+                {/* Confirm Button */}
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    className="px-16 py-4 rounded-xl border-2 bg-red-800 border-red-800 hover:bg-red-900 hover:border-red-900 text-white transition-all text-lg font-medium"
+                  >
+                    Bekräfta bokning
+                  </button>
                 </div>
               </div>
-
-              {/* Confirm Button */}
-              <div className="text-center">
-                <button
-                  type="submit"
-                  className="px-16 py-4 rounded-xl border-2 bg-red-800 border-red-800 hover:bg-red-900 hover:border-red-900 text-white transition-all text-lg font-medium"
-                >
-                  Bekräfta bokning
-                </button>
-              </div>
-            </div>
-          </form>
+            </form> : <></>}
         </div>
       </>
     );
