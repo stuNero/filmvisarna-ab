@@ -145,6 +145,7 @@ public static class DbQuery
                 PRIMARY KEY (seatId, bookingId),
                 FOREIGN KEY (seatId) REFERENCES seats(id),
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
+                ON DELETE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS users (
@@ -162,6 +163,7 @@ public static class DbQuery
                 bookingId VARCHAR(10) PRIMARY KEY,
                 email VARCHAR(255) NOT NULL,
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
+                ON DELETE CASCADE
             );
         ";
         // Execute each statement separately
