@@ -18,9 +18,12 @@ export default function Footer() {
                    pb-10"
       >
         <article className="flex flex-col mt-[25px] px-[50px]">
-          <Link to="/" className="flex flex-row hover-red mb-[10px]">
+          <Link
+            to="/"
+            className="bg-green-400 flex flex-row hover-red mb-[10px] w-fit"
+          >
             <img src="/logo-cinesharp.webp" width="50px" height="auto"></img>
-            <h1 className="font-bold content-center pl-[10px]  ">CineSharp</h1>
+            <h1 className=" font-bold content-center pl-[10px]  ">CineSharp</h1>
           </Link>
           <p className="opacity-50">
             Din ultimata destination för de senaste filmerna och oförglömliga
