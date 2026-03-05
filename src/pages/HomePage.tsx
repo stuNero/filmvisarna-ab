@@ -8,24 +8,29 @@ HomePage.route = {
 
 export default function HomePage() {
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto">
       <div className="flex flex-col  ">
-        <section className="flex inline-block relative">
+        <section className="inline-block relative">
           <section
             className="
                         bg-[url('/bg-image.webp')] bg-center
                         bg-cover                       
                         h-[75vh]
+                        w-screen
+                        w
                         "
           >
             <div
               className="absolute inset-0 
-                          bg-gradient-to-t
+                          bg-linear-to-t
                         from-black from-20% via-black/50 via-70% to-transparent to-99%"
             ></div>
 
             <div
-              className="absolute container px-4 mx-auto mt-10 text-shadow-lg
+              className="absolute container 
+              px-4 mx-auto mt-10 
+              text-shadow-lg
+              pt-20
                           "
             >
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs ">
