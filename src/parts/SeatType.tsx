@@ -1,11 +1,11 @@
 
 interface SeatTypeProps {
-    name: string;
-    info: string;
-    price: number;
-    ticketCount: number;
-    incrementTicketCount: () => void;
-    decrementTicketCount: () => void;
+  name: string;
+  info: string;
+  price: number;
+  ticketCount: number;
+  incrementTicketCount: () => void;
+  decrementTicketCount: () => void;
 }
 
 let totalTickets = 0;
@@ -42,5 +42,22 @@ export default function SeatType({ name, info, price, ticketCount, incrementTick
                 } onClick={incrementTicket}>+</button>
             </div>
         </div>
-    </>;
+        <div className="flex items-center gap-3">
+          <button
+            className="px-4 py-2 text-white outline-solid rounded hover:bg-red-600"
+            onClick={decrementTicketCount}
+          >
+            -
+          </button>
+          <p>{ticketCount}</p>
+          <button
+            className="px-4 py-2 text-white outline-solid rounded hover:bg-red-600"
+            onClick={incrementTicketCount}
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }

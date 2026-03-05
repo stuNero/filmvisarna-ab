@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { User } from "lucide-react";
+import { Link } from 'react-router-dom';
+import { User } from 'lucide-react';
 
 export default function Header() {
   return (

@@ -1,9 +1,7 @@
-
-import { useState, useEffect } from "react";
-import fetchJson from "./fetchJson";
+import { useState, useEffect } from 'react';
+import fetchJson from './fetchJson';
 
 export default function useFetchJson<Type>(url: string) {
-
   const [data, setData] = useState<Type | null>(null);
 
   useEffect(() => {
