@@ -1,8 +1,8 @@
-import MovieCard from "../parts/MovieCard.tsx";
+import MovieCard from '../parts/MovieCard.tsx';
 
 HomePage.route = {
-  path: "/",
-  menuLabel: "Home",
+  path: '/',
+  menuLabel: 'Home',
   index: 1,
 };
 
