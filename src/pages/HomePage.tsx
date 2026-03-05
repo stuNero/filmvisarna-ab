@@ -16,14 +16,14 @@ export default function HomePage() {
                         bg-[url('/bg-image.webp')] bg-center
                         bg-cover                       
                         h-[75vh]
-                        w-screen
-                        w
+                        fit-content
                         "
           >
             <div
               className="absolute inset-0 
                           bg-linear-to-t
-                        from-black from-20% via-black/50 via-70% to-transparent to-99%"
+                        from-black from-20% via-black/50 via-70% to-transparent to-99%
+                        fit-content"
             ></div>
 
             <div
