@@ -58,7 +58,7 @@ export default function SeatSelectionPage() {
 
   let bookingID = '';
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string; }>();
   const showingId = Number(id);
   // Fetch from showingId view in DB
   const [showingsData] = useFetchJson<MovieShowings[] | null>(
@@ -213,32 +213,32 @@ export default function SeatSelectionPage() {
 
   async function createBooking(totalPrice: number) {
     /* const res = */ await fetch('/api/send-confirm/bookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id: bookingID,
-        cost: totalPrice,
-        createdAt:
-          new Date(Date.now()).toLocaleDateString('sv-SE').slice(0, 10) +
-          ' ' +
-          new Date(Date.now()).toLocaleTimeString('sv-SE'),
-        showingId: showingId.toString()
-      })
-    });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: bookingID,
+      cost: totalPrice,
+      createdAt:
+        new Date(Date.now()).toLocaleDateString('sv-SE').slice(0, 10) +
+        ' ' +
+        new Date(Date.now()).toLocaleTimeString('sv-SE'),
+      showingId: showingId.toString()
+    })
+  });
     // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
   }
 
   async function createbookedSeat(type: string, seatNr: number) {
     /* const res =*/ await fetch('/api/bookedSeat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        seatId: seatNr,
-        bookingId: bookingID,
-        ticketType: type
-      })
-    });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      seatId: seatNr,
+      bookingId: bookingID,
+      ticketType: type
+    })
+  });
 
     // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
@@ -310,7 +310,7 @@ export default function SeatSelectionPage() {
 
     return (
       <>
-        <div className="top-0 bottom-0 left-0 content-center justify-center">
+        <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20">
           {/* Ticket Selection */}
           <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
             <div className="max-w-2xl mx-auto space-y-4">
