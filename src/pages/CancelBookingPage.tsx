@@ -1,4 +1,4 @@
-import { Calendar, Ticket, MapPin, Clock, Search, ChevronLeft, CheckCircle2 } from 'lucide-react';
+import { Calendar, Ticket, MapPin, Clock, Search, CheckCircle2 } from 'lucide-react';
 import { useState } from "react";
 import useFetchJson from "../utils/useFetchJson";
 import type bookingInfo from "../interfaces/BookingInfo";
@@ -43,9 +43,6 @@ export default function CancelBookingPage() {
     }
     setBookingID('');
   };
-  function goHome() {
-
-  }
 
   return (
     <div className="flex flex-col items-center">
