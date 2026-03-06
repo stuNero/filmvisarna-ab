@@ -1,8 +1,10 @@
 import { Calendar, Ticket, MapPin, Clock, Search, CheckCircle2 } from 'lucide-react';
 import { useState } from "react";
 import useFetchJson from "../utils/useFetchJson";
+import fetchJson from '../utils/fetchJson';
 import type bookingInfo from "../interfaces/BookingInfo";
 import { useNavigate } from 'react-router-dom';
+import type MovieDetails from '../interfaces/MovieDetails';
 
 CancelBookingPage.route = {
   path: '/CancelBooking',
@@ -18,18 +20,21 @@ export default function CancelBookingPage() {
   const [bookingID, setBookingID] = useState('');
   const [switchSection, setSwitchSection] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [filmData, setFilmData] = useState<MovieDetails | null>(null);
 
   // Fetching data from db
   const [searchedBooking, setSearchedBooking] = useState<bookingInfo | null>(null);
-  const [bookingInfo] = useFetchJson<bookingInfo[] | null>(`/api/bookingInfo?`);
+  const [bookingInfo] = useFetchJson<bookingInfo[] | null>(`/api/bookingInfo`);
 
   // Main booking cancellation logic
   const confirmSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     for (let search of bookingInfo!) {
       if (bookingID == search.bookingId) {
         setSearchedBooking(search);
+        // Extracting film cover image
+        const filmInfo = await fetchJson(`/api/films?WHERE=id=${search.filmID}`);
+        setFilmData(filmInfo[0]);
       }
     }
 
@@ -37,6 +42,7 @@ export default function CancelBookingPage() {
       setBookingError("Kunde inte hitta bokning");
     }
     setBookingID('');
+    console.log(filmData);
   };
 
   async function cancelBooking() {
@@ -57,7 +63,7 @@ export default function CancelBookingPage() {
         <section id="cancel" className="flex flex-col items-center w-3/4">
           <form onSubmit={confirmSearch} className={`flex flex-col items-center bg-zinc-950 rounded-2xl 
           border-2 border-stone-700/30 
-          p-8 md:p-12 mb-8 mt-40 md:mt-70
+          p-8 md:p-12 mb-8 mt-40 md:mt-50
           md:w-1/2 ${showConfirmation ? " blur-[2px]" : ""}`}
           >
             <h2 className="text-2xl md:text-3xl text-center mb-8">
@@ -94,9 +100,10 @@ export default function CancelBookingPage() {
                     {bookingError}
                   </p>
                 )}
-                <p className="mt-2 text-xs text-gray-500 text-center">
-                  Skriv in din boknings-kod (10 karaktärer)
-                </p>
+                <pre className="mt-2 text-xs text-gray-500 text-center">
+                  Skriv in din boknings-kod (10 karaktärer)<br />
+                  Du hittar din boknings-kod på din email
+                </pre>
               </div>
             </div>
 
@@ -114,15 +121,20 @@ export default function CancelBookingPage() {
           </form>
           {searchedBooking != null ?
 
-            <div className={`flex flex-col items-center
+            <div className={`
+              flex flex-col items-center
             bg-zinc-950 rounded-2xl 
               border-2 border-stone-700/30
-              p-4 md:p-12 mb-8    
-              w-content
-              fit-content          
-              gap-5 ${showConfirmation ? "blur-[2px]" : ""}`}
+              p-8 md:p-12 mb-8
+              w-85 md:w-1/2
+              gap-5
+              ${showConfirmation ? "blur-[2px]" : ""}`}
             >
-              <h1 className="text-3xl">Bokningsdetaljer:</h1>
+              <div className='md:flex md:flex-col md:items-center '>
+                <h1 className="text-3xl px-2 py-1 pb-2">Bokningsdetaljer:</h1>
+                <img src={filmData?.coverImage}
+                  className='rounded-3xl md:w-50' />
+              </div>
               <h2 className="text-2xl mt-5 text-red-600 text-">{searchedBooking.filmTitle} </h2>
               <div className="grid grid-cols-2 scale-95 gap-4">
                 <div className='
@@ -195,9 +207,14 @@ export default function CancelBookingPage() {
               >
                 Avboka
               </button>
+
             </div> : <></>}
           {showConfirmation && (
-            <div className="flex flex-col fixed top-80 m-auto justify-center items-center w-1/3 h-50  bg-zinc-950 border border-red-800
+            <div className="
+            flex flex-col fixed 
+            top-80 md:m-auto md:w-1/3 md:h-50  
+            justify-center items-center 
+            bg-zinc-950 border border-red-800
                  text-white px-4 py-3 rounded-lg shadow-lg animate-fade-in gap-10">
               <h2 className='text-2xl pt-5 px-5'>Är du säker du vill avboka?</h2>
               <div className='flex gap-10'>
@@ -218,7 +235,12 @@ export default function CancelBookingPage() {
         </section>
       ) : (
         // Section when cancellation is confirmed
-        <section className="min-h-screen mx-auto max-w-4xl px-2 sm:px-4 flex flex-col pt-18 pb-8">
+        <section className="
+        mt-30 min-h-screen
+        w-1/2
+        px-2 sm:px-4
+        flex flex-col
+        pt-18 pb-8">
           <div className="bg-zinc-950 rounded-3xl  mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden">
             <div className="bg-green-800 p-4 sm:p-6 text-center">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-4">
@@ -231,28 +253,10 @@ export default function CancelBookingPage() {
                 Tack för att du väljer vår bio.
               </p>
             </div>
-            <div className="p-4 sm:p-8 flex flex-col md:flex-row gap-4 md:gap-6">
-              <div className="flex-1 flex flex-col gap-4">
-                <div className="p-2 sm:p-4 flex flex-col gap-4">
-                  <div className="flex flex-col items-center">
-                    <h3 className="text-lg font-semibold text-gray-500 mb-2">
-                      Boknings-kod:
-                    </h3>
-                    <h4 className='text-md'>
-                      {searchedBooking?.bookingId}
-                    </h4>
-                    <h3 className='mt-10 text-lg'>
-                      {searchedBooking?.filmTitle}
-                    </h3>
-                    <h2 className="text-2xl font-bold text-white mb-2">
-                    </h2>
-                  </div>
-                </div>
-              </div>
-            </div>
+
             <div className="bg-zinc-900/50 p-6 sm:p-6 text-center">
               <button
-                className='rounded-2xl bg-gray-800 px-7 py-2 hover:bg-gray-900'
+                className='rounded-2xl bg-gray-800 px-7 py-2 hover:bg-gray-900 scale-130'
                 onClick={() => navigate("/")}>
                 Gå till hemsidan
               </button>
