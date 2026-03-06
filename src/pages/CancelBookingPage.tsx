@@ -2,7 +2,6 @@ import { Calendar, Ticket, MapPin, Clock, Search, CheckCircle2 } from 'lucide-re
 import { useState } from "react";
 import useFetchJson from "../utils/useFetchJson";
 import type bookingInfo from "../interfaces/BookingInfo";
-import type BookingInfo from "../interfaces/BookingInfo";
 import { useNavigate } from 'react-router-dom';
 
 CancelBookingPage.route = {
@@ -10,27 +9,21 @@ CancelBookingPage.route = {
   menuLabel: 'Avboka Biljett',
   index: 5
 };
-/*
-- (hittat en bokning) section
-  - info om bokning
-    - Bild?
-  - knapp för att avboka
-- Bekräftelse section
-  - Gå tillbaka till homepage
-  
-  */
+
 export default function CancelBookingPage() {
   const navigate = useNavigate();
 
+  // Initializing page variables
   const [bookingError, setBookingError] = useState('');
   const [bookingID, setBookingID] = useState('');
   const [switchSection, setSwitchSection] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
+  // Fetching data from db
   const [searchedBooking, setSearchedBooking] = useState<bookingInfo | null>(null);
+  const [bookingInfo] = useFetchJson<bookingInfo[] | null>(`/api/bookingInfo?`);
 
-  const [bookingInfo] = useFetchJson<BookingInfo[] | null>(`/api/bookingInfo?`);
-
+  // Main booking cancellation logic
   const confirmSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -57,6 +50,7 @@ export default function CancelBookingPage() {
     else { return false; }
   }
 
+  // Printing to DOM
   return (
     <div className="flex flex-col items-center">
       {switchSection ? (
