@@ -1,4 +1,4 @@
-import { Calendar, Ticket, MapPin, Clock, Search, CheckCircle2 } from 'lucide-react';
+import { Calendar, Ticket, MapPin, Clock, Search, CheckCircle2, Mail } from 'lucide-react';
 import { useState } from "react";
 import useFetchJson from "../utils/useFetchJson";
 import fetchJson from '../utils/fetchJson';
@@ -21,6 +21,7 @@ export default function CancelBookingPage() {
   const [switchSection, setSwitchSection] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [filmData, setFilmData] = useState<MovieDetails | null>(null);
+  const [email, setEmail] = useState('');
 
   // Fetching data from db
   const [searchedBooking, setSearchedBooking] = useState<bookingInfo | null>(null);
@@ -95,15 +96,38 @@ export default function CancelBookingPage() {
                     className="w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all "
                   />
                 </div>
+                <p className="mt-2 text-xs text-gray-500 text-center">
+                  Skriv in din boknings-kod (10 karaktärer)<br />
+                  Du hittar din boknings-kod på din email
+                </p>
+                <label
+                  htmlFor="email"
+                  className="block text-center mb-2 mt-3 text-gray-400"
+                >
+                  E-Mail <span className="text-red-500">*</span>
+                </label>
+                <div className='relative'>
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  <input
+                    type="email" required
+                    value={email}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setEmail(e.target.value); // Ternary for logged in user?
+                    }}
+
+                    placeholder={`exampel@email.com`}
+                    className="w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all "
+                  />
+                </div>
+                <p className="mt-2 text-xs text-gray-500 text-center">
+                  Bekräfta med din email som du bokat med
+                </p>
+
                 {bookingError && (
                   <p className="mt-2 text-sm text-red-500 text-center">
                     {bookingError}
                   </p>
                 )}
-                <pre className="mt-2 text-xs text-gray-500 text-center">
-                  Skriv in din boknings-kod (10 karaktärer)<br />
-                  Du hittar din boknings-kod på din email
-                </pre>
               </div>
             </div>
 
