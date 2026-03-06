@@ -225,6 +225,15 @@ export default function SeatSelectionPage() {
       showingId: showingId.toString()
     })
   });
+    // Inserts row into userBookings table
+    await fetch('/api/userBookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        bookingId: bookingID,
+        email: email
+      })
+    });
     // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
   }
@@ -239,7 +248,6 @@ export default function SeatSelectionPage() {
       ticketType: type
     })
   });
-
     // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
   }
