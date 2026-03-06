@@ -4,6 +4,7 @@ export default interface bookingInfo {
   timeSlot: string;
   venueName: string;
   venueInfo: string;
+  filmID: string;
   filmTitle: string;
   ticketType: string;
   bookingId: string;
