@@ -117,30 +117,69 @@ export default function CancelBookingPage() {
             <div className={`flex flex-col items-center
             bg-zinc-950 rounded-2xl 
               border-2 border-stone-700/30
-              p-8 md:p-12 mb-8    
+              p-4 md:p-12 mb-8    
               w-content
               fit-content          
               gap-5 ${showConfirmation ? "blur-[2px]" : ""}`}
             >
               <h1 className="text-3xl">Bokningsdetaljer:</h1>
-              <h2 className="text-2xl mt-5">{searchedBooking.filmTitle} </h2>
-              <div className="grid grid-cols-2">
-                <div className='grid grid-cols-2 col-span-1'>
-                  <Ticket className='text-red-800' />
-                  <p>{searchedBooking.rowNr}, {searchedBooking.columnNr}</p>
+              <h2 className="text-2xl mt-5 text-red-600 text-">{searchedBooking.filmTitle} </h2>
+              <div className="grid grid-cols-2 scale-95 gap-4">
+                <div className='
+                grid col-span-1 grid-cols-[repeat(10,auto)] gap-1.5
+                mx-auto
+                items-center
+                '>
+                  <Ticket className='text-red-800 scale-150' />
+                  <div className='
+                  bg-stone-900  rounded-2xl
+                  p-2 my-1 h-15 w-22
+                  text-sm
+                  content-center
+                  '>
+                    <p className='font-bold text-red-700'>Platser:</p>
+                    <p >{searchedBooking.rowNr}, {searchedBooking.columnNr}</p>
+                  </div>
                 </div>
-                <div className='grid grid-cols-2 col-span-1 '>
-                  <Calendar className='text-red-800' />
-                  <p>{searchedBooking.timeSlot.toString().slice(0, 10)}</p>
+                <div className='grid col-span-1 grid-cols-[repeat(10,auto)] gap-1
+                mx-auto
+                items-center'>
+                  <Calendar className='text-red-800 scale-130' />
+                  <div className='
+                  bg-stone-900  rounded-2xl
+                  p-2 my-1 h-15 w-22
+                  text-sm
+                  content-center'>
+                    <p className='font-bold text-red-700'>Datum:</p>
+                    <p >{searchedBooking.timeSlot.toString().slice(0, 10)}</p>
+                  </div>
                 </div>
-                <div className='grid grid-cols-2 col-span-1'>
-                  <Clock className='text-red-800' />
-                  <p className=''>Tid</p>
-                  <p>{searchedBooking.timeSlot.toString().slice(11, 16)}</p>
+                <div className='grid col-span-1 grid-cols-[repeat(10,auto)] gap-1
+                mx-auto
+                items-center'>
+                  <Clock className='text-red-800 scale-150' />
+                  <div className='
+                  bg-stone-900  rounded-2xl
+                  p-2 my-1 h-15 w-22
+                  text-sm
+                  content-center'>
+                    <p className='font-bold text-red-700'>Tid:</p>
+                    <p>{searchedBooking.timeSlot.toString().slice(11, 16)}</p>
+                  </div>
                 </div>
-                <div className='grid grid-cols-2 col-span-1'>
-                  <MapPin className='text-red-800' />
-                  <p>{searchedBooking.venueName}</p>
+                <div className='grid col-span-1 grid-cols-[repeat(10,auto)] gap-1
+                mx-auto
+                items-center'>
+                  <MapPin className='text-red-800 scale-150' />
+                  <div className='
+                bg-stone-900  rounded-2xl
+                  p-2 my-1 h-15 w-22
+                  text-sm
+                  content-center
+                   '>
+                    <p className='font-bold text-red-700'>Salong:</p>
+                    <p>{searchedBooking.venueName}</p>
+                  </div>
                 </div>
               </div>
 
@@ -213,7 +252,7 @@ export default function CancelBookingPage() {
             </div>
             <div className="bg-zinc-900/50 p-6 sm:p-6 text-center">
               <button
-                className='rounded-2xl bg-gray-800 px-7 py-2'
+                className='rounded-2xl bg-gray-800 px-7 py-2 hover:bg-gray-900'
                 onClick={() => navigate("/")}>
                 Gå till hemsidan
               </button>
