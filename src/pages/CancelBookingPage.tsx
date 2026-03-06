@@ -1,10 +1,11 @@
 import { Calendar, Ticket, MapPin, Clock, Search, CheckCircle2, Mail } from 'lucide-react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useFetchJson from "../utils/useFetchJson";
 import fetchJson from '../utils/fetchJson';
 import type bookingInfo from "../interfaces/BookingInfo";
 import { useNavigate } from 'react-router-dom';
 import type MovieDetails from '../interfaces/MovieDetails';
+import { useSearchParams } from 'react-router-dom';
 
 CancelBookingPage.route = {
   path: '/CancelBooking',
@@ -14,15 +15,30 @@ CancelBookingPage.route = {
 
 export default function CancelBookingPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   // Initializing page variables
   const [bookingError, setBookingError] = useState('');
   const [bookingID, setBookingID] = useState('');
+  const [email, setEmail] = useState('');
   const [switchSection, setSwitchSection] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [filmData, setFilmData] = useState<MovieDetails | null>(null);
-  const [email, setEmail] = useState('');
 
+  useEffect(() => {
+    const searchBookingID = searchParams.get("bookingID");
+    const searchEmail = searchParams.get("email");
+
+    if (searchBookingID != null && searchEmail != null) {
+      setBookingID(searchBookingID);
+      setEmail(searchEmail);
+    }
+  });
+
+
+
+  // setBookingID();
+  // setEmail(String());
   // Fetching data from db
   const [searchedBooking, setSearchedBooking] = useState<bookingInfo | null>(null);
   const [bookingInfo] = useFetchJson<bookingInfo[] | null>(`/api/bookingInfo`);
