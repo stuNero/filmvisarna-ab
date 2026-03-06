@@ -137,6 +137,7 @@ export default function SeatSelectionPage() {
       });
 
       await createBooking(totalPrice);
+      await createEmailBooking();
 
       // Calls the function for DB insert for each booked seat
       for (let seat of seatsWithTypes) {
@@ -225,6 +226,10 @@ export default function SeatSelectionPage() {
       showingId: showingId.toString()
     })
   });
+    // const data = await res.json();
+    // alert(JSON.stringify(data, null, 2));
+  }
+  async function createEmailBooking() {
     // Inserts row into userBookings table
     await fetch('/api/userBookings', {
       method: 'POST',
@@ -234,8 +239,6 @@ export default function SeatSelectionPage() {
         email: email
       })
     });
-    // const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
   }
 
   async function createbookedSeat(type: string, seatNr: number) {
