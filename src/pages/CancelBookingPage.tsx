@@ -30,20 +30,31 @@ export default function CancelBookingPage() {
   // Main booking cancellation logic
   const confirmSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Resets searched booking so that next section doesnt appear
+    setSearchedBooking(null);
+
+    const result = await fetchJson(`/api/userBookings?WHERE=bookingId=${bookingID}ANDemail=${email}`);
+
+    // Cancels search if email and booking ID doesn't correspond to table data
+    // result[0] since result is an array of 1 element and we want the first
+    if (result[0] == null) {
+      setBookingError('Hittade ingen bokning');
+      return;
+    }
+
+    // Searches all bookings for id
     for (let search of bookingInfo!) {
       if (bookingID == search.bookingId) {
+        // Found booking, applies that booking as the current one
         setSearchedBooking(search);
         // Extracting film cover image
         const filmInfo = await fetchJson(`/api/films?WHERE=id=${search.filmID}`);
         setFilmData(filmInfo[0]);
       }
     }
-
-    if (bookingInfo == null) {
-      setBookingError("Kunde inte hitta bokning");
-    }
+    // Resetting messages
+    setEmail('');
     setBookingID('');
-    console.log(filmData);
   };
 
   async function cancelBooking() {
