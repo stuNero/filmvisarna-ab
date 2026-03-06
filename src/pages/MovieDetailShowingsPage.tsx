@@ -130,7 +130,7 @@ export default function MovieDetailShowingsPage() {
                       weekday: "long",
                     })}
                   </h2>
-                  <h3 className="font-extralight text-stone-500">
+                  <h3 className="font-extralight text-stone-300">
                     {new Date(date).getDate()}/{new Date(date).getMonth() + 1}
                   </h3>
                 </div>
