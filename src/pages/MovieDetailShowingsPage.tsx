@@ -111,7 +111,7 @@ export default function MovieDetailShowingsPage() {
 
         <section
           className="flex flex-col 
-              bg-stone-950 border border-white
+              bg-stone-950
               pt-2.5 pb-2.5 rounded-lg mb-16 px-2 sm:px-4 mx-2"
         >
           <div className="flex justify-center pt-5 pb-5">
