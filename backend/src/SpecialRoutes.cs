@@ -4,6 +4,9 @@ namespace WebApp;
 
 public static class SpecialRoutes
 {
+
+  private static string DOMAIN_IN_MAIL = "http://localhost:5173";
+
   public static void Start()
   {
 
@@ -121,7 +124,7 @@ public static class SpecialRoutes
           <p>Tack för att du valt CineSharp. Vi ser fram emot att välkomna dig till föreställningen.</p>
           <p>Referens nummer: {bookingID}</p>
 
-          <p>Avboka med att svara på detta email med ditt boknings ID som ämne</p>
+          <p><a href=""{DOMAIN_IN_MAIL}/cancelbooking?email={email}&bookingID={bookingID}"">Avboka<a/></p>
 
           <br>
         
