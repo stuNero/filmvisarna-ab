@@ -56,8 +56,7 @@ export default function MovieCard() {
                      overflow-hidden
                      relative
                      w-full
-                     aspect-[2/3]
-                    
+                     aspect-2/3                    
                      "
             >
               <img

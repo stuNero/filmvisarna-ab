@@ -145,6 +145,7 @@ public static class DbQuery
                 PRIMARY KEY (seatId, bookingId),
                 FOREIGN KEY (seatId) REFERENCES seats(id),
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
+                ON DELETE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS users (
@@ -162,6 +163,7 @@ public static class DbQuery
                 bookingId VARCHAR(10) PRIMARY KEY,
                 email VARCHAR(255) NOT NULL,
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
+                ON DELETE CASCADE
             );
         ";
         // Execute each statement separately
@@ -182,18 +184,19 @@ public static class DbQuery
                     s.rowNr,
                     s.columnNr,
                     sh.timeSlot,
-                    v.name AS venueName,
-                    v.info AS venueInfo,
-                    f.title AS filmTitle,
                     bs.ticketType,
-                    b.id AS bookingId,
-                    b.cost AS totalPrice
+                    v.name  AS venueName,
+                    v.info  AS venueInfo,
+                    f.id    AS filmID,
+                    f.title AS filmTitle,
+                    b.id    AS bookingId,
+                    b.cost  AS totalPrice
                 FROM bookedSeat bs
-                JOIN bookings b ON bs.bookingId = b.id
-                JOIN seats s ON bs.seatId = s.id
-                JOIN showings sh ON b.showingId = sh.id
-                JOIN venues v ON sh.venueId = v.id
-                JOIN films f ON sh.filmId = f.id
+                JOIN bookings   b   ON bs.bookingId = b.id
+                JOIN seats      s   ON bs.seatId    = s.id
+                JOIN showings   sh  ON b.showingId  = sh.id
+                JOIN venues     v   ON sh.venueId   = v.id
+                JOIN films      f   ON sh.filmId    = f.id
             ;
             DROP VIEW IF EXISTS showingsAllSeats;
             CREATE VIEW showingsAllSeats AS
