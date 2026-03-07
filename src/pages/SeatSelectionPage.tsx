@@ -312,25 +312,35 @@ export default function SeatSelectionPage() {
     );
   }
 
+  // Variable to check the amount of tickets
   const totalTickets = ticketCount.adult + ticketCount.child + ticketCount.senior;
-  const preValue = useRef(totalTickets);
+  // Variable to stablish the amount of tickets when the useEffect is triggered
+  const totalTicketsPrevValue = useRef(totalTickets);
+  // Reference to the element that we want to scroll to (email input)
   const formRef = useRef<HTMLFormElement>(null);
 
+  // UseEffect runs on first render and when the dependencies (selectedSeats and totalTickets) values changes
   useEffect(() => {
-
-    if (totalTickets < preValue.current) {
-      preValue.current = totalTickets;
+    // Checks if the amount of tickets have decreased
+    if (totalTickets < totalTicketsPrevValue.current) {
+      // if so, set the previous value to the current, and return (so it doesn't go throgh the next check)
+      totalTicketsPrevValue.current = totalTickets;
       return;
     }
+    // Checkes the length of selectedSeats is equal to the amount of tickets
+    // and if said amount is greather than 0
     if (selectedSeats.length === totalTickets && totalTickets > 0) {
+      // Sets 10 milliseconds timeout (so the component have time to load) 
       setTimeout(() => {
+        // And scrolls to the form element (where the email input is)
         formRef.current?.scrollIntoView({
           behavior: "smooth",
           block: "center"
         });
       }, 10);
     }
-    preValue.current = totalTickets;
+    // We update the previous value so it's coherent with the current.
+    totalTicketsPrevValue.current = totalTickets;
   }, [selectedSeats, totalTickets]);
 
 
@@ -383,7 +393,6 @@ export default function SeatSelectionPage() {
                               }
                         `}
                           >
-                            {/* {seat.seatId} */}
                           </button>
                       );
                     })}
