@@ -66,6 +66,10 @@ export default function CancelBookingPage() {
         // Extracting film cover image
         const filmInfo = await fetchJson(`/api/films?WHERE=id=${search.filmID}`);
         setFilmData(filmInfo[0]);
+        window.scrollTo({
+          top: ((document.getElementById("bookingDetails"))?.offsetHeight)! - 120,
+          behavior: "smooth"
+        });
       }
     }
     // Resetting messages
@@ -180,6 +184,7 @@ export default function CancelBookingPage() {
               w-85 md:w-1/2
               gap-5
               ${showConfirmation ? "blur-[2px]" : ""}`}
+              id='bookingDetails'
             >
               <div className='md:flex md:flex-col md:items-center '>
                 <h1 className="text-3xl px-2 py-1 pb-2">Bokningsdetaljer:</h1>
