@@ -376,9 +376,8 @@ export default function SeatSelectionPage() {
                         bookedSeats?.includes(seat.seatId) ? <button
                           key={seat.seatId}
 
-                          className={`
-                          px-4 py-2 rounded outline-solid outline-stone-700
-                          transition-all duration-200 bg-stone-800 h-8`}
+                          className={`hover:bg-[url('/ban-red.webp')] bg-center bg-cover
+                          px-4 py-2 rounded outline-solid outline-stone-700 bg-stone-800 h-8`}
                         >
                         </button> :
                           <button
