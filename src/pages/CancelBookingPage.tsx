@@ -84,7 +84,11 @@ export default function CancelBookingPage() {
         method: 'DELETE'
       },
     );
-    if (result.ok) { setSwitchSection(false); return true; }
+    if (result.ok) {
+      setSwitchSection(false);
+      window.scrollTo(0, 0);
+      return true;
+    }
     else { return false; }
   }
 
