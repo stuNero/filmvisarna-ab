@@ -1,5 +1,5 @@
 import { Calendar, Ticket, MapPin, Clock, Search, CheckCircle2, Mail } from 'lucide-react';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useFetchJson from "../utils/useFetchJson";
 import fetchJson from '../utils/fetchJson';
 import type bookingInfo from "../interfaces/BookingInfo";
@@ -14,6 +14,7 @@ CancelBookingPage.route = {
 };
 
 export default function CancelBookingPage() {
+
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -62,11 +63,6 @@ export default function CancelBookingPage() {
         // Extracting film cover image
         const filmInfo = await fetchJson(`/api/films?WHERE=id=${search.filmID}`);
         setFilmData(filmInfo[0]);
-        // Scroll to booking details (if found)
-        window.scrollTo({
-          top: ((document.getElementById("bookingDetails"))?.offsetHeight)! - 120,
-          behavior: "smooth"
-        });
         break;
       }
     }
@@ -90,6 +86,20 @@ export default function CancelBookingPage() {
     }
     else { return false; }
   }
+
+  // Scroll to booking details (if found)
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (searchedBooking) {
+      setTimeout(() => {
+        divRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }, 10);
+    }
+  }, [searchedBooking]);
 
   // Printing to DOM
   return (
@@ -149,7 +159,7 @@ export default function CancelBookingPage() {
                       setEmail(e.target.value); // Ternary for logged in user?
                     }}
 
-                    placeholder={`exampel@email.com`}
+                    placeholder={`din.epost@exempel.com`}
                     className="w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all "
                   />
                 </div>
@@ -187,14 +197,15 @@ export default function CancelBookingPage() {
               w-85 md:w-1/2
               gap-5
               ${showConfirmation ? "blur-[2px]" : ""}`}
-              id='bookingDetails'
+              ref={divRef}
             >
-              <div className='md:flex md:flex-col md:items-center '>
+              <div className='md:flex md:flex-col md:items-center'>
                 <h1 className="text-3xl px-2 py-1 pb-2">Bokningsdetaljer:</h1>
                 <img src={filmData?.coverImage}
                   className='rounded-3xl md:w-50' />
               </div>
-              <h2 className="text-2xl mt-5 text-red-600 text-">{searchedBooking.filmTitle} </h2>
+              <h2 className="text-2xl mt-5 text-red-600 text-">
+                {searchedBooking.filmTitle} </h2>
               <div className="grid grid-cols-2 scale-95 gap-4">
                 <div className='
                 grid col-span-1 grid-cols-[repeat(10,auto)] gap-1.5
@@ -263,10 +274,10 @@ export default function CancelBookingPage() {
                       transition-all text-md font-medium
                       fit-content
                       "
+
               >
                 Avboka
               </button>
-
             </div> : <></>}
           {showConfirmation && (
             <div className="
