@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchJson from '../utils/useFetchJson';
 import type ShowingSeats from '../interfaces/ShowingSeats';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SeatType from '../parts/SeatType';
 import { Mail } from 'lucide-react';
 import type MovieShowings from '../interfaces/MovieShowings';
@@ -312,6 +312,28 @@ export default function SeatSelectionPage() {
     );
   }
 
+  const totalTickets = ticketCount.adult + ticketCount.child + ticketCount.senior;
+  const preValue = useRef(totalTickets);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+
+    if (totalTickets < preValue.current) {
+      preValue.current = totalTickets;
+      return;
+    }
+    if (selectedSeats.length === totalTickets && totalTickets > 0) {
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }, 10);
+    }
+    preValue.current = totalTickets;
+  }, [selectedSeats, totalTickets]);
+
+
   if (seats != null) {
     seats?.forEach((seat) => {
       if (seat.rowNr > rows) {
@@ -330,7 +352,7 @@ export default function SeatSelectionPage() {
           </div>
 
           {/* Seat Selection */}
-          {(ticketCount.adult + ticketCount.child + ticketCount.senior) > 0 ?
+          {totalTickets > 0 ?
             <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
               {Array.from({ length: rows }, (_, rowIndex) => (
                 <div key={rowIndex} className="flex justify-center gap-4 mb-4">
@@ -370,9 +392,9 @@ export default function SeatSelectionPage() {
             </div> : <></>}
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
-          {selectedSeats.length === (ticketCount.adult + ticketCount.child + ticketCount.senior) &&
-            (ticketCount.adult + ticketCount.child + ticketCount.senior) > 0 ?
-            <form onSubmit={bookingConfirmation}>
+          {selectedSeats.length === totalTickets &&
+            totalTickets > 0 ?
+            <form onSubmit={bookingConfirmation} ref={formRef}>
               <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
                 <h2 className="text-2xl md:text-3xl text-center mb-8">
                   Slutför bokningen
