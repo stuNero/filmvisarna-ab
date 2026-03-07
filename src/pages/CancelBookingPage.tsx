@@ -35,10 +35,6 @@ export default function CancelBookingPage() {
     }
   });
 
-
-
-  // setBookingID();
-  // setEmail(String());
   // Fetching data from db
   const [searchedBooking, setSearchedBooking] = useState<bookingInfo | null>(null);
   const [bookingInfo] = useFetchJson<bookingInfo[] | null>(`/api/bookingInfo`);
@@ -66,12 +62,15 @@ export default function CancelBookingPage() {
         // Extracting film cover image
         const filmInfo = await fetchJson(`/api/films?WHERE=id=${search.filmID}`);
         setFilmData(filmInfo[0]);
+        // Scroll to booking details (if found)
         window.scrollTo({
           top: ((document.getElementById("bookingDetails"))?.offsetHeight)! - 120,
           behavior: "smooth"
         });
+        break;
       }
     }
+
     // Resetting messages
     setEmail('');
     setBookingID('');
