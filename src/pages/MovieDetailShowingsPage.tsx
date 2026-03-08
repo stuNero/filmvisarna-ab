@@ -93,6 +93,10 @@ export default function MovieDetailShowingsPage() {
                     </div>
                   </div>
                 </div>
+                <div className="mb-6  text-base md:text-xl font-medium">
+                  <h3 className="text-sm text-gray-400 mb-1">Regissör</h3>
+                  <h5>{details.director}</h5>
+                </div>
                 <div className="flex flex-row gap-5 h-12.5 text-base md:text-xl font-medium">
                   {actors?.map((a, index) => (
                     <h5 key={index}>{a.name}</h5>
