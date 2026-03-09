@@ -124,7 +124,7 @@ public static class SpecialRoutes
           <p>Tack för att du valt CineSharp. Vi ser fram emot att välkomna dig till föreställningen.</p>
           <p>Referens nummer: {bookingID}</p>
 
-          <p><a href=""{DOMAIN_IN_MAIL}/cancelbooking?email={email}&bookingID={bookingID}"">Avboka<a/></p>
+          <p><a href=""{DOMAIN_IN_MAIL}/avboka?email={email}&bookingID={bookingID}"">Avboka<a/></p>
 
           <br>
         
