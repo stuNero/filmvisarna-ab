@@ -17,17 +17,17 @@ export default function Footer() {
                    md:flex flex-row justify-between items-center
                    pb-10"
       >
-        <article className="flex flex-col mt-[25px] px-[50px]">
-          <Link to="/" className="flex flex-row hover-red mb-[10px] w-fit">
+        <article className="flex flex-col mt-6.25 px-12.5">
+          <Link to="/" className="flex flex-row hover-red mb-2.5 w-fit">
             <img src="/logo-cinesharp.webp" width="50px" height="auto"></img>
-            <h1 className=" font-bold content-center pl-[10px]  ">CineSharp</h1>
+            <h1 className=" font-bold content-center pl-2.5  ">CineSharp</h1>
           </Link>
           <p className="opacity-50">
             Din ultimata destination för de senaste filmerna och oförglömliga
             bioupplevelser.
           </p>
         </article>
-        <article className="flex flex-col mt-[25px] px-[50px]">
+        <article className="flex flex-col mt-6.25 px-12.5">
           <h1 className="text-lg">Snabblänkar:</h1>
           <Link
             to={LocaleDetailsPage.route.path}
@@ -42,7 +42,7 @@ export default function Footer() {
             {KioskInfoPage.route.menuLabel}
           </Link>
         </article>
-        <article className="flex flex-col mt-[1px] px-[50px]">
+        <article className="flex flex-col mt-px px-12.5">
           <h1 className="text-lg">Support:</h1>
           <Link
             to={CancelBookingPage.route.path}

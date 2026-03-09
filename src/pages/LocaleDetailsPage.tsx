@@ -1,7 +1,6 @@
 LocaleDetailsPage.route = {
-  path: '/localedetails',
-  menuLabel: 'Våra Salonger',
-  index: 9
+  path: '/om-oss',
+  menuLabel: 'Om Oss'
 };
 
 export default function LocaleDetailsPage() {

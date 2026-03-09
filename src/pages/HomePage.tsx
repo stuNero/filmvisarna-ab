@@ -1,9 +1,7 @@
 import MovieCard from '../parts/MovieCard.tsx';
 
 HomePage.route = {
-  path: '/',
-  menuLabel: 'Home',
-  index: 1
+  path: '/'
 };
 
 export default function HomePage() {

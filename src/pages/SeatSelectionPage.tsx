@@ -7,9 +7,7 @@ import { Mail } from 'lucide-react';
 import type MovieShowings from '../interfaces/MovieShowings';
 
 SeatSelectionPage.route = {
-  path: '/seatselection/:id',
-  menuLabel: 'Seat Selection',
-  index: 3
+  path: '/boka/:id'
 };
 
 const TICKET_TEXT = {
@@ -175,7 +173,7 @@ export default function SeatSelectionPage() {
         alert('Kunde inte skicka boknings email');
       }
 
-      navigate(`/bookingconfirmation/${bookingID}`);
+      navigate(`/bekraftelse/${bookingID}`);
     } catch (error) {
       console.error('Fel:', error);
       alert('Kunde inte skicka bokning');

@@ -11,13 +11,11 @@ import {
 } from 'lucide-react';
 
 BookingConfirmationPage.route = {
-  path: '/bookingconfirmation/:bookingId',
-  menuLabel: 'Booking Confirmation',
-  index: 4
+  path: '/bekraftelse/:bookingId'
 };
 
 export default function BookingConfirmationPage() {
-  const { bookingId } = useParams<{ bookingId: string }>();
+  const { bookingId } = useParams<{ bookingId: string; }>();
 
   if (!bookingId) {
     return <div className="text-white">Ingen boknings-id i URL.</div>;
