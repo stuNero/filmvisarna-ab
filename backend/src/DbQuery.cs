@@ -124,10 +124,11 @@ public static class DbQuery
 
             CREATE TABLE IF NOT EXISTS products (
                 id INT PRIMARY KEY AUTO_INCREMENT,
-                productName VARCHAR(255) NOT NULL,
-                inStock BOOL DEFAULT 1,
-                price INT NOT NULL,
-                description TEXT
+                name VARCHAR(255),
+                price INT,
+                description TEXT,
+                type ENUM('Combo','Snacks','Drinks','Candy'),
+                image VARCHAR(255)
             );
 
             CREATE TABLE IF NOT EXISTS bookings (
@@ -284,7 +285,7 @@ public static class DbQuery
                 ('admin', '*', 'allow', '/api/sessions', 'true', 'Allow admins to see and edit sessions'),
                 ('admin', '*', 'allow', '/api/acl', 'true', 'Allow admins to see and edit acl rules'),
                 ('visitor,user,admin', 'GET', 'allow', '/api/products', 'true', 'Allow all user roles to read products'),
-                ('visitor,user,admin', 'GET', 'allow', '/api/films', 'true', 'Allow all user roles to read products');
+                ('visitor,user,admin', 'GET', 'allow', '/api/films', 'true', 'Allow all user roles to see films');
             ";
             command.CommandText = aclData;
             command.ExecuteNonQuery();
@@ -469,6 +470,47 @@ public static class DbQuery
             command.CommandText = filmActorsData;
             command.ExecuteNonQuery();
         }
+
+        // Seed Kiosk Products
+
+        command.CommandText = "SELECT COUNT(*) FROM products";
+        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+        {
+            var productsData = @"
+            INSERT IGNORE INTO products (name, price, description, type, image) VALUES
+            ('Klassisk Bio Kombo',149,'Stor popcorn + stor läsk + 100g godis',1,
+            'https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&q=80&w=400' ),
+            ('Deluxe Kombo',199,'2 stora popcorn + 2 stora läsk + 200g godis',1,
+            'https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&q=80&w=400'),
+            ('Nachos Kombo',129,'Nachos med ost + mellanläsk',1,
+            'https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&q=80&w=400'),
+            ('Klassisk Popcorn (stor)',55,'Nybakad popcorn med smör',2,
+            'https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?auto=format&fit=crop&q=80&w=400'),
+            ('Karamell Popcorn (stor)',65,'Söt och krispig karamellpopcorn',2,
+            'https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&q=80&w=400'),
+            ('Nachos med Ostdipp',75,'Krispiga nachos med varm ostdipp',2,
+            'https://images.unsplash.com/photo-1582169296194-e4d644c48063?auto=format&fit=crop&q=80&w=400'),
+            ('Saltade Kringlor',40,'Nybakade salta kringlor',2,
+            'https://bellyfull.net/wp-content/uploads/2023/02/Shortcut-Soft-Pretzels-blog-2.jpg'),
+            ('Läsk (mellan)',35,'Coca-Cola, Fanta, Sprite',3,
+            'https://images.unsplash.com/photo-1581636625402-29b2a704ef13?auto=format&fit=crop&q=80&w=400'),
+            ('Läsk (stor)',45,'Coca-Cola, Fanta, Sprite',3,
+            'https://images.unsplash.com/photo-1581636625402-29b2a704ef13?auto=format&fit=crop&q=80&w=400'),
+            ('Juice',35,'Äpple, apelsin eller multifrukt',3,
+            'https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&q=80&w=400'),
+            ('Kaffe',40,'Nybryggt kaffe',3,
+            'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=400'),
+            ('Lösgodis (100g)',25,'Välj bland över 50 sorter',4,
+            'https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=400'),
+            ('Lösgodis (200g)',45,'Välj bland över 50 sorter',4,
+            'https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=400'),
+            ('Chokladkaka',30,'Marabou, Fazer, Dumle m.fl.',4,
+            'https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&q=80&w=400');
+            ";
+            command.CommandText = productsData;
+            command.ExecuteNonQuery();
+        }
+
 
         // Seed the rest of the tables/views here. 
 
