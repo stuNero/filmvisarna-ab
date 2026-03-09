@@ -4,6 +4,6 @@ export default interface UserDetails {
   firstName: string;
   lastName: string;
   role: string;
-  created: number
-  lastVisited: number
+  created: number;
+  lastVisited: number;
 }
