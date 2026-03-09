@@ -388,7 +388,7 @@ export default function SeatSelectionPage() {
                           transition-all duration-200 h-8
                           ${isSelected
                                 ? "bg-green-600 hover:bg-green-700 outline-solid outline-green-700"
-                                : "hover:bg-red-600 bg-stone-700 hover:outline-red-700 outline-solid outline-stone-600"
+                                : "hover:bg-green-800 bg-stone-700 hover:outline-green-900 outline-solid outline-stone-600"
                               }
                         `}
                           >
