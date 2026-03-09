@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchJson from '../utils/useFetchJson';
 import type ShowingSeats from '../interfaces/ShowingSeats';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SeatType from '../parts/SeatType';
 import { Mail } from 'lucide-react';
 import type MovieShowings from '../interfaces/MovieShowings';
@@ -312,6 +312,38 @@ export default function SeatSelectionPage() {
     );
   }
 
+  // Variable to check the amount of tickets
+  const totalTickets = ticketCount.adult + ticketCount.child + ticketCount.senior;
+  // Variable to stablish the amount of tickets when the useEffect is triggered
+  const totalTicketsPrevValue = useRef(totalTickets);
+  // Reference to the element that we want to scroll to (email input)
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // UseEffect runs on first render and when the dependencies (selectedSeats and totalTickets) values changes
+  useEffect(() => {
+    // Checks if the amount of tickets have decreased
+    if (totalTickets < totalTicketsPrevValue.current) {
+      // if so, set the previous value to the current, and return (so it doesn't go throgh the next check)
+      totalTicketsPrevValue.current = totalTickets;
+      return;
+    }
+    // Checkes the length of selectedSeats is equal to the amount of tickets
+    // and if said amount is greather than 0
+    if (selectedSeats.length === totalTickets && totalTickets > 0) {
+      // Sets 10 milliseconds timeout (so the component have time to load) 
+      setTimeout(() => {
+        // And scrolls to the form element (where the email input is)
+        formRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }, 10);
+    }
+    // We update the previous value so it's coherent with the current.
+    totalTicketsPrevValue.current = totalTickets;
+  }, [selectedSeats, totalTickets]);
+
+
   if (seats != null) {
     seats?.forEach((seat) => {
       if (seat.rowNr > rows) {
@@ -330,7 +362,7 @@ export default function SeatSelectionPage() {
           </div>
 
           {/* Seat Selection */}
-          {(ticketCount.adult + ticketCount.child + ticketCount.senior) > 0 ?
+          {totalTickets > 0 ?
             <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
               {Array.from({ length: rows }, (_, rowIndex) => (
                 <div key={rowIndex} className="flex justify-center gap-4 mb-4">
@@ -344,9 +376,8 @@ export default function SeatSelectionPage() {
                         bookedSeats?.includes(seat.seatId) ? <button
                           key={seat.seatId}
 
-                          className={`
-                          px-4 py-2 rounded outline-solid outline-stone-700
-                          transition-all duration-200 bg-stone-800 h-8`}
+                          className={`hover:bg-[url('/ban-red.webp')] bg-center bg-cover
+                          px-4 py-2 rounded outline-solid outline-stone-700 bg-stone-800 h-8`}
                         >
                         </button> :
                           <button
@@ -357,11 +388,10 @@ export default function SeatSelectionPage() {
                           transition-all duration-200 h-8
                           ${isSelected
                                 ? "bg-green-600 hover:bg-green-700 outline-solid outline-green-700"
-                                : "hover:bg-red-600 bg-stone-700 hover:outline-red-700 outline-solid outline-stone-600"
+                                : "hover:bg-green-800 bg-stone-700 hover:outline-green-900 outline-solid outline-stone-600"
                               }
                         `}
                           >
-                            {/* {seat.seatId} */}
                           </button>
                       );
                     })}
@@ -370,9 +400,9 @@ export default function SeatSelectionPage() {
             </div> : <></>}
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
-          {selectedSeats.length === (ticketCount.adult + ticketCount.child + ticketCount.senior) &&
-            (ticketCount.adult + ticketCount.child + ticketCount.senior) > 0 ?
-            <form onSubmit={bookingConfirmation}>
+          {selectedSeats.length === totalTickets &&
+            totalTickets > 0 ?
+            <form onSubmit={bookingConfirmation} ref={formRef}>
               <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
                 <h2 className="text-2xl md:text-3xl text-center mb-8">
                   Slutför bokningen
