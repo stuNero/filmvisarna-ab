@@ -1,7 +1,5 @@
 ProfilePage.route = {
-  path: '/ProfilePage',
-  menuLabel: 'Profile page',
-  index: 7
+  path: '/din-profil'
 };
 
 export default function ProfilePage() {

@@ -50,7 +50,7 @@ export default function MovieCard() {
     >
       {movieCard?.map((film) => (
         <div key={film.id} className="w-full h-full">
-          <Link to={`/moviedetailshowings/${film.id}`}>
+          <Link to={`/visningar/${film.id}`}>
             <section
               className="rounded-lg 
                      overflow-hidden

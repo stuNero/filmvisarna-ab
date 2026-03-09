@@ -1,7 +1,6 @@
 KioskInfoPage.route = {
-  path: '/kioskinfo',
-  menuLabel: 'Vårat Snacks Utbud',
-  index: 8
+  path: '/kiosk-info',
+  menuLabel: 'Vårat Snacks Utbud'
 };
 
 export default function KioskInfoPage() {

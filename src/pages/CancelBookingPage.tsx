@@ -8,9 +8,8 @@ import type MovieDetails from '../interfaces/MovieDetails';
 import { useSearchParams } from 'react-router-dom';
 
 CancelBookingPage.route = {
-  path: '/CancelBooking',
-  menuLabel: 'Avboka Biljett',
-  index: 5
+  path: '/avboka',
+  menuLabel: 'Avboka Biljett'
 };
 
 export default function CancelBookingPage() {

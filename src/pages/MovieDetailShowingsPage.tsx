@@ -6,19 +6,17 @@ import type MovieShowings from '../interfaces/MovieShowings';
 import { Link } from 'react-router-dom';
 
 MovieDetailShowingsPage.route = {
-  path: '/moviedetailshowings/:id',
-  menuLabel: 'Movie Details And Showings',
-  index: 2
+  path: '/visningar/:id'
 };
 
 export default function MovieDetailShowingsPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string; }>();
   const movieId = Number(id);
 
   const [details] = useFetchJson<MovieDetails | null>(
     `/api/comingFilms/${movieId}`
   );
-  const [actors] = useFetchJson<{ name: string }[]>(
+  const [actors] = useFetchJson<{ name: string; }[]>(
     `/api/movieActors?WHERE=id=${movieId}`
   );
 
@@ -128,7 +126,7 @@ export default function MovieDetailShowingsPage() {
                 {showings.map(({ showingId, time, name }: any) => (
                   <div key={showingId} className="flex flex-col gap-2 p-5">
                     <Link
-                      to={`/seatselection/${showingId}`}
+                      to={`/boka/${showingId}`}
                       className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300"
                     >
                       <p>{time.toString().slice(0, 5)}</p>

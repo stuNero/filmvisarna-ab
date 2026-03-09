@@ -1,7 +1,5 @@
 LoginPage.route = {
-  path: '/LoginPage',
-  menuLabel: 'Login page',
-  index: 6
+  path: '/logga-in'
 };
 
 export default function LoginPage() {
