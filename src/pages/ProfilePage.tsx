@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import useFetchJson from '../utils/useFetchJson';
 import type UserDetails from '../interfaces/userDetails';
+import { User } from 'lucide-react';
 
 ProfilePage.route = {
   path: '/profil/:id'
@@ -22,10 +23,18 @@ export default function ProfilePage() {
   return (
     <>
       <div
-        className="top-0 bottom-0 left-0 h-[75vh] content-center justify-center"
-      >
-        <h2>Detta är profilsidan.</h2>
-        <p>{userData?.firstName}</p>
+        className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20">
+        <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="w-24 h-24 bg-red-800 rounded-full flex items-center justify-center shadow-lg shadow-red-800/20">
+              <User className="w-12 h-12 text-white" />
+            </div>
+            <div className="text-center md:text-left">
+              <h1 className="text-3xl font-bold text-white mb-2">{userData?.firstName} {userData?.lastName}</h1>
+              <p>{userData?.email}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
