@@ -1,7 +1,10 @@
 import { useParams } from 'react-router-dom';
 import useFetchJson from '../utils/useFetchJson';
 import type UserDetails from '../interfaces/userDetails';
+import type UserBooking from '../interfaces/UserBooking';
+import type bookingInfo from '../interfaces/BookingInfo';
 import { User } from 'lucide-react';
+
 
 ProfilePage.route = {
   path: '/profil/:id'
@@ -16,14 +19,25 @@ export default function ProfilePage() {
   const [userDataRaw] = useFetchJson<UserDetails[] | null>(
     `/api/users?where=id=${userId}`
   );
-
-  //Gets first entry, aka the data, allows avoiding constant checks for null
+  //Gets first entry
   const userData = userDataRaw?.[0];
+
+  //Get userbookings
+  const [userBookings] = useFetchJson<UserBooking[] | null>(
+    `/api/userBookings?where=email=${userData?.email}`
+  );
+  console.log(userBookings)
+
+  //Get bookinginfo
+  // const [BookingInfo] = useFetchJson<bookingInfo[] | null>(
+  //   `/api/bookingInfo?WHERE=bookingid=${bookingId}`
+  // );
 
   return (
     <>
       <div
         className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20">
+        {/* User Banner */}
         <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="w-24 h-24 bg-red-800 rounded-full flex items-center justify-center shadow-lg shadow-red-800/20">
@@ -34,6 +48,16 @@ export default function ProfilePage() {
               <p>{userData?.email}</p>
             </div>
           </div>
+        </div>
+
+        {/* Booking history */}
+        <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
+          <h2 className="text-2xl font-bold text-white flex items-center gap-3">Bokningar</h2>
+          <ul className="text-white">
+            {userBookings?.map((booking) => (
+              <li key={booking.bookingId}>{booking.bookingId}</li>
+            ))}
+          </ul>
         </div>
       </div>
     </>
