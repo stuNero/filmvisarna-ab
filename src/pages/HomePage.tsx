@@ -1,10 +1,20 @@
 import MovieCard from '../parts/MovieCard.tsx';
+import { useState, useRef } from 'react';
 
 HomePage.route = {
   path: '/'
 };
 
 export default function HomePage() {
+  const [date, setDate] = useState(new Date().toLocaleDateString('sv-SE'));
+
+
+
+  const openDatePicker = () => {
+    let dateInput = document.querySelector('.date-field');
+    (dateInput as any).showPicker();
+  };
+
   return (
     <div className="container mx-auto">
       <div className="flex flex-col  ">
@@ -46,8 +56,35 @@ export default function HomePage() {
 
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:-translate-y-40 md:-translate-y-40 sm:-translate-y-20 -translate-y-20 ">
           <h2 className="text-center text-6xl py-2 mb-5">Visas nu</h2>
+          <div id="filters" className='flex justify-around md:justify-end'>
+            <input
+              type="text"
+              placeholder="Alla åldersgränser"
+              className='
+                w-37
+                flex
+                items-center
+                px-2 mb-5
+                bg-gray-900
+                border border-solid border-stone-800 rounded-2xl'/>
+            {/* TODO: input type="date" follows os/browser locale/lang - use date picker lib to force swedish format?*/}
+            <div className='inline-block relative ml-5'>
+              <input
+                placeholder='Filtrera på datum'
+                type="date"
+                min={new Date(Date.now()).toLocaleDateString("sv-SE")}
+                value={date}
+                onChange={event => setDate(event.target.value)}
+                className="date-field
+                p-1 mb-5
+                bg-gray-900
+                border border-solid border-stone-700 rounded-2xl
+              " />
+              <div className="date-format-fixer rounded" onClick={openDatePicker}>{date}</div>
+            </div>
+          </div>
           <div className="flex justify-center">
-            <MovieCard />
+            <MovieCard date={date} />
           </div>
         </section>
       </div>

@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import useFetchJson from '../utils/useFetchJson';
 import { Clock } from 'lucide-react';
 
-export default function MovieCard() {
-  const today = new Date(Date.now()).toLocaleDateString('sv-SE');
-  const now = new Date(Date.now()).toLocaleTimeString('sv-SE');
+export default function MovieCard(props: any) {
+  const dateNow = new Date(Date.now()).toLocaleDateString('sv-SE');
+  const timeNow = new Date(Date.now()).toLocaleTimeString('sv-SE');
   const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
   const [showingsTemp] = useFetchJson<MovieShowings[] | null>(
     `/api/movieShowings`
@@ -16,10 +16,11 @@ export default function MovieCard() {
     const showings = showingsTemp?.filter((s) => s.id === id);
     // Added time check to the filter so only would create the array (dayShowings) with the showings of the day
     // that are after the current time (now)
+
     let dayShowings = showings
       ?.filter(
         (s) =>
-          s.date.toString().slice(0, 10) === today && s.time.toString() >= now
+          s.date.toString().slice(0, 10) == props.date && s.time.toString() >= timeNow
       )
       // And then sorted the times so the earliest would be first and the latest last.
       // In order to do so it was necessary to convert the 'time' propery from number to string,
@@ -30,6 +31,8 @@ export default function MovieCard() {
           Number(a.time.toString().slice(0, 5).replace(':', '')) -
           Number(b.time.toString().slice(0, 5).replace(':', ''))
       );
+    console.log("props", props);
+    console.log(dayShowings);
 
     return dayShowings;
   }
