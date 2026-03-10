@@ -127,7 +127,7 @@ public static class DbQuery
                 name VARCHAR(255),
                 price INT,
                 description TEXT,
-                type ENUM('Combo','Snacks','Drinks','Candy'),
+                type ENUM('Kombos','Snacks','Drycker','Godis'),
                 image VARCHAR(255)
             );
 
