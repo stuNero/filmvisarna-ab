@@ -1,6 +1,6 @@
 export default interface BookingCardInfo {
   bookingId: string;
-  timeSlot: string;
+  timeSlot: number;
   title: string;
   name: string;
   coverImage: string;

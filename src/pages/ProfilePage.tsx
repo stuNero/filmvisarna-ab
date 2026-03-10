@@ -48,7 +48,7 @@ export default function ProfilePage() {
 
         {/* Booking history */}
         <div>
-          <h2 className="text-2xl font-bold text-white flex items-center gap-3">Bokningar</h2>
+          <h2 className="text-2xl font-bold text-white">Bokningar</h2>
           <ul className="text-white">
             {userBookings?.map((booking) => (
               <li key={booking.bookingId}>
