@@ -15,6 +15,20 @@ export default function BookingCard({bookingId}: BookingCardProps) {
     );
     const booking = bookings?.[0];
 
+    //Get booked seats
+    const [bookedSeats] = useFetchJson<{
+        seatId: number,
+        bookingId: string,
+        ticketType: string,
+        showingId: number,
+        rowNr: number,
+        columnNr: number;
+      }[] | null>
+      (
+        `/api/bookedSeatsWithShowings?WHERE=bookingId=${bookingId}`
+    );
+    const firstSeat = bookedSeats?.[0];
+
     return <>
         <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8 flex gap-3">
             <div
@@ -52,7 +66,7 @@ export default function BookingCard({bookingId}: BookingCardProps) {
                             <Ticket className="w-4 h-4 text-red-500"/>
                             <div>
                                 <p className="text-[10px] text-gray-500 uppercase tracking-wider">Platser</p>
-                                <p className="text-sm text-white">{booking?.columnNr} {booking?.rowNr}</p>
+                                <p className="text-sm text-white">{firstSeat?.columnNr} {firstSeat?.rowNr}</p>
                             </div>
                         </div>
                     </div>

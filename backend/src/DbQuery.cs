@@ -200,17 +200,13 @@ public static class DbQuery
             ;
             DROP VIEW IF EXISTS bookingCard;
             CREATE VIEW bookingCard AS
-                SELECT b.id AS bookingId, b.cost, sh.timeSlot, v.name, s.rowNr, s.columnNr, f.title, f.coverImage
+                SELECT b.id AS bookingId, b.cost, sh.timeSlot, v.name, f.title, f.coverImage
                 FROM bookings b,
                     venues v,
                     showings sh,
-                    bookedSeat bs,
-                    seats s,
                     films f
                 WHERE b.showingId = sh.id
                 AND sh.filmId = f.id
-                AND b.id = bs.bookingId
-                AND bs.seatId = s.id
                 AND sh.venueID = v.id
             ;
             DROP VIEW IF EXISTS showingsAllSeats;
