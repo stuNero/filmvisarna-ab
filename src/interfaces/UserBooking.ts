@@ -1,4 +1,4 @@
 export default interface UserBooking {
-  bookingId: number;
+  bookingId: string;
   email: string;
 }

@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import useFetchJson from '../utils/useFetchJson';
-import type UserDetails from '../interfaces/userDetails';
+import type UserDetails from '../interfaces/UserDetails';
 import type UserBooking from '../interfaces/UserBooking';
-import type bookingInfo from '../interfaces/BookingInfo';
 import { User } from 'lucide-react';
+import BookingCard from '../parts/BookingCard';
 
 
 ProfilePage.route = {
@@ -17,21 +17,17 @@ export default function ProfilePage() {
   const userId = Number(id);
   // Fetch from userId table in DB
   const [userDataRaw] = useFetchJson<UserDetails[] | null>(
-    `/api/users?where=id=${userId}`
+    `/api/users?WHERE=id=${userId}`
   );
   //Gets first entry
   const userData = userDataRaw?.[0];
 
   //Get userbookings
   const [userBookings] = useFetchJson<UserBooking[] | null>(
-    `/api/userBookings?where=email=${userData?.email}`
+    `/api/userBookings?WHERE=email=${userData?.email}`
   );
-  console.log(userBookings)
 
-  //Get bookinginfo
-  // const [BookingInfo] = useFetchJson<bookingInfo[] | null>(
-  //   `/api/bookingInfo?WHERE=bookingid=${bookingId}`
-  // );
+  
 
   return (
     <>
@@ -51,11 +47,16 @@ export default function ProfilePage() {
         </div>
 
         {/* Booking history */}
-        <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
+        <div>
           <h2 className="text-2xl font-bold text-white flex items-center gap-3">Bokningar</h2>
           <ul className="text-white">
             {userBookings?.map((booking) => (
-              <li key={booking.bookingId}>{booking.bookingId}</li>
+              <li key={booking.bookingId}>
+                <BookingCard
+                  key={booking.bookingId}
+                  bookingId={booking.bookingId}
+                />
+              </li>
             ))}
           </ul>
         </div>
