@@ -5,60 +5,47 @@ import useFetchJson from '../utils/useFetchJson';
 import { Clock } from 'lucide-react';
 
 export default function MovieCard(props: any) {
+
+  let selectedDate = props.date;
+  console.log(selectedDate);
   const dateNow = new Date(Date.now()).toLocaleDateString('sv-SE');
   const timeNow = new Date(Date.now()).toLocaleTimeString('sv-SE');
-  const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
-  const [showingsTemp] = useFetchJson<MovieShowings[] | null>(
-    `/api/movieShowings`
-  );
+  const [movieCardRaw] = useFetchJson<MovieDetails[] | null>(`${selectedDate === "" ? "/api/comingFilms" : "/api/films"}`);
+  const [showingsTemp] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings${selectedDate === "" ? "" : `?WHERE=date=${selectedDate}`}`);
 
-  const selectedDate = props.date;
+  console.log(showingsTemp);
 
-  const showingsSelectedDate = showingsTemp?.filter((x: any) => x.date.split('T')[0] === selectedDate);
+  const movieCard: MovieDetails[] = [];
+
+  // needs to be refactored
+  if (movieCardRaw != null && showingsTemp != null) {
+    for (let movie of movieCardRaw) {
+      for (let showing of showingsTemp) {
+        if (movie.id == showing.id) {
+          if (movieCard != null && !movieCard.includes(movie))
+            movieCard.push(movie);
+        }
+      }
+    }
+  }
 
   function GetShowings(id: number) {
-    const showings = showingsTemp?.filter((s) => s.id === id);
-    // Added time check to the filter so only would create the array (dayShowings) with the showings of the day
-    // that are after the current time (now)
 
-
-    if (selectedDate == dateNow) {
-      let dayShowings = showingsSelectedDate
-        ?.filter(
-          (s) =>
-            s.date.toString().slice(0, 10) >= selectedDate && s.time.toString() >= timeNow
-        )
-        // And then sorted the times so the earliest would be first and the latest last.
-        // In order to do so it was necessary to convert the 'time' propery from number to string,
-        // slice it to take away the seconds and remove the ':', and then convert to number again to
-        // be able to sort the values.
-        .sort(
-          (a, b) =>
-            Number(a.time.toString().slice(0, 5).replace(':', '')) -
-            Number(b.time.toString().slice(0, 5).replace(':', ''))
-        );
-
-      return dayShowings;
-    }
-    else {
-      let dayShowings = showingsSelectedDate
-        ?.filter(
-          (s) =>
-            s.date.toString().slice(0, 10) >= selectedDate
-        )
-        // And then sorted the times so the earliest would be first and the latest last.
-        // In order to do so it was necessary to convert the 'time' propery from number to string,
-        // slice it to take away the seconds and remove the ':', and then convert to number again to
-        // be able to sort the values.
-        .sort(
-          (a, b) =>
-            Number(a.time.toString().slice(0, 5).replace(':', '')) -
-            Number(b.time.toString().slice(0, 5).replace(':', ''))
-        );
-
-      return dayShowings;
-
-    }
+    const showingsSelectedDate = showingsTemp
+      ?.filter((s) => s.id === id)
+      ?.filter(
+        (s) => s.time.toString() >= timeNow && s.date.toString().slice(0, 10) == (selectedDate === "" ? dateNow : selectedDate)
+      )
+      // And then sorted the times so the earliest would be first and the latest last.
+      // In order to do so it was necessary to convert the 'time' propery from number to string,
+      // slice it to take away the seconds and remove the ':', and then convert to number again to
+      // be able to sort the values.
+      .sort(
+        (a, b) =>
+          Number(a.time.toString().slice(0, 5).replace(':', '')) -
+          Number(b.time.toString().slice(0, 5).replace(':', ''))
+      );
+    return showingsSelectedDate;
   };
 
   function FormatLength(length: number) {
@@ -75,7 +62,7 @@ export default function MovieCard(props: any) {
                 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 
                 justify-items-center"
     >
-      {movieCard
+      {(selectedDate === "" ? movieCardRaw : movieCard)
         ?.filter((m) => m.ageRating <= props.age)
         .map((film) => (
           <div key={film.id} className="w-full h-full">
@@ -117,17 +104,19 @@ export default function MovieCard(props: any) {
                         <div className="border rounded border-black bg-white/5 px-3 py-1.5">
                           Inga visningar idag
                         </div>
-                      ) : (
-                        GetShowings(film.id)?.map((showing) => (
-                          <div
-                            className="border rounded border-black bg-white/5 px-3 py-1.5"
-                            key={showing.showingId}
-                          >
-                            {/* add 'slice' the remove the seconds */}
-                            {showing.time.toString().slice(0, 5)}
-                          </div>
-                        ))
-                      )}
+                      )
+                        :
+                        (
+                          GetShowings(film.id)?.map((showing) => (
+                            <div
+                              className="border rounded border-black bg-white/5 px-3 py-1.5"
+                              key={showing.showingId}
+                            >
+                              {/* add 'slice' the remove the seconds */}
+                              {showing.time.toString().slice(0, 5)}
+                            </div>
+                          ))
+                        )}
                     </div>
                   </div>
                 </section>
