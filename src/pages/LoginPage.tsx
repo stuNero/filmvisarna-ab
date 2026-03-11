@@ -17,6 +17,26 @@ export default function LoginPage() {
 
   const loggaIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    try {
+      const result = await fetchJson(`/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          password: pass
+        })
+      });
+
+      if (result && result.error) {
+        alert(result.error);
+        return;
+      }
+
+      navigate(`/`);
+    } catch (error) {
+      console.error('Fel:', error);
+      alert('Något gick fel');
+    }
   };
 
   return (
