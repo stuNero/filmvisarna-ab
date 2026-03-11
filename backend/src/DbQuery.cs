@@ -157,7 +157,7 @@ public static class DbQuery
                 lastName VARCHAR(255),
                 role VARCHAR(50) NOT NULL DEFAULT 'user',
                 created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                lastVisited DATETIME NOT NULL DEFAULT ('created')
+                lastVisited DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
 
             CREATE TABLE IF NOT EXISTS userBookings (
