@@ -15,6 +15,10 @@ export default function LoginPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
+  const loggaIn = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       {/* div for centring the whole page */}
@@ -52,6 +56,121 @@ export default function LoginPage() {
                 Bli medlem
               </button>
             </section>
+
+            <form onSubmit={loggaIn} className="space-y-8 ">
+              {/* condition rendering of registering a new user */}
+              {activeBtn === 'medlem' && (
+                <>
+                  <div>
+                    <label className="text-sm text-gray-400">Förnamn</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Förnamn"
+                      className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm text-gray-400 ">Efternamn</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Efternamn"
+                      className="w-full bg-black px-4 py-3 rounded-xl"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
+
+              {/* email */}
+              <div>
+                <label className="text-sm text-gray-400">E-postadress</label>
+                <input
+                  type="email"
+                  required
+                  placeholder="email@example.com"
+                  className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              {/* password for login */}
+              {activeBtn === 'login' && (
+                <div>
+                  <div className="text-sm text-gray-400 flex justify-between">
+                    <label>Lösenord</label>
+                    <button className="text-red-700 cursor-pointer">
+                      Glömt läsenord?
+                    </button>
+                  </div>
+
+                  <div>
+                    <input
+                      type="password"
+                      required
+                      placeholder="********"
+                      className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                      value={pass}
+                      onChange={(e) => setPass(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/*  password for signup */}
+              {activeBtn === 'medlem' && (
+                <div>
+                  <label className="text-sm text-gray-400">Lösenord</label>
+                  <input
+                    type="password"
+                    required
+                    placeholder="********"
+                    className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                    value={pass}
+                    onChange={(e) => setPass(e.target.value)}
+                  />
+                </div>
+              )}
+
+              {/* Confirm password for signup */}
+              {activeBtn === 'medlem' && (
+                <div>
+                  <label className="text-sm text-gray-400">
+                    Bekräfta lösenord
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    placeholder="********"
+                    className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                    value={confirmPass}
+                    onChange={(e) => setConfirmPass(e.target.value)}
+                  />
+                </div>
+              )}
+
+              {/* logga in button */}
+              <div>
+                <button
+                  type="submit"
+                  className="
+                  w-full bg-red-800 
+                  mb-8
+                  px-4 py-3 rounded-xl 
+                  cursor-pointer
+                  transition-all 
+                  duration-150
+                  active:scale-95 active:brightness-75"
+                >
+                  {activeBtn === 'login' ? 'Logga in' : 'Skapa konto'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
