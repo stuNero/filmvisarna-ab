@@ -152,12 +152,12 @@ public static class DbQuery
             CREATE TABLE IF NOT EXISTS users (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 email VARCHAR(254) NOT NULL,
-                pass VARCHAR(255) NOT NULL,
+                password VARCHAR(255) NOT NULL,
                 firstName VARCHAR(255),
                 lastName VARCHAR(255),
                 role VARCHAR(50) NOT NULL DEFAULT 'user',
                 created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                lastVisited DATETIME NOT NULL
+                lastVisited DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
 
             CREATE TABLE IF NOT EXISTS userBookings (
