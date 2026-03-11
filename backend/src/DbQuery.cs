@@ -227,15 +227,10 @@ public static class DbQuery
                     seats s
                 WHERE bs.bookingId = b.id AND s.id = bs.seatId
             ;
-
-            DROP VIEW IF EXISTS showingsWithOccupiedSeats;
-            CREATE VIEW showingsWithOccupiedSeats AS
-                SELECT movieShowings.*,
-                    rowNr,columnNr
-                FROM movieShowings,
-                    bookedSeatsWithShowings
-                WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
-            ;
+            
+            DROP VIEW IF EXISTS ageRatings;
+            CREATE VIEW ageRatings AS 
+                SELECT DISTINCT ageRating FROM films;
             
             DROP VIEW IF EXISTS comingFilms;
             CREATE VIEW comingFilms AS

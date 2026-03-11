@@ -12,30 +12,54 @@ export default function MovieCard(props: any) {
     `/api/movieShowings`
   );
 
+  const selectedDate = props.date;
+
+  const showingsSelectedDate = showingsTemp?.filter((x: any) => x.date.split('T')[0] === selectedDate);
+
   function GetShowings(id: number) {
     const showings = showingsTemp?.filter((s) => s.id === id);
     // Added time check to the filter so only would create the array (dayShowings) with the showings of the day
     // that are after the current time (now)
 
-    let dayShowings = showings
-      ?.filter(
-        (s) =>
-          s.date.toString().slice(0, 10) == props.date && s.time.toString() >= timeNow
-      )
-      // And then sorted the times so the earliest would be first and the latest last.
-      // In order to do so it was necessary to convert the 'time' propery from number to string,
-      // slice it to take away the seconds and remove the ':', and then convert to number again to
-      // be able to sort the values.
-      .sort(
-        (a, b) =>
-          Number(a.time.toString().slice(0, 5).replace(':', '')) -
-          Number(b.time.toString().slice(0, 5).replace(':', ''))
-      );
-    console.log("props", props);
-    console.log(dayShowings);
 
-    return dayShowings;
-  }
+    if (selectedDate == dateNow) {
+      let dayShowings = showingsSelectedDate
+        ?.filter(
+          (s) =>
+            s.date.toString().slice(0, 10) >= selectedDate && s.time.toString() >= timeNow
+        )
+        // And then sorted the times so the earliest would be first and the latest last.
+        // In order to do so it was necessary to convert the 'time' propery from number to string,
+        // slice it to take away the seconds and remove the ':', and then convert to number again to
+        // be able to sort the values.
+        .sort(
+          (a, b) =>
+            Number(a.time.toString().slice(0, 5).replace(':', '')) -
+            Number(b.time.toString().slice(0, 5).replace(':', ''))
+        );
+
+      return dayShowings;
+    }
+    else {
+      let dayShowings = showingsSelectedDate
+        ?.filter(
+          (s) =>
+            s.date.toString().slice(0, 10) >= selectedDate
+        )
+        // And then sorted the times so the earliest would be first and the latest last.
+        // In order to do so it was necessary to convert the 'time' propery from number to string,
+        // slice it to take away the seconds and remove the ':', and then convert to number again to
+        // be able to sort the values.
+        .sort(
+          (a, b) =>
+            Number(a.time.toString().slice(0, 5).replace(':', '')) -
+            Number(b.time.toString().slice(0, 5).replace(':', ''))
+        );
+
+      return dayShowings;
+
+    }
+  };
 
   function FormatLength(length: number) {
     let inHours = Math.floor(length / 60);
@@ -51,64 +75,66 @@ export default function MovieCard(props: any) {
                 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 
                 justify-items-center"
     >
-      {movieCard?.map((film) => (
-        <div key={film.id} className="w-full h-full">
-          <Link to={`/visningar/${film.id}`}>
-            <section
-              className="rounded-lg 
-                     overflow-hidden
-                     relative
-                     w-full
-                     aspect-2/3                    
-                     "
-            >
-              <img
-                src={film.coverImage}
-                alt={film.title}
-                className="absolut inset-0 h-full object-cover w-full
-                duration-300 hover:scale-110 "
-              />
-            </section>
-
-            <section>
-              <h3 className="font-medium text-2xl">{film.title}</h3>
-              <section className="flex flex-col font-medium mt-2 mb-5 text-stone-300">
-                <div className="flex flex-row ">
-                  <p className="opacity-70 border border-stone-300 rounded-md mr-1 px-1">
-                    {film.ageRating} år
-                  </p>
-                  <p className="flex flex-row opacity-70">
-                    {' '}
-                    <Clock className="scale-70" />
-                    {FormatLength(film.length)}
-                  </p>
-                </div>
-                <p className="opacity-50 text-sm pb-5">{film.genre}</p>
-                <div>
-                  <p className="text-sm opacity-70">Dagens visningar:</p>
-                  <div className="flex flex-row text-sm gap-2">
-                    {GetShowings(film.id)?.length === 0 ? (
-                      <div className="border rounded border-black bg-white/5 px-3 py-1.5">
-                        Inga visningar idag
-                      </div>
-                    ) : (
-                      GetShowings(film.id)?.map((showing) => (
-                        <div
-                          className="border rounded border-black bg-white/5 px-3 py-1.5"
-                          key={showing.showingId}
-                        >
-                          {/* add 'slice' the remove the seconds */}
-                          {showing.time.toString().slice(0, 5)}
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
+      {movieCard
+        ?.filter((m) => m.ageRating <= props.age)
+        .map((film) => (
+          <div key={film.id} className="w-full h-full">
+            <Link to={`/visningar/${film.id}`}>
+              <section
+                className="rounded-lg 
+                  overflow-hidden
+                  relative
+                  w-full
+                  aspect-2/3                    
+              "
+              >
+                <img
+                  src={film.coverImage}
+                  alt={film.title}
+                  className="absolut inset-0 h-full object-cover w-full
+          duration-300 hover:scale-110 "
+                />
               </section>
-            </section>
-          </Link>
-        </div>
-      ))}
+
+              <section>
+                <h3 className="font-medium text-2xl">{film.title}</h3>
+                <section className="flex flex-col font-medium mt-2 mb-5 text-stone-300">
+                  <div className="flex flex-row ">
+                    <p className="opacity-70 border border-stone-300 rounded-md mr-1 px-1">
+                      {film.ageRating} år
+                    </p>
+                    <p className="flex flex-row opacity-70">
+                      {' '}
+                      <Clock className="scale-70" />
+                      {FormatLength(film.length)}
+                    </p>
+                  </div>
+                  <p className="opacity-50 text-sm pb-5">{film.genre}</p>
+                  <div>
+                    <p className="text-sm opacity-70">Dagens visningar:</p>
+                    <div className="flex flex-row text-sm gap-2">
+                      {GetShowings(film.id)?.length === 0 ? (
+                        <div className="border rounded border-black bg-white/5 px-3 py-1.5">
+                          Inga visningar idag
+                        </div>
+                      ) : (
+                        GetShowings(film.id)?.map((showing) => (
+                          <div
+                            className="border rounded border-black bg-white/5 px-3 py-1.5"
+                            key={showing.showingId}
+                          >
+                            {/* add 'slice' the remove the seconds */}
+                            {showing.time.toString().slice(0, 5)}
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </section>
+              </section>
+            </Link>
+          </div>
+        ))}
     </div>
   );
 }
