@@ -1,12 +1,6 @@
-import useFetchJson from "./useFetchJson";
-import type Seats from "../interfaces/seats";
+export default function getSeatNumber( rowNr: number, columnNr: number, seats: any[] | null ) {
 
-export default async function getSeatNumber(rowNr: number, columnNr: number, venueId: number) {
-    const [seats] = useFetchJson<Seats[] | null>(
-        `/api/seats?where=venueId=${venueId}`
-    );
-
-    let result: number = 0;
+    let result: number = 1;
 
     const maxColumnByRow = new Map<number, number>();
 

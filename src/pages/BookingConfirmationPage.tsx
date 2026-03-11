@@ -1,6 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
 import type bookingInfo from '../interfaces/BookingInfo';
 import useFetchJson from '../utils/useFetchJson';
+import getSeatNumber from '../utils/getSeatNumber';
+import type Seats from '../interfaces/seats';
 import {
   CheckCircle2,
   Calendar,
@@ -23,6 +25,10 @@ export default function BookingConfirmationPage() {
 
   const [BookingInfo] = useFetchJson<bookingInfo[] | null>(
     `/api/bookingInfo?WHERE=bookingid=${bookingId}`
+  );
+
+  const [seats] = useFetchJson<Seats[] | null>(
+    `/api/seats?where=venueId=${1}`
   );
 
   if (!BookingInfo || BookingInfo.length === 0) {
@@ -148,7 +154,7 @@ export default function BookingConfirmationPage() {
                     key={idx}
                     className="bg-zinc-700 text-white text-xs rounded px-3 py-1"
                   >
-                    Rad {seat.row}, Plats {seat.number}
+                    {getSeatNumber(seat.row, seat.number, seats)}
                   </span>
                 ))}
               </div>
