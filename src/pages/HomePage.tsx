@@ -7,7 +7,7 @@ HomePage.route = {
 };
 
 export default function HomePage() {
-  const [date, setDate] = useState(new Date().toLocaleDateString('sv-SE'));
+  const [date, setDate] = useState("");
 
   const agesRaw = useFetchJson<{ ageRating: number; }[]>('/api/ageRatings');
   const ages = useMemo(() => {
@@ -87,7 +87,6 @@ export default function HomePage() {
             {/* TODO: input type="date" follows os/browser locale/lang - use date picker lib to force swedish format?*/}
             <div className='inline-block relative ml-5'>
               <input
-                placeholder='Filtrera på datum'
                 type="date"
                 min={new Date(Date.now()).toLocaleDateString("sv-SE")}
                 value={date}
