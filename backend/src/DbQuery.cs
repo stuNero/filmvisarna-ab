@@ -210,6 +210,15 @@ public static class DbQuery
                 AND sh.filmId = f.id
                 AND sh.venueID = v.id
             ;
+            DROP VIEW IF EXISTS seatsByBooking;
+            CREATE VIEW seatsByBooking AS
+                SELECT s.id, s.rowNr, s.columnNr, s.venueId
+                FROM seats s,
+                    showings sh,
+                    bookings b
+                WHERE b.showingId = sh.id
+                AND sh.venueID = s.venueId
+            ;
             DROP VIEW IF EXISTS showingsAllSeats;
             CREATE VIEW showingsAllSeats AS
                 SELECT sh.id, s.id AS seatId, s.rowNr, s.columnNr
