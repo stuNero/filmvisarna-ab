@@ -249,6 +249,7 @@ public static class DbQuery
                 SELECT f.*  FROM showings s, films f
                 WHERE s.filmId = f.id
                 AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
+                AND s.timeSlot <= NOW() + INTERVAL 30 DAY
                 GROUP BY f.id
             ;
             
