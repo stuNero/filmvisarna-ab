@@ -212,7 +212,7 @@ public static class DbQuery
             ;
             DROP VIEW IF EXISTS seatsByBooking;
             CREATE VIEW seatsByBooking AS
-                SELECT s.id, s.rowNr, s.columnNr, s.venueId
+                SELECT s.id, s.rowNr, s.columnNr, s.venueId, b.id as bookingId
                 FROM seats s,
                     showings sh,
                     bookings b

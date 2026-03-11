@@ -28,8 +28,10 @@ export default function BookingConfirmationPage() {
   );
 
   const [seats] = useFetchJson<Seats[] | null>(
-    `/api/seats?where=venueId=${1}`
+    `/api/seatsByBooking?WHERE=bookingid=${bookingId}`
   );
+
+  console.log(seats);
 
   if (!BookingInfo || BookingInfo.length === 0) {
     return (
