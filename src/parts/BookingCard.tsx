@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import useFetchJson from "../utils/useFetchJson";
 import type BookingCardInfo from '../interfaces/BookingCardInfo';
 import getSeatNumber from '../utils/getSeatNumber';
-import type Seats from '../interfaces/seats';
+import type Seats from '../interfaces/Seats';
 
 interface BookingCardProps {
     bookingId: string;

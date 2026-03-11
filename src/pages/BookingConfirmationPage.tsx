@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import type bookingInfo from '../interfaces/BookingInfo';
 import useFetchJson from '../utils/useFetchJson';
 import getSeatNumber from '../utils/getSeatNumber';
-import type Seats from '../interfaces/seats';
+import type Seats from '../interfaces/Seats';
 import {
   CheckCircle2,
   Calendar,
@@ -31,7 +31,6 @@ export default function BookingConfirmationPage() {
     `/api/seatsByBooking?WHERE=bookingid=${bookingId}`
   );
 
-  console.log(seats);
 
   if (!BookingInfo || BookingInfo.length === 0) {
     return (
