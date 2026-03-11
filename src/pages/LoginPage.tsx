@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthProvider';
 
 LoginPage.route = {
   path: '/logga-in'
@@ -14,8 +15,9 @@ export default function LoginPage() {
   const [confirmPass, setConfirmPass] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const { setUser } = useAuth();
 
-  const loggaIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const result = await fetchJson(`/api/login`, {
@@ -31,8 +33,8 @@ export default function LoginPage() {
         alert(result.error);
         return;
       }
-
-      navigate(`/`);
+      setUser(result);
+      navigate('/profil/:id');
     } catch (error) {
       console.error('Fel:', error);
       alert('Något gick fel');
@@ -77,10 +79,11 @@ export default function LoginPage() {
               </button>
             </section>
 
-            <form onSubmit={loggaIn} className="space-y-8 ">
+            <form onSubmit={login} className="space-y-8 ">
               {/* condition rendering of registering a new user */}
               {activeBtn === 'medlem' && (
                 <>
+                  {/* firstname */}
                   <div>
                     <label className="text-sm text-gray-400">Förnamn</label>
                     <input
@@ -92,6 +95,7 @@ export default function LoginPage() {
                       onChange={(e) => setFirstName(e.target.value)}
                     />
                   </div>
+                  {/* lastname */}
                   <div>
                     <label className="text-sm text-gray-400 ">Efternamn</label>
                     <input
@@ -122,14 +126,9 @@ export default function LoginPage() {
               {/* password for login */}
               {activeBtn === 'login' && (
                 <div>
-                  <div className="text-sm text-gray-400 flex justify-between">
-                    <label>Lösenord</label>
-                    <button className="text-red-700 cursor-pointer">
-                      Glömt läsenord?
-                    </button>
-                  </div>
-
                   <div>
+                    <label className="text-sm text-gray-400">Lösenord</label>
+
                     <input
                       type="password"
                       required
@@ -138,6 +137,12 @@ export default function LoginPage() {
                       value={pass}
                       onChange={(e) => setPass(e.target.value)}
                     />
+                  </div>
+
+                  <div className="text-sm flex justify-end">
+                    <button className="text-red-700 cursor-pointer">
+                      Glömt läsenord?
+                    </button>
                   </div>
                 </div>
               )}
@@ -188,6 +193,18 @@ export default function LoginPage() {
                   active:scale-95 active:brightness-75"
                 >
                   {activeBtn === 'login' ? 'Logga in' : 'Skapa konto'}
+                </button>
+
+                <button
+                  className="cursor-pointer border border-1"
+                  onClick={async () => {
+                    await fetchJson('/api/login', { method: 'DELETE' });
+
+                    setUser(null);
+                    window.location.href = '/logga-in';
+                  }}
+                >
+                  Logga ut
                 </button>
               </div>
             </form>
