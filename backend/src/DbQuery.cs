@@ -199,6 +199,17 @@ public static class DbQuery
                 JOIN venues     v   ON sh.venueId   = v.id
                 JOIN films      f   ON sh.filmId    = f.id
             ;
+            DROP VIEW IF EXISTS bookingCard;
+            CREATE VIEW bookingCard AS
+                SELECT b.id AS bookingId, b.cost, sh.timeSlot, v.name, f.title, f.coverImage
+                FROM bookings b,
+                    venues v,
+                    showings sh,
+                    films f
+                WHERE b.showingId = sh.id
+                AND sh.filmId = f.id
+                AND sh.venueID = v.id
+            ;
             DROP VIEW IF EXISTS showingsAllSeats;
             CREATE VIEW showingsAllSeats AS
                 SELECT sh.id, s.id AS seatId, s.rowNr, s.columnNr
