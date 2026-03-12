@@ -71,7 +71,7 @@ export default function SeatSelectionPage() {
   // Our state/context
   const s = useStates("main", {
     bookedSeats: [],
-    newBookedSeat: { id: '', rowNr: '', colNr: '' }
+    newBookedSeat: { seatId: '', bokingId: '' }
   });
 
   // Start an SSE Listener
@@ -275,6 +275,16 @@ export default function SeatSelectionPage() {
       ticketType: type
     })
   });
+
+    // SSE logic
+    await fetch('/api/booked-seat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(s.newBookedSeat)
+    });
+    s.seatId = '';
+    s.bookingId = '';
+
     // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
   }
