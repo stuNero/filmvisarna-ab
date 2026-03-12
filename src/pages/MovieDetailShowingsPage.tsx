@@ -96,17 +96,19 @@ export default function MovieDetailShowingsPage() {
                         <p className="font-medium">Se trailer</p>
                       </button>
                       {showTrailer && (
+                        
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                          <div className="bg-white rounded-lg p-8 max-w-md w-full text-center relative">
+                          {/* <div className="bg-white rounded-lg p-8 max-w-md w-full text-center relative">
                             <h2 className="text-xl font-bold mb-4 text-black">Trailer</h2>
-                            <p className="text-black">Wow en trailer</p>
+                            <p className="text-black">Wow en trailer</p> */}
+                            <iframe width="560" height="315" src={`https://www.youtube.com/watch?v=${details?.youtube}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                             <button
                               className="mt-6 px-4 py-2 bg-red-700 text-white rounded hover:bg-red-800"
                               onClick={() => setShowTrailer(false)}
                             >
                               Stäng
                             </button>
-                          </div>
+                          {/* </div> */}
                         </div>
                       )}
                     </div>
