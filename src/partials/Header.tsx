@@ -51,7 +51,7 @@ export default function Header() {
           {/* routing logic when logout button is pressed */}
           {user && (
             <button
-              className="cursor-pointer"
+              className="cursor-pointer hover-red"
               onClick={async () => {
                 await fetchJson('/api/login', { method: 'DELETE' });
 
