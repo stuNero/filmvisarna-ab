@@ -29,7 +29,6 @@
     "lucide-react": "^0.563.0",
     "prop-types": "^15.8.1",
     "react": "^19.2.4",
-    "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.4",
     "react-rapide": "^1.0.35",
     "react-router-dom": "^7.5.0",
