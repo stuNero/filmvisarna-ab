@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
 import type MovieDetails from "../interfaces/MovieDetails";
@@ -13,6 +14,7 @@ MovieDetailShowingsPage.route = {
 
 export default function MovieDetailShowingsPage() {
   const { id } = useParams<{ id: string }>();
+  const [showTrailer, setShowTrailer] = useState(false);
   const movieId = Number(id);
 
   const [details] = useFetchJson<MovieDetails | null>(
@@ -87,9 +89,26 @@ export default function MovieDetailShowingsPage() {
                       <span className="px-3 py-1 bg-white/5 rounded">
                         {details?.genre}
                       </span>
-                      <button className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors">
+                      <button
+                        className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors"
+                        onClick={() => setShowTrailer(true)}
+                      >
                         <p className="font-medium">Se trailer</p>
                       </button>
+                      {showTrailer && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                          <div className="bg-white rounded-lg p-8 max-w-md w-full text-center relative">
+                            <h2 className="text-xl font-bold mb-4 text-black">Trailer</h2>
+                            <p className="text-black">Wow en trailer</p>
+                            <button
+                              className="mt-6 px-4 py-2 bg-red-700 text-white rounded hover:bg-red-800"
+                              onClick={() => setShowTrailer(false)}
+                            >
+                              Stäng
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
