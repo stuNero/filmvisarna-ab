@@ -7,12 +7,17 @@ import { Clock } from 'lucide-react';
 export default function MovieCard(props: any) {
 
   let selectedDate = props.date;
+  let selectedAge = props.age;
+  if (props.age == "") {
+    selectedAge = 100;
+  }
   const dateNow = new Date(Date.now()).toLocaleDateString('sv-SE');
   const timeNow = new Date(Date.now()).toLocaleTimeString('sv-SE');
+  const movieCard: MovieDetails[] = [];
+
   const [movieCardRaw] = useFetchJson<MovieDetails[] | null>(`${selectedDate === "" ? "/api/comingSoon" : "/api/films"}`);
   const [showingsTemp] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings${selectedDate === "" ? "" : `?WHERE=date=${selectedDate}`}`);
 
-  const movieCard: MovieDetails[] = [];
 
   // needs to be refactored
   if (movieCardRaw != null && showingsTemp != null) {
@@ -60,7 +65,7 @@ export default function MovieCard(props: any) {
                 justify-items-center"
     >
       {(selectedDate === "" ? movieCardRaw : movieCard)
-        ?.filter((m) => m.ageRating <= props.age)
+        ?.filter((m) => m.ageRating <= selectedAge)
         .map((film) => (
           <div key={film.id} className="w-full h-full">
             <Link to={`/visningar/${film.id}`}>
