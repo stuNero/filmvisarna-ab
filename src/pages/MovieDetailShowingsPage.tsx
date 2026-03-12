@@ -107,12 +107,6 @@ export default function MovieDetailShowingsPage() {
                 allowFullScreen
               ></iframe>
             )}
-             <button
-                        className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors"
-                        onClick={() => setShowTrailer(false)}
-                      >
-                        <p className="font-medium">Stäng trailer</p>
-                      </button>
           </div>
                       )}
                     </div>
