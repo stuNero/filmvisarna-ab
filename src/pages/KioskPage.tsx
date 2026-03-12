@@ -11,8 +11,6 @@ export default function KioskInfoPage() {
   const [products] = useFetchJson<Products[] | null>('/api/products');
   const productType = [...new Set(products?.map(p => p.type))];
 
-  console.log(products);
-
   return (
     <>
       <section className="flex flex-col content-center justify-center mb-20 sm:mb-40 gap-20 px-2 sm:px-1
