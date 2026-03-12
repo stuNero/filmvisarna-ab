@@ -242,17 +242,17 @@ public static class DbQuery
             
             DROP VIEW IF EXISTS ageRatings;
             CREATE VIEW ageRatings AS 
-                SELECT DISTINCT ageRating FROM films;
-            
+                SELECT DISTINCT ageRating FROM films
+                ;
+                    
             DROP VIEW IF EXISTS comingFilms;
             CREATE VIEW comingFilms AS
                 SELECT f.*  FROM showings s, films f
                 WHERE s.filmId = f.id
                 AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
-                AND s.timeSlot <= NOW() + INTERVAL 30 DAY
                 GROUP BY f.id
             ;
-            
+
             DROP VIEW IF EXISTS movieActors;
             CREATE VIEW movieActors AS
             SELECT f.id, a.name FROM filmActors fa, films f, actors a
