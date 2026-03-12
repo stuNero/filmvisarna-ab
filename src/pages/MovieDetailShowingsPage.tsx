@@ -91,9 +91,9 @@ export default function MovieDetailShowingsPage() {
                       </span>
                       <button
                         className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors"
-                        onClick={() => setShowTrailer(true)}
+                        onClick={() => setShowTrailer(!showTrailer)}
                       >
-                        <p className="font-medium">Se trailer</p>
+                        <p className="font-medium">{showTrailer ? "Stäng trailer" : "Se trailer"}</p>
                       </button>
                       {showTrailer && (
                         
