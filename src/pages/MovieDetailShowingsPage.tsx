@@ -58,7 +58,6 @@ export default function MovieDetailShowingsPage() {
   if (details?.id === movieId) {
     return (
       <>
-      <section onClick={() => (showTrailer ? setShowTrailer(false) : null)}>
         <section>
           <div className="min-h-screen flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
             <div className={`flex flex-col md:flex-row md:items-start max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 ${showTrailer ? "blur-[2px]" : ""}`}>
@@ -168,10 +167,10 @@ export default function MovieDetailShowingsPage() {
  
           </div>
         </section>
-        </section>
         {showTrailer && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 animate-fade-in">
-            <div className="flex flex-col md:w-[700px] md:h-[400px] justify-center items-center text-white px-4 py-3 rounded-lg shadow-lg gap-10 bg-stone-900/95">
+          <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
+          onClick={() => setShowTrailer(false)}>
+            <div className="flex flex-col md:w-[700px] md:h-[400px] justify-center items-center text-white px-4 py-3 rounded-lg ">
               <button
                 className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors self-end mb-2"
                 onClick={() => setShowTrailer(false)}
