@@ -60,9 +60,9 @@ export default function MovieDetailShowingsPage() {
   if (details?.id === movieId) {
     return (
       <>
-        <section className="max-w-7xl mx-auto pt-10 px-4">
+        <section>
           <div className="min-h-screen flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
-            <div className="flex flex-col md:flex-row md:items-start">
+            <div className="flex flex-col md:flex-row md:items-start max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 ">
               <img
                 src={details?.coverImage}
                 alt={details?.title}
@@ -138,7 +138,7 @@ export default function MovieDetailShowingsPage() {
         <section
           className="flex flex-col 
               bg-stone-950
-              pt-2.5 pb-2.5 rounded-lg mb-16 px-2 sm:px-4 mx-2 max-w-7xl mx-auto"
+              pt-2.5 pb-2.5 rounded-lg mb-16 px-2 sm:px-4 mx-2 max-w-7xl mx-auto "
         >
           <div className="flex justify-center pt-5 pb-5">
             <h2 className="text-2xl font-bold">Välj en visning</h2>
