@@ -97,7 +97,7 @@ export default function MovieDetailShowingsPage() {
                       </button>
                       {showTrailer && (
                         
-                        <div className="aspect-video w-full z-50">
+                        <div className="aspect-video w-full z-50 relative top-0 left-0 flex items-center justify-center ">
             {details?.youtube && (
               <iframe
                 src={`https://www.youtube.com/embed/${details.youtube}?autoplay=1`}
