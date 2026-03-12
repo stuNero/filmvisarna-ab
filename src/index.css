@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 body {
   color: antiquewhite;
   min-height: 100vh;
@@ -12,4 +11,15 @@ CUSTOM CLASS FOR RED HOVERING EFFECT ON ELEMENTS
 */
 .hover-red {
   @apply hover:text-red-800 transition-colors duration-400;
+}
+
+.date-format-fixer {
+  position: absolute;
+  top: 5px;
+  padding: 0 5px 0 10px;
+  left: 5px;
+  background-color: oklch(0.21 0.034 264.665);
+  height: 24px;
+  display: inline-block;
+  overflow: hidden;
 }

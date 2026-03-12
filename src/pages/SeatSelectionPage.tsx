@@ -179,7 +179,7 @@ export default function SeatSelectionPage() {
         bookingID: bookingID,
         date: new Date(showing!.date).toLocaleDateString('sv-SE'),
         time: showing?.time.toString().slice(0, 5),
-        venue: showing?.name
+        venue: showing?.venueName
       };
       try {
         const response = await fetch('/api/send-email', {
