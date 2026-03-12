@@ -1,4 +1,5 @@
 namespace WebApp;
+
 public static class Server
 {
     public static void Start()
@@ -11,6 +12,7 @@ public static class Server
         ErrorHandler.Start();
         FileServer.Start();
         LoginRoutes.Start();
+        LiveUpdates.Start();
         SpecialRoutes.Start();
         RestApi.Start();
         Session.Start();
