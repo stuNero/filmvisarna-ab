@@ -7,13 +7,10 @@ import { Clock } from 'lucide-react';
 export default function MovieCard(props: any) {
 
   let selectedDate = props.date;
-  console.log(selectedDate);
   const dateNow = new Date(Date.now()).toLocaleDateString('sv-SE');
   const timeNow = new Date(Date.now()).toLocaleTimeString('sv-SE');
-  const [movieCardRaw] = useFetchJson<MovieDetails[] | null>(`${selectedDate === "" ? "/api/comingFilms" : "/api/films"}`);
+  const [movieCardRaw] = useFetchJson<MovieDetails[] | null>(`${selectedDate === "" ? "/api/comingSoon" : "/api/films"}`);
   const [showingsTemp] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings${selectedDate === "" ? "" : `?WHERE=date=${selectedDate}`}`);
-
-  console.log(showingsTemp);
 
   const movieCard: MovieDetails[] = [];
 
