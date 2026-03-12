@@ -65,18 +65,18 @@ export default function HomePage() {
                 md:text-3xl
                 md:scale-150
                 md:translate-x-90
-                md:-translate-y-90
+                md:-translate-y-50
                 md:overflow-hidden
                 md:hover:scale-155
                 text-shadow-black
                 text-shadow-md
                 block
-                w-full md:w-60 md:h-100
+                w-full md:w-70 md:h-70
                 -translate-y-1
                 backdrop-blur
                 border-t border-l border-zinc-700
-                rounded-xl
-                 py-4
+                rounded-full
+                py-4
                 text-center
                 text-lg
                 bg-[url('/snack-bar.webp')]
@@ -85,7 +85,7 @@ export default function HomePage() {
                 transition
                 "
               >
-                <h1 className=' backdrop-blur-xs rounded-4xl'>
+                <h1 className=' backdrop-blur-xs'>
                   Utforska vårat kiosk utbud!
                 </h1>
               </Link>
