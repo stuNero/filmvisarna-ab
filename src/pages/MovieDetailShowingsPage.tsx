@@ -170,28 +170,26 @@ export default function MovieDetailShowingsPage() {
         </section>
         </section>
         {showTrailer && (
-                        
-                        <div className="flex flex-col fixed 
-            -translate-y-[1600px] right-230 md:m-auto md:w-[700px] md:h-[400px]
-            justify-center items-center
-                 text-white px-4 py-3 rounded-lg shadow-lg animate-fade-in gap-10 ">
-                   <button
-                        className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors"
-                        onClick={() => setShowTrailer(!showTrailer)}
-                      >
-                        <p className="font-medium">{showTrailer ? "Stäng trailer" : "Se trailer"}</p>
-                      </button>
-            {details?.youtube && (
-              <iframe
-                src={`https://www.youtube.com/embed/${details.youtube}?autoplay=1`}
-                title={`${details.title} Trailer`}
-                className="w-full h-full border-0 mb-4 rounded-lg"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
-            )}
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 animate-fade-in">
+            <div className="flex flex-col md:w-[700px] md:h-[400px] justify-center items-center text-white px-4 py-3 rounded-lg shadow-lg gap-10 bg-stone-900/95">
+              <button
+                className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors self-end mb-2"
+                onClick={() => setShowTrailer(false)}
+              >
+                <p className="font-medium">Stäng trailer</p>
+              </button>
+              {details?.youtube && (
+                <iframe
+                  src={`https://www.youtube.com/embed/${details.youtube}?autoplay=1`}
+                  title={`${details.title} Trailer`}
+                  className="w-full h-full border-0 mb-4 rounded-lg"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              )}
+            </div>
           </div>
-                      )}
+        )}
       </>
     );
   } else {
