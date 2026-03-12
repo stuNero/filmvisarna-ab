@@ -1,47 +1,45 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-import useFetchJson from "../utils/useFetchJson";
-import type MovieDetails from "../interfaces/MovieDetails";
-import NotFoundPage from "./NotFoundPage";
-import type MovieShowings from "../interfaces/MovieShowings";
-import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom';
+import useFetchJson from '../utils/useFetchJson';
+import { useState } from 'react';
+import type MovieDetails from '../interfaces/MovieDetails';
+import NotFoundPage from './NotFoundPage';
+import type MovieShowings from '../interfaces/MovieShowings';
+import { Link } from 'react-router-dom';
 
 MovieDetailShowingsPage.route = {
-  path: "/moviedetailshowings/:id",
-  menuLabel: "Movie Details And Showings",
-  index: 2,
+  path: '/visningar/:id'
 };
 
 export default function MovieDetailShowingsPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string; }>();
   const [showTrailer, setShowTrailer] = useState(false);
   const movieId = Number(id);
 
   const [details] = useFetchJson<MovieDetails | null>(
-    `/api/comingFilms/${movieId}`,
+    `/api/comingFilms/${movieId}`
   );
-  const [actors] = useFetchJson<{ name: string }[]>(
-    `/api/movieActors?WHERE=id=${movieId}`,
+  const [actors] = useFetchJson<{ name: string; }[]>(
+    `/api/movieActors?WHERE=id=${movieId}`
   );
 
   const today = new Date(Date.now()).toLocaleDateString("sv-SE");
   const now = new Date(Date.now()).toLocaleTimeString("sv-SE");
 
   const [showingsRaw] = useFetchJson<MovieShowings[] | null>(
-    `/api/movieShowings/?WHERE=id=${movieId}&ORDERBY=date,time`,
+    `/api/movieShowings/?WHERE=id=${movieId}&ORDERBY=date,time`
   );
   const showingsPerDate = [
     ...new Set(
       showingsRaw
         ?.map((x) => x.date)
-        .filter((x) => x.toString() >= today.toString()),
-    ),
+        .filter((x) => x.toString() >= today.toString())
+    )
   ].map((x) => ({ date: x, showings: [] as any }));
   for (let showing of showingsPerDate) {
     // Only adds showings that are after the current time
     if (showing.date.toString().slice(0, 10) == today) {
       showing.showings = showingsRaw?.filter(
-        (x) => x.date === showing.date && x.time.toString() >= now,
+        (x) => x.date === showing.date && x.time.toString() >= now
       );
     }
     // Adds showing if date is correct
@@ -155,12 +153,9 @@ export default function MovieDetailShowingsPage() {
                 </div>
                 {/* Renders Showing */}
                 {showings.map(({ showingId, time, name }: any) => (
-                  <div
-                    key={showingId}
-                    className="flex flex-col gap-2 p-5 text-center"
-                  >
+                  <div key={showingId} className="flex flex-col gap-2 p-5">
                     <Link
-                      to={`/seatselection/${showingId}`}
+                      to={`/boka/${showingId}`}
                       className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300"
                     >
                       <p>{time.toString().slice(0, 5)}</p>

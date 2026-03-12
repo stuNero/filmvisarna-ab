@@ -124,10 +124,11 @@ public static class DbQuery
 
             CREATE TABLE IF NOT EXISTS products (
                 id INT PRIMARY KEY AUTO_INCREMENT,
-                productName VARCHAR(255) NOT NULL,
-                inStock BOOL DEFAULT 1,
-                price INT NOT NULL,
-                description TEXT
+                name VARCHAR(255),
+                price INT,
+                description TEXT,
+                type ENUM('Kombos','Snacks','Drycker','Godis'),
+                image VARCHAR(255)
             );
 
             CREATE TABLE IF NOT EXISTS bookings (
@@ -145,23 +146,25 @@ public static class DbQuery
                 PRIMARY KEY (seatId, bookingId),
                 FOREIGN KEY (seatId) REFERENCES seats(id),
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
+                ON DELETE CASCADE
             );
 
             CREATE TABLE IF NOT EXISTS users (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 email VARCHAR(254) NOT NULL,
-                pass VARCHAR(255) NOT NULL,
+                password VARCHAR(255) NOT NULL,
                 firstName VARCHAR(255),
                 lastName VARCHAR(255),
                 role VARCHAR(50) NOT NULL DEFAULT 'user',
                 created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                lastVisited DATETIME NOT NULL
+                lastVisited DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
 
             CREATE TABLE IF NOT EXISTS userBookings (
                 bookingId VARCHAR(10) PRIMARY KEY,
                 email VARCHAR(255) NOT NULL,
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
+                ON DELETE CASCADE
             );
         ";
         // Execute each statement separately
@@ -182,18 +185,39 @@ public static class DbQuery
                     s.rowNr,
                     s.columnNr,
                     sh.timeSlot,
-                    v.name AS venueName,
-                    v.info AS venueInfo,
-                    f.title AS filmTitle,
                     bs.ticketType,
-                    b.id AS bookingId,
-                    b.cost AS totalPrice
+                    v.name  AS venueName,
+                    v.info  AS venueInfo,
+                    f.id    AS filmID,
+                    f.title AS filmTitle,
+                    b.id    AS bookingId,
+                    b.cost  AS totalPrice
                 FROM bookedSeat bs
-                JOIN bookings b ON bs.bookingId = b.id
-                JOIN seats s ON bs.seatId = s.id
-                JOIN showings sh ON b.showingId = sh.id
-                JOIN venues v ON sh.venueId = v.id
-                JOIN films f ON sh.filmId = f.id
+                JOIN bookings   b   ON bs.bookingId = b.id
+                JOIN seats      s   ON bs.seatId    = s.id
+                JOIN showings   sh  ON b.showingId  = sh.id
+                JOIN venues     v   ON sh.venueId   = v.id
+                JOIN films      f   ON sh.filmId    = f.id
+            ;
+            DROP VIEW IF EXISTS bookingCard;
+            CREATE VIEW bookingCard AS
+                SELECT b.id AS bookingId, b.cost, sh.timeSlot, v.name, f.title, f.coverImage
+                FROM bookings b,
+                    venues v,
+                    showings sh,
+                    films f
+                WHERE b.showingId = sh.id
+                AND sh.filmId = f.id
+                AND sh.venueID = v.id
+            ;
+            DROP VIEW IF EXISTS seatsByBooking;
+            CREATE VIEW seatsByBooking AS
+                SELECT s.id, s.rowNr, s.columnNr, s.venueId, b.id as bookingId
+                FROM seats s,
+                    showings sh,
+                    bookings b
+                WHERE b.showingId = sh.id
+                AND sh.venueID = s.venueId
             ;
             DROP VIEW IF EXISTS showingsAllSeats;
             CREATE VIEW showingsAllSeats AS
@@ -224,16 +248,12 @@ public static class DbQuery
                     seats s
                 WHERE bs.bookingId = b.id AND s.id = bs.seatId
             ;
-
-            DROP VIEW IF EXISTS showingsWithOccupiedSeats;
-            CREATE VIEW showingsWithOccupiedSeats AS
-                SELECT movieShowings.*,
-                    rowNr,columnNr
-                FROM movieShowings,
-                    bookedSeatsWithShowings
-                WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
-            ;
             
+            DROP VIEW IF EXISTS ageRatings;
+            CREATE VIEW ageRatings AS 
+                SELECT DISTINCT ageRating FROM films
+                ;
+                    
             DROP VIEW IF EXISTS comingFilms;
             CREATE VIEW comingFilms AS
                 SELECT f.*  FROM showings s, films f
@@ -241,7 +261,7 @@ public static class DbQuery
                 AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
                 GROUP BY f.id
             ;
-            
+
             DROP VIEW IF EXISTS movieActors;
             CREATE VIEW movieActors AS
             SELECT f.id, a.name FROM filmActors fa, films f, actors a
@@ -281,7 +301,7 @@ public static class DbQuery
                 ('admin', '*', 'allow', '/api/sessions', 'true', 'Allow admins to see and edit sessions'),
                 ('admin', '*', 'allow', '/api/acl', 'true', 'Allow admins to see and edit acl rules'),
                 ('visitor,user,admin', 'GET', 'allow', '/api/products', 'true', 'Allow all user roles to read products'),
-                ('visitor,user,admin', 'GET', 'allow', '/api/films', 'true', 'Allow all user roles to read products');
+                ('visitor,user,admin', 'GET', 'allow', '/api/films', 'true', 'Allow all user roles to see films');
             ";
             command.CommandText = aclData;
             command.ExecuteNonQuery();
@@ -393,45 +413,57 @@ public static class DbQuery
             var showingsData = @"
                 INSERT IGNORE INTO showings (timeSlot, filmId, venueId) VALUES
 
-                -- Day 1 (Mars 20)
+                -- Day 1 (March 20)
                 ('2026-03-20 17:15:00', 1, 1),
-                ('2026-03-20 20:15:00', 1, 2),
                 ('2026-03-20 17:15:00', 2, 2),
-                ('2026-03-20 20:15:00', 2, 1),
-                ('2026-03-20 17:15:00', 3, 1),
-                ('2026-03-20 20:15:00', 3, 2),
-                ('2026-03-20 17:15:00', 4, 2),
-                ('2026-03-20 20:15:00', 4, 1),
+                ('2026-03-20 20:15:00', 3, 1),
+                ('2026-03-20 20:15:00', 4, 2),
 
-                -- Day 2 (Mars 21) – swapped venues
+                -- Day 2 (March 21)
+                ('2026-03-21 17:15:00', 3, 1),
                 ('2026-03-21 17:15:00', 1, 2),
-                ('2026-03-21 20:15:00', 1, 1),
-                ('2026-03-21 17:15:00', 2, 1),
+                ('2026-03-21 20:15:00', 4, 1),
                 ('2026-03-21 20:15:00', 2, 2),
-                ('2026-03-21 17:15:00', 3, 2),
-                ('2026-03-21 20:15:00', 3, 1),
-                ('2026-03-21 17:15:00', 4, 1),
-                ('2026-03-21 20:15:00', 4, 2),
 
-                -- Day 3 (Mars 22) – same as Day 1
-                ('2026-03-22 17:15:00', 1, 1),
-                ('2026-03-22 20:15:00', 1, 2),
-                ('2026-03-22 17:15:00', 2, 2),
-                ('2026-03-22 20:15:00', 2, 1),
-                ('2026-03-22 17:15:00', 3, 1),
-                ('2026-03-22 20:15:00', 3, 2),
+                -- Day 3 (March 22)
+                ('2026-03-22 17:15:00', 2, 1),
                 ('2026-03-22 17:15:00', 4, 2),
-                ('2026-03-22 20:15:00', 4, 1),
+                ('2026-03-22 20:15:00', 1, 1),
+                ('2026-03-22 20:15:00', 3, 2),
 
-                -- Day 4 (Mars 23) – same as Day 2
-                ('2026-03-23 17:15:00', 1, 2),
-                ('2026-03-23 20:15:00', 1, 1),
-                ('2026-03-23 17:15:00', 2, 1),
-                ('2026-03-23 20:15:00', 2, 2),
-                ('2026-03-23 17:15:00', 3, 2),
-                ('2026-03-23 20:15:00', 3, 1),
+                -- Day 4 (March 23)
                 ('2026-03-23 17:15:00', 4, 1),
-                ('2026-03-23 20:15:00', 4, 2);
+                ('2026-03-23 17:15:00', 3, 2),
+                ('2026-03-23 20:15:00', 2, 1),
+                ('2026-03-23 20:15:00', 1, 2),
+
+                -- Day 5 (March 24)
+                ('2026-03-24 17:15:00', 1, 1),
+                ('2026-03-24 17:15:00', 3, 2),
+                ('2026-03-24 20:15:00', 2, 2),
+                ('2026-03-24 20:15:00', 4, 1),
+
+                -- Day 6 (March 25)
+                ('2026-03-25 17:15:00', 2, 2),
+                ('2026-03-25 17:15:00', 4, 1),
+                ('2026-03-25 20:15:00', 3, 1),
+                ('2026-03-25 20:15:00', 1, 2),
+                
+                -- Showings for Terminator (5th movie)
+                ('2026-03-27 17:15:00', 5, 1),
+                ('2026-03-29 20:15:00', 5, 2),
+
+                -- Week 2
+                ('2026-04-03 20:15:00', 5, 1),
+                ('2026-04-05 17:15:00', 5, 2),
+
+                -- Week 3
+                ('2026-04-10 17:15:00', 5, 2),
+                ('2026-04-12 20:15:00', 5, 1),
+
+                -- Week 4
+                ('2026-04-17 20:15:00', 5, 2),
+                ('2026-04-19 17:15:00', 5, 1);
             ";
             command.CommandText = showingsData;
             command.ExecuteNonQuery();
@@ -466,6 +498,47 @@ public static class DbQuery
             command.CommandText = filmActorsData;
             command.ExecuteNonQuery();
         }
+
+        // Seed Kiosk Products
+
+        command.CommandText = "SELECT COUNT(*) FROM products";
+        if (Convert.ToInt32(command.ExecuteScalar()) == 0)
+        {
+            var productsData = @"
+            INSERT IGNORE INTO products (name, price, description, type, image) VALUES
+            ('Klassisk Bio Kombo',149,'Stor popcorn + stor läsk + 100g godis',1,
+            'https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&q=80&w=400' ),
+            ('Deluxe Kombo',199,'2 stora popcorn + 2 stora läsk + 200g godis',1,
+            'https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&q=80&w=400'),
+            ('Nachos Kombo',129,'Nachos med ost + mellanläsk',1,
+            'https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&q=80&w=400'),
+            ('Klassisk Popcorn (stor)',55,'Nybakad popcorn med smör',2,
+            'https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?auto=format&fit=crop&q=80&w=400'),
+            ('Karamell Popcorn (stor)',65,'Söt och krispig karamellpopcorn',2,
+            'https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&q=80&w=400'),
+            ('Nachos med Ostdipp',75,'Krispiga nachos med varm ostdipp',2,
+            'https://images.unsplash.com/photo-1582169296194-e4d644c48063?auto=format&fit=crop&q=80&w=400'),
+            ('Saltade Kringlor',40,'Nybakade salta kringlor',2,
+            'https://bellyfull.net/wp-content/uploads/2023/02/Shortcut-Soft-Pretzels-blog-2.jpg'),
+            ('Läsk (mellan)',35,'Coca-Cola, Fanta, Sprite',3,
+            'https://images.unsplash.com/photo-1581636625402-29b2a704ef13?auto=format&fit=crop&q=80&w=400'),
+            ('Läsk (stor)',45,'Coca-Cola, Fanta, Sprite',3,
+            'https://images.unsplash.com/photo-1581636625402-29b2a704ef13?auto=format&fit=crop&q=80&w=400'),
+            ('Juice',35,'Äpple, apelsin eller multifrukt',3,
+            'https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&q=80&w=400'),
+            ('Kaffe',40,'Nybryggt kaffe',3,
+            'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=400'),
+            ('Lösgodis (100g)',25,'Välj bland över 50 sorter',4,
+            'https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=400'),
+            ('Lösgodis (200g)',45,'Välj bland över 50 sorter',4,
+            'https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=400'),
+            ('Chokladkaka',30,'Marabou, Fazer, Dumle m.fl.',4,
+            'https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&q=80&w=400');
+            ";
+            command.CommandText = productsData;
+            command.ExecuteNonQuery();
+        }
+
 
         // Seed the rest of the tables/views here. 
 
