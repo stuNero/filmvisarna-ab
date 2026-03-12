@@ -65,11 +65,11 @@ export default function HomePage() {
         <section className="
         flex flex-col
         max-w-7xl mx-auto
+        md:min-w-7xl
         px-4 sm:px-6 lg:px-8
         lg:-translate-y-40 md:-translate-y-40 sm:-translate-y-20 -translate-y-20 ">
           <div className='
-          md:flex md:flex-row md:justify-between
-          
+          md:flex md:flex-row md:justify-between          
           '>
             <h2 className="
             text-center text-3xl font-semibold
