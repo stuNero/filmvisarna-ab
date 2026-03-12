@@ -23,7 +23,7 @@ export default function MovieCard(props: any) {
   if (movieCardRaw != null && showingsTemp != null) {
     for (let movie of movieCardRaw) {
       for (let showing of showingsTemp) {
-        if (movie.id == showing.id) {
+        if (movie.id == showing.filmID) {
           if (movieCard != null && !movieCard.includes(movie))
             movieCard.push(movie);
         }
@@ -31,10 +31,10 @@ export default function MovieCard(props: any) {
     }
   }
 
-  function GetShowings(id: number) {
+  function GetShowings(filmID: number) {
 
     const showingsSelectedDate = showingsTemp
-      ?.filter((s) => s.id === id)
+      ?.filter((s) => s.filmID === filmID)
       ?.filter(
         (s) => s.time.toString() >= timeNow && s.date.toString().slice(0, 10) == (selectedDate === "" ? dateNow : selectedDate)
       )
@@ -112,7 +112,7 @@ export default function MovieCard(props: any) {
                           GetShowings(film.id)?.map((showing) => (
                             <div
                               className="border rounded border-black bg-white/5 px-3 py-1.5"
-                              key={showing.showingId}
+                              key={showing.showingID}
                             >
                               {/* add 'slice' the remove the seconds */}
                               {showing.time.toString().slice(0, 5)}
