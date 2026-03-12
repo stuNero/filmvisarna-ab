@@ -32,12 +32,6 @@ public static class SpecialRoutes
               return RestResult.Parse(context, SQLQuery(sql, query.parameters, context));
             });
 
-    /*  SELECT f.*FROM showings s, films f
-                 WHERE s.filmId = f.id
-                 AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
-                 AND s.timeSlot <= NOW() + INTERVAL 30 DAY
-                 GROUP BY f.id */
-
     App.MapPost("/api/send-confirm/{table}", (
             HttpContext context, string table, JsonElement bodyJson
         ) =>
