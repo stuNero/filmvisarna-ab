@@ -63,6 +63,32 @@ export default function SeatSelectionPage() {
     `/api/movieShowings?where=showingId=${showingId}`
   );
 
+  //  --- Live updates logic ---
+
+  // Omit the need to set keys in lists
+  useAutoKeys();
+
+  // Our state/context
+  const s = useStates("main", {
+    bookedSeats: [],
+    newBookedSeat: { id: '', rowNr: '', colNr: '' }
+  });
+
+  // Start an SSE Listener
+  useEffect(() => {
+    // Avoid getting double event sources in React Strict mode
+    globalThis.eventSourceSSE && globalThis.eventSourceSSE.close();
+    // New event source
+    globalThis.eventSourceSSE = new EventSource('/api/book-sse');
+    // Listen to SSE events
+    globalThis.eventSourceSSE.onmessage = doOnSseEvent;
+  }, []);
+
+  function doOnSseEvent({ data }) {
+    s.bookedSeats.push(JSON.parse(data));
+  }
+
+
   // Fetching from view
   const [bookedSeatsRaw] = useFetchJson<{
     seatId: number,
@@ -461,4 +487,8 @@ export default function SeatSelectionPage() {
       </>
     );
   }
+}
+
+function useAutoKeys() {
+  throw new Error('Function not implemented.');
 }
