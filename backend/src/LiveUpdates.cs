@@ -17,17 +17,17 @@ public static class LiveUpdates
   public static void Start()
   {
 
-    var bookedSeats List<ChatMessage>();
+    var bookedSeats = new List<BookedSeat>();
     var openConnections = new ConcurrentDictionary<string, SseConnection>();
     var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
     // --- POST /api/chat-message  –  ta emot nytt meddelande ---
 
-    App.MapPost("/api/chat-message", async (ChatInput input) =>
+    App.MapPost("/api/booked-seat", async (NewSeat input) =>
     {
-      var message = new ChatMessage(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), input.UserName, input.Text);
+      var seat = new BookedSeat(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), input.Id, input.RowNr, input.ColNr);
 
-      lock (bookedSeats) { bookedSeats.Add(message); }
+      lock (bookedSeats) { bookedSeats.Add(seat); }
 
       await BroadcastAsync();
 
@@ -36,7 +36,7 @@ public static class LiveUpdates
 
     // --- GET /api/chat-sse  –  öppna SSE-ström ---
 
-    App.MapGet("/api/chat-sse", async (HttpContext ctx) =>
+    App.MapGet("/api/book-sse", async (HttpContext ctx) =>
     {
       // Sätt SSE-headers
       ctx.Response.ContentType = "text/event-stream";
@@ -104,19 +104,19 @@ public static class LiveUpdates
 
     async Task BroadcastToConnectionAsync(SseConnection conn)
     {
-      List<ChatMessage> snapshot;
+      List<BookedSeat> snapshot;
       lock (bookedSeats) { snapshot = bookedSeats.ToList(); }
 
-      foreach (var msg in snapshot)
+      foreach (var booking in snapshot)
       {
-        if (msg.Timestamp > conn.TimestampOfLastMessageSent)
+        if (booking.Timestamp > conn.TimestampOfLastBooking)
         {
-          var json = JsonSerializer.Serialize(msg, jsonOptions);
+          var json = JsonSerializer.Serialize(booking, jsonOptions);
           try
           {
             await conn.Context.Response.WriteAsync($"data:{json}\n\n");
             await conn.Context.Response.Body.FlushAsync();
-            conn.TimestampOfLastMessageSent = msg.Timestamp;
+            conn.TimestampOfLastBooking = booking.Timestamp;
           }
           catch { /* klienten har stängt */ }
         }
@@ -126,17 +126,17 @@ public static class LiveUpdates
 
   // --- Modeller ---
 
-  record ChatInput(string UserName, string Text);
-  record ChatMessage(long Timestamp, string UserName, string Text);
+  record NewSeat(int Id, int RowNr, int ColNr);
+  record BookedSeat(long Timestamp, int Id, int RowNr, int ColNr);
   class SseConnection
   {
-    public SseConnection(HttpContext context, long timestampOfLastMessageSent)
+    public SseConnection(HttpContext context, long timestampOfLastBooking)
     {
       Context = context;
-      TimestampOfLastMessageSent = timestampOfLastMessageSent;
+      TimestampOfLastBooking = timestampOfLastBooking;
     }
 
     public HttpContext Context { get; }
-    public long TimestampOfLastMessageSent { get; set; }
+    public long TimestampOfLastBooking { get; set; }
   }
 }
