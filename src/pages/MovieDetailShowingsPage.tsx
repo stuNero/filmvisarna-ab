@@ -60,15 +60,16 @@ export default function MovieDetailShowingsPage() {
   if (details?.id === movieId) {
     return (
       <>
+      <section onClick={() => (showTrailer ? setShowTrailer(false) : null)}>
         <section>
           <div className="min-h-screen flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
-            <div className="flex flex-col md:flex-row md:items-start max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 ">
+            <div className={`flex flex-col md:flex-row md:items-start max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 ${showTrailer ? "blur-[2px]" : ""}`}>
               <img
                 src={details?.coverImage}
                 alt={details?.title}
                 className="w-full max-w-sm md:max-w-sm aspect-[2/3] h-auto md:max-h-[550px] p-5 rounded-3xl object-contain md:object-cover"
               />
-              <div className="md:ml-8 backdrop-blur-xs">
+              <div className="md:ml-8 ">
                 <div className="flex flex-col lg:gap-10 md:gap-2 pb-5 pt-5 mb-6 w-full">
                   <div className="w-full block">
                     <h1 className="text-3xl md:text-5xl font-extrabold w-full mb-4">
@@ -91,24 +92,11 @@ export default function MovieDetailShowingsPage() {
                       </span>
                       <button
                         className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors"
-                        onClick={() => setShowTrailer(!showTrailer)}
+                        onClick={() => setShowTrailer(true)}
                       >
-                        <p className="font-medium">{showTrailer ? "Stäng trailer" : "Se trailer"}</p>
+                        <p className="font-medium">Se trailer</p>
                       </button>
-                      {showTrailer && (
-                        
-                        <div className="aspect-video w-full z-50 relative top-0 left-0 flex items-center justify-center ">
-            {details?.youtube && (
-              <iframe
-                src={`https://www.youtube.com/embed/${details.youtube}?autoplay=1`}
-                title={`${details.title} Trailer`}
-                className="w-full h-full border-0 mb-4 rounded-lg"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
-            )}
-          </div>
-                      )}
+                     
                     </div>
                   </div>
                 </div>
@@ -131,14 +119,16 @@ export default function MovieDetailShowingsPage() {
                   </p>
                 </div>
               </div>
+               
             </div>
+            
           </div>
         </section>
 
         <section
-          className="flex flex-col 
+          className={`flex flex-col 
               bg-stone-950
-              pt-2.5 pb-2.5 rounded-lg mb-16 px-2 sm:px-4 mx-2 max-w-7xl mx-auto "
+              pt-2.5 pb-2.5 rounded-lg mb-16 px-2 sm:px-4 mx-2 max-w-7xl mx-auto ${showTrailer ? "blur-[2px]" : ""}`}
         >
           <div className="flex justify-center pt-5 pb-5">
             <h2 className="text-2xl font-bold">Välj en visning</h2>
@@ -180,8 +170,33 @@ export default function MovieDetailShowingsPage() {
                 ))}
               </article>
             ))}
+ 
           </div>
         </section>
+        </section>
+        {showTrailer && (
+                        
+                        <div className="flex flex-col fixed 
+            -translate-y-[1600px] right-230 md:m-auto md:w-[700px] md:h-[400px]
+            justify-center items-center
+                 text-white px-4 py-3 rounded-lg shadow-lg animate-fade-in gap-10 ">
+                   <button
+                        className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors"
+                        onClick={() => setShowTrailer(!showTrailer)}
+                      >
+                        <p className="font-medium">{showTrailer ? "Stäng trailer" : "Se trailer"}</p>
+                      </button>
+            {details?.youtube && (
+              <iframe
+                src={`https://www.youtube.com/embed/${details.youtube}?autoplay=1`}
+                title={`${details.title} Trailer`}
+                className="w-full h-full border-0 mb-4 rounded-lg"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            )}
+          </div>
+                      )}
       </>
     );
   } else {
