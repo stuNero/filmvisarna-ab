@@ -5,6 +5,4 @@ export default interface BookingCardInfo {
   name: string;
   coverImage: string;
   cost: number;
-  rowNr: number;
-  columnNr: number;
 }
