@@ -170,7 +170,7 @@ export default function MovieDetailShowingsPage() {
         {showTrailer && (
           <div className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
           onClick={() => setShowTrailer(false)}>
-            <div className="flex flex-col md:w-[700px] md:h-[400px] justify-center items-center text-white px-4 py-3 rounded-lg ">
+            <div className="flex flex-col md:w-[590px] md:h-[400px] justify-center items-center text-white px-4 py-3 rounded-lg ">
               <button
                 className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors self-end mb-2"
                 onClick={() => setShowTrailer(false)}
