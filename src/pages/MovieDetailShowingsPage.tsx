@@ -102,7 +102,7 @@ export default function MovieDetailShowingsPage() {
               <iframe
                 src={`https://www.youtube.com/embed/${details.youtube}?autoplay=1`}
                 title={`${details.title} Trailer`}
-                className="w-full h-full border-0"
+                className="w-full h-full border-0 mb-4 rounded-lg"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               ></iframe>
