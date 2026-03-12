@@ -10,6 +10,34 @@ public static class SpecialRoutes
   public static void Start()
   {
 
+    App.MapGet("/api/comingSoon", (
+                HttpContext context, string table
+            ) =>
+            {
+              var query = RestQuery.Parse(context.Request.Query);
+              if (query.error != null)
+              {
+                return RestResult.Parse(context, Arr(Obj(new { error = query.error })));
+              }
+
+              var sql = $"""
+                 SELECT f.* FROM showings s, films f
+                 WHERE s.filmId = f.id
+                 AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
+                 AND s.timeSlot <= NOW() + INTERVAL 30 DAY
+                 GROUP BY f.id
+                 ; 
+                 """ + query.sql;
+
+              return RestResult.Parse(context, SQLQuery(sql, query.parameters, context));
+            });
+
+    /*  SELECT f.*FROM showings s, films f
+                 WHERE s.filmId = f.id
+                 AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
+                 AND s.timeSlot <= NOW() + INTERVAL 30 DAY
+                 GROUP BY f.id */
+
     App.MapPost("/api/send-confirm/{table}", (
             HttpContext context, string table, JsonElement bodyJson
         ) =>
