@@ -18,8 +18,7 @@ export default function ProfilePage() {
   //Setup page variables
   const [switchSection, setSwitchSection] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-
-  var cancelId: string = "";
+  const [cancelId, setCancelId] = useState<string>("");
 
   //TODO: Should be replaced with proper user handling, not using params
   const { id } = useParams<{ id: string; }>();
@@ -37,7 +36,8 @@ export default function ProfilePage() {
   );
 
   async function setUnbook(bookingId:string) {
-    cancelId = bookingId;
+    setCancelId(bookingId);
+    console.log(bookingId);
     setShowConfirmation(true);
   }
 
@@ -74,7 +74,7 @@ export default function ProfilePage() {
                   <BookingCard
                     key={booking.bookingId}
                     bookingId={booking.bookingId}
-                    onCancelButton={() => setUnbook(booking.bookingId)}
+                    onCancelButton={setUnbook}
                   />
                 </li>
               ))}

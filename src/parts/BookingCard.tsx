@@ -6,7 +6,7 @@ import type Seats from '../interfaces/Seats';
 
 interface BookingCardProps {
     bookingId: string;
-    onCancelButton: () => void;
+    onCancelButton: (bookingId: string) => void;
 }
 
 export default function BookingCard({bookingId, onCancelButton}: BookingCardProps) {
@@ -81,7 +81,7 @@ export default function BookingCard({bookingId, onCancelButton}: BookingCardProp
             </div>
             <div>
                 <button
-                    onClick={onCancelButton}
+                    onClick={() => onCancelButton(bookingId)}
                     className={
                         'flex items-center gap-2 px-4 py-2 bg-red-800/10 hover:bg-red-800/20 text-red-700 border border-red-700/20 rounded-xl transition-all text-sm font-medium'
                     }
