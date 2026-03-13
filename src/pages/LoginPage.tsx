@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [confirmPass, setConfirmPass] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
 
   const switchToLogin = () => {
     setActiveBtn('login');
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
   // user login function using fetchJson post method
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
-    // this line is to prevent the page to refresh, we only want render the component no the whole page
+    // this line is to prevent the page to refresh, we only want render the component not the whole page
     e.preventDefault();
     try {
       const result = await fetchJson(`/api/login`, {
@@ -56,13 +56,14 @@ export default function LoginPage() {
         return;
       }
       setUser(result);
-      navigate('/profil/:id');
+
+      navigate(`/profil/${result?.id}`);
     } catch (error) {
       console.error('Fel:', error);
       alert('Något gick fel');
     }
   };
-
+  console.log(user?.id);
   // user registeration function using fetchjson post method
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
