@@ -18,12 +18,11 @@ export default function MovieCard(props: any) {
   const [movieCardRaw] = useFetchJson<MovieDetails[] | null>(`${selectedDate === "" ? "/api/comingSoon" : "/api/films"}`);
   const [showingsTemp] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings${selectedDate === "" ? "" : `?WHERE=date=${selectedDate}`}`);
 
-
   // needs to be refactored
   if (movieCardRaw != null && showingsTemp != null) {
     for (let movie of movieCardRaw) {
       for (let showing of showingsTemp) {
-        if (movie.id == showing.filmID) {
+        if (movie.id == showing.id) {
           if (movieCard != null && !movieCard.includes(movie))
             movieCard.push(movie);
         }
@@ -34,7 +33,7 @@ export default function MovieCard(props: any) {
   function GetShowings(filmID: number) {
 
     const showingsSelectedDate = showingsTemp
-      ?.filter((s) => s.filmID === filmID)
+      ?.filter((s) => s.id === filmID)
       ?.filter(
         (s) => s.time.toString() >= timeNow && s.date.toString().slice(0, 10) == (selectedDate === "" ? dateNow : selectedDate)
       )
@@ -112,7 +111,7 @@ export default function MovieCard(props: any) {
                           GetShowings(film.id)?.map((showing) => (
                             <div
                               className="border rounded border-black bg-white/5 px-3 py-1.5"
-                              key={showing.showingID}
+                              key={showing.showingId}
                             >
                               {/* add 'slice' the remove the seconds */}
                               {showing.time.toString().slice(0, 5)}

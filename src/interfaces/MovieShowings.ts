@@ -1,7 +1,7 @@
 export default interface MovieShowings {
-  filmID: number;
+  id: number;
   title: string;
-  showingID: number;
+  showingId: number;
   date: number;
   time: number;
   venueID: number;

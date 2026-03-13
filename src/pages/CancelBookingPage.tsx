@@ -7,6 +7,7 @@ import type MovieDetails from '../interfaces/MovieDetails';
 import { useSearchParams } from 'react-router-dom';
 import UnbookConfirmed from '../parts/UnbookConfirmed';
 import YesNoPop from '../parts/YesNoPop';
+import cancelBooking from '../utils/cancelBooking';
 
 CancelBookingPage.route = {
   path: '/avboka',
@@ -21,7 +22,7 @@ export default function CancelBookingPage() {
   const [bookingError, setBookingError] = useState('');
   const [bookingID, setBookingID] = useState('');
   const [email, setEmail] = useState('');
-  const [switchSection, setSwitchSection] = useState(true);
+  const [switchSection, setSwitchSection] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [filmData, setFilmData] = useState<MovieDetails | null>(null);
 
@@ -73,20 +74,9 @@ export default function CancelBookingPage() {
     setBookingID('');
   };
 
-  async function cancelBooking() {
-    if (!searchedBooking?.bookingId) { return false; }
-    const result = await fetch(`/api/bookings/${searchedBooking?.bookingId}`,
-      {
-        method: 'DELETE'
-      },
-    );
-    if (result.ok) {
-      setSwitchSection(false);
-      window.scrollTo(0, 0);
-      await fetch(`/api/booking-has-happened-for-showing/${searchedBooking.showingID}`);
-      return true;
-    }
-    else { return false; }
+  async function setConfirmed() {
+    setSwitchSection(true);
+    window.scrollTo(0, 0);
   }
 
   // Scroll to booking details (if found)
@@ -106,7 +96,7 @@ export default function CancelBookingPage() {
   // Printing to DOM
   return (
     <div className="flex flex-col items-center">
-      {switchSection ? (
+      {!switchSection ? (
         <section id="cancel" className="flex flex-col items-center w-3/4">
           <form onSubmit={confirmSearch} className={`flex flex-col items-center bg-zinc-950 rounded-2xl 
           border-2 border-stone-700/30 
@@ -284,7 +274,18 @@ export default function CancelBookingPage() {
           {showConfirmation && (
             <YesNoPop
               question='Är du säker du vill avboka?'
-              onYes={cancelBooking}
+              onYes={async () => {
+                const successful = await cancelBooking(searchedBooking?.bookingId);
+                console.log({ successful });
+                if (successful) {
+                  await fetch(`/api/booking-has-happened-for-showing/${searchedBooking?.showingID}`);
+                }
+                await setConfirmed();
+                if (!successful) {
+                  setBookingError('Avbokning misslyckades, försök igen.');
+                }
+                setShowConfirmation(false);
+              }}
               onNo={() => setShowConfirmation(false)}
             />
           )}
