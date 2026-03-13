@@ -41,6 +41,36 @@ export default function LoginPage() {
     }
   };
 
+  const register = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (pass != confirmPass) {
+      alert('Lösenord matcher inte');
+      return;
+    }
+
+    try {
+      const result = await fetchJson(`/api/users`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password: pass
+        })
+      });
+
+      if (result && result.error) {
+        alert(result.error);
+        return;
+      }
+    } catch (error) {
+      console.error('Fel:', error);
+      alert('Något gick fel');
+    }
+  };
+
   return (
     <>
       {/* div for centring the whole page */}
@@ -79,7 +109,10 @@ export default function LoginPage() {
               </button>
             </section>
 
-            <form onSubmit={login} className="space-y-8 ">
+            <form
+              onSubmit={activeBtn === 'login' ? login : register}
+              className="space-y-8 "
+            >
               {/* condition rendering of registering a new user */}
               {activeBtn === 'medlem' && (
                 <>
