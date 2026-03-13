@@ -141,12 +141,12 @@ export default function LoginPage() {
                 <>
                   {/* firstname */}
                   <div>
-                    <label className="text-sm text-gray-400">Förnamn</label>
+                    <label className="text-sm text-gray-400 ">Förnamn</label>
                     <input
                       type="text"
                       required
                       placeholder="Förnamn"
-                      className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                      className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                     />
@@ -158,7 +158,7 @@ export default function LoginPage() {
                       type="text"
                       required
                       placeholder="Efternamn"
-                      className="w-full bg-black px-4 py-3 rounded-xl"
+                      className="mt-1 w-full bg-black px-4 py-3 rounded-xl"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                     />
@@ -168,12 +168,14 @@ export default function LoginPage() {
 
               {/* email */}
               <div>
-                <label className="text-sm text-gray-400">E-postadress</label>
+                <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
+                  E-postadress
+                </label>
                 <input
                   type="email"
                   required
                   placeholder="email@example.com"
-                  className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                  className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -183,20 +185,22 @@ export default function LoginPage() {
               {activeBtn === 'login' && (
                 <div>
                   <div>
-                    <label className="text-sm text-gray-400">Lösenord</label>
+                    <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
+                      Lösenord
+                    </label>
 
                     <input
                       type="password"
                       required
                       placeholder="********"
-                      className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                      className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
                       value={pass}
                       onChange={(e) => setPass(e.target.value)}
                     />
                   </div>
 
                   <div className="text-sm flex justify-end">
-                    <button className="text-red-700 cursor-pointer">
+                    <button className="text-red-700 cursor-pointer mt-1">
                       Glömt läsenord?
                     </button>
                   </div>
@@ -206,12 +210,14 @@ export default function LoginPage() {
               {/*  password for signup */}
               {activeBtn === 'medlem' && (
                 <div>
-                  <label className="text-sm text-gray-400">Lösenord</label>
+                  <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
+                    Lösenord
+                  </label>
                   <input
                     type="password"
                     required
                     placeholder="********"
-                    className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                    className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
                     value={pass}
                     onChange={(e) => setPass(e.target.value)}
                   />
@@ -221,14 +227,14 @@ export default function LoginPage() {
               {/* Confirm password for signup */}
               {activeBtn === 'medlem' && (
                 <div>
-                  <label className="text-sm text-gray-400">
+                  <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
                     Bekräfta lösenord
                   </label>
                   <input
                     type="password"
                     required
                     placeholder="********"
-                    className="w-full bg-black px-4 py-3 rounded-xl border border-white/10"
+                    className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
                     value={confirmPass}
                     onChange={(e) => setConfirmPass(e.target.value)}
                   />
