@@ -22,7 +22,7 @@ export default function CancelBookingPage() {
   const [bookingError, setBookingError] = useState('');
   const [bookingID, setBookingID] = useState('');
   const [email, setEmail] = useState('');
-  const [switchSection, setSwitchSection] = useState(true);
+  const [switchSection, setSwitchSection] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [filmData, setFilmData] = useState<MovieDetails | null>(null);
 
@@ -72,8 +72,8 @@ export default function CancelBookingPage() {
     setBookingID('');
   };
 
-  async function resetPage() {
-      setSwitchSection(false);
+  async function setConfirmed() {
+      setSwitchSection(true);
       window.scrollTo(0, 0);
   }
 
@@ -94,7 +94,7 @@ export default function CancelBookingPage() {
   // Printing to DOM
   return (
     <div className="flex flex-col items-center">
-      {switchSection ? (
+      {!switchSection ? (
         <section id="cancel" className="flex flex-col items-center w-3/4">
           <form onSubmit={confirmSearch} className={`flex flex-col items-center bg-zinc-950 rounded-2xl 
           border-2 border-stone-700/30 
@@ -274,7 +274,7 @@ export default function CancelBookingPage() {
               question = 'Är du säker du vill avboka?'
               onYes={async () => {
                 const successful = await cancelBooking(searchedBooking?.bookingId);
-                await resetPage();
+                await setConfirmed();
                 if (!successful) {
                   setBookingError('Avbokning misslyckades, försök igen.');
                 }

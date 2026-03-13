@@ -1,5 +1,4 @@
 import { Calendar, Ticket, MapPin, Clock } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import useFetchJson from "../utils/useFetchJson";
 import type BookingCardInfo from '../interfaces/BookingCardInfo';
 import getSeatNumber from '../utils/getSeatNumber';
@@ -7,9 +6,10 @@ import type Seats from '../interfaces/Seats';
 
 interface BookingCardProps {
     bookingId: string;
+    onCancelButton: () => void;
 }
 
-export default function BookingCard({bookingId}: BookingCardProps) {
+export default function BookingCard({bookingId, onCancelButton}: BookingCardProps) {
 
     //Get bookinginfo
     const [bookings] = useFetchJson<BookingCardInfo[] | null>(
@@ -80,14 +80,14 @@ export default function BookingCard({bookingId}: BookingCardProps) {
                 </div>
             </div>
             <div>
-                <Link
-                    to="/avboka"
+                <button
+                    onClick={onCancelButton}
                     className={
                         'flex items-center gap-2 px-4 py-2 bg-red-800/10 hover:bg-red-800/20 text-red-700 border border-red-700/20 rounded-xl transition-all text-sm font-medium'
                     }
                 >
                     Avboka
-                </Link>
+                </button>
             </div>
         </div>
     </>;
