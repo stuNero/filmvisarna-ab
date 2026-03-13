@@ -97,16 +97,29 @@ export default function SeatSelectionPage() {
   // Extracts seatID from fetch array
   const bookedSeats = bookedSeatsRaw?.map((x) => x.seatId);
 
+  const [toast, setToast] = useState(false);
 
   // If the selectedSeats contains bookedSeats then remove them from selectedSeats
   let oldNumberOfSelectedSeats = selectedSeats.length;
+
   for (let seatId of bookedSeats || []) {
     if (selectedSeats.includes(seatId)) {
       selectedSeats.splice(selectedSeats.indexOf(seatId), 1);
     }
   }
   if (oldNumberOfSelectedSeats !== selectedSeats.length && !bookingDone) {
-    console.log('NOTIFY USER: SADLY CHAIR WAS BOOKED...');
+
+    triggerToast();
+  }
+
+  function triggerToast() {
+    setToast(true);
+
+    const timer = setTimeout(() => {
+      setToast(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
   }
 
 
@@ -494,6 +507,11 @@ export default function SeatSelectionPage() {
                 </div>
               </div>
             </form> : <></>}
+          {/* Pop up (toast) when the selected seats have been booked by someone else  */}
+          <div className={`fixed bottom-10 right-2 md:right-10 bg-yellow-700 text-white px-4 py-2 rounded shadow-lg
+          transition-all duration-500 ease-out transform pointer-events-none ${toast ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
+            Dina valda säten har blivit bokade av någon annan
+          </div>
         </div>
       </>
     );
