@@ -29,7 +29,7 @@ export default function MovieDetailShowingsPage() {
       stars: string;
       filmId: number;
     }[]
-  >(`/api/reviews?WHERE=id=${movieId}`);
+  >(`/api/reviews?WHERE=filmId=${movieId}`);
 
   const today = new Date(Date.now()).toLocaleDateString("sv-SE");
   const now = new Date(Date.now()).toLocaleTimeString("sv-SE");
@@ -121,12 +121,18 @@ export default function MovieDetailShowingsPage() {
                 </div>
                 <div className="mb-6 md:mb-4">
                   <h3 className="text-sm text-gray-400 mb-1">Sammanfattning</h3>
-                  <h1>{reviews?.[0]?.source}</h1>
                   <p className="text-base md:text-xl font-bold">
                     {details?.filmDescription}
                   </p>
                 </div>
               </div>
+            </div>
+            <div className="mb-6 md:mb-4 max-w-7xl mx-auto px-10">
+              <h3 className="text-sm text-gray-400 mb-1">Reviews</h3>
+              <h1>{reviews?.[0]?.source}</h1>
+              <p className="text-base md:text-base font-bold">
+                {reviews?.[0]?.quote}
+              </p>
             </div>
           </div>
         </section>
