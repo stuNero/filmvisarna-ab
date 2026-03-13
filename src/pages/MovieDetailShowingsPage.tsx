@@ -1,45 +1,45 @@
-import { useParams } from 'react-router-dom';
-import useFetchJson from '../utils/useFetchJson';
-import { useState } from 'react';
-import type MovieDetails from '../interfaces/MovieDetails';
-import NotFoundPage from './NotFoundPage';
-import type MovieShowings from '../interfaces/MovieShowings';
-import { Link } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import useFetchJson from "../utils/useFetchJson";
+import { useState } from "react";
+import type MovieDetails from "../interfaces/MovieDetails";
+import NotFoundPage from "./NotFoundPage";
+import type MovieShowings from "../interfaces/MovieShowings";
+import { Link } from "react-router-dom";
 
 MovieDetailShowingsPage.route = {
-  path: '/visningar/:id'
+  path: "/visningar/:id",
 };
 
 export default function MovieDetailShowingsPage() {
-  const { id } = useParams<{ id: string; }>();
+  const { id } = useParams<{ id: string }>();
   const [showTrailer, setShowTrailer] = useState(false);
   const movieId = Number(id);
 
   const [details] = useFetchJson<MovieDetails | null>(
-    `/api/comingFilms/${movieId}`
+    `/api/comingFilms/${movieId}`,
   );
-  const [actors] = useFetchJson<{ name: string; }[]>(
-    `/api/movieActors?WHERE=id=${movieId}`
+  const [actors] = useFetchJson<{ name: string }[]>(
+    `/api/movieActors?WHERE=id=${movieId}`,
   );
 
   const today = new Date(Date.now()).toLocaleDateString("sv-SE");
   const now = new Date(Date.now()).toLocaleTimeString("sv-SE");
 
   const [showingsRaw] = useFetchJson<MovieShowings[] | null>(
-    `/api/movieShowings/?WHERE=id=${movieId}&ORDERBY=date,time`
+    `/api/movieShowings/?WHERE=id=${movieId}&ORDERBY=date,time`,
   );
   const showingsPerDate = [
     ...new Set(
       showingsRaw
         ?.map((x) => x.date)
-        .filter((x) => x.toString() >= today.toString())
-    )
+        .filter((x) => x.toString() >= today.toString()),
+    ),
   ].map((x) => ({ date: x, showings: [] as any }));
   for (let showing of showingsPerDate) {
     // Only adds showings that are after the current time
     if (showing.date.toString().slice(0, 10) == today) {
       showing.showings = showingsRaw?.filter(
-        (x) => x.date === showing.date && x.time.toString() >= now
+        (x) => x.date === showing.date && x.time.toString() >= now,
       );
     }
     // Adds showing if date is correct
@@ -60,7 +60,9 @@ export default function MovieDetailShowingsPage() {
       <>
         <section>
           <div className="min-h-screen flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
-            <div className={`flex flex-col md:flex-row md:items-start max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 ${showTrailer ? "blur-[2px]" : ""}`}>
+            <div
+              className={`flex flex-col md:flex-row md:items-start max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 ${showTrailer ? "blur-[2px]" : ""}`}
+            >
               <img
                 src={details?.coverImage}
                 alt={details?.title}
@@ -93,7 +95,6 @@ export default function MovieDetailShowingsPage() {
                       >
                         <p className="font-medium">Se trailer</p>
                       </button>
-                     
                     </div>
                   </div>
                 </div>
@@ -116,9 +117,7 @@ export default function MovieDetailShowingsPage() {
                   </p>
                 </div>
               </div>
-               
             </div>
-            
           </div>
         </section>
 
@@ -164,12 +163,13 @@ export default function MovieDetailShowingsPage() {
                 ))}
               </article>
             ))}
- 
           </div>
         </section>
         {showTrailer && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center "
-          onClick={() => setShowTrailer(false)}>
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center "
+            onClick={() => setShowTrailer(false)}
+          >
             <div className="flex flex-col md:w-[593px] md:h-[400px] justify-center items-center text-white px-4 py-3 rounded-lg ">
               <button
                 className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors self-end mb-2"
