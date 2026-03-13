@@ -151,20 +151,20 @@ export default function ShowingsPage() {
             </button>
           </div>
           {switchSections ? (
-            <section className={switchSections ? "md:hi" : ""}>
-              <div className="md:mt-10 flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
+            <section>
+              <div className="flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
                 <div
-                  className={`flex flex-col md:flex-row md:items-start max-w-7xl mx-auto px-8 sm:px-12 lg:px-16`}
+                  className={`flex flex-col max-w-7xl mx-auto px-1`}
                 >
                   <img
                     src={details?.coverImage}
                     alt={details?.title}
-                    className="w-full max-w-sm md:max-w-sm aspect-2/3 h-auto md:max-h-137.5 p-5 rounded-3xl object-contain md:object-cover"
+                    className="w-full max-w-sm aspect-2/3 h-auto p-5 rounded-3xl object-contain"
                   />
-                  <div className="md:ml-8 ">
-                    <div className="flex flex-col lg:gap-10 md:gap-2 pb-5 pt-5 mb-6 w-full">
+                  <div>
+                    <div className="flex flex-col pb-5 pt-5 w-full">
                       <div className="w-full block">
-                        <h1 className="text-3xl md:text-5xl font-extrabold w-full mb-4">
+                        <h1 className="text-3xl font-extrabold w-full mb-4">
                           {details?.title}
                         </h1>
                       </div>
@@ -173,12 +173,12 @@ export default function ShowingsPage() {
                           <span className="px-3 py-1 border border-gray-600 rounded text-white">
                             {details?.ageRating} år
                           </span>
-                          <h3 className="text-xl md:text-lg py-1">
+                          <h3 className="text-xl py-1">
                             {details?.productionYear}
                           </h3>
                           <div className="flex items-center gap-2">
                             <Clock size={16} className="-mb-0.5" />
-                            <h3 className="text-lg md:text-lg ">
+                            <h3 className="text-lg ">
                               {details?.length} min
                             </h3>
                           </div>
@@ -187,33 +187,33 @@ export default function ShowingsPage() {
                             {details?.genre}
                           </span>
                           <button
-                            className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors"
+                            className="flex w-full h-20 border-4 border-red-800 justify-center items-center gap-2 bg-red-900 text-white rounded transition-colors"
                             onClick={() => setShowTrailer(true)}
                           >
-                            <p className="font-medium">Se trailer</p>
+                            <h1 className="text-3xl font-semibold">Se trailer</h1>
                           </button>
                         </div>
                       </div>
                     </div>
-                    <div className="mb-6  text-base md:text-xl font-medium">
+                    <div className="mb-6 text-base font-medium">
                       <h3 className="text-sm text-gray-400 mb-1">Regissör</h3>
                       <h5>{details.director}</h5>
                     </div>
-                    <div className="mb-6 md:mb-0">
+                    <div>
                       <h3 className="text-sm text-gray-400 mb-1">
                         Skådespelare
                       </h3>
-                      <div className="flex flex-row gap-5 h-12.5 text-base md:text-xl font-medium">
+                      <div className="flex flex-row gap-5 h-12.5 text-base font-medium">
                         {actors?.map((a, index) => (
                           <h5 key={index}>{a.name}</h5>
                         ))}
                       </div>
                     </div>
-                    <div className="mb-6 md:mb-4">
+                    <div className="mb-6">
                       <h3 className="text-sm text-gray-400 mb-1">
                         Sammanfattning
                       </h3>
-                      <p className="text-base md:text-xl font-bold">
+                      <p className="text-base font-bold">
                         {details?.filmDescription}
                       </p>
                     </div>
@@ -221,26 +221,18 @@ export default function ShowingsPage() {
                 </div>
 
                 {/* R E V I E W   S E C T I O N */}
-                <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 mx-auto flex items-center ">
-                  <button
-                    type="button"
-                    onClick={goToPrevReview}
-                    className="p-2 rounded border border-stone-600 hover:bg-stone-900 md:-mt-25 "
-                  >
-                    <ArrowLeft className="" />
-                  </button>
-
-                  <div className="min-h-24 max-w-7xl mx-auto pt-20 px-8 sm:px-12 lg:px-16 items-center justify-center">
+                <div className="mb-6 max-w-7xl flex px-1 items-center ">
+                  <div className="min-h-24 max-w-7xl  items-center justify-center">
                     <h3 className="text-sm text-gray-400 mb-1 relative">
-                      Reviews
+                      Recensioner
                     </h3>
-                    <div className="md:relative h-60 w-75 overflow-hidden">
+                    <div className="h-60">
                       {activeReview ? (
-                        <div className="absolute ">
-                          <h4 className="text-lg font-semibold">
+                        <div className="w-65 p-1">
+                          <h4 className="text-lg font-bold italic">
                             {activeReview.source}
                           </h4>
-                          <p className="text-base md:text-base font-bold">
+                          <p className="text-md italic w-60">
                             {activeReview.quote}
                           </p>
                           <p className="text-xs text-gray-400 mt-2">
@@ -248,7 +240,7 @@ export default function ShowingsPage() {
                           </p>
                         </div>
                       ) : (
-                        <p className="text-base text-gray-300">
+                        <p className="text-gray-300">
                           Inga reviews tillgängliga.
                         </p>
                       )}
@@ -258,7 +250,7 @@ export default function ShowingsPage() {
                   <button
                     type="button"
                     onClick={goToNextReview}
-                    className="p-2 rounded border border-stone-600 hover:bg-stone-900 md:-mt-25"
+                    className="p-5 rounded border h-60 border-stone-600 "
                   >
                     <ArrowRight size={20} />
                   </button>
@@ -274,7 +266,7 @@ export default function ShowingsPage() {
               <div className="flex justify-center pt-5 pb-5">
                 <h2 className="text-2xl font-bold">Välj en visning</h2>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 justify-center items-center ">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 justify-center items-center ">
                 {showingsPerDate?.map(({ date, showings }) => (
                   <article
                     key={date}
@@ -317,7 +309,7 @@ export default function ShowingsPage() {
               className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs "
               onClick={() => setShowTrailer(false)}
             >
-              <div className="flex flex-col md:w-148.25 md:h-100 justify-center items-center text-white px-4 py-3 rounded-lg ">
+              <div className="flex flex-col justify-center items-center text-white px-4 py-3 rounded-lg ">
                 <button
                   className="flex items-center gap-2 px-4 py-1.5 bg-red-800 text-white rounded transition-colors self-end mb-2"
                   onClick={() => setShowTrailer(false)}
@@ -420,7 +412,7 @@ export default function ShowingsPage() {
                 </div>
               </div>
 
-              {/* R E V I E W   S E C T I O N */}
+              {/* REVIEW   S E C T I O N */}
               <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 mx-auto flex items-center ">
                 <button
                   type="button"
@@ -437,10 +429,10 @@ export default function ShowingsPage() {
                   <div className="md:relative h-60 w-75 overflow-hidden">
                     {activeReview ? (
                       <div className="absolute ">
-                        <h4 className="text-lg font-semibold">
+                        <h4 className="text-lg font-bold">
                           {activeReview.source}
                         </h4>
-                        <p className="text-base md:text-base font-bold">
+                        <p className="text-base md:text-base font-bold italic">
                           {activeReview.quote}
                         </p>
                         <p className="text-xs text-gray-400 mt-2">
