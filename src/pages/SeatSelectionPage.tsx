@@ -353,20 +353,41 @@ export default function SeatSelectionPage() {
       <>
         <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20 ">
           {/* Ticket Selection */}
-          <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
-            <div className="max-w-2xl mx-auto space-y-4">
+          <div className="flex flex-col items-center bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
+            <div className="max-w-2xl md:min-w-2xl mx-auto space-y-4">
               <CreateSeatTypes />
             </div>
+            {totalTickets > 0 ?
+              <div className="flex flex-row gap-20 px-10 bg-zinc-950 rounded-2xl border-2 border-white/20 md:max-w-4/12 md:min-w-4/12 mt-10 p-2 mb-8">
+                <div>
+                  <p>Barn: </p>
+                  <p>Vuxen:  </p>
+                  <p>Pensionär: </p>
+                </div>
+                <div>
+                  <p>{ticketCount.child} </p>
+                  <p>{ticketCount.adult} </p>
+                  <p>{ticketCount.senior} </p>
+                </div>
+                {selectedSeats.length > 0 ?
+                  <div className='grid grid-cols-4 gap-4 py-1 px-5  rounded-2xl'>
+                    {selectedSeats.map((seat) => <p className='border-2 border-white/20'>
+                      {seat}
+                    </p>)}
+                  </div> : <></>}
+              </div> : <></>}
           </div>
+
 
           {/* Seat Selection */}
           {totalTickets > 0 ?
+
             <div className="
             flex flex-col
             bg-zinc-950
             rounded-2xl border-2 border-white/20
             p-8 mb-8
-            items-center overflow-x-scroll">
+            items-center overflow-x-scroll md:overflow-x-hidden">
               {/*           Cinema Screen         */}
               <h1 className='text-center text-sm italic text-stone-300/50 translate-x-9'>Bioduk</h1>
               <div className='flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full translate-x-9' />
