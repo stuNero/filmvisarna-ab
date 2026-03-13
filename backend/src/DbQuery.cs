@@ -191,7 +191,8 @@ public static class DbQuery
                     f.id    AS filmID,
                     f.title AS filmTitle,
                     b.id    AS bookingId,
-                    b.cost  AS totalPrice
+                    b.cost  AS totalPrice,
+                    sh.id AS showingID
                 FROM bookedSeat bs
                 JOIN bookings   b   ON bs.bookingId = b.id
                 JOIN seats      s   ON bs.seatId    = s.id
@@ -199,6 +200,7 @@ public static class DbQuery
                 JOIN venues     v   ON sh.venueId   = v.id
                 JOIN films      f   ON sh.filmId    = f.id
             ;
+            
             DROP VIEW IF EXISTS bookingCard;
             CREATE VIEW bookingCard AS
                 SELECT b.id AS bookingId, b.cost, sh.timeSlot, v.name, f.title, f.coverImage
