@@ -85,7 +85,7 @@ export default function MovieDetailShowingsPage() {
         <section>
           <div className="min-h-screen flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
             <div
-              className={`flex flex-col md:flex-row md:items-start max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 ${showTrailer ? "blur-[2px]" : ""}`}
+              className={`flex flex-col md:flex-row md:items-start max-w-7xl mx-auto pt-20 px-8 sm:px-12 lg:px-16 ${showTrailer ? "blur-[2px]" : ""}`}
             >
               <img
                 src={details?.coverImage}
@@ -146,40 +146,38 @@ export default function MovieDetailShowingsPage() {
               <button
                 type="button"
                 onClick={goToPrevReview}
-                className="p-2 rounded border border-stone-600 hover:bg-stone-900 disabled:opacity-40 disabled:cursor-not-allowed"
-                disabled={reviewCount <= 1}
-                aria-label="Visa förra review"
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900"
               >
                 <ArrowLeft size={20} />
               </button>
 
               <div className="min-h-24 max-w-2xl">
-                <h3 className="text-sm text-gray-400 mb-1">Reviews</h3>
-                {activeReview ? (
-                  <>
-                    <h4 className="text-lg font-semibold">
-                      {activeReview.source}
-                    </h4>
-                    <p className="text-base md:text-base font-bold">
-                      {activeReview.quote}
+                <h3 className="text-sm text-gray-400 mb-1 relative">Reviews</h3>
+                <div className="relative h-[240px] w-[600px] overflow-hidden mx-auto">
+                  {activeReview ? (
+                    <div className="absolute inset-0">
+                      <h4 className="text-lg font-semibold">
+                        {activeReview.source}
+                      </h4>
+                      <p className="text-base md:text-base font-bold">
+                        {activeReview.quote}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-2">
+                        {reviewIndex + 1} / {reviewCount}
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="text-base text-gray-300">
+                      Inga reviews tillgängliga.
                     </p>
-                    <p className="text-xs text-gray-400 mt-2">
-                      {reviewIndex + 1} / {reviewCount}
-                    </p>
-                  </>
-                ) : (
-                  <p className="text-base text-gray-300">
-                    Inga reviews tillgängliga.
-                  </p>
-                )}
+                  )}
+                </div>
               </div>
 
               <button
                 type="button"
                 onClick={goToNextReview}
-                className="p-2 rounded border border-stone-600 hover:bg-stone-900 disabled:opacity-40 disabled:cursor-not-allowed"
-                disabled={reviewCount <= 1}
-                aria-label="Visa nasta review"
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900"
               >
                 <ArrowRight size={20} />
               </button>
