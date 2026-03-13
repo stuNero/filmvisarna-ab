@@ -6,8 +6,10 @@ import { useAuth } from '../pages/AuthProvider';
 import fetchJson from '../utils/fetchJson';
 import ProfilePage from '../pages/ProfilePage';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
+  const navigate = useNavigate();
   const { user, setUser } = useAuth();
 
   // Check current user on mount
@@ -70,7 +72,7 @@ export default function Header() {
                 await fetchJson('/api/login', { method: 'DELETE' });
 
                 setUser(null);
-                window.location.href = '/logga-in';
+                navigate('/logga-in');
               }}
             >
               Logga ut
