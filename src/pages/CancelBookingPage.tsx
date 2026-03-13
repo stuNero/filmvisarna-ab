@@ -278,7 +278,7 @@ export default function CancelBookingPage() {
                 const successful = await cancelBooking(searchedBooking?.bookingId);
                 console.log({ successful });
                 if (successful) {
-                  await fetch(`/api/booking-has-happened-for-showing/${searchedBooking?.showingID}`);
+                  await fetch(`/api/remote-booking/${searchedBooking?.showingID}`);
                 }
                 await setConfirmed();
                 if (!successful) {

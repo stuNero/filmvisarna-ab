@@ -9,7 +9,7 @@ public static class LiveUpdates
     // Start the background heartbeat when the app starts
     _ = StartHeartbeatAsync();
 
-    App.MapGet("/api/booking-has-happened-for-showing/{showingId}", async (string showingId) =>
+    App.MapGet("/api/remote-booking/{showingId}", async (string showingId) =>
     {
       await BroadcastUpdateAsync(showingId);
       return Results.Ok();

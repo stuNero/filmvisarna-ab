@@ -286,7 +286,7 @@ export default function SeatSelectionPage() {
 
     // also send to sse-handler for direct updates
     setBookingDone(true);
-    await fetch(`/api/booking-has-happened-for-showing/${showingId}`);
+    await fetch(`/api/remote-booking/${showingId}`);
 
     // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
