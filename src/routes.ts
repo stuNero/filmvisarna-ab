@@ -3,7 +3,7 @@ import { createElement } from 'react';
 
 // page components
 import HomePage from './pages/HomePage.tsx';
-import MovieDetailShowingsPage from './pages/MovieDetailShowingsPage.tsx';
+import ShowingsPage from './pages/ShowingsPage.tsx';
 import SeatSelectionPage from './pages/SeatSelectionPage.tsx';
 import BookingConfirmationPage from './pages/BookingConfirmationPage.tsx';
 import CancelBookingPage from './pages/CancelBookingPage.tsx';
@@ -15,7 +15,7 @@ import NotFoundPage from './pages/NotFoundPage.tsx';
 
 export default [
   HomePage,
-  MovieDetailShowingsPage,
+  ShowingsPage,
   SeatSelectionPage,
   BookingConfirmationPage,
   CancelBookingPage,
