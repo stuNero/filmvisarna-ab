@@ -5,28 +5,11 @@ import HomePage from '../pages/HomePage';
 import { useAuth } from '../pages/AuthProvider';
 import fetchJson from '../utils/fetchJson';
 import ProfilePage from '../pages/ProfilePage';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
-
-  // Check current user on mount
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const result = await fetchJson('/api/login', { method: 'GET' });
-        if (result && !result.error) {
-          setUser(result); // find the user from session and save the result in user
-        }
-      } catch (error) {
-        console.error('Session check failed:', error);
-      }
-    };
-
-    checkSession();
-  }, []);
 
   return (
     <header
