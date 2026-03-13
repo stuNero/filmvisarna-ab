@@ -28,7 +28,7 @@ export default function HomePage() {
   return (
     <div className="container mx-auto">
       <div className="flex flex-col  ">
-        <section className="inline-block relative">
+        <section className="inline-block relative md:mb-20">
           <section className="
             bg-[url('/bg-image.webp')] bg-center
             bg-cover                       
@@ -49,7 +49,10 @@ export default function HomePage() {
               text-shadow-lg
               pt-20
                           ">
-              <div className="md:-translate-x-50 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs md:relative">
+              <div className="
+              md:-translate-x-65
+              max-w-7xl mx-auto
+              px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs ">
                 <h1 className="text-5xl md:text-7xl font-semibold md:max-w-xl">
                   Upplev bio som aldrig förr
                 </h1>
@@ -57,7 +60,7 @@ export default function HomePage() {
                   Fördjupa dig i de senaste storfilmerna med toppmodern
                   ljudteknik och <br className='hidden md:block' />fantastisk bild.
                   <br className='-' />
-                  Boka dina biljetter nu.
+                  Boka dina biljetter nu!
                 </p>
               </div>
               <Link
@@ -65,9 +68,9 @@ export default function HomePage() {
                 className="
                 md:content-center
                 md:text-3xl
-                md:scale-140
+                md:scale-130
                 md:translate-x-90 md:-translate-y-110
-                md:overflow-hidden md:hover:scale-150
+                md:overflow-hidden md:hover:scale-140
                 hover:scale-110
                 md:opacity-85
                 text-shadow-black text-shadow-md
@@ -82,7 +85,7 @@ export default function HomePage() {
                 "
               >
                 <h1 className='md:backdrop-blur-xs text-2xl'>
-                  Utforska vårat kiosk utbud!
+                  Utforska vårt kioskutbud!
                 </h1>
               </Link>
             </div>
@@ -134,7 +137,7 @@ export default function HomePage() {
               <input
                 type="date"
                 id="datepicker"
-                min={new Date(Date.now()).toISOString().split("T")[0]}
+                min={new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10)}
                 value={date}
                 onChange={event => setDate(event.target.value)}
                 onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker()}
