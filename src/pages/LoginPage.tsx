@@ -2,6 +2,7 @@ import { useState } from 'react';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
+import { Mail, Lock, User } from 'lucide-react';
 
 LoginPage.route = {
   path: '/logga-in'
@@ -123,14 +124,14 @@ export default function LoginPage() {
             <section className=" flex flex-row bg-black rounded-xl justify-between mb-8">
               <button
                 className={`bg-black p-2 rounded-xl flex-1 border-black border-4 cursor-pointer
-              ${activeBtn === 'login' ? 'bg-gray-500' : 'bg-black'}`}
+              ${activeBtn === 'login' ? 'bg-zinc-800' : 'bg-black text-gray-500 hover:text-gray-300'}`}
                 onClick={switchToLogin}
               >
                 Login
               </button>
               <button
                 className={`bg-black p-2 rounded-xl flex-1 border-black border-4 cursor-pointer
-              ${activeBtn === 'medlem' ? 'bg-gray-500' : 'bg-black'}`}
+              ${activeBtn === 'medlem' ? 'bg-zinc-800' : 'bg-black  text-gray-500 hover:text-gray-300'}`}
                 onClick={switchToRegister}
               >
                 Bli medlem
@@ -147,24 +148,30 @@ export default function LoginPage() {
                   {/* firstname */}
                   <div>
                     <label className="text-sm text-gray-400 ">Förnamn</label>
-                    <input
-                      type="text"
-                      placeholder="Förnamn"
-                      className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
+                    <div className="mt-1 flex items-center bg-black border border-white/10 rounded-xl px-3 focus-within:outline-1 focus-within:outline-red-900 ">
+                      <User className="w-5 h-5 text-gray-500" />
+                      <input
+                        type="text"
+                        placeholder="Förnamn"
+                        className="flex-1 bg-transparent px-3 py-3 outline-none"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
+                    </div>
                   </div>
                   {/* lastname */}
                   <div>
                     <label className="text-sm text-gray-400 ">Efternamn</label>
-                    <input
-                      type="text"
-                      placeholder="Efternamn"
-                      className="mt-1 w-full bg-black px-4 py-3 rounded-xl"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
+                    <div className="mt-1 flex items-center bg-black border border-white/10 rounded-xl px-3 focus-within:outline-1 focus-within:outline-red-900 ">
+                      <User className="w-5 h-5 text-gray-500" />
+                      <input
+                        type="text"
+                        placeholder="Efternamn"
+                        className="flex-1 bg-transparent px-3 py-3 outline-none"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                    </div>
                   </div>
                 </>
               )}
@@ -174,14 +181,17 @@ export default function LoginPage() {
                 <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
                   E-postadress
                 </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="email@example.com"
-                  className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                <div className="mt-1 flex items-center bg-black border border-white/10 rounded-xl px-3 focus-within:outline-1 focus-within:outline-red-900 ">
+                  <Mail className="w-5 h-5 text-gray-500" />
+                  <input
+                    type="email"
+                    required
+                    placeholder="email@example.com"
+                    className="flex-1 bg-transparent px-3 py-3 outline-none"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
               </div>
 
               {/* password for login */}
@@ -191,15 +201,17 @@ export default function LoginPage() {
                     <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
                       Lösenord
                     </label>
-
-                    <input
-                      type="password"
-                      required
-                      placeholder="********"
-                      className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
-                      value={pass}
-                      onChange={(e) => setPass(e.target.value)}
-                    />
+                    <div className="mt-1 flex items-center bg-black border border-white/10 rounded-xl px-3 focus-within:outline-1 focus-within:outline-red-900 ">
+                      <Lock className="w-5 h-5 text-gray-500" />
+                      <input
+                        type="password"
+                        required
+                        placeholder="********"
+                        className="flex-1 bg-transparent px-3 py-3 outline-none"
+                        value={pass}
+                        onChange={(e) => setPass(e.target.value)}
+                      />
+                    </div>
                   </div>
 
                   <div className="text-sm flex justify-end">
@@ -216,14 +228,17 @@ export default function LoginPage() {
                   <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
                     Lösenord
                   </label>
-                  <input
-                    type="password"
-                    required
-                    placeholder="********"
-                    className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
-                    value={pass}
-                    onChange={(e) => setPass(e.target.value)}
-                  />
+                  <div className="mt-1 flex items-center bg-black border border-white/10 rounded-xl px-3 focus-within:outline-1 focus-within:outline-red-900 ">
+                    <Lock className="w-5 h-5 text-gray-500" />
+                    <input
+                      type="password"
+                      required
+                      placeholder="********"
+                      className="flex-1 bg-transparent px-3 py-3 outline-none"
+                      value={pass}
+                      onChange={(e) => setPass(e.target.value)}
+                    />
+                  </div>
                 </div>
               )}
 
@@ -233,14 +248,17 @@ export default function LoginPage() {
                   <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
                     Bekräfta lösenord
                   </label>
-                  <input
-                    type="password"
-                    required
-                    placeholder="********"
-                    className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
-                    value={confirmPass}
-                    onChange={(e) => setConfirmPass(e.target.value)}
-                  />
+                  <div className="mt-1 flex items-center bg-black border border-white/10 rounded-xl px-3 focus-within:outline-1 focus-within:outline-red-900 ">
+                    <Lock className="w-5 h-5 text-gray-500" />
+                    <input
+                      type="password"
+                      required
+                      placeholder="********"
+                      className="flex-1 bg-transparent px-3 py-3 outline-none"
+                      value={confirmPass}
+                      onChange={(e) => setConfirmPass(e.target.value)}
+                    />
+                  </div>
                 </div>
               )}
 
