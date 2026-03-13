@@ -4,7 +4,6 @@ import LoginPage from '../pages/LoginPage';
 import HomePage from '../pages/HomePage';
 import { useAuth } from '../pages/AuthProvider';
 import fetchJson from '../utils/fetchJson';
-import ProfilePage from '../pages/ProfilePage';
 import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
@@ -37,7 +36,7 @@ export default function Header() {
           {/* routing logic for the logedin vs logedout user */}
 
           <Link
-            to={user ? ProfilePage.route.path : LoginPage.route.path}
+            to={user ? `/profil/${user.id}` : LoginPage.route.path}
             className="hover-red flex items-center gap-2"
           >
             <User className="w-6 h-6 text-red-700" />
