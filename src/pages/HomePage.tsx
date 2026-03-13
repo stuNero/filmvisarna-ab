@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import MovieCard from '../parts/MovieCard.tsx';
+import KioskInfoPage from './KioskPage.tsx';
 import { useState, useEffect, useMemo } from 'react';
 import useFetchJson from '../utils/useFetchJson.ts';
 import { Funnel } from 'lucide-react';
@@ -26,38 +28,66 @@ export default function HomePage() {
   return (
     <div className="container mx-auto">
       <div className="flex flex-col  ">
-        <section className="inline-block relative">
-          <section
-            className="
-                        bg-[url('/bg-image.webp')] bg-center
-                        bg-cover                       
-                        h-[75vh]
-                        fit-content
-                        "
-          >
-            <div
-              className="absolute inset-0 
-                          bg-linear-to-t
-                        from-black from-20% via-black/50 via-70% to-transparent to-99%
-                        fit-content"
-            ></div>
-
-            <div
-              className="absolute container 
+        <section className="inline-block relative md:mb-20">
+          <section className="
+            bg-[url('/bg-image.webp')] bg-center
+            bg-cover                       
+            h-[75vh]
+            fit-content
+            ">
+            <div className="
+              absolute inset-0 
+              bg-linear-to-t
+              from-black from-20% via-black/50 via-70% to-transparent to-99%
+              fit-content"/>
+            <div className="
+              md:flex md:flex-col
+              md:items-center
+              md:gap-50
+              absolute container 
               px-4 mx-auto mt-10 
               text-shadow-lg
               pt-20
-                          "
-            >
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs ">
-                <h1 className="text-5xl md:text-7xl font-normal md:max-w-xl">
+                          ">
+              <div className="
+              md:-translate-x-65
+              max-w-7xl mx-auto
+              px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs ">
+                <h1 className="text-5xl md:text-7xl font-semibold md:max-w-xl">
                   Upplev bio som aldrig förr
                 </h1>
                 <p className="text-xl font-normal py-6">
                   Fördjupa dig i de senaste storfilmerna med toppmodern
-                  ljudteknik och <br /> fantastisk bild. Boka dina biljetter nu.
+                  ljudteknik och <br className='hidden md:block' />fantastisk bild.
+                  <br className='-' />
+                  Boka dina biljetter nu!
                 </p>
               </div>
+              <Link
+                to={KioskInfoPage.route.path}
+                className="
+                md:content-center
+                md:text-3xl
+                md:scale-130
+                md:translate-x-90 md:-translate-y-110
+                md:overflow-hidden md:hover:scale-140
+                hover:scale-110
+                md:opacity-85
+                text-shadow-black text-shadow-md
+                text-center text-lg
+                block
+                translate-y-5
+                backdrop-blur
+                rounded-full
+                w-full h-20 lg:w-70 lg:h-70 py-4
+                bg-[url('/snack-bar.webp')] bg-cover bg-bottom
+                transition
+                "
+              >
+                <h1 className='md:backdrop-blur-xs text-2xl'>
+                  Utforska vårt kioskutbud!
+                </h1>
+              </Link>
             </div>
           </section>
         </section>
@@ -84,11 +114,11 @@ export default function HomePage() {
               mx-4 mb-5 md:ml-0 md:mr-6'>
               <div className='
                     hover-red
+                    hover:scale-105
                     px-3 py-1 md:w-fit md:h-fit 
                     bg-white/5
                     border border-solid border-stone-700 rounded-2xl
                     flex flex-row justify-between'>
-                <Funnel className='scale-80 text-gray-500 pr-0.5' />
                 <select
                   value={age ?? ""}
                   onChange={(event: any) => setAge(Number(event.target.value))}
@@ -101,16 +131,19 @@ export default function HomePage() {
                     <option key={age} value={age}>{age}</option>
                   ))}
                 </select>
+                <Funnel className='scale-80 text-white/60 pr-0.5' />
               </div>
               {/* TODO: input type="date" follows os/browser locale/lang - use date picker lib to force swedish format?*/}
               <input
                 type="date"
                 id="datepicker"
-                min={new Date(Date.now()).toISOString().split("T")[0]}
+                min={new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10)}
                 value={date}
                 onChange={event => setDate(event.target.value)}
                 onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker()}
                 className="
+                  hover-red
+                  hover:scale-105
                   px-3 py-1 h-fit
                   bg-white/5
                   border border-solid border-stone-700 rounded-2xl
