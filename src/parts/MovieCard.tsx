@@ -17,12 +17,9 @@ export default function MovieCard(props: any) {
 
   const [movieCardRaw] = useFetchJson<MovieDetails[] | null>(`${selectedDate === "" ? "/api/comingSoon" : "/api/films"}`);
   const [showingsTemp] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings${selectedDate === "" ? "" : `?WHERE=date=${selectedDate}`}`);
-  console.log("moviecardRaw", movieCardRaw);
-  console.log("moviecard", movieCard);
 
   // needs to be refactored
   if (movieCardRaw != null && showingsTemp != null) {
-    console.log("success");
     for (let movie of movieCardRaw) {
       for (let showing of showingsTemp) {
         if (movie.id == showing.id) {
