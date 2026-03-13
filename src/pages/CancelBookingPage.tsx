@@ -7,6 +7,7 @@ import type MovieDetails from '../interfaces/MovieDetails';
 import { useSearchParams } from 'react-router-dom';
 import UnbookConfirmed from '../parts/UnbookConfirmed';
 import YesNoPop from '../parts/YesNoPop';
+import cancelBooking from '../utils/cancelBooking';
 
 CancelBookingPage.route = {
   path: '/avboka',
@@ -71,19 +72,9 @@ export default function CancelBookingPage() {
     setBookingID('');
   };
 
-  async function cancelBooking() {
-    if (!searchedBooking?.bookingId) { return false; }
-    const result = await fetch(`/api/bookings/${searchedBooking?.bookingId}`,
-      {
-        method: 'DELETE'
-      },
-    );
-    if (result.ok) {
+  async function resetPage() {
       setSwitchSection(false);
       window.scrollTo(0, 0);
-      return true;
-    }
-    else { return false; }
   }
 
   // Scroll to booking details (if found)
@@ -281,7 +272,14 @@ export default function CancelBookingPage() {
           {showConfirmation && (
             <YesNoPop 
               question = 'Är du säker du vill avboka?'
-              onYes={cancelBooking}
+              onYes={async () => {
+                const successful = await cancelBooking(searchedBooking?.bookingId);
+                await resetPage();
+                if (!successful) {
+                  setBookingError('Avbokning misslyckades, försök igen.');
+                }
+                setShowConfirmation(false);
+              }}
               onNo={() => setShowConfirmation(false)}
             />
           )}
