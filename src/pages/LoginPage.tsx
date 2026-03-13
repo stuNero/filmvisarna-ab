@@ -56,7 +56,7 @@ export default function LoginPage() {
         return;
       }
       setUser(result);
-      navigate('/profil/1');
+      navigate('/profil/:id');
     } catch (error) {
       console.error('Fel:', error);
       alert('Något gick fel');
@@ -88,6 +88,10 @@ export default function LoginPage() {
         alert(result.error);
         return;
       }
+
+      // if account creation was successful navigate user to login page
+      switchToLogin();
+      alert('Konto skapat! Du kan nu logga in.');
     } catch (error) {
       console.error('Fel:', error);
       alert('Något gick fel');
@@ -144,7 +148,6 @@ export default function LoginPage() {
                     <label className="text-sm text-gray-400 ">Förnamn</label>
                     <input
                       type="text"
-                      required
                       placeholder="Förnamn"
                       className="mt-1 w-full bg-black px-4 py-3 rounded-xl border border-white/10"
                       value={firstName}
@@ -156,7 +159,6 @@ export default function LoginPage() {
                     <label className="text-sm text-gray-400 ">Efternamn</label>
                     <input
                       type="text"
-                      required
                       placeholder="Efternamn"
                       className="mt-1 w-full bg-black px-4 py-3 rounded-xl"
                       value={lastName}
