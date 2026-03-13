@@ -228,7 +228,8 @@ export default function LoginPage() {
                   {activeBtn === 'login' ? 'Logga in' : 'Skapa konto'}
                 </button>
 
-                <button
+                {/* logut button for debug puposes */}
+                {/* <button
                   className="cursor-pointer border border-1"
                   onClick={async () => {
                     await fetchJson('/api/login', { method: 'DELETE' });
@@ -238,7 +239,7 @@ export default function LoginPage() {
                   }}
                 >
                   Logga ut
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
