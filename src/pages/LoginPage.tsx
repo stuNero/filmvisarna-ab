@@ -37,7 +37,7 @@ export default function LoginPage() {
     setLastName('');
   };
 
-  // login function using fetchJson post method
+  // user login function using fetchJson post method
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     // this line is to prevent the page to refresh, we only want render the component no the whole page
     e.preventDefault();
@@ -63,7 +63,7 @@ export default function LoginPage() {
     }
   };
 
-  // register function using fetchjson post method
+  // user registeration function using fetchjson post method
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -250,19 +250,6 @@ export default function LoginPage() {
                 >
                   {activeBtn === 'login' ? 'Logga in' : 'Skapa konto'}
                 </button>
-
-                {/* logut button for debug puposes */}
-                {/* <button
-                  className="cursor-pointer border border-1"
-                  onClick={async () => {
-                    await fetchJson('/api/login', { method: 'DELETE' });
-
-                    setUser(null);
-                    window.location.href = '/logga-in';
-                  }}
-                >
-                  Logga ut
-                </button> */}
               </div>
             </form>
           </div>
