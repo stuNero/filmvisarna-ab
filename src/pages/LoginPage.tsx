@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
@@ -17,6 +17,7 @@ export default function LoginPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const { user, setUser } = useAuth();
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   const switchToLogin = () => {
     setActiveBtn('login');
@@ -64,13 +65,25 @@ export default function LoginPage() {
       alert('Något gick fel');
     }
   };
-  console.log(user?.id);
+
+  // error validation for password fields for registration
+  useEffect(() => {
+    if (pass === '' || confirmPass === '') {
+      setConfirmPasswordError('');
+    } else if (pass != confirmPass) {
+      setConfirmPasswordError('Lösenord matcher inte!');
+      return;
+    } else {
+      setConfirmPasswordError('');
+    }
+  }, [pass, confirmPass]);
+
   // user registeration function using fetchjson post method
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (pass != confirmPass) {
-      alert('Lösenord matcher inte');
+    if (pass !== confirmPass) {
+      setConfirmPasswordError('Lösenord matcher inte!');
       return;
     }
 
@@ -187,7 +200,7 @@ export default function LoginPage() {
                     type="email"
                     required
                     placeholder="email@example.com"
-                    className="flex-1 bg-transparent px-3 py-3 outline-none"
+                    className="flex-1 bg-black px-3 py-3 rounded-xl text-white outline-none "
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -264,6 +277,9 @@ export default function LoginPage() {
 
               {/* logga in button */}
               <div>
+                <p className="text-red-600 test-sm mb-8 flex justify-center">
+                  {confirmPasswordError}
+                </p>
                 <button
                   type="submit"
                   className="
