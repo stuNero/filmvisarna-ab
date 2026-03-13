@@ -5,6 +5,7 @@ import type MovieDetails from "../interfaces/MovieDetails";
 import NotFoundPage from "./NotFoundPage";
 import type MovieShowings from "../interfaces/MovieShowings";
 import { Link } from "react-router-dom";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 MovieDetailShowingsPage.route = {
   path: "/visningar/:id",
@@ -32,6 +33,19 @@ export default function MovieDetailShowingsPage() {
   >(`/api/reviews?WHERE=filmId=${movieId}`);
 
   const [reviewIndex, setReviewIndex] = useState(0);
+  const reviewCount = reviews?.length ?? 0;
+  const activeReview = reviewCount > 0 ? reviews?.[reviewIndex] : null;
+
+  const goToNextReview = () => {
+    if (!reviewCount) return;
+    setReviewIndex((prev) => (prev + 1) % reviewCount);
+  };
+
+  const goToPrevReview = () => {
+    if (!reviewCount) return;
+    setReviewIndex((prev) => (prev - 1 + reviewCount) % reviewCount);
+  };
+
   const today = new Date(Date.now()).toLocaleDateString("sv-SE");
   const now = new Date(Date.now()).toLocaleTimeString("sv-SE");
 
@@ -128,20 +142,47 @@ export default function MovieDetailShowingsPage() {
                 </div>
               </div>
             </div>
-            <div className="mb-6 md:mb-4 max-w-7xl mx-auto px-10">
-              <h3 className="text-sm text-gray-400 mb-1">Reviews</h3>
-              <h1
-                onClick={() =>
-                  setReviewIndex((prev) =>
-                    reviews?.length ? (prev + 1) % reviews.length : 0,
-                  )
-                }
+            <div className="mb-6 md:mb-4 max-w-7xl px-14 mx-auto flex items-center gap-4">
+              <button
+                type="button"
+                onClick={goToPrevReview}
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900 disabled:opacity-40 disabled:cursor-not-allowed"
+                disabled={reviewCount <= 1}
+                aria-label="Visa förra review"
               >
-                {reviews?.[reviewIndex]?.source}
-              </h1>
-              <p className="text-base md:text-base font-bold">
-                {reviews?.[reviewIndex]?.quote}
-              </p>
+                <ArrowLeft size={20} />
+              </button>
+
+              <div className="min-h-24 max-w-2xl">
+                <h3 className="text-sm text-gray-400 mb-1">Reviews</h3>
+                {activeReview ? (
+                  <>
+                    <h4 className="text-lg font-semibold">
+                      {activeReview.source}
+                    </h4>
+                    <p className="text-base md:text-base font-bold">
+                      {activeReview.quote}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-2">
+                      {reviewIndex + 1} / {reviewCount}
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-base text-gray-300">
+                    Inga reviews tillgängliga.
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={goToNextReview}
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900 disabled:opacity-40 disabled:cursor-not-allowed"
+                disabled={reviewCount <= 1}
+                aria-label="Visa nasta review"
+              >
+                <ArrowRight size={20} />
+              </button>
             </div>
           </div>
         </section>
