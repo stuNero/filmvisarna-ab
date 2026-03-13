@@ -17,7 +17,29 @@ export default function LoginPage() {
   const [lastName, setLastName] = useState('');
   const { setUser } = useAuth();
 
+  const switchToLogin = () => {
+    setActiveBtn('login');
+    // Clear all fields when switching to login
+    setEmail('');
+    setPass('');
+    setConfirmPass('');
+    setFirstName('');
+    setLastName('');
+  };
+
+  const switchToRegister = () => {
+    setActiveBtn('medlem');
+    // Clear all fields when switiching to register
+    setEmail('');
+    setPass('');
+    setConfirmPass('');
+    setFirstName('');
+    setLastName('');
+  };
+
+  // login function using fetchJson post method
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
+    // this line is to prevent the page to refresh, we only want render the component no the whole page
     e.preventDefault();
     try {
       const result = await fetchJson(`/api/login`, {
@@ -34,13 +56,14 @@ export default function LoginPage() {
         return;
       }
       setUser(result);
-      navigate('/profil/:id');
+      navigate('/profil/1');
     } catch (error) {
       console.error('Fel:', error);
       alert('Något gick fel');
     }
   };
 
+  // register function using fetchjson post method
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -96,14 +119,14 @@ export default function LoginPage() {
               <button
                 className={`bg-black p-2 rounded-xl flex-1 border-black border-4 cursor-pointer
               ${activeBtn === 'login' ? 'bg-gray-500' : 'bg-black'}`}
-                onClick={() => setActiveBtn('login')}
+                onClick={switchToLogin}
               >
                 Login
               </button>
               <button
                 className={`bg-black p-2 rounded-xl flex-1 border-black border-4 cursor-pointer
               ${activeBtn === 'medlem' ? 'bg-gray-500' : 'bg-black'}`}
-                onClick={() => setActiveBtn('medlem')}
+                onClick={switchToRegister}
               >
                 Bli medlem
               </button>
