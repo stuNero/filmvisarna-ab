@@ -31,6 +31,7 @@ export default function MovieDetailShowingsPage() {
     }[]
   >(`/api/reviews?WHERE=filmId=${movieId}`);
 
+  const [reviewIndex, setReviewIndex] = useState(0);
   const today = new Date(Date.now()).toLocaleDateString("sv-SE");
   const now = new Date(Date.now()).toLocaleTimeString("sv-SE");
 
@@ -129,9 +130,17 @@ export default function MovieDetailShowingsPage() {
             </div>
             <div className="mb-6 md:mb-4 max-w-7xl mx-auto px-10">
               <h3 className="text-sm text-gray-400 mb-1">Reviews</h3>
-              <h1>{reviews?.[0]?.source}</h1>
+              <h1
+                onClick={() =>
+                  setReviewIndex((prev) =>
+                    reviews?.length ? (prev + 1) % reviews.length : 0,
+                  )
+                }
+              >
+                {reviews?.[reviewIndex]?.source}
+              </h1>
               <p className="text-base md:text-base font-bold">
-                {reviews?.[0]?.quote}
+                {reviews?.[reviewIndex]?.quote}
               </p>
             </div>
           </div>
