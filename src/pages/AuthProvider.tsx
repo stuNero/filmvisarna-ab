@@ -38,7 +38,7 @@ export const useAuth = () => {
   //null check for the context
   if (!context) {
     throw new Error(
-      'useAuth must be used within AuthProvider. It means inside header, main and footer'
+      'useAuth must be used within AuthProvider. It means in this case inside html body'
     );
   }
 
