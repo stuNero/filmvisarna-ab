@@ -49,11 +49,12 @@ function generateBookingID() {
 
 export default function SeatSelectionPage() {
   const navigate = useNavigate();
-  // code for email confirmation
+  // Code for email confirmation
   const [email, setEmail] = useState('');
 
   const [emailError, setEmailError] = useState('');
 
+  // Boolean to check when a booking is done
   const [bookingDone, setBookingDone] = useState(false);
 
   // Array with seat id
@@ -70,9 +71,6 @@ export default function SeatSelectionPage() {
 
   //  --- Live updates logic ---
 
-  // Omit the need to set keys in lists
-  // useAutoKeys();
-
   // Start an SSE Listener
   useEffect(() => {
     // New event source
@@ -82,7 +80,7 @@ export default function SeatSelectionPage() {
       // someone has booked seat(s) in this showing so refresh/reload booked seats
       refreshBookedSeats();
     };
-    // the function you return runs when the component unmounts (if empty dep array)
+    // the function you return runs when the component unmounts (if empty dependency array)
     return () => { sse.close(); };
   }, []);
 
@@ -284,7 +282,7 @@ export default function SeatSelectionPage() {
       })
     });
 
-    // also send to sse-handler for direct updates
+    // Also send to SSE-handler for direct updates
     setBookingDone(true);
     await fetch(`/api/remote-booking/${showingId}`);
 
@@ -501,7 +499,3 @@ export default function SeatSelectionPage() {
     );
   }
 }
-
-/* function useAutoKeys() {
-  throw new Error('Function not implemented.');
-} */
