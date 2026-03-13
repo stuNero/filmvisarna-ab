@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, act } from "react";
 import { useParams, Link } from "react-router-dom";
 import useFetchJson from "../utils/useFetchJson";
 import NotFoundPage from "./NotFoundPage";
@@ -12,24 +12,39 @@ ShowingsPage.route = {
 };
 
 export default function ShowingsPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string; }>();
   const movieId = Number(id);
 
   const [showTrailer, setShowTrailer] = useState(false);
-  const [switchSections, setSwitchSections] = useState(false);
+  const [switchSections, setSwitchSections] = useState(true);
   const [viewing, setViewing] = useState("");
   console.log(window.innerWidth);
+
   useEffect(() => {
-    if (window.innerWidth < 400) {
-      setViewing("mobile");
-    } else {
-      setViewing("desktop");
+    function actOnResizing() {
+      if (window.innerWidth < 400) {
+        setViewing("mobile");
+      } else {
+        setViewing("desktop");
+      }
     }
-  });
+    // when the components mounts act on current size once
+    actOnResizing();
+    // add event listeners
+    window.addEventListener('resize', actOnResizing);
+    window.addEventListener('orientationchange', actOnResizing);
+    // return a clean up function that runs when the component unmounts
+    return () => {
+      // remove the event listeners
+      window.removeEventListener('resize', actOnResizing);
+      window.removeEventListener('orientationchange', actOnResizing);
+    };
+  }, []);
+
   const [details] = useFetchJson<MovieDetails | null>(
     `/api/comingFilms/${movieId}`,
   );
-  const [actors] = useFetchJson<{ name: string }[]>(
+  const [actors] = useFetchJson<{ name: string; }[]>(
     `/api/movieActors?WHERE=id=${movieId}`,
   );
 
@@ -107,7 +122,7 @@ export default function ShowingsPage() {
           </div>
           <div className="md:hidden flex flex-row mt-10 mb-0 w-screen">
             <button
-              onClick={() => setSwitchSections(false)}
+              onClick={() => setSwitchSections(true)}
               className={
                 switchSections
                   ? `rounded-tl-2xl border border-solid border-stone-600
