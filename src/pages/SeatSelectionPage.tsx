@@ -275,6 +275,8 @@ export default function SeatSelectionPage() {
       ticketType: type
     })
   });
+    // const data = await res.json();
+    // alert(JSON.stringify(data, null, 2));
 
     // SSE logic
     await fetch('/api/booked-seat', {
@@ -283,10 +285,7 @@ export default function SeatSelectionPage() {
       body: JSON.stringify(s.newBookedSeat)
     });
     s.seatId = '';
-    s.bookingId = '';
-
-    // const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
+    s.showingId = '';
   }
 
   var rows = 0;

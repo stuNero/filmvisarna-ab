@@ -25,7 +25,7 @@ public static class LiveUpdates
 
     App.MapPost("/api/booked-seat", async (NewSeat input) =>
     {
-      var seat = new BookedSeat(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), input.SeatId, input.BookingId);
+      var seat = new BookedSeat(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), input.SeatId, input.ShowingId);
 
       lock (bookedSeats) { bookedSeats.Add(seat); }
 
@@ -126,8 +126,8 @@ public static class LiveUpdates
 
   // --- Modeller ---
 
-  record NewSeat(int SeatId, int BookingId);
-  record BookedSeat(long Timestamp, int SeatId, int BookingId);
+  record NewSeat(int SeatId, int ShowingId);
+  record BookedSeat(long Timestamp, int SeatId, int ShowingId);
   class SseConnection
   {
     public SseConnection(HttpContext context, long timestampOfLastBooking)
