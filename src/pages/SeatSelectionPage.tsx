@@ -54,6 +54,11 @@ export default function SeatSelectionPage() {
 
   const [emailError, setEmailError] = useState('');
 
+  const [bookingDone, setBookingDone] = useState(false);
+
+  // Array with seat id
+  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+
   let bookingID = '';
 
   const { id } = useParams<{ id: string; }>();
@@ -68,29 +73,21 @@ export default function SeatSelectionPage() {
   // Omit the need to set keys in lists
   // useAutoKeys();
 
-  // Our state/context
-  /*const s = useStates("main", {
-    bookedSeats: [],
-    newBookedSeat: { seatId: '', bokingId: '' }
-  });
-
   // Start an SSE Listener
   useEffect(() => {
-    // Avoid getting double event sources in React Strict mode
-    globalThis.eventSourceSSE && globalThis.eventSourceSSE.close();
     // New event source
-    globalThis.eventSourceSSE = new EventSource('/api/book-sse');
+    let sse = new EventSource(`/api/book-sse/${showingId}`);
     // Listen to SSE events
-    globalThis.eventSourceSSE.onmessage = doOnSseEvent;
+    sse.onmessage = () => {
+      // someone has booked seat(s) in this showing so refresh/reload booked seats
+      refreshBookedSeats();
+    };
+    // the function you return runs when the component unmounts (if empty dep array)
+    return () => { sse.close(); };
   }, []);
 
-  function doOnSseEvent({ data }) {
-    s.bookedSeats.push(JSON.parse(data));
-  }*/
-
-
   // Fetching from view
-  const [bookedSeatsRaw] = useFetchJson<{
+  const [bookedSeatsRaw, refreshBookedSeats] = useFetchJson<{
     seatId: number,
     bookingId: string,
     ticketType: string,
@@ -101,6 +98,19 @@ export default function SeatSelectionPage() {
 
   // Extracts seatID from fetch array
   const bookedSeats = bookedSeatsRaw?.map((x) => x.seatId);
+
+
+  // If the selectedSeats contains bookedSeats then remove them from selectedSeats
+  let oldNumberOfSelectedSeats = selectedSeats.length;
+  for (let seatId of bookedSeats || []) {
+    if (selectedSeats.includes(seatId)) {
+      selectedSeats.splice(selectedSeats.indexOf(seatId), 1);
+    }
+  }
+  if (oldNumberOfSelectedSeats !== selectedSeats.length && !bookingDone) {
+    console.log('NOTIFY USER: SADLY CHAIR WAS BOOKED...');
+  }
+
 
   // Extract first result from array
   const showing = showingsData?.[0];
@@ -210,8 +220,6 @@ export default function SeatSelectionPage() {
   const [seats] = useFetchJson<ShowingSeats[] | null>(
     `/api/showingsAllSeats?where=id=${showingId}`
   );
-  // Array with seat id
-  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
 
   const [ticketCount, setTicketCount] = useState<TicketCount>({
     child: 0,
@@ -277,15 +285,8 @@ export default function SeatSelectionPage() {
     });
 
     // also send to sse-handler for direct updates
-    await fetch('/api/booked-seat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        "SeatId": seatNr,
-        "ShowingId": showingId,
-        "Occupied": true
-      })
-    });
+    setBookingDone(true);
+    await fetch(`/api/booking-has-happened-for-showing/${showingId}`);
 
     // const data = await res.json();
     // alert(JSON.stringify(data, null, 2));
