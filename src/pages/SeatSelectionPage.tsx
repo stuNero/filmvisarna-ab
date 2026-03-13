@@ -351,7 +351,7 @@ export default function SeatSelectionPage() {
 
     return (
       <>
-        <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20">
+        <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20 ">
           {/* Ticket Selection */}
           <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
             <div className="max-w-2xl mx-auto space-y-4">
@@ -361,9 +361,18 @@ export default function SeatSelectionPage() {
 
           {/* Seat Selection */}
           {totalTickets > 0 ?
-            <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
+            <div className="
+            flex flex-col
+            bg-zinc-950
+            rounded-2xl border-2 border-white/20
+            p-8 mb-8
+            items-center overflow-x-scroll">
+              {/*           Cinema Screen         */}
+              <h1 className='text-center text-sm italic text-stone-300/50 translate-x-9'>Bioduk</h1>
+              <div className='flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full translate-x-9' />
+              {/*             S E A T S           */}
               {Array.from({ length: rows }, (_, rowIndex) => (
-                <div key={rowIndex} className="flex justify-center gap-4 mb-4">
+                <div key={rowIndex} className="flex justify-center gap-2.5 md:gap-4 mb-4 translate-x-9">
                   {seats
                     ?.filter((seat) => seat.rowNr === rowIndex + 1)
                     .map((seat) => {
@@ -382,11 +391,14 @@ export default function SeatSelectionPage() {
                             key={seat.seatId}
                             onClick={() => toggleSeat(seat.seatId)}
                             className={`
-                          px-4 py-2 text-white rounded
-                          transition-all duration-200 h-8
+                            px-3 py-1.5  h-6
+                            md:px-4 md:py-2 md:h-8
+                          
+                          text-white rounded
+                            transition-all duration-200
                           ${isSelected
-                                ? "bg-green-600 hover:bg-green-700 outline-solid outline-green-700"
-                                : "hover:bg-green-800 bg-stone-700 hover:outline-green-900 outline-solid outline-stone-600"
+                                ? "bg-green-600 md:hover:bg-green-700 outline-solid outline-green-700"
+                                : "md:hover:bg-green-800 bg-stone-700 md:hover:outline-green-900 outline-solid outline-stone-600"
                               }
                         `}
                           >
