@@ -16,16 +16,15 @@ public static class LiveUpdates
 
   public static void Start()
   {
-
     var bookedSeats = new List<BookedSeat>();
     var openConnections = new ConcurrentDictionary<string, SseConnection>();
     var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
     // --- POST /api/chat-message  –  ta emot nytt meddelande ---
 
-    App.MapPost("/api/booked-seat", async (NewSeat input) =>
+    App.MapPost("/api/booked-seat/", async (NewSeat input) =>
     {
-      var seat = new BookedSeat(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), input.SeatId, input.ShowingId);
+      var seat = new BookedSeat(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), input.SeatId, input.ShowingId, input.Occupied);
 
       lock (bookedSeats) { bookedSeats.Add(seat); }
 
@@ -90,7 +89,6 @@ public static class LiveUpdates
       }
     });
 
-    App.Run("http://localhost:5131");
 
     // --- Broadcast-logik ---
 
@@ -126,8 +124,8 @@ public static class LiveUpdates
 
   // --- Modeller ---
 
-  record NewSeat(int SeatId, int ShowingId);
-  record BookedSeat(long Timestamp, int SeatId, int ShowingId);
+  record NewSeat(int SeatId, int ShowingId, bool Occupied);
+  record BookedSeat(long Timestamp, int SeatId, int ShowingId, bool Occupied);
   class SseConnection
   {
     public SseConnection(HttpContext context, long timestampOfLastBooking)
