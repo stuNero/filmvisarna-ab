@@ -146,7 +146,7 @@ export default function MovieDetailShowingsPage() {
               <button
                 type="button"
                 onClick={goToPrevReview}
-                className="p-2 rounded border border-stone-600 hover:bg-stone-900"
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900 -mt-25"
               >
                 <ArrowLeft size={20} />
               </button>
@@ -177,7 +177,7 @@ export default function MovieDetailShowingsPage() {
               <button
                 type="button"
                 onClick={goToNextReview}
-                className="p-2 rounded border border-stone-600 hover:bg-stone-900"
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900 -mt-25"
               >
                 <ArrowRight size={20} />
               </button>
