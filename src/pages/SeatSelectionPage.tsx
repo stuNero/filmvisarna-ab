@@ -96,7 +96,7 @@ export default function SeatSelectionPage() {
 
   // Extracts seatID from fetch array
   const bookedSeats = bookedSeatsRaw?.map((x) => x.seatId);
-
+  // Pop up (toast)
   const [toast, setToast] = useState(false);
 
   // If the selectedSeats contains bookedSeats then remove them from selectedSeats
@@ -108,10 +108,11 @@ export default function SeatSelectionPage() {
     }
   }
   if (oldNumberOfSelectedSeats !== selectedSeats.length && !bookingDone) {
-
+    // When the conditions are met, the function triggers
     triggerToast();
   }
 
+  // And the toast pops up
   function triggerToast() {
     setToast(true);
 
