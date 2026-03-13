@@ -1,11 +1,12 @@
-import { Calendar, Ticket, MapPin, Clock, Search, CheckCircle2, Mail } from 'lucide-react';
+import { Calendar, Ticket, MapPin, Clock, Search, Mail } from 'lucide-react';
 import { useState, useEffect, useRef } from "react";
 import useFetchJson from "../utils/useFetchJson";
 import fetchJson from '../utils/fetchJson';
 import type bookingInfo from "../interfaces/BookingInfo";
-import { useNavigate } from 'react-router-dom';
 import type MovieDetails from '../interfaces/MovieDetails';
 import { useSearchParams } from 'react-router-dom';
+import UnbookConfirmed from '../parts/UnbookConfirmed';
+import YesNoPop from '../parts/YesNoPop';
 
 CancelBookingPage.route = {
   path: '/avboka',
@@ -14,7 +15,6 @@ CancelBookingPage.route = {
 
 export default function CancelBookingPage() {
 
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   // Initializing page variables
@@ -279,59 +279,17 @@ export default function CancelBookingPage() {
               </button>
             </div> : <></>}
           {showConfirmation && (
-            <div className="
-            flex flex-col fixed 
-            top-80 md:m-auto md:w-1/3 md:h-50  
-            justify-center items-center 
-            bg-zinc-950 border border-red-800
-                 text-white px-4 py-3 rounded-lg shadow-lg animate-fade-in gap-10">
-              <h2 className='text-2xl pt-5 px-5'>Är du säker du vill avboka?</h2>
-              <div className='flex gap-10'>
-                <button onClick={cancelBooking} className="mt-5 px-10 py-2 rounded-xl border-2 
-                      bg-red-800 border-red-800 hover:bg-red-900 hover:border-red-900 text-white 
-                      transition-all text-md font-medium
-                      fit-content
-                      ">JA</button>
-                <button onClick={() => setShowConfirmation(false)} className="mt-5 px-10 py-2 rounded-xl border-2 
-                      bg-red-800 border-red-800 hover:bg-red-900 hover:border-red-900 text-white 
-                      transition-all text-md font-medium
-                      fit-content
-                      " >NEJ</button>
-              </div>
-            </div>
+            <YesNoPop 
+              question = 'Är du säker du vill avboka?'
+              onYes={cancelBooking}
+              onNo={() => setShowConfirmation(false)}
+            />
           )}
 
         </section>
       ) : (
         // Section when cancellation is confirmed
-        <section className="
-        mt-30 min-h-screen
-        w-1/2
-        px-2 sm:px-4
-        flex flex-col
-        pt-18 pb-8">
-          <div className="bg-zinc-950 rounded-3xl  mx-auto w-full shadow-lg border border-zinc-700 overflow-hidden">
-            <div className="bg-green-800 p-4 sm:p-6 text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-4">
-                <CheckCircle2 className="w-10 h-10 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold text-white mb-2">
-                Avbokning bekräftad!
-              </h2>
-              <p className="text-white/90">
-                Tack för att du väljer vår bio.
-              </p>
-            </div>
-
-            <div className="bg-zinc-900/50 p-6 sm:p-6 text-center">
-              <button
-                className='rounded-2xl bg-gray-800 px-7 py-2 hover:bg-gray-900 scale-130'
-                onClick={() => navigate("/")}>
-                Gå till hemsidan
-              </button>
-            </div>
-          </div>
-        </section>
+        <UnbookConfirmed/>
       )}
     </div>
   );

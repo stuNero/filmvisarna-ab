@@ -210,6 +210,15 @@ public static class DbQuery
                 AND sh.filmId = f.id
                 AND sh.venueID = v.id
             ;
+            DROP VIEW IF EXISTS seatsByBooking;
+            CREATE VIEW seatsByBooking AS
+                SELECT s.id, s.rowNr, s.columnNr, s.venueId, b.id as bookingId
+                FROM seats s,
+                    showings sh,
+                    bookings b
+                WHERE b.showingId = sh.id
+                AND sh.venueID = s.venueId
+            ;
             DROP VIEW IF EXISTS showingsAllSeats;
             CREATE VIEW showingsAllSeats AS
                 SELECT sh.id, s.id AS seatId, s.rowNr, s.columnNr
@@ -239,16 +248,12 @@ public static class DbQuery
                     seats s
                 WHERE bs.bookingId = b.id AND s.id = bs.seatId
             ;
-
-            DROP VIEW IF EXISTS showingsWithOccupiedSeats;
-            CREATE VIEW showingsWithOccupiedSeats AS
-                SELECT movieShowings.*,
-                    rowNr,columnNr
-                FROM movieShowings,
-                    bookedSeatsWithShowings
-                WHERE movieShowings.showingId = bookedSeatsWithShowings.showingId
-            ;
             
+            DROP VIEW IF EXISTS ageRatings;
+            CREATE VIEW ageRatings AS 
+                SELECT DISTINCT ageRating FROM films
+                ;
+                    
             DROP VIEW IF EXISTS comingFilms;
             CREATE VIEW comingFilms AS
                 SELECT f.*  FROM showings s, films f
@@ -256,7 +261,7 @@ public static class DbQuery
                 AND s.timeSlot >= NOW() + INTERVAL 15 MINUTE
                 GROUP BY f.id
             ;
-            
+
             DROP VIEW IF EXISTS movieActors;
             CREATE VIEW movieActors AS
             SELECT f.id, a.name FROM filmActors fa, films f, actors a
@@ -408,45 +413,57 @@ public static class DbQuery
             var showingsData = @"
                 INSERT IGNORE INTO showings (timeSlot, filmId, venueId) VALUES
 
-                -- Day 1 (Mars 20)
+                -- Day 1 (March 20)
                 ('2026-03-20 17:15:00', 1, 1),
-                ('2026-03-20 20:15:00', 1, 2),
                 ('2026-03-20 17:15:00', 2, 2),
-                ('2026-03-20 20:15:00', 2, 1),
-                ('2026-03-20 17:15:00', 3, 1),
-                ('2026-03-20 20:15:00', 3, 2),
-                ('2026-03-20 17:15:00', 4, 2),
-                ('2026-03-20 20:15:00', 4, 1),
+                ('2026-03-20 20:15:00', 3, 1),
+                ('2026-03-20 20:15:00', 4, 2),
 
-                -- Day 2 (Mars 21) – swapped venues
+                -- Day 2 (March 21)
+                ('2026-03-21 17:15:00', 3, 1),
                 ('2026-03-21 17:15:00', 1, 2),
-                ('2026-03-21 20:15:00', 1, 1),
-                ('2026-03-21 17:15:00', 2, 1),
+                ('2026-03-21 20:15:00', 4, 1),
                 ('2026-03-21 20:15:00', 2, 2),
-                ('2026-03-21 17:15:00', 3, 2),
-                ('2026-03-21 20:15:00', 3, 1),
-                ('2026-03-21 17:15:00', 4, 1),
-                ('2026-03-21 20:15:00', 4, 2),
 
-                -- Day 3 (Mars 22) – same as Day 1
-                ('2026-03-22 17:15:00', 1, 1),
-                ('2026-03-22 20:15:00', 1, 2),
-                ('2026-03-22 17:15:00', 2, 2),
-                ('2026-03-22 20:15:00', 2, 1),
-                ('2026-03-22 17:15:00', 3, 1),
-                ('2026-03-22 20:15:00', 3, 2),
+                -- Day 3 (March 22)
+                ('2026-03-22 17:15:00', 2, 1),
                 ('2026-03-22 17:15:00', 4, 2),
-                ('2026-03-22 20:15:00', 4, 1),
+                ('2026-03-22 20:15:00', 1, 1),
+                ('2026-03-22 20:15:00', 3, 2),
 
-                -- Day 4 (Mars 23) – same as Day 2
-                ('2026-03-23 17:15:00', 1, 2),
-                ('2026-03-23 20:15:00', 1, 1),
-                ('2026-03-23 17:15:00', 2, 1),
-                ('2026-03-23 20:15:00', 2, 2),
-                ('2026-03-23 17:15:00', 3, 2),
-                ('2026-03-23 20:15:00', 3, 1),
+                -- Day 4 (March 23)
                 ('2026-03-23 17:15:00', 4, 1),
-                ('2026-03-23 20:15:00', 4, 2);
+                ('2026-03-23 17:15:00', 3, 2),
+                ('2026-03-23 20:15:00', 2, 1),
+                ('2026-03-23 20:15:00', 1, 2),
+
+                -- Day 5 (March 24)
+                ('2026-03-24 17:15:00', 1, 1),
+                ('2026-03-24 17:15:00', 3, 2),
+                ('2026-03-24 20:15:00', 2, 2),
+                ('2026-03-24 20:15:00', 4, 1),
+
+                -- Day 6 (March 25)
+                ('2026-03-25 17:15:00', 2, 2),
+                ('2026-03-25 17:15:00', 4, 1),
+                ('2026-03-25 20:15:00', 3, 1),
+                ('2026-03-25 20:15:00', 1, 2),
+                
+                -- Showings for Terminator (5th movie)
+                ('2026-03-27 17:15:00', 5, 1),
+                ('2026-03-29 20:15:00', 5, 2),
+
+                -- Week 2
+                ('2026-04-03 20:15:00', 5, 1),
+                ('2026-04-05 17:15:00', 5, 2),
+
+                -- Week 3
+                ('2026-04-10 17:15:00', 5, 2),
+                ('2026-04-12 20:15:00', 5, 1),
+
+                -- Week 4
+                ('2026-04-17 20:15:00', 5, 2),
+                ('2026-04-19 17:15:00', 5, 1);
             ";
             command.CommandText = showingsData;
             command.ExecuteNonQuery();
