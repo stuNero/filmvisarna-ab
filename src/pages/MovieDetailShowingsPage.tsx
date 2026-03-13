@@ -5,7 +5,7 @@ import type MovieDetails from "../interfaces/MovieDetails";
 import NotFoundPage from "./NotFoundPage";
 import type MovieShowings from "../interfaces/MovieShowings";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock } from "lucide-react";
 
 MovieDetailShowingsPage.route = {
   path: "/visningar/:id",
@@ -104,12 +104,16 @@ export default function MovieDetailShowingsPage() {
                       <span className="px-3 py-1 border border-gray-600 rounded text-white">
                         {details?.ageRating} år
                       </span>
-                      <h3 className="text-xl md:text-2xl font-extrabold">
+                      <h3 className="text-xl md:text-lg py-1">
                         {details?.productionYear}
                       </h3>
-                      <h3 className="text-xl md:text-2xl font-extrabold">
-                        {details?.length} minuter
-                      </h3>
+                      <div className="flex items-center gap-2">
+                        <Clock size={16} className="-mb-[2px]" />
+                        <h3 className="text-lg md:text-lg ">
+                          {details?.length} min
+                        </h3>
+                      </div>
+
                       <span className="px-3 py-1 bg-white/5 rounded">
                         {details?.genre}
                       </span>
