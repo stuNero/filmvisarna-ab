@@ -196,7 +196,6 @@ export default function MovieDetailShowingsPage() {
             <h2 className="text-2xl font-bold">Välj en visning</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 justify-center items-center ">
-            {/* Renders Date */}
             {showingsPerDate?.map(({ date, showings }) => (
               <article
                 key={date}
@@ -215,7 +214,6 @@ export default function MovieDetailShowingsPage() {
                 <div className="flex justify-center">
                   <hr className="text-stone-700 w-4/5 " />
                 </div>
-                {/* Renders Showing */}
                 {showings.map(({ showingId, time, name }: any) => (
                   <div key={showingId} className="flex flex-col gap-2 p-5">
                     <Link
