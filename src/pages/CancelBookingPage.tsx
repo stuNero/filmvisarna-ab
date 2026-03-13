@@ -37,7 +37,9 @@ export default function CancelBookingPage() {
 
   // Fetching data from db
   const [searchedBooking, setSearchedBooking] = useState<bookingInfo | null>(null);
+
   const [bookingInfo] = useFetchJson<bookingInfo[] | null>(`/api/bookingInfo`);
+
 
   // Main booking cancellation logic
   const confirmSearch = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,6 +83,7 @@ export default function CancelBookingPage() {
     if (result.ok) {
       setSwitchSection(false);
       window.scrollTo(0, 0);
+      await fetch(`/api/booking-has-happened-for-showing/${searchedBooking.showingID}`);
       return true;
     }
     else { return false; }
@@ -279,8 +282,8 @@ export default function CancelBookingPage() {
               </button>
             </div> : <></>}
           {showConfirmation && (
-            <YesNoPop 
-              question = 'Är du säker du vill avboka?'
+            <YesNoPop
+              question='Är du säker du vill avboka?'
               onYes={cancelBooking}
               onNo={() => setShowConfirmation(false)}
             />
@@ -289,7 +292,7 @@ export default function CancelBookingPage() {
         </section>
       ) : (
         // Section when cancellation is confirmed
-        <UnbookConfirmed/>
+        <UnbookConfirmed />
       )}
     </div>
   );
