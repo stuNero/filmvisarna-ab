@@ -146,20 +146,20 @@ export default function MovieDetailShowingsPage() {
                 </div>
               </div>
             </div>
-            <div className="mb-6 md:mb-4 max-w-7xl px-14 mx-auto flex items-center gap-4">
+            <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 mx-auto flex items-center ">
               <button
                 type="button"
                 onClick={goToPrevReview}
-                className="p-2 rounded border border-stone-600 hover:bg-stone-900 -mt-25"
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900 md:-mt-25 "
               >
-                <ArrowLeft size={20} />
+                <ArrowLeft className="" />
               </button>
 
-              <div className="min-h-24 max-w-2xl">
+              <div className="min-h-24 max-w-7xl mx-auto pt-20 px-8 sm:px-12 lg:px-16 items-center justify-center">
                 <h3 className="text-sm text-gray-400 mb-1 relative">Reviews</h3>
-                <div className="relative h-[240px] w-[600px] overflow-hidden mx-auto">
+                <div className="md:relative h-[240px] w-[300px] overflow-hidden">
                   {activeReview ? (
-                    <div className="absolute inset-0">
+                    <div className="absolute ">
                       <h4 className="text-lg font-semibold">
                         {activeReview.source}
                       </h4>
@@ -181,7 +181,7 @@ export default function MovieDetailShowingsPage() {
               <button
                 type="button"
                 onClick={goToNextReview}
-                className="p-2 rounded border border-stone-600 hover:bg-stone-900 -mt-25"
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900 md:-mt-25"
               >
                 <ArrowRight size={20} />
               </button>
