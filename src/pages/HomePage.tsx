@@ -50,12 +50,14 @@ export default function HomePage() {
               pt-20
                           ">
               <div className="md:-translate-x-50 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs md:relative">
-                <h1 className="text-5xl md:text-7xl font-normal md:max-w-xl">
+                <h1 className="text-5xl md:text-7xl font-semibold md:max-w-xl">
                   Upplev bio som aldrig förr
                 </h1>
                 <p className="text-xl font-normal py-6">
                   Fördjupa dig i de senaste storfilmerna med toppmodern
-                  ljudteknik och <br /> fantastisk bild. Boka dina biljetter nu.
+                  ljudteknik och <br className='hidden md:block' />fantastisk bild.
+                  <br className='-' />
+                  Boka dina biljetter nu.
                 </p>
               </div>
               <Link
@@ -63,29 +65,23 @@ export default function HomePage() {
                 className="
                 md:content-center
                 md:text-3xl
-                md:scale-150
-                md:translate-x-90
-                md:-translate-y-50
-                md:overflow-hidden
-                md:hover:scale-155
-                text-shadow-black
-                text-shadow-md
+                md:scale-140
+                md:translate-x-90 md:-translate-y-110
+                md:overflow-hidden md:hover:scale-150
+                hover:scale-110
+                md:opacity-85
+                text-shadow-black text-shadow-md
+                text-center text-lg
                 block
-                w-full md:w-70 md:h-70
-                -translate-y-1
+                translate-y-5
                 backdrop-blur
-                border-t border-l border-zinc-700
                 rounded-full
-                py-4
-                text-center
-                text-lg
-                bg-[url('/snack-bar.webp')]
-                bg-cover
-                bg-bottom
+                w-full h-20 lg:w-70 lg:h-70 py-4
+                bg-[url('/snack-bar.webp')] bg-cover bg-bottom
                 transition
                 "
               >
-                <h1 className=' backdrop-blur-xs'>
+                <h1 className='md:backdrop-blur-xs text-2xl'>
                   Utforska vårat kiosk utbud!
                 </h1>
               </Link>
@@ -132,7 +128,7 @@ export default function HomePage() {
                     <option key={age} value={age}>{age}</option>
                   ))}
                 </select>
-                <Funnel className='scale-80 text-gray-500 pr-0.5' />
+                <Funnel className='scale-80 text-white/60 pr-0.5' />
               </div>
               {/* TODO: input type="date" follows os/browser locale/lang - use date picker lib to force swedish format?*/}
               <input
