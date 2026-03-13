@@ -66,10 +66,10 @@ export default function SeatSelectionPage() {
   //  --- Live updates logic ---
 
   // Omit the need to set keys in lists
-  useAutoKeys();
+  // useAutoKeys();
 
   // Our state/context
-  const s = useStates("main", {
+  /*const s = useStates("main", {
     bookedSeats: [],
     newBookedSeat: { seatId: '', bokingId: '' }
   });
@@ -86,7 +86,7 @@ export default function SeatSelectionPage() {
 
   function doOnSseEvent({ data }) {
     s.bookedSeats.push(JSON.parse(data));
-  }
+  }*/
 
 
   // Fetching from view
@@ -165,7 +165,7 @@ export default function SeatSelectionPage() {
 
       // Calls the function for DB insert for each booked seat
       for (let seat of seatsWithTypes) {
-        createbookedSeat(String(seat[0]), Number(seat[1]));
+        createbookedSeat(String(seat[0]), Number(seat[1]), showingId);
       }
 
       const requestBody = {
@@ -265,27 +265,30 @@ export default function SeatSelectionPage() {
     });
   }
 
-  async function createbookedSeat(type: string, seatNr: number) {
-    /* const res =*/ await fetch('/api/bookedSeat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      seatId: seatNr,
-      bookingId: bookingID,
-      ticketType: type
-    })
-  });
-    // const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
+  async function createbookedSeat(type: string, seatNr: number, showingId: number) {
+    await fetch('/api/bookedSeat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        seatId: seatNr,
+        bookingId: bookingID,
+        ticketType: type
+      })
+    });
 
-    // SSE logic
+    // also send to sse-handler for direct updates
     await fetch('/api/booked-seat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(s.newBookedSeat)
+      body: JSON.stringify({
+        "SeatId": seatNr,
+        "ShowingId": showingId,
+        "Occupied": true
+      })
     });
-    s.seatId = '';
-    s.showingId = '';
+
+    // const data = await res.json();
+    // alert(JSON.stringify(data, null, 2));
   }
 
   var rows = 0;
@@ -498,6 +501,6 @@ export default function SeatSelectionPage() {
   }
 }
 
-function useAutoKeys() {
+/* function useAutoKeys() {
   throw new Error('Function not implemented.');
-}
+} */
