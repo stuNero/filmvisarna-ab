@@ -18,6 +18,9 @@ export default function LoginPage() {
   const [lastName, setLastName] = useState('');
   const { user, setUser } = useAuth();
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [duplicateEmailError, setDuplicateEmailError] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [registerMessage, setRegisterMessage] = useState('');
 
   const switchToLogin = () => {
     setActiveBtn('login');
@@ -27,6 +30,7 @@ export default function LoginPage() {
     setConfirmPass('');
     setFirstName('');
     setLastName('');
+    setDuplicateEmailError('');
   };
 
   const switchToRegister = () => {
@@ -37,7 +41,14 @@ export default function LoginPage() {
     setConfirmPass('');
     setFirstName('');
     setLastName('');
+    setDuplicateEmailError('');
   };
+
+  useEffect(() => {
+    if (email === '') {
+      setLoginError('');
+    }
+  }, [email, setEmail]);
 
   // user login function using fetchJson post method
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,7 +65,7 @@ export default function LoginPage() {
       });
 
       if (result && result.error) {
-        alert(result.error);
+        setLoginError(result.error);
         return;
       }
       setUser(result);
@@ -66,13 +77,12 @@ export default function LoginPage() {
     }
   };
 
-  // error validation for password fields for registration
+  // error validation for registration
   useEffect(() => {
     if (pass === '' || confirmPass === '') {
       setConfirmPasswordError('');
     } else if (pass != confirmPass) {
       setConfirmPasswordError('Lösenord matcher inte!');
-      return;
     } else {
       setConfirmPasswordError('');
     }
@@ -88,6 +98,21 @@ export default function LoginPage() {
     }
 
     try {
+      // checking if the user alreday has an account with this email
+      const checkUserExsistens = await fetchJson(
+        `/api/users?WHERE=email=${email}`,
+        {
+          method: 'GET'
+        }
+      );
+
+      // if the user exists, show en error and stop
+      if (checkUserExsistens?.length > 0) {
+        setDuplicateEmailError('Användaren finns redan!');
+        return;
+      }
+
+      // if no user exists with this email continue with registration
       const result = await fetchJson(`/api/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -104,9 +129,9 @@ export default function LoginPage() {
         return;
       }
 
-      // if account creation was successful navigate user to login page
+      // if account creation was successful navigate user to login
       switchToLogin();
-      alert('Konto skapat! Du kan nu logga in.');
+      setRegisterMessage('Konto skapat! Du kan nu logga in.');
     } catch (error) {
       console.error('Fel:', error);
       alert('Något gick fel');
@@ -222,7 +247,9 @@ export default function LoginPage() {
                         placeholder="********"
                         className="flex-1 bg-transparent px-3 py-3 outline-none"
                         value={pass}
-                        onChange={(e) => setPass(e.target.value)}
+                        onChange={(e) => {
+                          setPass(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -275,11 +302,16 @@ export default function LoginPage() {
                 </div>
               )}
 
-              {/* logga in button */}
+              {/* logga in and register account button */}
               <div>
-                <p className="text-red-600 test-sm mb-8 flex justify-center">
-                  {confirmPasswordError}
-                </p>
+                {(confirmPasswordError ||
+                  loginError ||
+                  duplicateEmailError) && (
+                  <p className="text-red-600 mb-8 text-center animate-pulse">
+                    {confirmPasswordError || loginError || duplicateEmailError}
+                  </p>
+                )}
+
                 <button
                   type="submit"
                   className="
@@ -293,6 +325,21 @@ export default function LoginPage() {
                 >
                   {activeBtn === 'login' ? 'Logga in' : 'Skapa konto'}
                 </button>
+
+                {registerMessage && (
+                  <div className="fixed bottom-40 inset-0 flex items-center justify-center bg-black/50 z-50 ">
+                    <div className="bg-zinc-900 text-white p-8 rounded-2xl shadow-xl w-80 text-center border border-gray-300">
+                      <p className="mb-7">{registerMessage}</p>
+
+                      <button
+                        onClick={() => setRegisterMessage('')}
+                        className="bg-red-700 hover:bg-red-600 px-5 py-2 rounded-xl font-semibold cursor-pointer"
+                      >
+                        OK
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </form>
           </div>
