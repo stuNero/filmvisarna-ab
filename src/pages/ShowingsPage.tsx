@@ -114,7 +114,7 @@ export default function ShowingsPage() {
               to={HomePage.route.path}
             >
               <MoveLeft className="mx-5" />
-              Back to Home Page
+              Tillbaka till filmer
             </Link>
             <h1 className="flex items-center bg-stone-800  p-5 ml-10 scale-120 w-full rounded-l-2xl h-10">
               {details.title}
@@ -127,7 +127,7 @@ export default function ShowingsPage() {
                 switchSections
                   ? `rounded-tl-2xl border border-solid border-stone-600
                 h-10 w-[50%] mb-0
-                bg-gray-800 border-b-0`
+                bg-black border-b-0`
                   : `rounded-tl-2xl border border-solid border-stone-600
                 h-10 w-[50%] mb-0
                 bg-black`
@@ -144,7 +144,7 @@ export default function ShowingsPage() {
                 bg-black`
                   : `rounded-tr-2xl border border-solid border-stone-600
             h-10 w-[50%] mb-0
-            bg-gray-800 border-b-0`
+            bg-stone-950 border-b-0`
               }
             >
               Visningar
@@ -241,7 +241,7 @@ export default function ShowingsPage() {
                         </div>
                       ) : (
                         <p className="text-gray-300">
-                          Inga reviews tillgängliga.
+                          Inga recensioner tillgängliga.
                         </p>
                       )}
                     </div>
@@ -333,15 +333,15 @@ export default function ShowingsPage() {
     } else if (viewing == "desktop") {
       return (
         <>
-          <div className="mt-20 flex flex-row">
+          <div className="mt-20 flex flex-row justify-between">
             <Link
               className="flex row items-center w-170"
               to={HomePage.route.path}
             >
               <MoveLeft className="mx-5" />
-              Back to Home Page
+              Tillbaka till filmer
             </Link>
-            <h1 className="flex items-center bg-stone-800  p-5 ml-10 scale-120 w-full rounded-l-2xl h-10">
+            <h1 className="flex items-center bg-stone-800  p-5 ml-10 scale-120 w-70 rounded-l-2xl h-10">
               {details?.title}
             </h1>
           </div>
@@ -424,7 +424,7 @@ export default function ShowingsPage() {
 
                 <div className="min-h-24 max-w-7xl mx-auto pt-20 px-8 sm:px-12 lg:px-16 items-center justify-center">
                   <h3 className="text-sm text-gray-400 mb-1 relative">
-                    Reviews
+                    Recensioner
                   </h3>
                   <div className="md:relative h-60 w-75 overflow-hidden">
                     {activeReview ? (
@@ -441,7 +441,7 @@ export default function ShowingsPage() {
                       </div>
                     ) : (
                       <p className="text-base text-gray-300">
-                        Inga reviews tillgängliga.
+                        Inga Recensioner tillgängliga.
                       </p>
                     )}
                   </div>
