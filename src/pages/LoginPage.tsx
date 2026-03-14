@@ -106,7 +106,7 @@ export default function LoginPage() {
         }
       );
 
-      // if the user exists, show en error and stop
+      // if the user exists, show error and stop
       if (checkUserExsistens?.length > 0) {
         setDuplicateEmailError('Användaren finns redan!');
         return;
@@ -326,6 +326,7 @@ export default function LoginPage() {
                   {activeBtn === 'login' ? 'Logga in' : 'Skapa konto'}
                 </button>
 
+                {/* custom pop message for succesfull registeration */}
                 {registerMessage && (
                   <div className="fixed bottom-40 inset-0 flex items-center justify-center bg-black/50 z-50 ">
                     <div className="bg-zinc-900 text-white p-8 rounded-2xl shadow-xl w-80 text-center border border-gray-300">
