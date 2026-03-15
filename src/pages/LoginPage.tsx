@@ -77,7 +77,7 @@ export default function LoginPage() {
     }
   };
 
-  // error validation for registration
+  // error validation for confirming password for registration
   useEffect(() => {
     if (pass === '' || confirmPass === '') {
       setConfirmPasswordError('');
@@ -158,6 +158,7 @@ export default function LoginPage() {
             </h2>
           </div>
 
+          {/* buttons that switch between login and registeration */}
           <div className="bg-zinc-950 border border-white/10 rounded-3xl p-8 mb-12 ">
             <section className=" flex flex-row bg-black rounded-xl justify-between mb-8">
               <button
@@ -176,6 +177,7 @@ export default function LoginPage() {
               </button>
             </section>
 
+            {/* login and registration form  */}
             <form
               onSubmit={activeBtn === 'login' ? login : register}
               className="space-y-8 "
@@ -224,7 +226,7 @@ export default function LoginPage() {
                   <input
                     type="email"
                     required
-                    placeholder="email@example.com"
+                    placeholder="User@mail.com"
                     className="flex-1 bg-black px-3 py-3 rounded-xl text-white outline-none "
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
