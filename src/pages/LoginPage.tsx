@@ -22,6 +22,17 @@ export default function LoginPage() {
   const [loginError, setLoginError] = useState('');
   const [registerMessage, setRegisterMessage] = useState('');
 
+  // error validation for confirming password for registration
+  useEffect(() => {
+    if (pass === '' || confirmPass === '') {
+      setConfirmPasswordError('');
+    } else if (pass != confirmPass) {
+      setConfirmPasswordError('Lösenord matcher inte!');
+    } else {
+      setConfirmPasswordError('');
+    }
+  }, [pass, confirmPass]);
+
   const switchToLogin = () => {
     setActiveBtn('login');
     // Clear all fields when switching to login
@@ -43,12 +54,6 @@ export default function LoginPage() {
     setLastName('');
     setDuplicateEmailError('');
   };
-
-  useEffect(() => {
-    if (email === '') {
-      setLoginError('');
-    }
-  }, [email, setEmail]);
 
   // user login function using fetchJson post method
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -76,17 +81,6 @@ export default function LoginPage() {
       alert('Något gick fel');
     }
   };
-
-  // error validation for confirming password for registration
-  useEffect(() => {
-    if (pass === '' || confirmPass === '') {
-      setConfirmPasswordError('');
-    } else if (pass != confirmPass) {
-      setConfirmPasswordError('Lösenord matcher inte!');
-    } else {
-      setConfirmPasswordError('');
-    }
-  }, [pass, confirmPass]);
 
   // user registeration function using fetchjson post method
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -229,7 +223,10 @@ export default function LoginPage() {
                     placeholder="User@mail.com"
                     className="flex-1 bg-black px-3 py-3 rounded-xl text-white outline-none "
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setLoginError('');
+                    }}
                   />
                 </div>
               </div>
@@ -251,6 +248,7 @@ export default function LoginPage() {
                         value={pass}
                         onChange={(e) => {
                           setPass(e.target.value);
+                          setLoginError('');
                         }}
                       />
                     </div>
@@ -306,6 +304,7 @@ export default function LoginPage() {
 
               {/* logga in and register account button */}
               <div>
+                {/* showing inline error for different senarios */}
                 {(confirmPasswordError ||
                   loginError ||
                   duplicateEmailError) && (
