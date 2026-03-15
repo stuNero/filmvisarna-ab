@@ -189,7 +189,7 @@ export default function LoginPage() {
                         placeholder="Förnamn"
                         className="flex-1 bg-transparent px-3 py-3 outline-none"
                         value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        onChange={(e) => setFirstName(e.target.value.trim())}
                       />
                     </div>
                   </div>
@@ -203,7 +203,7 @@ export default function LoginPage() {
                         placeholder="Efternamn"
                         className="flex-1 bg-transparent px-3 py-3 outline-none"
                         value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                        onChange={(e) => setLastName(e.target.value.trim())}
                       />
                     </div>
                   </div>
@@ -224,7 +224,7 @@ export default function LoginPage() {
                     className="flex-1 bg-black px-3 py-3 rounded-xl text-white outline-none "
                     value={email}
                     onChange={(e) => {
-                      setEmail(e.target.value);
+                      setEmail(e.target.value.trim());
                       setLoginError('');
                     }}
                   />
