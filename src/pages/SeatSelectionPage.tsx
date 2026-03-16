@@ -53,7 +53,7 @@ export default function SeatSelectionPage() {
 
   // code for email confirmation
   const [email, setEmail] = useState('');
-  // fill in email automatically if user is logged in
+  // useeffect to fill in email automatically if user is logged in
   const { user } = useAuth();
   useEffect(() => {
     if (user?.email) {
@@ -166,7 +166,7 @@ export default function SeatSelectionPage() {
         bookingID: bookingID,
         date: new Date(showing!.date).toLocaleDateString('sv-SE'),
         time: showing?.time.toString().slice(0, 5),
-        venue: showing?.venueName
+        venue: showing?.name
       };
       try {
         const response = await fetch('/api/send-email', {
@@ -497,7 +497,6 @@ export default function SeatSelectionPage() {
                 <h2 className="text-2xl md:text-3xl text-center mb-8">
                   Slutför bokningen
                 </h2>
-
                 {/* Email Input */}
                 <div className="max-w-md mx-auto mb-8">
                   <div className="relative">
@@ -538,7 +537,6 @@ export default function SeatSelectionPage() {
                     </p>
                   </div>
                 </div>
-
                 {/* Confirm Button */}
                 <div className="text-center">
                   <button
