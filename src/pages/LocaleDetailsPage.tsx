@@ -57,16 +57,30 @@ export default function LocaleDetailsPage() {
                 <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="object-cover w-full h-full"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">Sal 1 - IMAX</h3>
+                    <h3 className="text-2xl font-semibold mb-2">Stora Salongen</h3>
                   </div>
                 </div>
        
               </div>
-              <div className="m-8">
-                <p className="text-gray-700 mb-4">
-                  Vår största sal med IMAX-teknologi för en fantastisk filmupplevelse
+              <div className="pt-6 px-8">
+                <div className="grid grid-cols-2 gap-4">
+                <p className="text-gray-700">
+                  Kapacitet
                 </p>
+                <p className="text-gray-700 mb-4 right-0">
+                  Duk
+                </p>
+                </div>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                <p className="text-white/100">
+                  80 platser
+                </p>
+                <p className="text-white/100 mb-4 right-0">
+                  12m x 5m
+                </p>
+                </div>
               </div>
+
             </div>
 
             
