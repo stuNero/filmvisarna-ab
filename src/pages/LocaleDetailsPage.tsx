@@ -29,7 +29,7 @@ export default function LocaleDetailsPage() {
       </section>
 
       <section>
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto py-8">
             <h2 className="text-3xl font-bold mb-4">Våra Salar</h2>
           <div className="h-1 w-24 border-4 rounded-lg border-red-800 "/>
           
@@ -51,15 +51,25 @@ export default function LocaleDetailsPage() {
                 </p>
               </div>
             </div>
-            <div className="border-1 border-white/20 rounded-lg">
-  <div className="m-8">
-              <h3 className="text-2xl font-semibold mb-2">Sal 1 - IMAX</h3>
-              <p className="text-gray-700 mb-4">
-                Vår största sal med IMAX-teknologi för en fantastisk filmupplevelse
-              </p>
 
-  </div>
-</div>
+            <div className="border-1 border-white/20 rounded-lg">
+              <div className="relative h-64 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="object-cover w-full h-full"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
+                  <div className="absolute bottom-2 p-6 text-white">
+                    <h3 className="text-2xl font-semibold mb-2">Sal 1 - IMAX</h3>
+                  </div>
+                </div>
+       
+              </div>
+              <div className="m-8">
+                <p className="text-gray-700 mb-4">
+                  Vår största sal med IMAX-teknologi för en fantastisk filmupplevelse
+                </p>
+              </div>
+            </div>
+
+            
           </div>
         </div>
       </section>
