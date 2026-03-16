@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import routes from './routes';
 import App from './App';
+import { AuthProvider } from './pages/AuthProvider';
 
 // Create a router using settings/content from 'routes.tsx'
 const router = createBrowserRouter([
@@ -18,6 +19,8 @@ const router = createBrowserRouter([
 // Create the React root element
 createRoot(document.querySelector('#root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>
 );
