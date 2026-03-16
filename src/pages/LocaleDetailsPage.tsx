@@ -29,7 +29,7 @@ export default function LocaleDetailsPage() {
       </section>
 
       <section>
-        <div className="max-w-4xl mx-auto py-8">
+        <div className="max-w-7xl mx-auto py-8 px-16">
             <h2 className="text-3xl font-bold mb-4">Våra Salar</h2>
           <div className="h-1 w-24 border-4 rounded-lg border-red-800 "/>
           
