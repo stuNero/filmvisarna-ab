@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 import LoginPage from '../pages/LoginPage';
 import HomePage from '../pages/HomePage';
-import { useAuth } from '../pages/AuthProvider';
+import { useAuthContext } from '../pages/AuthProvider';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { user, setUser } = useAuthContext();
 
   return (
     <header

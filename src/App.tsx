@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import Header from './partials/Header';
 import Main from './partials/Main';
 import Footer from './partials/Footer';
-import { useAuth } from './pages/AuthProvider';
+import { useAuthContext } from './pages/AuthProvider';
 import fetchJson from './utils/fetchJson';
 import { useEffect } from 'react';
 
@@ -11,7 +11,7 @@ export default function App() {
   useLocation();
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
-  const { setUser } = useAuth();
+  const { setUser } = useAuthContext();
   // if a user gets loged out in frontend by page relode, not by clicking on logout button then this useeffect restorse the actual state of the user, which is logedin.
   useEffect(() => {
     const checkSession = async () => {

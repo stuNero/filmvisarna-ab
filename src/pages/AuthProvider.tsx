@@ -23,7 +23,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 }
 
 // creating custom hook to avoid checking null in every component
-export const useAuth = () => {
+export const useAuthContext = () => {
   const context = useContext(AuthContext);
   //null check for the context
   if (!context) {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthProvider';
+import { useAuthContext } from './AuthProvider';
 import { Mail, Lock, User } from 'lucide-react';
 
 LoginPage.route = {
@@ -16,7 +16,7 @@ export default function LoginPage() {
   const [confirmPass, setConfirmPass] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const { user, setUser } = useAuth();
+  const { setUser } = useAuthContext();
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [duplicateEmailError, setDuplicateEmailError] = useState('');
   const [loginError, setLoginError] = useState('');
