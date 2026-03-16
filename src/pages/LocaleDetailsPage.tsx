@@ -1,4 +1,6 @@
 import { Clock } from "lucide-react";
+import useFetchJson from '../utils/useFetchJson';
+
 
 LocaleDetailsPage.route = {
   path: '/om-oss',
