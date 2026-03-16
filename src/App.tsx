@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import Header from './partials/Header';
 import Main from './partials/Main';
 import Footer from './partials/Footer';
-import { useAuthContext } from './parts/AuthProvider';
+import { useAuthContext } from './utils/AuthProvider';
 import fetchJson from './utils/fetchJson';
 import { useEffect } from 'react';
 

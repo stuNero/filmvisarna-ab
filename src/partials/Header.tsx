@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 import LoginPage from '../pages/LoginPage';
 import HomePage from '../pages/HomePage';
-import { useAuthContext } from '../parts/AuthProvider';
+import { useAuthContext } from '../utils/AuthProvider';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
 

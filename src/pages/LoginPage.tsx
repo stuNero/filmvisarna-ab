@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../parts/AuthProvider';
+import { useAuthContext } from '../utils/AuthProvider';
 import { Mail, Lock, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -183,7 +183,7 @@ export default function LoginPage() {
               </button>
             </section>
 
-            {/* login and registration form  */}
+            {/* login and registration form both in the same form */}
             <form
               onSubmit={activeBtn === 'login' ? login : register}
               className="space-y-4 "
@@ -269,9 +269,11 @@ export default function LoginPage() {
                   <div className="text-sm flex justify-end">
                     <Link
                       to="/återställ-lösenord"
-                      className="text-red-700 cursor-pointer mt-1"
+                      className="text-red-700 cursor-pointer mt-1 transition-all 
+                      duration-150
+                      active:scale-95 active:brightness-75"
                     >
-                      Glömt läsenord?
+                      Glömt lösenord?
                     </Link>
                   </div>
                 </div>
