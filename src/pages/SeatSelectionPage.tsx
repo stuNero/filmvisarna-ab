@@ -112,37 +112,33 @@ export default function SeatSelectionPage() {
     }
 
     try {
-      let totalPrice = 0;
       // Collects all tickets into a string array
-      // and calculates total price
       const tickets = [];
       for (let i = 0; i < ticketCount.adult; i++) {
         tickets.push('adult');
-        totalPrice += 140;
       }
       for (let i = 0; i < ticketCount.child; i++) {
         tickets.push('child');
-        totalPrice += 80;
       }
       for (let i = 0; i < ticketCount.senior; i++) {
         tickets.push('senior');
-        totalPrice += 120;
       }
 
       // Zips tickets and seats together into one array based on index
       // (assumes arrays are of same length)
-      const seatsWithTypes = tickets.map(function (type, i) {
-        return [type, selectedSeats[i]];
-      });
+      const seatsWithTypes: { seatId: number, ticketType: string; }[] =
+        tickets.map(function (type, i) {
+          return {
+            seatId: selectedSeats[i],
+            ticketType: type
+          };
+        });
 
-      await createBooking(totalPrice);
-      await createEmailBooking();
-
-      // Calls the function for DB insert for each booked seat
-      for (let seat of seatsWithTypes) {
-        createbookedSeat(String(seat[0]), Number(seat[1]));
+      const res = await createBookingNew(seatsWithTypes);
+      if (!res.ok) {
+        alert("Request failed: " + res.status);
+        return;
       }
-
       const requestBody = {
         email: email,
         movieName: showing?.title,
@@ -210,6 +206,24 @@ export default function SeatSelectionPage() {
       }
     });
   };
+
+  async function createBookingNew(seatsWithTypes: { seatId: number, ticketType: string; }[]) {
+    return fetch('/api/create-booking', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: bookingID,
+        cost: ticketCost,
+        createdAt:
+          new Date(Date.now()).toLocaleDateString('sv-SE').slice(0, 10) +
+          ' ' +
+          new Date(Date.now()).toLocaleTimeString('sv-SE'),
+        showingId: showingId.toString(),
+        email: email,
+        seats: seatsWithTypes
+      })
+    });
+  }
 
   async function createBooking(totalPrice: number) {
     /* const res = */ await fetch('/api/send-confirm/bookings', {

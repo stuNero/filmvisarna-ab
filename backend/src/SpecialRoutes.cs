@@ -9,6 +9,58 @@ public static class SpecialRoutes
 
   public static void Start()
   {
+    App.MapPost("/api/create-booking", (
+                HttpContext context, string table, JsonElement bodyJson
+            ) =>
+            {
+              var body = JSON.Parse(bodyJson.ToString());
+
+              var bookingID = body.id;
+              var showingID = body.showingId;
+              var cost = body.cost;
+              var createdAt = body.createdAt;
+              var email = body.email;
+
+              IEnumerable<dynamic> seatsArray = body.seats;
+              var seats = string.Join(",",
+                  seatsArray.Select(seat =>
+                      $"({seat.seatId}, '{bookingID}', '{seat.ticketType}')"
+                  )
+              );
+
+
+              var sql = $"""
+              START TRANSACTION;
+
+              INSERT INTO bookings
+              (id, cost, createdAt, showingId)
+              VALUES
+              ('{bookingID}', '{cost}', '{createdAt}', '{showingID}');
+
+              INSERT INTO userBookings
+              (bookingId, email)
+              VALUES
+              ('{bookingID}', '{email}');
+
+              INSERT INTO bookedSeat
+              (seatId, bookingId, ticketType)
+              VALUES
+              ({seats});
+
+              COMMIT;
+              
+              """;
+              var result = SQLQueryOne(sql, body, context);
+              if (!result.HasKey("error"))
+              {
+                // Get the insert id and add to our result
+                result.insertId = SQLQueryOne(
+                @$"SELECT id AS __insertId 
+                       FROM {table} ORDER BY id DESC LIMIT 1"
+            ).__insertId;
+              }
+              return RestResult.Parse(context, result);
+            });
 
     App.MapGet("/api/comingSoon", (
                 HttpContext context, string table
