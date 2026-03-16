@@ -1,3 +1,5 @@
+import { Clock } from "lucide-react";
+
 LocaleDetailsPage.route = {
   path: '/om-oss',
   menuLabel: 'Om Oss'
@@ -105,6 +107,40 @@ export default function LocaleDetailsPage() {
 
             
           </div>
+          <div className="border border-red-800 rounded-3xl bg-red-800/10 mt-12 p-8 ">
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 bg-red-800 rounded-2xl flex items-center justify-center">
+                  <Clock className="w-10 h-10 text-white" />
+                </div>
+              </div>
+              
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-3xl font-bold text-white mb-4">Öppettider</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300">
+                  <div>
+                    <span className="font-semibold text-white">Måndag - Torsdag:</span> 12:00 - 23:00
+                  </div>
+                  <div>
+                    <span className="font-semibold text-white">Fredag:</span> 12:00 - 01:00
+                  </div>
+                  <div>
+                    <span className="font-semibold text-white">Lördag:</span> 11:00 - 01:00
+                  </div>
+                  <div>
+                    <span className="font-semibold text-white">Söndag:</span> 11:00 - 23:00
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex-shrink-0 text-center md:text-right">
+                <div className="text-sm text-gray-400 mb-2">Kontakta oss</div>
+                <div className="text-white font-semibold mb-1">info@cinesharp.se</div>
+                <div className="text-white font-semibold">08-123 456 78</div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
     </>
