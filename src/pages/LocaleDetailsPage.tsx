@@ -19,6 +19,14 @@ const [venue] = useFetchJson<
     }[]
   >(`/api/venues`);
 
+  // const [venueSeats] = useFetchJson<
+  //   {
+  //     id: number;
+  //   }[]
+  // >(`/api/seats?WHERE=venueId=${venue?.[0].id}`);
+
+    
+
   return (
     <>
       <section>
@@ -54,7 +62,7 @@ const [venue] = useFetchJson<
                 <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl group-hover:scale-110 transition-transform duration-500"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">{venue?.[0].info}</h3>
+                    <h3 className="text-2xl font-semibold ">{venue?.[0].info}</h3>
                   </div>
                 </div>
        
@@ -88,7 +96,7 @@ const [venue] = useFetchJson<
                 <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&q=80&w=800" className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl group-hover:scale-110 transition-transform duration-500"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">{venue?.[1].info}</h3>
+                    <h3 className="text-2xl font-semibold ">{venue?.[1].info}</h3>
                   </div>
                 </div>
        
@@ -132,16 +140,20 @@ const [venue] = useFetchJson<
                 <h3 className="text-3xl font-bold text-white mb-4">Öppettider</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300">
                   <div>
-                    <span className="font-semibold text-white">Måndag - Torsdag:</span> 12:00 - 23:00
+                    <p className="font-semibold text-white">Måndag - Torsdag:</p> 
+                    <p>12:00 - 23:00</p>
                   </div>
                   <div>
-                    <span className="font-semibold text-white">Fredag:</span> 12:00 - 01:00
+                    <p className="font-semibold text-white">Fredag:</p> 
+                    <p>12:00 - 01:00</p>
                   </div>
                   <div>
-                    <span className="font-semibold text-white">Lördag:</span> 11:00 - 01:00
+                    <p className="font-semibold text-white">Lördag:</p> 
+                    <p>11:00 - 01:00</p>
                   </div>
                   <div>
-                    <span className="font-semibold text-white">Söndag:</span> 11:00 - 23:00
+                    <p className="font-semibold text-white">Söndag:</p> 
+                    <p>11:00 - 23:00</p>
                   </div>
                 </div>
               </div>
