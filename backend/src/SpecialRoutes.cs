@@ -1,3 +1,6 @@
+using System.ComponentModel.Design;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 using Org.BouncyCastle.Asn1.X509.SigI;
 
 namespace WebApp;
@@ -9,6 +12,58 @@ public static class SpecialRoutes
 
   public static void Start()
   {
+    // special route for sending the recovery link for forgotten password
+    App.MapPost("api/forgot-password/",
+    (HttpContext context, JsonElement bodyJson) =>
+    {
+      var body = JSON.Parse(bodyJson.ToString());
+
+      // finding user by email
+      var user = SQLQueryOne(
+        "SELECT * FROM users WHERE email = @email",
+        new { body.email }
+      );
+
+      // visar medelande oavsett om user finns i databasen eller inte
+      if (user == null)
+      {
+        return RestResult.Parse(context, new
+        {
+          message = "Om e-postadressen finns i systemet har en återställningslänk skickats"
+        });
+      }
+
+      // creating reset token 
+      var token = Guid.NewGuid().ToString();
+      SQLQuery($"""
+        INSERT INTO passwordResets (userId, token, expires)
+        VALUES (@userId, @token, Date_Add(NOW(), INTERVAL 30 MINUTE))
+      """,
+      new
+      {
+        userId = user.id,
+        token = token
+      }
+      );
+
+
+      // send email with the reset link
+      var resetLink = $"{DOMAIN_IN_MAIL}/återställ-lösenord?token={token}";
+      var subject = "Återställ ditt lösenord";
+      var htmlBody = $@"
+      <h2>Återställ lösenord</h2>
+      <p>Klicka på länken för att återställa ditt lösenord:</p>
+      <a href='{resetLink}'>{resetLink}</a>
+      <p>Länken är giltig i 30 minuter.</p>
+";
+
+      EmailService.SendEmail(body.email, subject, htmlBody);
+      return RestResult.Parse(context, new
+      {
+        message = "Om e-postadressen finns i systemet har en återställningslänk skickats"
+      });
+    });
+
 
     App.MapGet("/api/comingSoon", (
                 HttpContext context, string table
@@ -46,15 +101,15 @@ public static class SpecialRoutes
           {
             // Get the insert id and add to our result
             result.insertId = SQLQueryOne(
-                @$"SELECT id AS __insertId 
-                       FROM {table} ORDER BY id DESC LIMIT 1"
+              @$"SELECT id AS __insertId 
+              FROM {table} ORDER BY id DESC LIMIT 1"
             ).__insertId;
           }
           return RestResult.Parse(context, result);
         });
 
 
-
+// special route for sending email when a users has confirmed and booked tickets.
     App.MapPost("/api/send-email", (
       HttpContext context,
       JsonElement bodyJson
