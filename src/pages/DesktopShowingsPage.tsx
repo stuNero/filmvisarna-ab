@@ -29,7 +29,7 @@ export default function DesktopShowingsPage(props: any) {
   return (
     <>
       <section>
-        <div className="md:mt-10 flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
+        <div className="md:mt-10 flex flex-col justify-center items-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
           <div className="mt-20 flex flex-row justify-between">
             <Link
               className="flex row items-center w-170"
@@ -108,26 +108,26 @@ export default function DesktopShowingsPage(props: any) {
           </div>
 
           {/* REVIEW   S E C T I O N */}
-          <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 mx-auto flex items-center ">
+          <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 flex items-center ">
             <button
               type="button"
               onClick={goToPrevReview}
-              className="p-2 rounded border border-stone-600 hover:bg-stone-900 md:-mt-25 "
+              className="p-2 rounded border border-stone-600 hover:bg-stone-900 "
             >
               <ArrowLeft className="" />
             </button>
 
-            <div className="min-h-24 max-w-7xl mx-auto pt-20 px-8 sm:px-12 lg:px-16 items-center justify-center">
-              <h3 className="text-sm text-gray-400 mb-1 relative">
+            <div className="min-h-24 max-w-7xl mt-20 px-8 sm:px-12 lg:px-16 w-200 items-center justify-center">
+              <h3 className="text-sm text-gray-400 mb-1 ">
                 Recensioner
               </h3>
-              <div className="md:relative h-60 w-75 overflow-hidden">
+              <div className="relative h-60 w-full overflow-hidden">
                 {activeReview ? (
                   <div className="absolute ">
                     <h4 className="text-lg font-bold">
                       {activeReview.source}
                     </h4>
-                    <p className="text-base md:text-base font-bold italic">
+                    <p className="text-base md:text-base italic">
                       {activeReview.quote}
                     </p>
                     <p className="text-xs text-gray-400 mt-2">
@@ -145,7 +145,7 @@ export default function DesktopShowingsPage(props: any) {
             <button
               type="button"
               onClick={goToNextReview}
-              className="p-2 rounded border border-stone-600 hover:bg-stone-900 md:-mt-25"
+              className="p-2 rounded border border-stone-600 hover:bg-stone-900"
             >
               <ArrowRight size={20} />
             </button>
