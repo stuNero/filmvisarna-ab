@@ -7,7 +7,18 @@ LocaleDetailsPage.route = {
   menuLabel: 'Om Oss'
 };
 
+
+
 export default function LocaleDetailsPage() {
+const [venue] = useFetchJson<
+    {
+      id: number;
+      name: string;
+      info: string;
+      
+    }[]
+  >(`/api/venues`);
+
   return (
     <>
       <section>
@@ -43,7 +54,7 @@ export default function LocaleDetailsPage() {
                 <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl group-hover:scale-110 transition-transform duration-500"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">Stora Salongen</h3>
+                    <h3 className="text-2xl font-semibold mb-2">{venue?.[0].info}</h3>
                   </div>
                 </div>
        
@@ -77,7 +88,7 @@ export default function LocaleDetailsPage() {
                 <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&q=80&w=800" className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl group-hover:scale-110 transition-transform duration-500"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">Lila Salongen</h3>
+                    <h3 className="text-2xl font-semibold mb-2">{venue?.[1].info}</h3>
                   </div>
                 </div>
        
