@@ -35,7 +35,7 @@ export default function LocaleDetailsPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
 
-            <div className="border-1 border-white/20 rounded-lg">
+            <div className="border-1 border-white/20 rounded-3xl">
               <div className="relative h-64 overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="object-cover w-full h-full"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
@@ -52,7 +52,7 @@ export default function LocaleDetailsPage() {
               </div>
             </div>
 
-            <div className="border-1 border-white/20 rounded-lg">
+            <div className="border-1 border-white/20 rounded-3xl">
               <div className="relative h-64 overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="object-cover w-full h-full"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
