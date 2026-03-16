@@ -523,7 +523,7 @@ export default function SeatSelectionPage() {
                 {selectedSeats.length > 0 ? (
                   <div className="grid grid-cols-4 gap-2 py-2 px-3 border-2 border-solid border-white/20 rounded-2xl min-h-21">
                     {selectedSeats.map((seat) => (
-                      <p className="text-center px-0.5 border border-solid rounded border-white/10 bg-gray-900 h-fit">
+                      <p key={seat} className="text-center px-0.5 border border-solid rounded border-white/10 bg-gray-900 h-fit">
                         {seat}
                       </p>
                     ))}
@@ -568,8 +568,8 @@ export default function SeatSelectionPage() {
                         }}
                         placeholder="din.epost@exempel.se"
                         className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
-                            ? 'border-red-700 focus:ring-red-700/50'
-                            : 'border-white/20 focus:ring-red-800/50 focus:border-red-800'
+                          ? 'border-red-700 focus:ring-red-700/50'
+                          : 'border-white/20 focus:ring-red-800/50 focus:border-red-800'
                           }`}
                       />
                     </div>
