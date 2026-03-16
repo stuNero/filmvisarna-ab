@@ -400,13 +400,13 @@ export default function SeatSelectionPage() {
             border-y-2
             rounded-2xl md:border-2 border-white/20
             p-8 mb-8
-            items-center overflow-x-scroll md:overflow-x-hidden">
+            items-center overflow-x-scroll snap-x snap-mandatory md:overflow-x-hidden">
               {/*           Cinema Screen         */}
-              <h1 className='text-center text-sm italic text-stone-300/50 translate-x-9'>Bioduk</h1>
-              <div className='flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full translate-x-9' />
+              <h1 className='text-center text-sm italic text-stone-300/50 snap-center translate-x-9'>Bioduk</h1>
+              <div className='flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full  snap-center translate-x-9' />
               {/*             S E A T S           */}
               {Array.from({ length: rows }, (_, rowIndex) => (
-                <div key={rowIndex} className="flex justify-center gap-2.5 md:gap-4 mb-4 translate-x-9">
+                <div key={rowIndex} className="flex justify-center gap-2.5 md:gap-4 mb-4  snap-center translate-x-9">
                   {seats
                     ?.filter((seat) => seat.rowNr === rowIndex + 1)
                     .map((seat) => {
