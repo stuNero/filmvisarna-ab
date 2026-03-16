@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import routes from './routes';
 import App from './App';
-import { AuthProvider } from './pages/AuthProvider';
+import { AuthProvider } from './parts/AuthProvider';
 
 // Create a router using settings/content from 'routes.tsx'
 const router = createBrowserRouter([

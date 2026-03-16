@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from './AuthProvider';
+import { useAuthContext } from '../parts/AuthProvider';
 import { Mail, Lock, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
