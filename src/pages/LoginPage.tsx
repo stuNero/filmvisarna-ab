@@ -24,14 +24,20 @@ export default function LoginPage() {
 
   // error validation for confirming password for registration
   useEffect(() => {
+    // only do this validation on registeration
+    if (activeBtn !== 'medlem') {
+      setConfirmPasswordError('');
+      return;
+    }
     if (pass === '' || confirmPass === '') {
       setConfirmPasswordError('');
-    } else if (pass != confirmPass) {
+    }
+    if (pass != confirmPass) {
       setConfirmPasswordError('Lösenord matcher inte!');
     } else {
       setConfirmPasswordError('');
     }
-  }, [pass, confirmPass]);
+  }, [pass, confirmPass, activeBtn]);
 
   const switchToLogin = () => {
     setActiveBtn('login');
@@ -59,6 +65,7 @@ export default function LoginPage() {
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     // this line is to prevent the page to refresh, we only want render the component not the whole page
     e.preventDefault();
+
     try {
       const result = await fetchJson(`/api/login`, {
         method: 'POST',
@@ -146,9 +153,13 @@ export default function LoginPage() {
               height="auto"
               alt="cinesharp logo"
             />
-            <h1 className="text-4xl">Välkommen tillbaka </h1>
+            <h1 className="text-4xl">
+              {activeBtn === 'login' ? 'Välkommen tillbaka' : 'Välkommen'}
+            </h1>
             <h2 className="text-md text-gray-400">
-              Logga in för att hantera dina bokningar
+              {activeBtn === 'login'
+                ? 'Logga in för att hantera dina bokningar'
+                : 'Bli medlem för att hantera dina bokningar'}
             </h2>
           </div>
 
@@ -174,7 +185,7 @@ export default function LoginPage() {
             {/* login and registration form  */}
             <form
               onSubmit={activeBtn === 'login' ? login : register}
-              className="space-y-8 "
+              className="space-y-4 "
             >
               {/* condition rendering of registering a new user */}
               {activeBtn === 'medlem' && (
