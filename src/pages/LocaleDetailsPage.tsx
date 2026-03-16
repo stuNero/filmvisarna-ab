@@ -34,8 +34,7 @@ export default function LocaleDetailsPage() {
           <div className="h-1 w-24 border-4 rounded-lg border-red-800 "/>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-
-            <div className="border-1 border-white/20 rounded-3xl">
+            <div className="border border-white/20 rounded-3xl">
               <div className="relative h-64 overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="object-cover w-full h-full"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
@@ -51,8 +50,7 @@ export default function LocaleDetailsPage() {
                 </p>
               </div>
             </div>
-
-            <div className="border-1 border-white/20 rounded-3xl">
+            <div className="border border-white/20 rounded-3xl">
               <div className="relative h-64 overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="object-cover w-full h-full"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
@@ -64,20 +62,24 @@ export default function LocaleDetailsPage() {
               </div>
               <div className="pt-6 px-8">
                 <div className="grid grid-cols-2 gap-4">
-                <p className="text-gray-700">
+                  <div>
+                    <p className="text-gray-700">
                   Kapacitet
                 </p>
-                <p className="text-gray-700 mb-4 right-0">
-                  Duk
-                </p>
-                </div>
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                <p className="text-white/100">
+                <p className="text-white/100 mb-4 right-0">
                   80 platser
                 </p>
-                <p className="text-white/100 mb-4 right-0">
-                  12m x 5m
-                </p>
+                  </div>
+                  <div>
+                  <p className="text-gray-700">
+                  Duk
+                  </p>
+                  <p className="text-white/100">
+                  15x8 meter
+                  </p>
+                  </div>
+                
+               
                 </div>
               </div>
 
