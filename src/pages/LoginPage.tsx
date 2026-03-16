@@ -269,7 +269,7 @@ export default function LoginPage() {
                   <div className="text-sm flex justify-end">
                     <Link
                       to="/återställ-lösenord"
-                      className="text-red-700 cursor-pointer mt-1 transition-all 
+                      className="text-red-700 hover:text-red-500 cursor-pointer mt-1 transition-all 
                       duration-150
                       active:scale-95 active:brightness-75"
                     >
@@ -352,7 +352,7 @@ export default function LoginPage() {
 
                       <button
                         onClick={() => setRegisterMessage('')}
-                        className="bg-red-700 hover:bg-red-600 px-5 py-2 rounded-xl font-semibold cursor-pointer"
+                        className="bg-red-800 hover:bg-red-700 px-5 py-2 rounded-xl font-semibold cursor-pointer"
                       >
                         OK
                       </button>
