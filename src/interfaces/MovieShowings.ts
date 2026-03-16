@@ -5,5 +5,5 @@ export default interface MovieShowings {
   date: number;
   time: number;
   venueID: number;
-  venueName: string;
+  name: string;
 }
