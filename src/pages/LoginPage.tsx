@@ -268,7 +268,7 @@ export default function LoginPage() {
 
                   <div className="text-sm flex justify-end">
                     <Link
-                      to="/återställ-lösenord"
+                      to="/glömt-lösenord"
                       className="text-red-700 hover:text-red-500 cursor-pointer mt-1 transition-all 
                       duration-150
                       active:scale-95 active:brightness-75"
