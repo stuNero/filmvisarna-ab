@@ -12,7 +12,7 @@ import ProfilePage from './pages/ProfilePage.tsx';
 import KioskInfoPage from './pages/KioskPage.tsx';
 import LocaleDetailsPage from './pages/LocaleDetailsPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
-import PasswordRecoveryPage from './pages/PasswordRecoveryPage.tsx';
+import ForgotPassword from './pages/PasswordRecoveryPage.tsx';
 
 export default [
   HomePage,
@@ -24,7 +24,7 @@ export default [
   ProfilePage,
   KioskInfoPage,
   LocaleDetailsPage,
-  PasswordRecoveryPage,
+  ForgotPassword,
   NotFoundPage
 ]
   // map the route property of each page component to a Route
