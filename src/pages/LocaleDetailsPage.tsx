@@ -34,12 +34,14 @@ export default function LocaleDetailsPage() {
           <div className="h-1 w-24 border-4 rounded-lg border-red-800 "/>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-<div className="border-1 border-white/20 rounded-lg">
-<div className="m-8">
-              <h3 className="text-2xl font-semibold mb-2">Sal 1 - IMAX</h3>
-              <p className="text-gray-700 mb-4">
-                Vår största sal med IMAX-teknologi för en fantastisk filmupplevelse
-              </p>
+            <div className="border-1 border-white/20 rounded-lg">
+              <div className="relative h-64 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="object-cover w-full h-full"></img>
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
+                    <div className="absolute bottom-0 p-6 text-white">
+                      <h3 className="text-2xl font-semibold mb-2">Sal 1 - IMAX</h3>
+              </div>
+            </div>
 
 </div>
 </div>
