@@ -34,28 +34,46 @@ export default function LocaleDetailsPage() {
           <div className="h-1 w-24 border-4 rounded-lg border-red-800 "/>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-            <div className="border border-white/20 rounded-3xl">
+             <div className="border border-white/5 rounded-3xl">
               <div className="relative h-64 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="object-cover w-full h-full"/>
+                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">Sal 1 - IMAX</h3>
+                    <h3 className="text-2xl font-semibold mb-2">Stora Salongen</h3>
                   </div>
                 </div>
        
               </div>
-              <div className="m-8">
-                <p className="text-gray-700 mb-4">
-                  Vår största sal med IMAX-teknologi för en fantastisk filmupplevelse
+              <div className="pt-6 px-8">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-gray-700">
+                  Kapacitet
                 </p>
+                <p className="text-white/100 mb-4 right-0">
+                  80 platser
+                </p>
+                  </div>
+                  <div>
+                  <p className="text-gray-700">
+                  Duk
+                  </p>
+                  <p className="text-white/100">
+                  15x8 meter
+                  </p>
+                  </div>
+                
+               
+                </div>
               </div>
+
             </div>
-            <div className="border border-white/20 rounded-3xl">
+            <div className="border border-white/5 rounded-3xl">
               <div className="relative h-64 overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800" className="object-cover w-full h-full"/>
+                <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&q=80&w=800" className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">Stora Salongen</h3>
+                    <h3 className="text-2xl font-semibold mb-2">Lila Salongen</h3>
                   </div>
                 </div>
        
