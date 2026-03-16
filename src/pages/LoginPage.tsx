@@ -3,6 +3,7 @@ import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from './AuthProvider';
 import { Mail, Lock, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 LoginPage.route = {
   path: '/logga-in'
@@ -266,9 +267,12 @@ export default function LoginPage() {
                   </div>
 
                   <div className="text-sm flex justify-end">
-                    <button className="text-red-700 cursor-pointer mt-1">
+                    <Link
+                      to="/återställ-lösenord"
+                      className="text-red-700 cursor-pointer mt-1"
+                    >
                       Glömt läsenord?
-                    </button>
+                    </Link>
                   </div>
                 </div>
               )}
