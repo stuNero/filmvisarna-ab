@@ -16,6 +16,14 @@ export default function LocaleDetailsPage() {
           alt="Cinema Interior"
           className="w-full h-full object-cover"
         />
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
+          <p className="text-5xl md:text-7xl font-bold mb-6">
+            Om CineSharp
+          </p>
+          <p  className="text-xl md:text-2xl text-gray-300 max-w-3xl">
+            Din moderna biograf med den senaste teknologin och högsta komforten
+          </p>
+        </div>
       </div>
         
       </section>
