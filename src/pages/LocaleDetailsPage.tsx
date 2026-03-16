@@ -30,9 +30,9 @@ export default function LocaleDetailsPage() {
 
       <section>
         <div className="max-w-4xl mx-auto px-4 py-8">
-          <div className="border-b-4 rounded-lg border-red-800 ">
             <h2 className="text-3xl font-bold mb-4">Våra Salar</h2>
-          </div>
+          <div className="h-1 w-24 border-4 rounded-lg border-red-800 "/>
+          
           <div className="">
 
           </div>
