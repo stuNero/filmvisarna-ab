@@ -12,7 +12,7 @@ import ProfilePage from './pages/ProfilePage.tsx';
 import KioskInfoPage from './pages/KioskPage.tsx';
 import LocaleDetailsPage from './pages/LocaleDetailsPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
-import ForgotPassword from './pages/PasswordRecoveryPage.tsx';
+import ForgotPassword from './pages/ForgotPasswordPage.tsx';
 
 export default [
   HomePage,

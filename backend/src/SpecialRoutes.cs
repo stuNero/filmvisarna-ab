@@ -37,7 +37,7 @@ public static class SpecialRoutes
       var token = Guid.NewGuid().ToString();
       SQLQuery($"""
         INSERT INTO passwordResets (userId, token, expires)
-        VALUES (@userId, @token, Date_Add(NOW(), INTERVAL 30 MINUTE))
+        VALUES (@userId, @token, Date_Add(NOW(), INTERVAL 1 Hour))
       """,
       new
       {
@@ -54,7 +54,12 @@ public static class SpecialRoutes
       <h2>Återställ lösenord</h2>
       <p>Klicka på länken för att återställa ditt lösenord:</p>
       <a href='{resetLink}'>{resetLink}</a>
-      <p>Länken är giltig i 30 minuter.</p>
+      <p>Länken är giltig i 1 timme.</p>
+
+      <br>
+      
+      <p>Vänliga hälsningar,</p>
+      <p>CineSharp AB</p>     
 ";
 
       EmailService.SendEmail(body.email, subject, htmlBody);
