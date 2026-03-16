@@ -51,8 +51,9 @@ export default function SeatSelectionPage() {
   const navigate = useNavigate();
   // code for email confirmation
   const [email, setEmail] = useState('');
-
   const [emailError, setEmailError] = useState('');
+  const [ticketCost, setTicketCost] = useState(0);
+
 
   let bookingID = '';
 
@@ -259,6 +260,7 @@ export default function SeatSelectionPage() {
     // prevents incrementation above 8 tickets
     if (ticketCount.child + ticketCount.adult + ticketCount.senior < 8) {
       setTicketCount((prev) => ({ ...prev, [type]: prev[type] + 1 }));
+      setTicketCost(prev => prev + TICKET_PRICES[type]);
     }
   }
   function decrementTicket(type: keyof TicketCount) {
@@ -268,6 +270,7 @@ export default function SeatSelectionPage() {
       ...prev,
       [type]: Math.max(0, prev[type] - 1)
     }));
+    setTicketCost(prev => prev - TICKET_PRICES[type]);
   }
 
   function CreateSeatTypes() {
@@ -286,6 +289,7 @@ export default function SeatSelectionPage() {
         }
         {
           <SeatType
+
             key={1}
             name={TICKET_TEXT[TICKET_KEYS[1]]}
             info={TICKET_INFO[TICKET_KEYS[1]]}
@@ -351,19 +355,58 @@ export default function SeatSelectionPage() {
 
     return (
       <>
-        <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20">
+        <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20 ">
           {/* Ticket Selection */}
-          <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
-            <div className="max-w-2xl mx-auto space-y-4">
+          <div className="flex flex-col items-center bg-zinc-950 rounded-2xl border-y-2 md:border-2  border-white/20 p-8 mb-8">
+            <div className="max-w-2xl md:min-w-2xl w-full md:mx-auto space-y-4">
               <CreateSeatTypes />
             </div>
+            {totalTickets > 0 ?
+              <div className="flex flex-col items-center gap-10 px-10 bg-zinc-950 rounded-2xl border-2 border-white/20 mt-10 p-2 mb-8">
+                <div className='flex flex-row gap-2'>
+                  <div
+                    id="ticket-section">
+                    <h1 className='font-semibold mb-1 pl-5 pb-3 text-2xl'>Biljettyp:</h1>
+                    <div className='flex flex-row border-2 border-solid border-white/10 rounded-2xl pb-2 pl-5 md:px-10 max-w-2xl md:w-170 justify-between text-lg'>
+                      <div className='pr-5'>
+                        <p>Barn: </p>
+                        <p>Vuxen:  </p>
+                        <p>Pensionär: </p>
+                      </div>
+                      <div className='md:w-30 w-25'>
+                        <p className='text-white/50 pl-2'>{ticketCount.child} x {TICKET_PRICES.child} kr</p>
+                        <p className='text-white/50 pl-2'>{ticketCount.adult} x {TICKET_PRICES.adult} kr</p>
+                        <p className='text-white/50 pl-2'>{ticketCount.senior} x {TICKET_PRICES.senior} kr</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div
+                  id="total-cost-section"
+                  className='flex flex-col md:flex-row border-t-2 border-white/20 md:w-170 md:justify-between p-5'>
+                  <h1 className='font-bold text-2xl text-red-800 pr-10 md:pr-0'>Totalpris:</h1>
+                  <p className='text-xl'>{ticketCost} :-</p>
+                </div>
+              </div> : <></>}
           </div>
 
           {/* Seat Selection */}
           {totalTickets > 0 ?
-            <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
+
+            <div className="
+            flex flex-col
+            bg-zinc-950
+            border-y-2
+            rounded-2xl md:border-2 border-white/20
+            p-8 mb-8
+            items-center overflow-x-scroll snap-x snap-mandatory md:overflow-x-hidden">
+              {/*           Cinema Screen         */}
+              <h1 className='text-center text-sm italic text-stone-300/50 snap-center translate-x-9'>Bioduk</h1>
+              <div className='flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full  snap-center translate-x-9' />
+              {/*             S E A T S           */}
               {Array.from({ length: rows }, (_, rowIndex) => (
-                <div key={rowIndex} className="flex justify-center gap-4 mb-4">
+                <div key={rowIndex} className="flex justify-center gap-2.5 md:gap-4 mb-4  snap-center translate-x-9">
                   {seats
                     ?.filter((seat) => seat.rowNr === rowIndex + 1)
                     .map((seat) => {
@@ -382,11 +425,14 @@ export default function SeatSelectionPage() {
                             key={seat.seatId}
                             onClick={() => toggleSeat(seat.seatId)}
                             className={`
-                          px-4 py-2 text-white rounded
-                          transition-all duration-200 h-8
+                            px-3 py-1.5  h-6
+                            md:px-4 md:py-2 md:h-8
+                          
+                          text-white rounded
+                            transition-all duration-200
                           ${isSelected
-                                ? "bg-green-600 hover:bg-green-700 outline-solid outline-green-700"
-                                : "hover:bg-green-800 bg-stone-700 hover:outline-green-900 outline-solid outline-stone-600"
+                                ? "bg-green-600 md:hover:bg-green-700 outline-solid outline-green-700"
+                                : "md:hover:bg-green-800 bg-stone-700 md:hover:outline-green-900 outline-solid outline-stone-600"
                               }
                         `}
                           >
@@ -395,13 +441,24 @@ export default function SeatSelectionPage() {
                     })}
                 </div>
               ))}
+              <div
+                id="seat-section"
+                className='flex flex-col min-w-40 translate-x-10 items-center'>
+                <h1 className='font-semibold pb-1'>Stolsnummer:</h1>
+                {selectedSeats.length > 0 ?
+                  <div className='grid grid-cols-4 gap-2 py-2 px-3 border-2 border-solid border-white/20 rounded-2xl min-h-21'>
+                    {selectedSeats.map((seat) => <p className='text-center px-0.5 border border-solid rounded border-white/10 bg-gray-900 h-fit'>
+                      {seat}
+                    </p>)}
+                  </div> : <></>}
+              </div>
             </div> : <></>}
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
           {selectedSeats.length === totalTickets &&
             totalTickets > 0 ?
             <form onSubmit={bookingConfirmation} ref={formRef}>
-              <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
+              <div className="bg-zinc-950 rounded-2xl border-y-2 md:border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
                 <h2 className="text-2xl md:text-3xl text-center mb-8">
                   Slutför bokningen
                 </h2>
