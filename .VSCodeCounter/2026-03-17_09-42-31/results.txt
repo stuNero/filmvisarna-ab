@@ -1,0 +1,121 @@
+Date : 2026-03-17 09:42:31
+Directory : c:\Users\maxve\repos\filmvisarna-ab
+Total : 76 files,  11003 codes, 333 comments, 491 blanks, all 11827 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          7 |      6,549 |          4 |          6 |      6,559 |
+| TypeScript JSX     |         25 |      2,634 |        134 |        242 |      3,010 |
+| C#                 |         21 |      1,532 |        177 |        192 |      1,901 |
+| TypeScript         |         16 |        151 |          5 |         24 |        180 |
+| JavaScript         |          2 |         76 |         10 |         15 |        101 |
+| PostCSS            |          1 |         19 |          3 |          3 |         25 |
+| HTML               |          1 |         14 |          0 |          3 |         17 |
+| XML                |          1 |         14 |          0 |          4 |         18 |
+| JSON with Comments |          1 |          7 |          0 |          1 |          8 |
+| Markdown           |          1 |          7 |          0 |          1 |          8 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                       | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                          |         76 |     11,003 |        333 |        491 |     11,827 |
+| . (Files)                                                                  |          9 |      6,551 |          5 |         14 |      6,570 |
+| backend                                                                    |         26 |      1,654 |        187 |        209 |      2,050 |
+| backend (Files)                                                            |          5 |         87 |         15 |         21 |        123 |
+| backend\Properties                                                         |          1 |         37 |          0 |          0 |         37 |
+| backend\src                                                                |         20 |      1,530 |        172 |        188 |      1,890 |
+| src                                                                        |         41 |      2,798 |        141 |        268 |      3,207 |
+| src (Files)                                                                |          5 |         99 |         11 |         15 |        125 |
+| src\interfaces                                                             |         10 |         86 |          0 |          9 |         95 |
+| src\pages                                                                  |         13 |      2,113 |        113 |        184 |      2,410 |
+| src\partials                                                               |          3 |        124 |          6 |         14 |        144 |
+| src\parts                                                                  |          5 |        313 |          8 |         30 |        351 |
+| src\utils                                                                  |          5 |         63 |          3 |         16 |         82 |
++----------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                   | language           | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Users\maxve\repos\filmvisarna-ab\README.md                              | Markdown           |          7 |          0 |          1 |          8 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\Backend.csproj                 | XML                |         14 |          0 |          4 |         18 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\GlobalSuppressions.cs          | C#                 |          2 |          5 |          4 |         11 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\Properties\launchSettings.json | JSON               |         37 |          0 |          0 |         37 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\appsettings.Development.json   | JSON               |          8 |          0 |          0 |          8 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\appsettings.json               | JSON               |          9 |          0 |          0 |          9 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\index.js                       | JavaScript         |         54 |         10 |         13 |         77 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\Acl.cs                     | C#                 |         69 |         14 |          9 |         92 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\App.cs                     | C#                 |         12 |          1 |          1 |         14 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\DbQuery.cs                 | C#                 |        578 |         40 |         56 |        674 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\DebugLog.cs                | C#                 |         64 |          7 |          5 |         76 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\EmailService.cs            | C#                 |         33 |         15 |          6 |         54 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\ErrorHandler.cs            | C#                 |         18 |          2 |          0 |         20 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\FileServer.cs              | C#                 |         65 |          7 |          6 |         78 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\GlobalUsings.cs            | C#                 |         13 |          3 |          2 |         18 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\LoginRoutes.cs             | C#                 |         55 |          6 |         10 |         71 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\Password.cs                | C#                 |         13 |          0 |          2 |         15 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\RequestBodyParser.cs       | C#                 |         22 |          4 |          0 |         26 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\RestApi.cs                 | C#                 |         69 |          1 |          5 |         75 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\RestQuery.cs               | C#                 |         83 |         18 |          8 |        109 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\RestResult.cs              | C#                 |         43 |          8 |          3 |         54 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\Server.cs                  | C#                 |         55 |          7 |          1 |         63 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\Session.cs                 | C#                 |        115 |         19 |         22 |        156 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\SessionTouch.cs            | C#                 |         24 |          3 |          1 |         28 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\Shared.cs                  | C#                 |         35 |          4 |          5 |         44 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\SpecialRoutes.cs           | C#                 |        124 |          5 |         37 |        166 |
+| c:\Users\maxve\repos\filmvisarna-ab\backend\src\StringUtils.cs             | C#                 |         40 |          8 |          9 |         57 |
+| c:\Users\maxve\repos\filmvisarna-ab\eslint.config.js                       | JavaScript         |         22 |          0 |          2 |         24 |
+| c:\Users\maxve\repos\filmvisarna-ab\index.html                             | HTML               |         14 |          0 |          3 |         17 |
+| c:\Users\maxve\repos\filmvisarna-ab\package-lock.json                      | JSON               |      6,396 |          0 |          0 |      6,396 |
+| c:\Users\maxve\repos\filmvisarna-ab\package.json                           | JSON               |         55 |          0 |          0 |         55 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\App.tsx                            | TypeScript JSX     |         32 |          2 |          5 |         39 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\index.css                          | PostCSS            |         19 |          3 |          3 |         25 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\BookingCardInfo.ts      | TypeScript         |          8 |          0 |          1 |          9 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\BookingInfo.ts          | TypeScript         |         12 |          0 |          1 |         13 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\MovieDetails.ts         | TypeScript         |         15 |          0 |          1 |         16 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\MovieShowings.ts        | TypeScript         |          9 |          0 |          1 |         10 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\Products.ts             | TypeScript         |          8 |          0 |          1 |          9 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\Route.ts                | TypeScript         |          9 |          0 |          2 |         11 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\Seats.ts                | TypeScript         |          6 |          0 |          1 |          7 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\ShowingSeats.ts         | TypeScript         |          6 |          0 |          1 |          7 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\UserBooking.ts          | TypeScript         |          4 |          0 |          0 |          4 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\interfaces\UserDetails.ts          | TypeScript         |          9 |          0 |          0 |          9 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\main.tsx                           | TypeScript JSX     |         22 |          2 |          3 |         27 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\AuthProvider.tsx             | TypeScript JSX     |         37 |          2 |          8 |         47 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\BookingConfirmationPage.tsx  | TypeScript JSX     |        162 |          0 |         13 |        175 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\CancelBookingPage.tsx        | TypeScript JSX     |        250 |         16 |         29 |        295 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\DesktopShowingsPage.tsx      | TypeScript JSX     |        213 |          2 |          9 |        224 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\HomePage.tsx                 | TypeScript JSX     |        153 |          1 |          7 |        161 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\KioskPage.tsx                | TypeScript JSX     |         45 |          0 |          9 |         54 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\LocaleDetailsPage.tsx        | TypeScript JSX     |         17 |          0 |          2 |         19 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\LoginPage.tsx                | TypeScript JSX     |        309 |         26 |         29 |        364 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\MobileShowingsPage.tsx       | TypeScript JSX     |        239 |          2 |          7 |        248 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\NotFoundPage.tsx             | TypeScript JSX     |         37 |          0 |          4 |         41 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\ProfilePage.tsx              | TypeScript JSX     |         89 |          8 |         12 |        109 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\SeatSelectionPage.tsx        | TypeScript JSX     |        465 |         49 |         45 |        559 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\pages\ShowingsPage.tsx             | TypeScript JSX     |         97 |          7 |         10 |        114 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\partials\Footer.tsx                | TypeScript JSX     |         55 |          0 |          3 |         58 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\partials\Header.tsx                | TypeScript JSX     |         54 |          6 |          8 |         68 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\partials\Main.tsx                  | TypeScript JSX     |         15 |          0 |          3 |         18 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\parts\BookingCard.tsx              | TypeScript JSX     |         94 |          2 |          8 |        104 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\parts\MovieCard.tsx                | TypeScript JSX     |        115 |          6 |         10 |        131 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\parts\SeatType.tsx                 | TypeScript JSX     |         41 |          0 |          6 |         47 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\parts\UnbookConfirmed.tsx          | TypeScript JSX     |         34 |          0 |          4 |         38 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\parts\YesNoPop.tsx                 | TypeScript JSX     |         29 |          0 |          2 |         31 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\routes.ts                          | TypeScript         |         26 |          3 |          3 |         32 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\utils\cancelBooking.tsx            | TypeScript JSX     |         13 |          0 |          1 |         14 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\utils\fetchJson.ts                 | TypeScript         |          5 |          0 |          3 |          8 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\utils\getSeatNumber.tsx            | TypeScript JSX     |         17 |          3 |          5 |         25 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\utils\useFetchJson.ts              | TypeScript         |         16 |          0 |          4 |         20 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\utils\useStateObject.ts            | TypeScript         |         12 |          0 |          3 |         15 |
+| c:\Users\maxve\repos\filmvisarna-ab\src\vite-env.d.ts                      | TypeScript         |          0 |          1 |          1 |          2 |
+| c:\Users\maxve\repos\filmvisarna-ab\tsconfig.app.json                      | JSON               |         23 |          2 |          3 |         28 |
+| c:\Users\maxve\repos\filmvisarna-ab\tsconfig.json                          | JSON with Comments |          7 |          0 |          1 |          8 |
+| c:\Users\maxve\repos\filmvisarna-ab\tsconfig.node.json                     | JSON               |         21 |          2 |          3 |         26 |
+| c:\Users\maxve\repos\filmvisarna-ab\vite.config.ts                         | TypeScript         |          6 |          1 |          1 |          8 |
+| Total                                                                      |                    |     11,003 |        333 |        491 |     11,827 |
++----------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
