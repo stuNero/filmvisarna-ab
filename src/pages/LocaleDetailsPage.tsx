@@ -1,4 +1,4 @@
-import { Clock, TvMinimal, Volume2, Film } from "lucide-react";
+import { Clock, TvMinimal, Volume2, Film, Popcorn } from "lucide-react";
 import useFetchJson from "../utils/useFetchJson";
 
 LocaleDetailsPage.route = {
@@ -201,6 +201,21 @@ export default function LocaleDetailsPage() {
                 <p className="text-md text-white/60">
                   Alla våra skärmar visar filmer i 4K Ultra HD-upplösning för
                   maximal skärpa och detaljer.
+                </p>
+              </div>
+            </div>
+
+            <div className="border border-white/20 rounded-2xl p-6">
+              <div className="mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
+                <Popcorn className="w-8 h-8 text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-xl md:text-2xl">Kiosk</h2>
+              </div>
+              <div className="mt-4">
+                <p className="text-md text-white/60">
+                  Vi har också en kiosk! Gör din bioupplevelse komplett med våra
+                  läckra snacks och drycker
                 </p>
               </div>
             </div>
