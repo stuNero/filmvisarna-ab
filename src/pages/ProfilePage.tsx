@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import useFetchJson from '../utils/useFetchJson';
 import type UserDetails from '../interfaces/UserDetails';
 import type UserBooking from '../interfaces/UserBooking';
@@ -9,9 +8,10 @@ import cancelBooking from '../utils/cancelBooking';
 import UnbookConfirmed from '../parts/UnbookConfirmed';
 import YesNoPop from '../parts/YesNoPop';
 import { useAuth } from './AuthProvider';
+import { Link } from 'react-router-dom';
 
 ProfilePage.route = {
-  path: '/profil/:id'
+  path: '/profil/'
 };
 
 export default function ProfilePage() {
@@ -21,7 +21,6 @@ export default function ProfilePage() {
   const [cancelId, setCancelId] = useState<string>('');
   const { user } = useAuth();
 
-  //TODO: Should be replaced with proper user handling, not using params
   const userId = user?.id;
 
   // Fetch from userId table in DB
@@ -71,7 +70,18 @@ export default function ProfilePage() {
 
             {/* Booking history */}
             <div>
-              <h2 className="text-2xl font-bold text-white">Bokningar</h2>
+              <div>
+                <h2 className="text-2xl font-bold text-white">Bokningar</h2>
+                {!user && (
+                  <Link
+                    to="/logga-in"
+                    className="block text-center text-gray-400 underline hover:text-gray-200 t "
+                  >
+                    Logga in för att see dina bokningar
+                  </Link>
+                )}
+              </div>
+
               <ul className="text-white">
                 {userBookings?.map((booking) => (
                   <li key={booking.bookingId}>
