@@ -159,7 +159,7 @@ export default function LocaleDetailsPage() {
           <h2 className="text-3xl font-bold mb-4">Vår Facilitet</h2>
           <div className="border-4 border-red-800 h-1 w-24 rounded-lg" />
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
-            <div className="border border-white/20 rounded-2xl p-6">
+            <div className="border border-white/20 rounded-2xl p-6 hover:border-white/40 duration-150 ease-in">
               <div className="mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
                 <TvMinimal className="w-8 h-8 text-red-600" />
               </div>
@@ -175,7 +175,7 @@ export default function LocaleDetailsPage() {
               </div>
             </div>
 
-            <div className="border border-white/20 rounded-2xl p-6">
+            <div className="border border-white/20 rounded-2xl p-6 hover:border-white/40 duration-150 ease-in">
               <div className="mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
                 <Volume2 className="w-8 h-8 text-red-600" />
               </div>
@@ -190,7 +190,7 @@ export default function LocaleDetailsPage() {
               </div>
             </div>
 
-            <div className="border border-white/20 rounded-2xl p-6">
+            <div className="border border-white/20 rounded-2xl p-6 hover:border-white/40 duration-150 ease-in">
               <div className="mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
                 <Film className="w-8 h-8 text-red-600" />
               </div>
@@ -205,7 +205,7 @@ export default function LocaleDetailsPage() {
               </div>
             </div>
 
-            <div className="border border-white/20 rounded-2xl p-6">
+            <div className="border border-white/20 rounded-2xl p-6 hover:border-white/40 duration-150 ease-in">
               <div className="mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
                 <Popcorn className="w-8 h-8 text-red-600" />
               </div>
