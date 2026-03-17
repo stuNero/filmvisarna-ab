@@ -214,11 +214,11 @@ export default function LocaleDetailsPage() {
           <div className="h-1 w-24 border-4 rounded-lg border-red-800 " />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-            <div className="border border-white/5 rounded-3xl hover:border-white/20 duration-150 ease-in group">
-              <div className="relative h-64 overflow-hidden">
+            <div className="border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 duration-150 ease-in group">
+              <div className="relative h-64 overflow-hidden rounded-t-3xl">
                 <img
                   src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800"
-                  className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl group-hover:scale-110  transition-transform duration-500"
+                  className="bg-zinc-950 border border-white/5 object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
@@ -246,11 +246,11 @@ export default function LocaleDetailsPage() {
                 </div>
               </div>
             </div>
-            <div className="border border-white/5 rounded-3xl hover:border-white/20 duration-150 ease-in group">
-              <div className="relative h-64 overflow-hidden">
+            <div className="border border-white/5 rounded-3xl overflow-hidden hover:border-white/20 duration-150 ease-in group">
+              <div className="relative h-64 overflow-hidden rounded-t-3xl">
                 <img
                   src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&q=80&w=800"
-                  className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl group-hover:scale-110 transition-transform duration-500"
+                  className="bg-zinc-950 border border-white/5 object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
