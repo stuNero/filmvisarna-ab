@@ -32,6 +32,7 @@ export default function ResetPassword() {
     }
   }, [pass, confirmPass]);
 
+  // submit function for the reset password form
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -39,6 +40,11 @@ export default function ResetPassword() {
 
     setIsLoading(true);
     setError('');
+
+    if (pass != confirmPass) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const result = await fetchJson('/api/reset-password', {
