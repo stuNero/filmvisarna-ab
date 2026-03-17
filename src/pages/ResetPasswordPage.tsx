@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Lock } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 ResetPassword.route = {
   path: '/återställ-lösenord'
@@ -10,34 +11,59 @@ ResetPassword.route = {
 
 export default function ResetPassword() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token'); // getting token from the url
+
   const [pass, setPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // error validation for confirming password for registration
+  useEffect(() => {
+    if (pass === '' || confirmPass === '') {
+      setConfirmPasswordError('');
+    } else if (pass != confirmPass) {
+      setConfirmPasswordError('Lösenord matcher inte!');
+    } else {
+      setConfirmPasswordError('');
+    }
+  }, [pass, confirmPass]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (isLoading) return; //prevent double submit
+
+    setIsLoading(true);
+    setError('');
+
     try {
-      const result = await fetchJson('/api/forgot-password', {
+      const result = await fetchJson('/api/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          pass
+          token: token,
+          password: pass
         })
       });
 
-      if (result && result.message) {
-        setSuccessMessage(
-          'Du har återställd ditt lösenord, nu kan du testa och logga in.'
-        );
-
-        navigate('/logga-in');
-      } else {
-        alert('Något gick fel i Endpoint');
+      if (result && result.error) {
+        setError(result.error);
+        setIsLoading(false);
+        return;
       }
+
+      setSuccessMessage(
+        'Du har återställd ditt lösenord, nu kan du testa och logga in.'
+      );
+      setIsLoading(false);
     } catch (error) {
       console.error('Fel:', error);
-      alert('Kunde inte skicka återställnings email');
+      alert('Kunde inte återställa lösenordet');
+      setIsLoading(false);
     }
   };
 
@@ -79,13 +105,14 @@ export default function ResetPassword() {
 
               {/* confirm password */}
               <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
-                Berkäfta Lösenord
+                Bekräfta Lösenord
               </label>
               <div className="mt-1 flex items-center bg-black border border-white/10 rounded-xl px-3 focus-within:outline-1 focus-within:outline-red-900 ">
                 <Lock className="w-5 h-5 text-gray-500" />
                 <input
                   type="password"
                   required
+                  disabled={isLoading}
                   placeholder="Skriv om Lösenord"
                   className="flex-1 bg-black px-3  py-3 rounded-xl text-white outline-none placeholder:text-gray-500 "
                   value={confirmPass}
@@ -94,6 +121,12 @@ export default function ResetPassword() {
                   }}
                 />
               </div>
+
+              {(error || confirmPasswordError) && (
+                <p className="text-red-600 mb-8 text-center animate-pulse">
+                  {error || confirmPasswordError}
+                </p>
+              )}
 
               <button
                 type="submit"
@@ -112,13 +145,16 @@ export default function ResetPassword() {
 
             {/* custom pop message for succesfull registeration */}
             {successMessage && (
-              <div className="fixed bottom-40 inset-0 flex items-center justify-center bg-black/50 z-50 ">
+              <div className="fixed bottom-40 inset-0 flex items-center justify-center bg-black/50 z-50 backdrop-blur-sm ">
                 <div className="bg-zinc-900 text-white p-8 rounded-2xl shadow-xl w-80 text-center border border-gray-300">
                   <p className="mb-7">{successMessage}</p>
 
                   <button
-                    onClick={() => setSuccessMessage('')}
-                    className="bg-red-800 hover:bg-red-700 px-5 py-2 rounded-xl font-semibold cursor-pointer"
+                    onClick={() => {
+                      setSuccessMessage('');
+                      navigate('/logga-in');
+                    }}
+                    className="bg-red-800 hover:bg-red-700 px-5 py-2 rounded-xl font-semibold cursor-pointer w-full"
                   >
                     OK
                   </button>
