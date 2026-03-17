@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import SeatType from '../parts/SeatType';
 import { Mail } from 'lucide-react';
 import type MovieShowings from '../interfaces/MovieShowings';
+import { useAuth } from './AuthProvider';
 
 SeatSelectionPage.route = {
   path: '/boka/:id'
@@ -49,14 +50,23 @@ function generateBookingID() {
 
 export default function SeatSelectionPage() {
   const navigate = useNavigate();
+
   // code for email confirmation
   const [email, setEmail] = useState('');
+  // useeffect to fill in email automatically if user is logged in
+  const { user } = useAuth();
+  useEffect(() => {
+    if (user?.email) {
+      setEmail(user.email);
+    }
+  }, [user]);
 
   const [emailError, setEmailError] = useState('');
+  const [ticketCost, setTicketCost] = useState(0);
 
   let bookingID = '';
 
-  const { id } = useParams<{ id: string; }>();
+  const { id } = useParams<{ id: string }>();
   const showingId = Number(id);
   // Fetch from showingId view in DB
   const [showingsData] = useFetchJson<MovieShowings[] | null>(
@@ -64,14 +74,17 @@ export default function SeatSelectionPage() {
   );
 
   // Fetching from view
-  const [bookedSeatsRaw] = useFetchJson<{
-    seatId: number,
-    bookingId: string,
-    ticketType: string,
-    showingId: number,
-    rowNr: number,
-    columnNr: number;
-  }[] | null>(`/api/bookedSeatsWithShowings?WHERE=showingId=${showingId}`);
+  const [bookedSeatsRaw] = useFetchJson<
+    | {
+        seatId: number;
+        bookingId: string;
+        ticketType: string;
+        showingId: number;
+        rowNr: number;
+        columnNr: number;
+      }[]
+    | null
+  >(`/api/bookedSeatsWithShowings?WHERE=showingId=${showingId}`);
 
   // Extracts seatID from fetch array
   const bookedSeats = bookedSeatsRaw?.map((x) => x.seatId);
@@ -81,67 +94,50 @@ export default function SeatSelectionPage() {
 
   // STARTS FINAL BOOKING LOGIC
   const bookingConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // Variable to count the amount of tickets
     const ticketAmount =
       ticketCount.adult + ticketCount.child + ticketCount.senior;
 
     bookingID = '';
-    e.preventDefault();
-
     // Generates the random booking ID code
     bookingID = generateBookingID();
+
 
     // Aborts if email isn't input
     if (!email) {
       setEmailError('Skriv in din email först.');
       return;
     }
-    // Aborts if no ticket types are selected
-    else if (ticketAmount == 0) {
-      setEmailError('Du måste välja biljettyper.');
-      return;
-    }
-    // Aborts if incorrect amount of seats are chosen
-    else if (ticketAmount != selectedSeats.length) {
-      const diff = ticketAmount - selectedSeats.length;
-      setEmailError(
-        `Du måste välja ${diff} ${diff > 2 ? 'säten' : 'säte'} till`
-      );
-      return;
-    }
 
     try {
-      let totalPrice = 0;
       // Collects all tickets into a string array
-      // and calculates total price
       const tickets = [];
       for (let i = 0; i < ticketCount.adult; i++) {
         tickets.push('adult');
-        totalPrice += 140;
       }
       for (let i = 0; i < ticketCount.child; i++) {
         tickets.push('child');
-        totalPrice += 80;
       }
       for (let i = 0; i < ticketCount.senior; i++) {
         tickets.push('senior');
-        totalPrice += 120;
       }
 
       // Zips tickets and seats together into one array based on index
       // (assumes arrays are of same length)
-      const seatsWithTypes = tickets.map(function (type, i) {
-        return [type, selectedSeats[i]];
-      });
+      const seatsWithTypes: { seatId: number, ticketType: string; }[] =
+        tickets.map(function (type, i) {
+          return {
+            seatId: selectedSeats[i],
+            ticketType: type
+          };
+        });
 
-      await createBooking(totalPrice);
-      await createEmailBooking();
-
-      // Calls the function for DB insert for each booked seat
-      for (let seat of seatsWithTypes) {
-        createbookedSeat(String(seat[0]), Number(seat[1]));
+      const res = await CreateBooking(seatsWithTypes);
+      if (!res.ok) {
+        alert("Request failed: " + res.status);
+        return;
       }
-
       const requestBody = {
         email: email,
         movieName: showing?.title,
@@ -153,7 +149,7 @@ export default function SeatSelectionPage() {
         bookingID: bookingID,
         date: new Date(showing!.date).toLocaleDateString('sv-SE'),
         time: showing?.time.toString().slice(0, 5),
-        venue: showing?.venueName
+        venue: showing?.name
       };
       try {
         const response = await fetch('/api/send-email', {
@@ -210,47 +206,22 @@ export default function SeatSelectionPage() {
     });
   };
 
-  async function createBooking(totalPrice: number) {
-    /* const res = */ await fetch('/api/send-confirm/bookings', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id: bookingID,
-      cost: totalPrice,
-      createdAt:
-        new Date(Date.now()).toLocaleDateString('sv-SE').slice(0, 10) +
-        ' ' +
-        new Date(Date.now()).toLocaleTimeString('sv-SE'),
-      showingId: showingId.toString()
-    })
-  });
-    // const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
-  }
-  async function createEmailBooking() {
-    // Inserts row into userBookings table
-    await fetch('/api/userBookings', {
+  async function CreateBooking(seatsWithTypes: { seatId: number, ticketType: string; }[]) {
+    return fetch('/api/create-booking', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        bookingId: bookingID,
-        email: email
+        id: bookingID,
+        cost: ticketCost,
+        createdAt:
+          new Date(Date.now()).toLocaleDateString('sv-SE').slice(0, 10) +
+          ' ' +
+          new Date(Date.now()).toLocaleTimeString('sv-SE'),
+        showingId: showingId.toString(),
+        email: email,
+        seats: seatsWithTypes
       })
     });
-  }
-
-  async function createbookedSeat(type: string, seatNr: number) {
-    /* const res =*/ await fetch('/api/bookedSeat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      seatId: seatNr,
-      bookingId: bookingID,
-      ticketType: type
-    })
-  });
-    // const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
   }
 
   var rows = 0;
@@ -259,6 +230,7 @@ export default function SeatSelectionPage() {
     // prevents incrementation above 8 tickets
     if (ticketCount.child + ticketCount.adult + ticketCount.senior < 8) {
       setTicketCount((prev) => ({ ...prev, [type]: prev[type] + 1 }));
+      setTicketCost((prev) => prev + TICKET_PRICES[type]);
     }
   }
   function decrementTicket(type: keyof TicketCount) {
@@ -268,6 +240,7 @@ export default function SeatSelectionPage() {
       ...prev,
       [type]: Math.max(0, prev[type] - 1)
     }));
+    setTicketCost((prev) => prev - TICKET_PRICES[type]);
   }
 
   function CreateSeatTypes() {
@@ -311,7 +284,8 @@ export default function SeatSelectionPage() {
   }
 
   // Variable to check the amount of tickets
-  const totalTickets = ticketCount.adult + ticketCount.child + ticketCount.senior;
+  const totalTickets =
+    ticketCount.adult + ticketCount.child + ticketCount.senior;
   // Variable to stablish the amount of tickets when the useEffect is triggered
   const totalTicketsPrevValue = useRef(totalTickets);
   // Reference to the element that we want to scroll to (email input)
@@ -328,19 +302,18 @@ export default function SeatSelectionPage() {
     // Checkes the length of selectedSeats is equal to the amount of tickets
     // and if said amount is greather than 0
     if (selectedSeats.length === totalTickets && totalTickets > 0) {
-      // Sets 10 milliseconds timeout (so the component have time to load) 
+      // Sets 10 milliseconds timeout (so the component have time to load)
       setTimeout(() => {
         // And scrolls to the form element (where the email input is)
         formRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
+          behavior: 'smooth',
+          block: 'center'
         });
       }, 10);
     }
     // We update the previous value so it's coherent with the current.
     totalTicketsPrevValue.current = totalTickets;
   }, [selectedSeats, totalTickets]);
-
 
   if (seats != null) {
     seats?.forEach((seat) => {
@@ -351,61 +324,137 @@ export default function SeatSelectionPage() {
 
     return (
       <>
-        <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20">
+        <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20 ">
           {/* Ticket Selection */}
-          <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
-            <div className="max-w-2xl mx-auto space-y-4">
+          <div className="flex flex-col items-center bg-zinc-950 rounded-2xl border-y-2 md:border-2  border-white/20 p-8 mb-8">
+            <div className="max-w-2xl md:min-w-2xl w-full md:mx-auto space-y-4">
               <CreateSeatTypes />
             </div>
+            {totalTickets > 0 ? (
+              <div className="flex flex-col items-center gap-10 px-10 bg-zinc-950 rounded-2xl border-2 border-white/20 mt-10 p-2 mb-8">
+                <div className="flex flex-row gap-2">
+                  <div id="ticket-section">
+                    <h1 className="font-semibold mb-1 pl-5 pb-3 text-2xl">
+                      Biljettyp:
+                    </h1>
+                    <div className="flex flex-row border-2 border-solid border-white/10 rounded-2xl pb-2 pl-5 md:px-10 max-w-2xl md:w-170 justify-between text-lg">
+                      <div className="pr-5">
+                        <p>Barn: </p>
+                        <p>Vuxen: </p>
+                        <p>Pensionär: </p>
+                      </div>
+                      <div className="md:w-30 w-25">
+                        <p className="text-white/50 pl-2">
+                          {ticketCount.child} x {TICKET_PRICES.child} kr
+                        </p>
+                        <p className="text-white/50 pl-2">
+                          {ticketCount.adult} x {TICKET_PRICES.adult} kr
+                        </p>
+                        <p className="text-white/50 pl-2">
+                          {ticketCount.senior} x {TICKET_PRICES.senior} kr
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  id="total-cost-section"
+                  className="flex flex-col md:flex-row border-t-2 border-white/20 md:w-170 md:justify-between p-5"
+                >
+                  <h1 className="font-bold text-2xl text-red-800 pr-10 md:pr-0">
+                    Totalpris:
+                  </h1>
+                  <p className="text-xl">{ticketCost} :-</p>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
 
           {/* Seat Selection */}
-          {totalTickets > 0 ?
-            <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
+          {totalTickets > 0 ? (
+            <div
+              className="
+            flex flex-col
+            bg-zinc-950
+            border-y-2
+            rounded-2xl md:border-2 border-white/20
+            p-8 mb-8
+            items-center overflow-x-scroll snap-x snap-mandatory md:overflow-x-hidden"
+            >
+              {/*           Cinema Screen         */}
+              <h1 className="text-center text-sm italic text-stone-300/50 snap-center translate-x-9">
+                Bioduk
+              </h1>
+              <div className="flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full  snap-center translate-x-9" />
+              {/*             S E A T S           */}
               {Array.from({ length: rows }, (_, rowIndex) => (
-                <div key={rowIndex} className="flex justify-center gap-4 mb-4">
+                <div
+                  key={rowIndex}
+                  className="flex justify-center gap-2.5 md:gap-4 mb-4  snap-center translate-x-9"
+                >
                   {seats
                     ?.filter((seat) => seat.rowNr === rowIndex + 1)
                     .map((seat) => {
                       const isSelected = selectedSeats.includes(seat.seatId);
 
-                      return (
-
-                        bookedSeats?.includes(seat.seatId) ? <button
+                      return bookedSeats?.includes(seat.seatId) ? (
+                        <button
                           key={seat.seatId}
-
                           className={`hover:bg-[url('/ban-red.webp')] bg-center bg-cover
                           px-4 py-2 rounded outline-solid outline-stone-700 bg-stone-800 h-8`}
-                        >
-                        </button> :
-                          <button
-                            key={seat.seatId}
-                            onClick={() => toggleSeat(seat.seatId)}
-                            className={`
-                          px-4 py-2 text-white rounded
-                          transition-all duration-200 h-8
-                          ${isSelected
-                                ? "bg-green-600 hover:bg-green-700 outline-solid outline-green-700"
-                                : "hover:bg-green-800 bg-stone-700 hover:outline-green-900 outline-solid outline-stone-600"
-                              }
+                        ></button>
+                      ) : (
+                        <button
+                          key={seat.seatId}
+                          onClick={() => toggleSeat(seat.seatId)}
+                          className={`
+                            px-3 py-1.5  h-6
+                            md:px-4 md:py-2 md:h-8
+                          
+                          text-white rounded
+                            transition-all duration-200
+                          ${
+                            isSelected
+                              ? 'bg-green-600 md:hover:bg-green-700 outline-solid outline-green-700'
+                              : 'md:hover:bg-green-800 bg-stone-700 md:hover:outline-green-900 outline-solid outline-stone-600'
+                          }
                         `}
-                          >
-                          </button>
+                        ></button>
                       );
                     })}
                 </div>
               ))}
-            </div> : <></>}
+              <div
+                id="seat-section"
+                className="flex flex-col min-w-40 translate-x-10 items-center"
+              >
+                <h1 className="font-semibold pb-1">Stolsnummer:</h1>
+                {selectedSeats.length > 0 ? (
+                  <div className="grid grid-cols-4 gap-2 py-2 px-3 border-2 border-solid border-white/20 rounded-2xl min-h-21">
+                    {selectedSeats.map((seat) => (
+                      <p className="text-center px-0.5 border border-solid rounded border-white/10 bg-gray-900 h-fit">
+                        {seat}
+                      </p>
+                    ))}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
 
           {/* Confirmation Section for sending mail - Only shows when all seats are selected */}
-          {selectedSeats.length === totalTickets &&
-            totalTickets > 0 ?
+          {selectedSeats.length === totalTickets && totalTickets > 0 ? (
             <form onSubmit={bookingConfirmation} ref={formRef}>
-              <div className="bg-zinc-950 rounded-2xl border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
+              <div className="bg-zinc-950 rounded-2xl border-y-2 md:border-2 border-green-700/30 p-8 md:p-12 mt-8 mb-8">
                 <h2 className="text-2xl md:text-3xl text-center mb-8">
                   Slutför bokningen
                 </h2>
-
                 {/* Email Input */}
                 <div className="max-w-md mx-auto mb-8">
                   <div className="relative">
@@ -426,13 +475,14 @@ export default function SeatSelectionPage() {
                         value={email}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           setEmail(e.target.value);
-                          setEmailError("");
+                          setEmailError('');
                         }}
                         placeholder="din.epost@exempel.se"
-                        className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
-                          ? "border-red-700 focus:ring-red-700/50"
-                          : "border-white/20 focus:ring-red-800/50 focus:border-red-800"
-                          }`}
+                        className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+                          emailError
+                            ? 'border-red-700 focus:ring-red-700/50'
+                            : 'border-white/20 focus:ring-red-800/50 focus:border-red-800'
+                        }`}
                       />
                     </div>
                     {emailError && (
@@ -445,7 +495,6 @@ export default function SeatSelectionPage() {
                     </p>
                   </div>
                 </div>
-
                 {/* Confirm Button */}
                 <div className="text-center">
                   <button
@@ -456,7 +505,10 @@ export default function SeatSelectionPage() {
                   </button>
                 </div>
               </div>
-            </form> : <></>}
+            </form>
+          ) : (
+            <></>
+          )}
         </div>
       </>
     );
