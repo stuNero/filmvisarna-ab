@@ -82,32 +82,19 @@ export default function SeatSelectionPage() {
 
   // STARTS FINAL BOOKING LOGIC
   const bookingConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // Variable to count the amount of tickets
     const ticketAmount =
       ticketCount.adult + ticketCount.child + ticketCount.senior;
 
     bookingID = '';
-    e.preventDefault();
-
     // Generates the random booking ID code
     bookingID = generateBookingID();
+
 
     // Aborts if email isn't input
     if (!email) {
       setEmailError('Skriv in din email först.');
-      return;
-    }
-    // Aborts if no ticket types are selected
-    else if (ticketAmount == 0) {
-      setEmailError('Du måste välja biljettyper.');
-      return;
-    }
-    // Aborts if incorrect amount of seats are chosen
-    else if (ticketAmount != selectedSeats.length) {
-      const diff = ticketAmount - selectedSeats.length;
-      setEmailError(
-        `Du måste välja ${diff} ${diff > 2 ? 'säten' : 'säte'} till`
-      );
       return;
     }
 
@@ -134,7 +121,7 @@ export default function SeatSelectionPage() {
           };
         });
 
-      const res = await createBookingNew(seatsWithTypes);
+      const res = await CreateBooking(seatsWithTypes);
       if (!res.ok) {
         alert("Request failed: " + res.status);
         return;
@@ -207,7 +194,7 @@ export default function SeatSelectionPage() {
     });
   };
 
-  async function createBookingNew(seatsWithTypes: { seatId: number, ticketType: string; }[]) {
+  async function CreateBooking(seatsWithTypes: { seatId: number, ticketType: string; }[]) {
     return fetch('/api/create-booking', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -223,49 +210,6 @@ export default function SeatSelectionPage() {
         seats: seatsWithTypes
       })
     });
-  }
-
-  async function createBooking(totalPrice: number) {
-    /* const res = */ await fetch('/api/send-confirm/bookings', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id: bookingID,
-      cost: totalPrice,
-      createdAt:
-        new Date(Date.now()).toLocaleDateString('sv-SE').slice(0, 10) +
-        ' ' +
-        new Date(Date.now()).toLocaleTimeString('sv-SE'),
-      showingId: showingId.toString()
-    })
-  });
-    // const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
-  }
-  async function createEmailBooking() {
-    // Inserts row into userBookings table
-    await fetch('/api/userBookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        bookingId: bookingID,
-        email: email
-      })
-    });
-  }
-
-  async function createbookedSeat(type: string, seatNr: number) {
-    /* const res =*/ await fetch('/api/bookedSeat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      seatId: seatNr,
-      bookingId: bookingID,
-      ticketType: type
-    })
-  });
-    // const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
   }
 
   var rows = 0;

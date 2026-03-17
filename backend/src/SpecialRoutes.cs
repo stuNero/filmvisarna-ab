@@ -10,57 +10,97 @@ public static class SpecialRoutes
   public static void Start()
   {
     App.MapPost("/api/create-booking", (
-                HttpContext context, string table, JsonElement bodyJson
-            ) =>
-            {
-              var body = JSON.Parse(bodyJson.ToString());
+        HttpContext context, JsonElement bodyJson
+    ) =>
+    {
+      var body = JSON.Parse(bodyJson.ToString());
 
-              var bookingID = body.id;
-              var showingID = body.showingId;
-              var cost = body.cost;
-              var createdAt = body.createdAt;
-              var email = body.email;
+      var bookingID = body.id;
+      var showingID = body.showingId;
+      var cost = body.cost;
+      var createdAt = body.createdAt;
+      var email = body.email;
 
-              IEnumerable<dynamic> seatsArray = body.seats;
-              var seats = string.Join(",",
-                  seatsArray.Select(seat =>
-                      $"({seat.seatId}, '{bookingID}', '{seat.ticketType}')"
-                  )
-              );
+      IEnumerable<dynamic> seatsArray = body.seats;
+      var configPath = Path.Combine(
+          AppContext.BaseDirectory, "..", "..", "..", "db-config.json"
+      );
+      var configJson = File.ReadAllText(configPath);
+      var config = JSON.Parse(configJson);
 
+      var connectionString =
+          $"Server={config.host};Port={config.port};Database={config.database};" +
+          $"User={config.username};Password={config.password};";
 
-              var sql = $"""
-              START TRANSACTION;
+      using var db = new MySqlConnection(connectionString);
+      db.Open();
 
-              INSERT INTO bookings
-              (id, cost, createdAt, showingId)
-              VALUES
-              ('{bookingID}', '{cost}', '{createdAt}', '{showingID}');
+      using var transaction = db.BeginTransaction();
 
-              INSERT INTO userBookings
-              (bookingId, email)
-              VALUES
-              ('{bookingID}', '{email}');
+      try
+      {
+        // 1. Insert booking
+        using (var cmd = db.CreateCommand())
+        {
+          cmd.Transaction = transaction;
+          cmd.CommandText = @"
+                INSERT INTO bookings (id, cost, createdAt, showingId)
+                VALUES (@bookingID, @cost, @createdAt, @showingID)";
 
-              INSERT INTO bookedSeat
-              (seatId, bookingId, ticketType)
-              VALUES
-              ({seats});
+          cmd.Parameters.AddWithValue("@bookingID", bookingID);
+          cmd.Parameters.AddWithValue("@cost", cost);
+          cmd.Parameters.AddWithValue("@createdAt", createdAt);
+          cmd.Parameters.AddWithValue("@showingID", showingID);
 
-              COMMIT;
-              
-              """;
-              var result = SQLQueryOne(sql, body, context);
-              if (!result.HasKey("error"))
-              {
-                // Get the insert id and add to our result
-                result.insertId = SQLQueryOne(
-                @$"SELECT id AS __insertId 
-                       FROM {table} ORDER BY id DESC LIMIT 1"
-            ).__insertId;
-              }
-              return RestResult.Parse(context, result);
-            });
+          cmd.ExecuteNonQuery();
+        }
+
+        // 2. Insert userBooking
+        using (var cmd = db.CreateCommand())
+        {
+          cmd.Transaction = transaction;
+          cmd.CommandText = @"
+                INSERT INTO userBookings (bookingId, email)
+                VALUES (@bookingID, @email)";
+
+          cmd.Parameters.AddWithValue("@bookingID", bookingID);
+          cmd.Parameters.AddWithValue("@email", email);
+
+          cmd.ExecuteNonQuery();
+        }
+
+        // 3. Insert seats (loop!)
+        using (var cmd = db.CreateCommand())
+        {
+          cmd.Transaction = transaction;
+          cmd.CommandText = @"
+                INSERT INTO bookedSeat (seatId, bookingId, ticketType)
+                VALUES (@seatId, @bookingID, @ticketType)";
+
+          cmd.Parameters.Add("@seatId", MySqlDbType.Int32);
+          cmd.Parameters.Add("@bookingID", MySqlDbType.VarChar);
+          cmd.Parameters.Add("@ticketType", MySqlDbType.VarChar);
+
+          foreach (var seat in seatsArray)
+          {
+            cmd.Parameters["@seatId"].Value = seat.seatId;
+            cmd.Parameters["@bookingID"].Value = bookingID;
+            cmd.Parameters["@ticketType"].Value = seat.ticketType;
+
+            cmd.ExecuteNonQuery();
+          }
+        }
+
+        transaction.Commit();
+
+        return Results.Ok(new { success = true });
+      }
+      catch (Exception ex)
+      {
+        transaction.Rollback();
+        return Results.BadRequest(new { error = ex.Message });
+      }
+    });
 
     App.MapGet("/api/comingSoon", (
                 HttpContext context, string table
