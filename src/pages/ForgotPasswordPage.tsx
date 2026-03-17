@@ -84,7 +84,13 @@ export default function ForgotPassword() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="bg-red-800 hover:bg-red-700 px-5 py-2 rounded-xl font-semibold cursor-pointer w-full active:scale-95 duration-150  "
+                className={`
+                bg-red-800 hover:bg-red-700 
+                px-5 py-2 rounded-xl font-semibold 
+                cursor-pointer w-full 
+                active:scale-95 duration-150
+                ${isLoading ? 'transition-none' : ''}
+              `}
               >
                 {isLoading ? 'skickar...' : 'Skicka'}
               </button>
