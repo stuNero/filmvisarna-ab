@@ -207,15 +207,18 @@ export default function LocaleDetailsPage() {
             </div>
 
             <Link to={"/kiosk-info"}>
-              <div className="border border-white/20 rounded-2xl p-6 hover:border-white/40 duration-150 ease-in">
-                <div className="mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
+              <div className="group relative overflow-hidden border border-white/20 rounded-2xl p-6 hover:border-white/40 duration-150 ease-in">
+                <div className="absolute inset-0 bg-[url('/snack-bar.webp')] bg-cover bg-center bg-no-repeat opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-black/35 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100" />
+
+                <div className="relative z-10 mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
                   <Popcorn className="w-8 h-8 text-red-600" />
                 </div>
-                <div>
+                <div className="relative z-10">
                   <h2 className="text-xl md:text-2xl">Kiosk</h2>
                 </div>
-                <div className="mt-4">
-                  <p className="text-md text-white/60">
+                <div className="relative z-10 mt-4">
+                  <p className="text-md text-white/60 group-hover:text-white/90 transition-colors duration-300">
                     Vi har också en kiosk! Gör din bioupplevelse komplett med
                     våra läckra snacks och drycker
                   </p>
