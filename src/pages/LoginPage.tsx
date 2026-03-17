@@ -90,7 +90,7 @@ export default function LoginPage() {
       }
       setUser(result);
 
-      navigate(`/profil/${result?.id}`);
+      navigate(`/profil/`);
     } catch (error) {
       console.error('Fel:', error);
       alert('Något gick fel');
