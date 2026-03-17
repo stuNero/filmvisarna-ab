@@ -313,7 +313,7 @@ public static class DbQuery
         {
             var venuesData = @"
                 INSERT IGNORE INTO venues (name, info) VALUES
-                ('Sal 1', 'Premium sal'),('Sal 2', 'Mysigt sal');
+                ('Sal 1', 'Premium sal'),('Sal 2', 'Mysig sal');
             ";
             command.CommandText = venuesData;
             command.ExecuteNonQuery();
@@ -366,7 +366,16 @@ public static class DbQuery
                 innan de fäller en förhastad dom.','_13J_9B5jEk','https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.mrChsuFytZXo6KLN-k8tpQHaLH%3Fpid%3DApi&f=1&ipt=a71345fd69c19342bbe1643bea3dee1a0a1e3ce56b6a3b132fad5222de8a0db4&ipo=images'),
                 ('Terminator 2: Judgment Day',1991,137,15,'Action','Tri-Star Pictures','Engelska',
                 'Svenska','James Cameron','En cyborg från framtiden, identisk med den som misslyckades med att döda Sarah Connor,
-                måste nu skydda sin tioårige son John från en ännu mer avancerad och kraftfull cyborg.', 'CRRlbK5w8AE','https://image.tmdb.org/t/p/original/nRIfVniMh6FcJievGnNGpZdsN7d.jpg');
+                måste nu skydda sin tioårige son John från en ännu mer avancerad och kraftfull cyborg.', 'CRRlbK5w8AE','https://image.tmdb.org/t/p/original/nRIfVniMh6FcJievGnNGpZdsN7d.jpg'),
+                ('Super Mario Galaxy', 2026, 98, 7, 'Animation', 'Universal Pictures', 'Svenska',
+                'Inga', 'Aaron Horvath, Michael Jelenic',
+                'Mario ger sig ut i rymden, utforskar kosmiska världar och möter galaktiska utmaningar långt bort från det välbekanta Svampriket.',
+                'LX9kXRRJlPw', 'https://www.nintendo.com/eu/media/images/other_22/misc/the_super_mario_galaxy_movie/20260309/TheSuperMarioGalaxyMovie_Cinema_Poster.jpg'),
+                ('GOAT - Bäst i världen',2026,100,0,'Animation','Sony Pictures','Svenska','Inga',
+                'Tyree Dillihay, Adam Rosette', 'Will är en liten get med stora drömmar, som får chansen att gå med i proffsligan och spela
+                roarball - en intensiv, blandsport där världens snabbaste och tuffaste djur tävlar. Will''s nya lagkamrater är inte imponerade över att ha en liten
+                get i laget, men Will är fast besluten att förändra sporten och bevisa en gång för alla att 'små djur kan också dribbla!'',
+                '5r-7eWDBc40','https://goat.movie/images/synopsis_poster.jpg');
             ";
             command.CommandText = filmsData;
             command.ExecuteNonQuery();
@@ -400,7 +409,16 @@ public static class DbQuery
                 ('San Francisco Chronicle', 'Terminator 2 föreställer sig saker du troligtvis inte ens skulle drömma om och får dessa visioner
                 upp på skärmen med en sömlöshet som är häpnadsväckande.','5',5),
                 ('Entertaiment Weekly','Filmen är en stor festmåltid av vrakspill. Men det är också det som gör den lite avdomnande.',
-                '4',5);
+                '4',5),
+                ('IGN', 'Super Mario Bros.-filmen är en eldklot av animerad fantasy. Mario, Luigi och Peachs äventyr fängslar med sin smittande
+                energi och smarta implementeringar av videospels-callbacks, och den förstklassiga animationen återger Svampriket som ett Oz-liknande underland
+                som tigger om att utforskas i de oundvikliga uppföljarna som kommer att följa.','4',6),
+                ('Variety','Super Mario Bros.-filmen ger dig en hälsosam, skämtsam, drogknäppglad kameleontkänsla av ett videospel; det är också en
+                god, söt godbit för 6-åringar.','3,5',6),
+                ('The Wrap','Säga vad du vill om premissen, men om du tror att det är allt som finns i ''Goat'', så kommer du att bräka ut de orden.',
+                '4',7),
+                ('The Hollywood Reporter', 'Filmen är snyggare än den är skriven, även om det finns roliga avstickare från saker som hiphop-videor
+                och klyschiga sportreklamfilmer.','3,5',7);
             ";
             command.CommandText = reviewsData;
             command.ExecuteNonQuery();
@@ -414,56 +432,82 @@ public static class DbQuery
                 INSERT IGNORE INTO showings (timeSlot, filmId, venueId) VALUES
 
                 -- Day 1 (March 20)
+
+                ('2026-03-20 12:15:00', 1, 1),
+                ('2026-03-20 12:15:00', 2, 2),
                 ('2026-03-20 17:15:00', 1, 1),
                 ('2026-03-20 17:15:00', 2, 2),
                 ('2026-03-20 20:15:00', 3, 1),
                 ('2026-03-20 20:15:00', 4, 2),
 
                 -- Day 2 (March 21)
+
+                ('2026-03-21 12:15:00', 4, 1),
+                ('2026-03-21 12:15:00', 3, 2),
                 ('2026-03-21 17:15:00', 3, 1),
-                ('2026-03-21 17:15:00', 1, 2),
+                ('2026-03-21 17:15:00', 4, 2),
                 ('2026-03-21 20:15:00', 4, 1),
                 ('2026-03-21 20:15:00', 2, 2),
 
                 -- Day 3 (March 22)
-                ('2026-03-22 17:15:00', 2, 1),
+
+                ('2026-03-22 12:15:00', 3, 1),
+                ('2026-03-22 12:15:00', 2, 2),
+                ('2026-03-22 17:15:00', 3, 1),
                 ('2026-03-22 17:15:00', 4, 2),
                 ('2026-03-22 20:15:00', 1, 1),
                 ('2026-03-22 20:15:00', 3, 2),
 
                 -- Day 4 (March 23)
-                ('2026-03-23 17:15:00', 4, 1),
+
+                ('2026-03-23 12:15:00', 1, 1),
+                ('2026-03-23 12:15:00', 4, 2),
+                ('2026-03-23 17:15:00', 2, 1),
                 ('2026-03-23 17:15:00', 3, 2),
                 ('2026-03-23 20:15:00', 2, 1),
                 ('2026-03-23 20:15:00', 1, 2),
 
                 -- Day 5 (March 24)
-                ('2026-03-24 17:15:00', 1, 1),
+
+                ('2026-03-24 12:15:00', 7, 1),
+                ('2026-03-24 12:15:00', 3, 2),
+                ('2026-03-24 17:15:00', 7, 1),
                 ('2026-03-24 17:15:00', 3, 2),
                 ('2026-03-24 20:15:00', 2, 2),
-                ('2026-03-24 20:15:00', 4, 1),
+                ('2026-03-24 20:15:00', 3, 1),
 
                 -- Day 6 (March 25)
+
+                ('2026-03-25 12:15:00', 4, 1),
+                ('2026-03-25 12:15:00', 3, 2),
                 ('2026-03-25 17:15:00', 2, 2),
                 ('2026-03-25 17:15:00', 4, 1),
                 ('2026-03-25 20:15:00', 3, 1),
                 ('2026-03-25 20:15:00', 1, 2),
                 
-                -- Showings for Terminator (5th movie)
-                ('2026-03-27 17:15:00', 5, 1),
-                ('2026-03-29 20:15:00', 5, 2),
+                -- Terminator
+                ('2026-06-19 12:15:00', 5, 1),
+                ('2026-06-19 17:15:00', 5, 2),
+                ('2026-06-19 20:15:00', 5, 1),
 
-                -- Week 2
-                ('2026-04-03 20:15:00', 5, 1),
-                ('2026-04-05 17:15:00', 5, 2),
+                -- Super mario
+                ('2026-03-26 12:15:00', 6, 1),
+                ('2026-03-26 17:15:00', 6, 2),
+                ('2026-03-26 20:15:00', 6, 1),
 
-                -- Week 3
-                ('2026-04-10 17:15:00', 5, 2),
-                ('2026-04-12 20:15:00', 5, 1),
+                -- GOAT
+                ('2026-04-26 12:15:00', 7, 2),
+                ('2026-04-26 17:15:00', 7, 1),
+                ('2026-04-26 20:15:00', 7, 2),
 
-                -- Week 4
-                ('2026-04-17 20:15:00', 5, 2),
-                ('2026-04-19 17:15:00', 5, 1);
+                --Back in time
+                
+                ('2026-03-15 12:15:00', 5, 1),
+                ('2026-03-11 17:15:00', 5, 2),
+                ('2026-03-14 20:15:00', 5, 1),
+                ('2026-03-14 12:15:00', 7, 2),
+                ('2026-03-15 17:15:00', 7, 1),
+                ('2026-03-12 20:15:00', 7, 2);
             ";
             command.CommandText = showingsData;
             command.ExecuteNonQuery();
@@ -479,7 +523,13 @@ public static class DbQuery
                 ('Timotheé Chalamet'),('Zendaya'),('Rebecca Ferguson'),
                 ('John Travolta'),('Uma Thurman'),('Samuel L. Jackson'),('Bruce Willis'),
                 ('Henry Fonda'),('Lee J. Cobb'),('Martin Balsam'),
-                ('Arnold Schwarzenegger'),('Linda Hamilton'),('Robert Patrick');
+                ('Arnold Schwarzenegger'),('Linda Hamilton'),('Robert Patrick'),
+                ('Anya Taylor-Joy'),
+                ('Chris Pratt'),
+                ('Jack Black'),
+                ('Caleb McLaughlin'),
+                ('Gabrielle Union'),
+                ('Stephen Curry');
             ";
             command.CommandText = actorsData;
             command.ExecuteNonQuery();
@@ -493,7 +543,8 @@ public static class DbQuery
             INSERT IGNORE INTO filmActors (filmId, actorId) VALUES
                 (1,1),(1,2),(1,3),(2,4),(2,5),(2,6),
                 (3,7),(3,8),(3,9),(3,10),(4,11),(4,12),(4,13),
-                (5,14),(5,15),(5,16);
+                (5,14),(5,15),(5,16),(6, 17),(6, 18),(6, 19),
+                (7,20),(7,21),(7,22);
             ";
             command.CommandText = filmActorsData;
             command.ExecuteNonQuery();
