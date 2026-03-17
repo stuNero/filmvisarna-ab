@@ -239,7 +239,7 @@ export default function LocaleDetailsPage() {
                       platser
                     </p>
                   </div>
-                  <div>
+                  <div className="mb-4">
                     <p className="text-gray-700">Duk</p>
                     <p className="text-white/100">15x8 meter</p>
                   </div>
@@ -271,7 +271,7 @@ export default function LocaleDetailsPage() {
                       platser
                     </p>
                   </div>
-                  <div>
+                  <div className="mb-4">
                     <p className="text-gray-700">Duk</p>
                     <p className="text-white/100">15x8 meter</p>
                   </div>
