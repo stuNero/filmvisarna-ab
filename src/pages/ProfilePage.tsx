@@ -37,7 +37,6 @@ export default function ProfilePage() {
 
   async function setUnbook(bookingId: string) {
     setCancelId(bookingId);
-    console.log(bookingId);
     setShowConfirmation(true);
   }
 
@@ -51,8 +50,12 @@ export default function ProfilePage() {
       {!switchSection ? (
         <div>
           <div
+<<<<<<< feat/connecting-profilepage-to-loginpage
             className={`top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20 ${showConfirmation ? ' blur-[2px]' : ''}`}
           >
+=======
+            className={`top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20 ${showConfirmation ? " blur-[2px]" : ""}`}>
+>>>>>>> main
             {/* User Banner */}
             <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8">
               <div className="flex flex-col md:flex-row items-center gap-6">
@@ -60,9 +63,13 @@ export default function ProfilePage() {
                   <User className="w-12 h-12 text-white" />
                 </div>
                 <div className="text-center md:text-left">
+<<<<<<< feat/connecting-profilepage-to-loginpage
                   <h1 className="text-3xl font-bold text-white mb-2">
                     {userData?.firstName} {userData?.lastName}
                   </h1>
+=======
+                  <h1 className="text-3xl font-bold text-white mb-2">{userData?.firstName} {userData?.lastName}</h1>
+>>>>>>> main
                   <p>{userData?.email}</p>
                 </div>
               </div>
@@ -70,6 +77,7 @@ export default function ProfilePage() {
 
             {/* Booking history */}
             <div>
+<<<<<<< feat/connecting-profilepage-to-loginpage
               <div>
                 <h2 className="text-2xl font-bold text-white">Bokningar</h2>
                 {!user && (
@@ -82,6 +90,9 @@ export default function ProfilePage() {
                 )}
               </div>
 
+=======
+              <h2 className="text-2xl font-bold text-white">Bokningar</h2>
+>>>>>>> main
               <ul className="text-white">
                 {userBookings?.map((booking) => (
                   <li key={booking.bookingId}>
@@ -98,7 +109,11 @@ export default function ProfilePage() {
           {showConfirmation ? (
             <div className="flex flex-col items-center">
               <YesNoPop
+<<<<<<< feat/connecting-profilepage-to-loginpage
                 question="Är du säker du vill avboka?"
+=======
+                question='Är du säker du vill avboka?'
+>>>>>>> main
                 onYes={async () => {
                   await cancelBooking(cancelId);
                   await setConfirmed();
@@ -107,9 +122,14 @@ export default function ProfilePage() {
                 onNo={() => setShowConfirmation(false)}
               />
             </div>
+<<<<<<< feat/connecting-profilepage-to-loginpage
           ) : (
             <></>
           )}
+=======
+          ) : (<></>)}
+
+>>>>>>> main
         </div>
       ) : (
         // Section when cancellation is confirmed
@@ -117,6 +137,10 @@ export default function ProfilePage() {
           <UnbookConfirmed />
         </div>
       )}
+<<<<<<< feat/connecting-profilepage-to-loginpage
+=======
+
+>>>>>>> main
     </>
   );
 }
