@@ -12,9 +12,15 @@ export default function ForgotPassword() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [emailSentMessage, setEmailSentMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // prevent from spam clicking
+    if (isLoading) return;
+
+    setIsLoading(true);
 
     try {
       const result = await fetchJson('/api/forgot-password', {
@@ -28,14 +34,15 @@ export default function ForgotPassword() {
       if (result && result.message) {
         setEmailSentMessage(result.message);
         setEmail('');
-
-        navigate('/logga-in');
+        setIsLoading(false);
       } else {
         alert('Något gick fel i Endpoint');
+        setIsLoading(false);
       }
     } catch (error) {
       console.error('Fel:', error);
       alert('Kunde inte skicka återställnings email');
+      setIsLoading(false);
     }
   };
 
@@ -76,9 +83,10 @@ export default function ForgotPassword() {
               </div>
               <button
                 type="submit"
+                disabled={isLoading}
                 className="bg-red-800 hover:bg-red-700 px-5 py-2 rounded-xl font-semibold cursor-pointer w-full active:scale-95 duration-150  "
               >
-                Skicka
+                {isLoading ? 'skickar...' : 'Skicka'}
               </button>
             </form>
 
@@ -91,13 +99,20 @@ export default function ForgotPassword() {
 
             {/* custom pop message for succesfull registeration */}
             {emailSentMessage && (
-              <div className="fixed bottom-40 inset-0 flex items-center justify-center bg-black/50 z-50 ">
+              <div className="fixed bottom-40 inset-0 flex items-center justify-center bg-black/50 z-50 backdrop-blur-sm">
                 <div className="bg-zinc-900 text-white p-8 rounded-2xl shadow-xl w-80 text-center border border-gray-300">
                   <p className="mb-7">{emailSentMessage}</p>
 
                   <button
-                    onClick={() => setEmailSentMessage('')}
-                    className="bg-red-800 hover:bg-red-700 px-5 py-2 rounded-xl font-semibold cursor-pointer"
+                    onClick={() => {
+                      setEmailSentMessage('');
+                      navigate('/logga-in');
+                    }}
+                    className="
+                    bg-red-800 hover:bg-red-700 
+                    px-5 py-2 rounded-xl font-semibold 
+                    cursor-pointer w-full active:scale-95 duration-150 
+                    "
                   >
                     OK
                   </button>
