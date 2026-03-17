@@ -210,8 +210,6 @@ export default function MobileShowingsPage(props: any) {
                 (e.currentTarget as HTMLInputElement).showPicker()
               }
               className="
-                  hover-red
-                  hover:scale-105
                   px-3 py-1 h-fit w-fit
                   bg-white/5
                   border border-solid border-stone-700 rounded-2xl
