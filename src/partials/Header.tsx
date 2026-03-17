@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 import LoginPage from '../pages/LoginPage';
 import HomePage from '../pages/HomePage';
-import { useAuth } from '../pages/AuthProvider';
+import { useAuthContext } from '../utils/AuthProvider';
 import fetchJson from '../utils/fetchJson';
 import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { user, setUser } = useAuthContext();
 
   return (
     <header
@@ -36,7 +36,7 @@ export default function Header() {
           {/* routing logic for the logedin vs logedout user */}
 
           <Link
-            to={user ? `/profil/${user.id}` : LoginPage.route.path}
+            to={user ? `/profil/` : LoginPage.route.path}
             className="hover-red flex items-center gap-2"
           >
             <User className="w-6 h-6 text-red-700" />
@@ -49,7 +49,7 @@ export default function Header() {
           {/* routing logic when logout button is pressed */}
           {user && (
             <button
-              className="cursor-pointer hover-red test-sm text-gray-400"
+              className="cursor-pointer hover-red test-sm text-gray-400 active:animate-ping duration-150"
               onClick={async () => {
                 await fetchJson('/api/login', { method: 'DELETE' });
 
