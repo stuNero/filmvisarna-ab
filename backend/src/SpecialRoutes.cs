@@ -1,7 +1,4 @@
-using System.ComponentModel.Design;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography.X509Certificates;
-using Org.BouncyCastle.Asn1.X509.SigI;
+
 
 namespace WebApp;
 
@@ -57,7 +54,7 @@ public static class SpecialRoutes
       <p>Länken är giltig i 1 timme.</p>
 
       <br>
-      
+
       <p>Vänliga hälsningar,</p>
       <p>CineSharp AB</p>     
 ";
@@ -67,6 +64,55 @@ public static class SpecialRoutes
       {
         message = "Om e-postadressen finns i systemet har en återställningslänk skickats"
       });
+    });
+
+
+    // reset password special route
+    App.MapPost("/api/reset-password",
+    (HttpContext context, JsonElement bodyJson) =>
+    {
+      var body = JSON.Parse(bodyJson.ToString());
+
+      // checking for the token
+      var reset = SQLQueryOne(
+        @"SELECT * FROM passwordResets
+        WHERE token = @token 
+        AND expires > NOW()",
+        new { body.token }
+      );
+
+      if (reset == null)
+      {
+        return RestResult.Parse(context, new
+        {
+          error = "Ogiltig eller utgången länk"
+        });
+      }
+ // updating password in the users table
+      string passwordHash = Password.Encrypt((string)body.password);
+      SQLQuery($"""
+        UPDATE users 
+        SET password = @password 
+        WHERE id = @userID
+      """,
+
+        new
+        {
+          password = passwordHash,
+          userId = reset.userId
+        }
+      );
+
+      //deleting used token
+      SQLQuery($"""
+        DELETE FROM passwordResets 
+        WHERE token = @token
+      """,
+        new { body.token }
+      );
+
+      return RestResult.Parse(context, new { success = true });
+
     });
 
 
