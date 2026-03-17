@@ -49,7 +49,7 @@ export default function Header() {
           {/* routing logic when logout button is pressed */}
           {user && (
             <button
-              className="cursor-pointer hover-red test-sm text-gray-400"
+              className="cursor-pointer hover-red test-sm text-gray-400 active:animate-ping duration-150"
               onClick={async () => {
                 await fetchJson('/api/login', { method: 'DELETE' });
 
