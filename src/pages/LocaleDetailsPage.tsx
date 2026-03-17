@@ -44,8 +44,13 @@ export default function LocaleDetailsPage() {
 
       <section>
         <div className="max-w-7xl mx-auto py-8 px-16">
-          <div className="flex flex-col items-center">
-            <h2 className="text-5xl">Vår vision</h2>
+          <div className="flex flex-col items-center justify-center max-w-5xl mx-auto text-center">
+            <h2 className="text-3xl font-bold ">Vår vision</h2>
+            <p className="mt-6 text-xl">
+              CineSharp grundades 2026 med en vision att skapa den ultimata
+              bioupplevelsen. Vi kombinerar banbrytande teknik med exceptionell
+              service och komfort för att ge våra gäster minnesvärda stunder.
+            </p>
           </div>
         </div>
       </section>
