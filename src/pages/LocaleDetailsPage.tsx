@@ -118,7 +118,7 @@ export default function LocaleDetailsPage() {
                 <h1 className="text-4xl text-red-600 font-bold">
                   {visitorsThisYear}
                 </h1>
-                <h1 className="text-lg text-white/30">NÖJDA BESÖKARE/ÅR</h1>
+                <h1 className="text-lg text-white/30">BESÖKARE I ÅR</h1>
               </div>
             </div>
           </div>
