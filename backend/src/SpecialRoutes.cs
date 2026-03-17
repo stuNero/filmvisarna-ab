@@ -9,6 +9,9 @@ public static class SpecialRoutes
 
   public static void Start()
   {
+    // remove all expired tokens for safety reason
+    SQLQuery("DELETE FROM passwordResets WHERE expires< NOW()");
+
     // special route for sending the recovery link for forgotten password
     App.MapPost("api/forgot-password/",
     (HttpContext context, JsonElement bodyJson) =>
