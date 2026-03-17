@@ -65,6 +65,24 @@ export default function LocaleDetailsPage() {
                 <h1 className="text-lg text-white/30">SALAR</h1>
               </div>
             </div>
+            <div className="border-1 border-white/20 rounded-2xl">
+              <div className="m-8 text-center">
+                <h1 className="text-4xl text-red-600 font-bold">100+</h1>
+                <h1 className="text-lg text-white/30">SITTPLATSER</h1>
+              </div>
+            </div>
+            <div className="border-1 border-white/20 rounded-2xl">
+              <div className="m-8 text-center">
+                <h1 className="text-4xl text-red-600 font-bold">25+</h1>
+                <h1 className="text-lg text-white/30">FILMER/MÅNAD</h1>
+              </div>
+            </div>
+            <div className="border-1 border-white/20 rounded-2xl">
+              <div className="m-8 text-center">
+                <h1 className="text-4xl text-red-600 font-bold">50k+</h1>
+                <h1 className="text-lg text-white/30">NÖJDA BESÖKARE/ÅR</h1>
+              </div>
+            </div>
           </div>
         </div>
       </section>
