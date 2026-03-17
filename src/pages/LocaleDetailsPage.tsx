@@ -44,6 +44,14 @@ export default function LocaleDetailsPage() {
 
       <section>
         <div className="max-w-7xl mx-auto py-8 px-16">
+          <div className="flex flex-col items-center">
+            <h2 className="text-5xl">Vår vision</h2>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="max-w-7xl mx-auto py-8 px-16">
           <h2 className="text-3xl font-bold mb-4">Våra Salar</h2>
           <div className="h-1 w-24 border-4 rounded-lg border-red-800 " />
 
