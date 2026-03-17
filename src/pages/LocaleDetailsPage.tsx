@@ -112,7 +112,7 @@ export default function LocaleDetailsPage() {
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4  gap-4">
-            <div className="border-1 border-white/20 rounded-2xl">
+            <div className="border-1 border-white/20 rounded-2xl hover:border-red-800">
               <div className="m-4 md:m-8 text-center">
                 <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {venue?.length}
@@ -120,7 +120,7 @@ export default function LocaleDetailsPage() {
                 <h1 className=" text-md md:text-lg text-white/30">SALAR</h1>
               </div>
             </div>
-            <div className="border-1 border-white/20 rounded-2xl">
+            <div className="border-1 border-white/20 rounded-2xl hover:border-red-800">
               <div className="m-4 md:m-8 text-center">
                 <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {seats?.length}
@@ -130,7 +130,7 @@ export default function LocaleDetailsPage() {
                 </h1>
               </div>
             </div>
-            <div className="border-1 border-white/20 rounded-2xl">
+            <div className="border-1 border-white/20 rounded-2xl hover:border-red-800">
               <div className="m-4 md:m-8 text-center">
                 <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {moviesThisMonth}
@@ -140,7 +140,7 @@ export default function LocaleDetailsPage() {
                 </h1>
               </div>
             </div>
-            <div className="border-1 border-white/20 rounded-2xl">
+            <div className="border-1 border-white/20 rounded-2xl hover:border-red-800">
               <div className="m-4 md:m-8 text-center">
                 <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {visitorsThisYear}
