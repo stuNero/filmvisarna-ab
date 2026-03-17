@@ -36,7 +36,7 @@ export default function Header() {
           {/* routing logic for the logedin vs logedout user */}
 
           <Link
-            to={user ? `/profil/${user.id}` : LoginPage.route.path}
+            to={user ? `/profil/` : LoginPage.route.path}
             className="hover-red flex items-center gap-2"
           >
             <User className="w-6 h-6 text-red-700" />
