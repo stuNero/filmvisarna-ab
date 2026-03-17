@@ -15,11 +15,24 @@ export default function LocaleDetailsPage() {
     }[]
   >(`/api/venues`);
 
-  // const [venueSeats] = useFetchJson<
-  //   {
-  //     id: number;
-  //   }[]
-  // >(`/api/seats?WHERE=venueId=${venue?.[0].id}`);
+  const [seats] = useFetchJson<
+    {
+      id: number;
+      venueId?: number;
+    }[]
+  >(`/api/seats`);
+
+  const seatsPerVenue = (seats ?? []).reduce<Record<number, number[]>>(
+    (acc, seat) => {
+      const venueKey = seat.venueId;
+      if (venueKey == null) return acc;
+
+      if (!acc[venueKey]) acc[venueKey] = [];
+      acc[venueKey].push(seat.id);
+      return acc;
+    },
+    {},
+  );
 
   return (
     <>
@@ -111,7 +124,12 @@ export default function LocaleDetailsPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-700">Kapacitet</p>
-                    <p className="text-white/100 mb-4 right-0">80 platser</p>
+                    <p className="text-white/100 mb-4 right-0">
+                      {venue?.[0]?.id != null
+                        ? (seatsPerVenue[venue[0].id]?.length ?? 0)
+                        : 0}{" "}
+                      platser
+                    </p>
                   </div>
                   <div>
                     <p className="text-gray-700">Duk</p>
@@ -138,7 +156,12 @@ export default function LocaleDetailsPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-700">Kapacitet</p>
-                    <p className="text-white/100 mb-4 right-0">80 platser</p>
+                    <p className="text-white/100 mb-4 right-0">
+                      {venue?.[1]?.id != null
+                        ? (seatsPerVenue[venue[1].id]?.length ?? 0)
+                        : 0}{" "}
+                      platser
+                    </p>
                   </div>
                   <div>
                     <p className="text-gray-700">Duk</p>
