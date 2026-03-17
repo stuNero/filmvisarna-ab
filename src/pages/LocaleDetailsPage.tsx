@@ -56,20 +56,21 @@ export default function LocaleDetailsPage() {
   const [showingInfo] = useFetchJson<
     {
       timeSlot: string;
+      filmId: number;
     }[]
   >("/api/showings");
 
-  const moviesPerMonth = (showingInfo ?? []).reduce<Record<number, number>>(
-    (acc, row) => {
-      const month = new Date(row.timeSlot).getMonth();
-      acc[month] = (acc[month] ?? 0) + 1;
-      return acc;
-    },
-    {},
-  );
+  const uniqueMoviesPerMonth = (showingInfo ?? []).reduce<
+    Record<number, Set<number>>
+  >((acc, row) => {
+    const month = new Date(row.timeSlot).getMonth();
+    if (!acc[month]) acc[month] = new Set<number>();
+    acc[month].add(row.filmId);
+    return acc;
+  }, {});
 
   const thisMonth = new Date().getMonth();
-  const moviesThisMonth = moviesPerMonth[thisMonth] ?? 0;
+  const moviesThisMonth = uniqueMoviesPerMonth[thisMonth]?.size ?? 0;
 
   return (
     <>
