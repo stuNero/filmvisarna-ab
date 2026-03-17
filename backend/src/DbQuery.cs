@@ -385,7 +385,7 @@ public static class DbQuery
                 ('GOAT - Bäst i världen',2026,100,0,'Animation','Sony Pictures','Svenska','Inga',
                 'Tyree Dillihay, Adam Rosette', 'Will är en liten get med stora drömmar, som får chansen att gå med i proffsligan och spela
                 roarball - en intensiv, blandsport där världens snabbaste och tuffaste djur tävlar. Will''s nya lagkamrater är inte imponerade över att ha en liten
-                get i laget, men Will är fast besluten att förändra sporten och bevisa en gång för alla att 'små djur kan också dribbla!'',
+                get i laget, men Will är fast besluten att förändra sporten och bevisa en gång för alla att små djur kan också dribbla!',
                 '5r-7eWDBc40','https://goat.movie/images/synopsis_poster.jpg');
             ";
             command.CommandText = filmsData;
@@ -511,8 +511,7 @@ public static class DbQuery
                 ('2026-04-26 17:15:00', 7, 1),
                 ('2026-04-26 20:15:00', 7, 2),
 
-                --Back in time
-                
+                -- Back in time                
                 ('2026-03-15 12:15:00', 5, 1),
                 ('2026-03-11 17:15:00', 5, 2),
                 ('2026-03-14 20:15:00', 5, 1),
@@ -535,12 +534,8 @@ public static class DbQuery
                 ('John Travolta'),('Uma Thurman'),('Samuel L. Jackson'),('Bruce Willis'),
                 ('Henry Fonda'),('Lee J. Cobb'),('Martin Balsam'),
                 ('Arnold Schwarzenegger'),('Linda Hamilton'),('Robert Patrick'),
-                ('Anya Taylor-Joy'),
-                ('Chris Pratt'),
-                ('Jack Black'),
-                ('Caleb McLaughlin'),
-                ('Gabrielle Union'),
-                ('Stephen Curry');
+                ('Anya Taylor-Joy'),('Chris Pratt'),('Jack Black'),
+                ('Caleb McLaughlin'),('Gabrielle Union'),('Stephen Curry');
             ";
             command.CommandText = actorsData;
             command.ExecuteNonQuery();
