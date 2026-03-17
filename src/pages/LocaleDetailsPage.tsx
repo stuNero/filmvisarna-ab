@@ -44,13 +44,26 @@ export default function LocaleDetailsPage() {
 
       <section>
         <div className="max-w-7xl mx-auto py-8 px-16">
-          <div className="flex flex-col items-center justify-center max-w-5xl mx-auto text-center">
+          <div className="flex flex-col items-center justify-center max-w-5xl mx-auto text-center mb-24">
             <h2 className="text-3xl font-bold ">Vår vision</h2>
-            <p className="mt-6 text-xl">
+            <p className="mt-6 text-xl mb-5">
               CineSharp grundades 2026 med en vision att skapa den ultimata
               bioupplevelsen. Vi kombinerar banbrytande teknik med exceptionell
               service och komfort för att ge våra gäster minnesvärda stunder.
             </p>
+            <p className="text-xl">
+              Varje detalj är noggrant utvald - från de senaste
+              laserprojektorerna till våra bekväma stolar och förstklassiga
+              ljudsystem. Vi strävar efter att göra varje besök till något
+              alldeles extra.
+            </p>
+          </div>
+          <div className="grid grid-cols-4 gap-4">
+            <div className="border-1 border-red-600">
+              <div>
+                <h1>2 salar</h1>
+              </div>
+            </div>
           </div>
         </div>
       </section>
