@@ -166,6 +166,15 @@ public static class DbQuery
                 FOREIGN KEY (bookingId) REFERENCES bookings(id)
                 ON DELETE CASCADE
             );
+
+            CREATE TABLE IF NOT EXISTS passwordResets (
+                id INT AUTO_INCREMENT PRIMARY KEY ,
+                userId int NOT NULL,
+                token VARCHAR(255) NOT NULL ,
+                created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                expires DATETIME NOT NULL,
+                FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+            );
         ";
         // Execute each statement separately
         foreach (var sql in createTablesSql.Split(';'))

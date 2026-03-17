@@ -1,20 +1,10 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
-
-interface User {
-  id: number;
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  created: number;
-  lastVisited: number;
-}
+import type UserDetails from '../interfaces/UserDetails';
 
 interface AuthContextType {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: UserDetails | null;
+  setUser: (user: UserDetails | null) => void;
 }
 
 interface AuthProviderProps {
@@ -23,7 +13,7 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserDetails | null>(null);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
@@ -33,7 +23,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 }
 
 // creating custom hook to avoid checking null in every component
-export const useAuth = () => {
+export const useAuthContext = () => {
   const context = useContext(AuthContext);
   //null check for the context
   if (!context) {

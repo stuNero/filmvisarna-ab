@@ -7,8 +7,8 @@ import { useState } from 'react';
 import cancelBooking from '../utils/cancelBooking';
 import UnbookConfirmed from '../parts/UnbookConfirmed';
 import YesNoPop from '../parts/YesNoPop';
-import { useAuth } from './AuthProvider';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../utils/AuthProvider';
 
 ProfilePage.route = {
   path: '/profil/'
@@ -19,7 +19,7 @@ export default function ProfilePage() {
   const [switchSection, setSwitchSection] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [cancelId, setCancelId] = useState<string>('');
-  const { user } = useAuth();
+  const { user } = useAuthContext();
 
   const userId = user?.id;
 

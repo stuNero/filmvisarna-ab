@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import SeatType from '../parts/SeatType';
 import { Mail } from 'lucide-react';
 import type MovieShowings from '../interfaces/MovieShowings';
-import { useAuth } from './AuthProvider';
+import { useAuthContext } from '../utils/AuthProvider';
 
 SeatSelectionPage.route = {
   path: '/boka/:id'
@@ -54,7 +54,7 @@ export default function SeatSelectionPage() {
   // code for email confirmation
   const [email, setEmail] = useState('');
   // useeffect to fill in email automatically if user is logged in
-  const { user } = useAuth();
+  const { user } = useAuthContext();
   useEffect(() => {
     if (user?.email) {
       setEmail(user.email);

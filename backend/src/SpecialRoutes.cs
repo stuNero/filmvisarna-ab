@@ -1,4 +1,4 @@
-using Org.BouncyCastle.Asn1.X509.SigI;
+
 
 namespace WebApp;
 
@@ -9,6 +9,117 @@ public static class SpecialRoutes
 
   public static void Start()
   {
+
+     // remove all expired tokens for safety reason
+    SQLQuery("DELETE FROM passwordResets WHERE expires< NOW()");
+
+    // special route for sending the recovery link for forgotten password
+    App.MapPost("api/forgot-password/",
+    (HttpContext context, JsonElement bodyJson) =>
+    {
+      var body = JSON.Parse(bodyJson.ToString());
+
+      // finding user by email
+      var user = SQLQueryOne(
+        "SELECT * FROM users WHERE email = @email",
+        new { body.email }
+      );
+
+      // visar medelande oavsett om user finns i databasen eller inte
+      if (user == null)
+      {
+        return RestResult.Parse(context, new
+        {
+          message = "Om e-postadressen finns i systemet har en återställningslänk skickats"
+        });
+      }
+
+      // creating reset token 
+      var token = Guid.NewGuid().ToString();
+      SQLQuery($"""
+        INSERT INTO passwordResets (userId, token, expires)
+        VALUES (@userId, @token, Date_Add(NOW(), INTERVAL 1 Hour))
+      """,
+      new
+      {
+        userId = user.id,
+        token = token
+      }
+      );
+
+
+      // send email with the reset link
+      var resetLink = $"{DOMAIN_IN_MAIL}/återställ-lösenord?token={token}";
+      var subject = "Återställ ditt lösenord";
+      var htmlBody = $@"
+      <h2>Återställ lösenord</h2>
+      <p>Klicka på länken för att återställa ditt lösenord:</p>
+      <a href='{resetLink}'>{resetLink}</a>
+      <p>Länken är giltig i 1 timme.</p>
+
+      <br>
+
+      <p>Vänliga hälsningar,</p>
+      <p>CineSharp AB</p>     
+";
+
+      EmailService.SendEmail(body.email, subject, htmlBody);
+      return RestResult.Parse(context, new
+      {
+        message = "Om e-postadressen finns i systemet har en återställningslänk skickats"
+      });
+    });
+
+
+    // reset password special route
+    App.MapPost("/api/reset-password",
+    (HttpContext context, JsonElement bodyJson) =>
+    {
+      var body = JSON.Parse(bodyJson.ToString());
+
+      // checking for the token
+      var reset = SQLQueryOne(
+        @"SELECT * FROM passwordResets
+        WHERE token = @token 
+        AND expires > NOW()",
+        new { body.token }
+      );
+
+      if (reset == null)
+      {
+        return RestResult.Parse(context, new
+        {
+          error = "Ogiltig eller utgången länk"
+        });
+      }
+      // updating password in the users table
+      string passwordHash = Password.Encrypt((string)body.password);
+      SQLQuery($"""
+        UPDATE users 
+        SET password = @password 
+        WHERE id = @userID
+      """,
+
+        new
+        {
+          password = passwordHash,
+          userId = reset.userId
+        }
+      );
+
+      //deleting used token
+      SQLQuery($"""
+        DELETE FROM passwordResets 
+        WHERE token = @token
+      """,
+        new { body.token }
+      );
+
+      return RestResult.Parse(context, new { success = true });
+
+    });
+    
+    
     App.MapPost("/api/create-booking", (
         HttpContext context, JsonElement bodyJson
     ) =>
@@ -138,15 +249,15 @@ public static class SpecialRoutes
           {
             // Get the insert id and add to our result
             result.insertId = SQLQueryOne(
-                @$"SELECT id AS __insertId 
-                       FROM {table} ORDER BY id DESC LIMIT 1"
+              @$"SELECT id AS __insertId 
+              FROM {table} ORDER BY id DESC LIMIT 1"
             ).__insertId;
           }
           return RestResult.Parse(context, result);
         });
 
 
-
+// special route for sending email when a users has confirmed and booked tickets.
     App.MapPost("/api/send-email", (
       HttpContext context,
       JsonElement bodyJson
