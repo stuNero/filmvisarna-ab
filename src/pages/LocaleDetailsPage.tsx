@@ -53,6 +53,24 @@ export default function LocaleDetailsPage() {
   const thisYear = new Date().getFullYear();
   const visitorsThisYear = visitorsPerYear[thisYear] ?? 0;
 
+  const [showingInfo] = useFetchJson<
+    {
+      timeSlot: string;
+    }[]
+  >("/api/showings");
+
+  const moviesPerMonth = (showingInfo ?? []).reduce<Record<number, number>>(
+    (acc, row) => {
+      const month = new Date(row.timeSlot).getMonth();
+      acc[month] = (acc[month] ?? 0) + 1;
+      return acc;
+    },
+    {},
+  );
+
+  const thisMonth = new Date().getMonth();
+  const moviesThisMonth = moviesPerMonth[thisMonth] ?? 0;
+
   return (
     <>
       <section>
@@ -109,7 +127,9 @@ export default function LocaleDetailsPage() {
             </div>
             <div className="border-1 border-white/20 rounded-2xl">
               <div className="m-8 text-center">
-                <h1 className="text-4xl text-red-600 font-bold">25+</h1>
+                <h1 className="text-4xl text-red-600 font-bold">
+                  {moviesThisMonth}
+                </h1>
                 <h1 className="text-lg text-white/30">FILMER/MÅNAD</h1>
               </div>
             </div>
