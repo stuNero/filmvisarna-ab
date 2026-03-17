@@ -11,11 +11,24 @@ export default function DesktopShowingsPage(props: any) {
   const showingsPerDate: { date: string, showings: MovieShowings[]; }[] = props.showingsPerDate;
   const reviews = props.reviews;
 
+  const [date, setDate] = useState('');
+
   const [showTrailer, setShowTrailer] = useState(false);
 
   const [reviewIndex, setReviewIndex] = useState(0);
   const reviewCount = reviews?.length ?? 0;
   const activeReview = reviewCount > 0 ? reviews?.[reviewIndex] : null;
+
+  function FilterDates() {
+    let newArray: { date: string, showings: MovieShowings[]; }[] = [];
+    if (date != '') {
+      newArray = showingsPerDate.filter((showingDate) => showingDate.date.split("T")[0] == date);
+    }
+    else {
+      newArray = showingsPerDate;
+    }
+    return newArray;
+  }
 
   const goToNextReview = () => {
     if (!reviewCount) return;
@@ -157,11 +170,25 @@ export default function DesktopShowingsPage(props: any) {
               bg-stone-950
               pt-2.5 pb-2.5 rounded-lg mb-16 px-2 sm:px-4 max-w-7xl mx-auto`}
       >
-        <div className="flex justify-center pt-5 pb-5">
-          <h2 className="text-2xl font-bold">Välj en visning</h2>
+        <div className="flex justify-center items-center pt-5 pb-5 flex-col">
+          <h2 className="text-2xl font-bold mb-2">Välj en visning</h2>
+          <input
+            type="date"
+            id="datepicker"
+            min={new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10)}
+            value={date}
+            onChange={event => setDate(event.target.value)}
+            onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker()}
+            className="
+                  hover-red
+                  hover:scale-105
+                  px-3 py-1 h-fit w-fit
+                  bg-white/5
+                  border border-solid border-stone-700 rounded-2xl
+                  " />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 justify-center items-center ">
-          {showingsPerDate?.map(({ date, showings }) => (
+          {FilterDates()?.map(({ date, showings }) => (
             <article
               key={date}
               className="border rounded-xl border-stone-500 p-4 bg-black text-center place-self-center w-full max-w-xs mx-auto"
