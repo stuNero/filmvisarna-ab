@@ -59,9 +59,10 @@ export default function LocaleDetailsPage() {
             </p>
           </div>
           <div className="grid grid-cols-4 gap-4">
-            <div className="border-1 border-red-600">
-              <div>
-                <h1>2 salar</h1>
+            <div className="border-1 border-white/20 rounded-2xl">
+              <div className="m-8 text-center">
+                <h1 className="text-4xl text-red-600 font-bold">2</h1>
+                <h1 className="text-lg text-white/30">SALAR</h1>
               </div>
             </div>
           </div>
