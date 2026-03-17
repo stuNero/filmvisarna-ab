@@ -112,7 +112,6 @@ export default function ResetPassword() {
                 <input
                   type="password"
                   required
-                  disabled={isLoading}
                   placeholder="Skriv om Lösenord"
                   className="flex-1 bg-black px-3  py-3 rounded-xl text-white outline-none placeholder:text-gray-500 "
                   value={confirmPass}
@@ -130,9 +129,10 @@ export default function ResetPassword() {
 
               <button
                 type="submit"
+                disabled={isLoading}
                 className="bg-red-800 hover:bg-red-700 px-5 py-2 rounded-xl font-semibold cursor-pointer w-full active:scale-95 duration-150  "
               >
-                Återställ Lösenord
+                {isLoading ? 'återställer...' : 'Återställ Lösenord'}
               </button>
             </form>
 
