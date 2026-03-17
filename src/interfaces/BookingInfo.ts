@@ -9,4 +9,5 @@ export default interface bookingInfo {
   ticketType: string;
   bookingId: string;
   totalPrice: number;
+  showingID: number;
 }

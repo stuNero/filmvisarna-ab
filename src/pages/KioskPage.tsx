@@ -22,7 +22,7 @@ export default function KioskInfoPage() {
         </div>
 
         {productType.map((type) => (
-          <div className="flex flex-col gap-5 m-auto">
+          <div key={type} className="flex flex-col gap-5 m-auto">
             <div className="flex flex-row justify-center sm:justify-start tems-center">
 
               <div className="flex flex-col gap-2">
@@ -33,12 +33,12 @@ export default function KioskInfoPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
               {products?.filter((product) => product.type === type).map((product) => (
-                <div key={product.id} className="relative border-2 rounded-2xl border-stone-900 hover:shadow-[0_0_10px_gray]">
+                <div key={product.id} className="relative border-2 rounded-2xl border-stone-900 hover:shadow-[0_0_10px_gray] overflow-hidden">
                   <span className="flex flex-col justify-center content-center text-xs sm:text-lg font-bold absolute top-2 right-3 bg-red-800 w-15 h-8 sm:w-20 sm:h-10 rounded-4xl">
                     <p className="text-center">{product.price}kr</p>
                   </span>
-                  <img src={product.image} alt={product.name} className="w-75 h-75 rounded-2xl" />
-                  <div className="flex flex-col justify-evenly absolute px-5 py-2 max-w-75 min-h-25 md:min-w-75 bg-stone-900 border-none inset-x-0 bottom-0 rounded-b-2xl">
+                  <img src={product.image} alt={product.name} className="w-75 h-75" />
+                  <div className="flex flex-col justify-evenly absolute px-5 py-2 w-75 min-h-25 bg-stone-900 border-none bottom-0">
                     <p className="font-bold text-md">{product.name}</p>
                     <p className="font-medium text-sm">{product.description}</p>
                   </div>

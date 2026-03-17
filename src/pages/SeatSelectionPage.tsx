@@ -64,30 +64,75 @@ export default function SeatSelectionPage() {
   const [emailError, setEmailError] = useState('');
   const [ticketCost, setTicketCost] = useState(0);
 
+  // Boolean to check when a booking is done
+  const [bookingDone, setBookingDone] = useState(false);
+
+  // Array with seat id
+  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+
   let bookingID = '';
 
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string; }>();
   const showingId = Number(id);
   // Fetch from showingId view in DB
   const [showingsData] = useFetchJson<MovieShowings[] | null>(
     `/api/movieShowings?where=showingId=${showingId}`
   );
 
+  //  --- Live updates logic ---
+
+  // Start an SSE Listener
+  useEffect(() => {
+    // New event source
+    let sse = new EventSource(`/api/book-sse/${showingId}`);
+    // Listen to SSE events
+    sse.onmessage = () => {
+      // someone has booked seat(s) in this showing so refresh/reload booked seats
+      refreshBookedSeats();
+    };
+    // the function you return runs when the component unmounts (if empty dependency array)
+    return () => { sse.close(); };
+  }, []);
+
   // Fetching from view
-  const [bookedSeatsRaw] = useFetchJson<
-    | {
-        seatId: number;
-        bookingId: string;
-        ticketType: string;
-        showingId: number;
-        rowNr: number;
-        columnNr: number;
-      }[]
-    | null
-  >(`/api/bookedSeatsWithShowings?WHERE=showingId=${showingId}`);
+  const [bookedSeatsRaw, refreshBookedSeats] = useFetchJson<{
+    seatId: number,
+    bookingId: string,
+    ticketType: string,
+    showingId: number,
+    rowNr: number,
+    columnNr: number;
+  }[] | null>(`/api/bookedSeatsWithShowings?WHERE=showingId=${showingId}`);
 
   // Extracts seatID from fetch array
   const bookedSeats = bookedSeatsRaw?.map((x) => x.seatId);
+  // Pop up (toast)
+  const [toast, setToast] = useState(false);
+
+  // If the selectedSeats contains bookedSeats then remove them from selectedSeats
+  let oldNumberOfSelectedSeats = selectedSeats.length;
+
+  for (let seatId of bookedSeats || []) {
+    if (selectedSeats.includes(seatId)) {
+      selectedSeats.splice(selectedSeats.indexOf(seatId), 1);
+    }
+  }
+  if (oldNumberOfSelectedSeats !== selectedSeats.length && !bookingDone) {
+    // When the conditions are met, the function triggers
+    triggerToast();
+  }
+
+  // And the toast pops up
+  function triggerToast() {
+    setToast(true);
+
+    const timer = setTimeout(() => {
+      setToast(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }
+
 
   // Extract first result from array
   const showing = showingsData?.[0];
@@ -138,6 +183,10 @@ export default function SeatSelectionPage() {
         alert("Request failed: " + res.status);
         return;
       }
+
+      setBookingDone(true);
+      await fetch(`/api/remote-booking/${showingId}`);
+
       const requestBody = {
         email: email,
         movieName: showing?.title,
@@ -180,8 +229,6 @@ export default function SeatSelectionPage() {
   const [seats] = useFetchJson<ShowingSeats[] | null>(
     `/api/showingsAllSeats?where=id=${showingId}`
   );
-  // Array with seat id
-  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
 
   const [ticketCount, setTicketCount] = useState<TicketCount>({
     child: 0,
@@ -415,11 +462,10 @@ export default function SeatSelectionPage() {
                           
                           text-white rounded
                             transition-all duration-200
-                          ${
-                            isSelected
+                          ${isSelected
                               ? 'bg-green-600 md:hover:bg-green-700 outline-solid outline-green-700'
                               : 'md:hover:bg-green-800 bg-stone-700 md:hover:outline-green-900 outline-solid outline-stone-600'
-                          }
+                            }
                         `}
                         ></button>
                       );
@@ -434,7 +480,7 @@ export default function SeatSelectionPage() {
                 {selectedSeats.length > 0 ? (
                   <div className="grid grid-cols-4 gap-2 py-2 px-3 border-2 border-solid border-white/20 rounded-2xl min-h-21">
                     {selectedSeats.map((seat) => (
-                      <p className="text-center px-0.5 border border-solid rounded border-white/10 bg-gray-900 h-fit">
+                      <p key={seat} className="text-center px-0.5 border border-solid rounded border-white/10 bg-gray-900 h-fit">
                         {seat}
                       </p>
                     ))}
@@ -478,11 +524,10 @@ export default function SeatSelectionPage() {
                           setEmailError('');
                         }}
                         placeholder="din.epost@exempel.se"
-                        className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
-                          emailError
-                            ? 'border-red-700 focus:ring-red-700/50'
-                            : 'border-white/20 focus:ring-red-800/50 focus:border-red-800'
-                        }`}
+                        className={`w-full bg-black border rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${emailError
+                          ? 'border-red-700 focus:ring-red-700/50'
+                          : 'border-white/20 focus:ring-red-800/50 focus:border-red-800'
+                          }`}
                       />
                     </div>
                     {emailError && (
@@ -509,6 +554,11 @@ export default function SeatSelectionPage() {
           ) : (
             <></>
           )}
+          {/* Pop up (toast) when the selected seats have been booked by someone else  */}
+          <div className={`fixed bottom-10 right-2 md:right-10 bg-yellow-700 text-white px-4 py-2 rounded shadow-lg
+          transition-all duration-500 ease-out transform pointer-events-none ${toast ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
+            Dina valda säten har blivit bokade av någon annan
+          </div>
         </div>
       </>
     );
