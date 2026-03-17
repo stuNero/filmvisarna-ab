@@ -1,4 +1,4 @@
-import { Clock } from "lucide-react";
+import { Clock, TvMinimal, Volume2 } from "lucide-react";
 import useFetchJson from "../utils/useFetchJson";
 
 LocaleDetailsPage.route = {
@@ -140,6 +140,30 @@ export default function LocaleDetailsPage() {
                   {visitorsThisYear}
                 </h1>
                 <h1 className="text-lg text-white/30">BESÖKARE I ÅR</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="max-w-7xl mx-auto py-8 px-16">
+          <h2 className="text-3xl font-bold mb-4">Vår Facilitet</h2>
+          <div className="border-4 border-red-800 h-1 w-24 rounded-lg" />
+          <div className=" grid grid-cols-3 gap-4 mt-8">
+            <div className="border border-white/20 rounded-lg p-6">
+              <div className="mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
+                <TvMinimal className="w-8 h-8 text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl">Laser-projektion</h2>
+              </div>
+              <div className="mt-4">
+                <p className="text-md text-white/60">
+                  Våra salar är utrustade med den senaste
+                  laserprojektionsteknologin för kristallklara bilder med
+                  perfekt färgåtergivning.
+                </p>
               </div>
             </div>
           </div>
