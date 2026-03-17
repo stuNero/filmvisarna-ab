@@ -9,6 +9,98 @@ public static class SpecialRoutes
 
   public static void Start()
   {
+    App.MapPost("/api/create-booking", (
+        HttpContext context, JsonElement bodyJson
+    ) =>
+    {
+      var body = JSON.Parse(bodyJson.ToString());
+
+      var bookingID = body.id;
+      var showingID = body.showingId;
+      var cost = body.cost;
+      var createdAt = body.createdAt;
+      var email = body.email;
+
+      IEnumerable<dynamic> seatsArray = body.seats;
+      var configPath = Path.Combine(
+          AppContext.BaseDirectory, "..", "..", "..", "db-config.json"
+      );
+      var configJson = File.ReadAllText(configPath);
+      var config = JSON.Parse(configJson);
+
+      var connectionString =
+          $"Server={config.host};Port={config.port};Database={config.database};" +
+          $"User={config.username};Password={config.password};";
+
+      using var db = new MySqlConnection(connectionString);
+      db.Open();
+
+      using var transaction = db.BeginTransaction();
+
+      try
+      {
+        // 1. Insert booking
+        using (var cmd = db.CreateCommand())
+        {
+          cmd.Transaction = transaction;
+          cmd.CommandText = @"
+                INSERT INTO bookings (id, cost, createdAt, showingId)
+                VALUES (@bookingID, @cost, @createdAt, @showingID)";
+
+          cmd.Parameters.AddWithValue("@bookingID", bookingID);
+          cmd.Parameters.AddWithValue("@cost", cost);
+          cmd.Parameters.AddWithValue("@createdAt", createdAt);
+          cmd.Parameters.AddWithValue("@showingID", showingID);
+
+          cmd.ExecuteNonQuery();
+        }
+
+        // 2. Insert userBooking
+        using (var cmd = db.CreateCommand())
+        {
+          cmd.Transaction = transaction;
+          cmd.CommandText = @"
+                INSERT INTO userBookings (bookingId, email)
+                VALUES (@bookingID, @email)";
+
+          cmd.Parameters.AddWithValue("@bookingID", bookingID);
+          cmd.Parameters.AddWithValue("@email", email);
+
+          cmd.ExecuteNonQuery();
+        }
+
+        // 3. Insert seats (loop!)
+        using (var cmd = db.CreateCommand())
+        {
+          cmd.Transaction = transaction;
+          cmd.CommandText = @"
+                INSERT INTO bookedSeat (seatId, bookingId, ticketType)
+                VALUES (@seatId, @bookingID, @ticketType)";
+
+          cmd.Parameters.Add("@seatId", MySqlDbType.Int32);
+          cmd.Parameters.Add("@bookingID", MySqlDbType.VarChar);
+          cmd.Parameters.Add("@ticketType", MySqlDbType.VarChar);
+
+          foreach (var seat in seatsArray)
+          {
+            cmd.Parameters["@seatId"].Value = seat.seatId;
+            cmd.Parameters["@bookingID"].Value = bookingID;
+            cmd.Parameters["@ticketType"].Value = seat.ticketType;
+
+            cmd.ExecuteNonQuery();
+          }
+        }
+
+        transaction.Commit();
+
+        return Results.Ok(new { success = true });
+      }
+      catch (Exception ex)
+      {
+        transaction.Rollback();
+        return Results.BadRequest(new { error = ex.Message });
+      }
+    });
 
     App.MapGet("/api/comingSoon", (
                 HttpContext context, string table

@@ -94,67 +94,50 @@ export default function SeatSelectionPage() {
 
   // STARTS FINAL BOOKING LOGIC
   const bookingConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // Variable to count the amount of tickets
     const ticketAmount =
       ticketCount.adult + ticketCount.child + ticketCount.senior;
 
     bookingID = '';
-    e.preventDefault();
-
     // Generates the random booking ID code
     bookingID = generateBookingID();
+
 
     // Aborts if email isn't input
     if (!email) {
       setEmailError('Skriv in din email först.');
       return;
     }
-    // Aborts if no ticket types are selected
-    else if (ticketAmount == 0) {
-      setEmailError('Du måste välja biljettyper.');
-      return;
-    }
-    // Aborts if incorrect amount of seats are chosen
-    else if (ticketAmount != selectedSeats.length) {
-      const diff = ticketAmount - selectedSeats.length;
-      setEmailError(
-        `Du måste välja ${diff} ${diff > 2 ? 'säten' : 'säte'} till`
-      );
-      return;
-    }
 
     try {
-      let totalPrice = 0;
       // Collects all tickets into a string array
-      // and calculates total price
       const tickets = [];
       for (let i = 0; i < ticketCount.adult; i++) {
         tickets.push('adult');
-        totalPrice += 140;
       }
       for (let i = 0; i < ticketCount.child; i++) {
         tickets.push('child');
-        totalPrice += 80;
       }
       for (let i = 0; i < ticketCount.senior; i++) {
         tickets.push('senior');
-        totalPrice += 120;
       }
 
       // Zips tickets and seats together into one array based on index
       // (assumes arrays are of same length)
-      const seatsWithTypes = tickets.map(function (type, i) {
-        return [type, selectedSeats[i]];
-      });
+      const seatsWithTypes: { seatId: number, ticketType: string; }[] =
+        tickets.map(function (type, i) {
+          return {
+            seatId: selectedSeats[i],
+            ticketType: type
+          };
+        });
 
-      await createBooking(totalPrice);
-      await createEmailBooking();
-
-      // Calls the function for DB insert for each booked seat
-      for (let seat of seatsWithTypes) {
-        createbookedSeat(String(seat[0]), Number(seat[1]));
+      const res = await CreateBooking(seatsWithTypes);
+      if (!res.ok) {
+        alert("Request failed: " + res.status);
+        return;
       }
-
       const requestBody = {
         email: email,
         movieName: showing?.title,
@@ -223,47 +206,22 @@ export default function SeatSelectionPage() {
     });
   };
 
-  async function createBooking(totalPrice: number) {
-    /* const res = */ await fetch('/api/send-confirm/bookings', {
+  async function CreateBooking(seatsWithTypes: { seatId: number, ticketType: string; }[]) {
+    return fetch('/api/create-booking', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         id: bookingID,
-        cost: totalPrice,
+        cost: ticketCost,
         createdAt:
           new Date(Date.now()).toLocaleDateString('sv-SE').slice(0, 10) +
           ' ' +
           new Date(Date.now()).toLocaleTimeString('sv-SE'),
-        showingId: showingId.toString()
+        showingId: showingId.toString(),
+        email: email,
+        seats: seatsWithTypes
       })
     });
-    // const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
-  }
-  async function createEmailBooking() {
-    // Inserts row into userBookings table
-    await fetch('/api/userBookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        bookingId: bookingID,
-        email: email
-      })
-    });
-  }
-
-  async function createbookedSeat(type: string, seatNr: number) {
-    /* const res =*/ await fetch('/api/bookedSeat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        seatId: seatNr,
-        bookingId: bookingID,
-        ticketType: type
-      })
-    });
-    // const data = await res.json();
-    // alert(JSON.stringify(data, null, 2));
   }
 
   var rows = 0;
