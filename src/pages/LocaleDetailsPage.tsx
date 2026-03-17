@@ -80,7 +80,9 @@ export default function LocaleDetailsPage() {
             </div>
             <div className="border-1 border-white/20 rounded-2xl">
               <div className="m-8 text-center">
-                <h1 className="text-4xl text-red-600 font-bold">100+</h1>
+                <h1 className="text-4xl text-red-600 font-bold">
+                  {seats?.length}
+                </h1>
                 <h1 className="text-lg text-white/30">SITTPLATSER</h1>
               </div>
             </div>
