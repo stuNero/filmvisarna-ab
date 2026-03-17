@@ -1,4 +1,4 @@
-import { Clock, TvMinimal, Volume2 } from "lucide-react";
+import { Clock, TvMinimal, Volume2, Film } from "lucide-react";
 import useFetchJson from "../utils/useFetchJson";
 
 LocaleDetailsPage.route = {
@@ -178,6 +178,21 @@ export default function LocaleDetailsPage() {
                 <p className="text-md text-white/60">
                   Immersivt 3D-ljud som flyttar sig runt dig i tre dimensioner
                   för en otrolig ljudupplevelse.
+                </p>
+              </div>
+            </div>
+
+            <div className="border border-white/20 rounded-lg p-6">
+              <div className="mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
+                <Film className="w-8 h-8 text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl">4K Ultra HD</h2>
+              </div>
+              <div className="mt-4">
+                <p className="text-md text-white/60">
+                  Alla våra skärmar visar filmer i 4K Ultra HD-upplösning för
+                  maximal skärpa och detaljer.
                 </p>
               </div>
             </div>
