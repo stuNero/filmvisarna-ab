@@ -8,10 +8,11 @@ import type MovieDetails from "../interfaces/MovieDetails";
 export default function MobileShowingsPage(props: any) {
   const details: MovieDetails = props.details;
   const actors = props.actors;
-  const showingsPerDate: { date: string, showings: MovieShowings[]; }[] = props.showingsPerDate;
+  const showingsPerDate: { date: string; showings: MovieShowings[] }[] =
+    props.showingsPerDate;
   const reviews = props.reviews;
 
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState("");
   const [switchSections, setSwitchSections] = useState(true);
   const [showTrailer, setShowTrailer] = useState(false);
 
@@ -24,11 +25,12 @@ export default function MobileShowingsPage(props: any) {
   };
 
   function FilterDates() {
-    let newArray: { date: string, showings: MovieShowings[]; }[] = [];
-    if (date != '') {
-      newArray = showingsPerDate.filter((showingDate) => showingDate.date.split("T")[0] == date);
-    }
-    else {
+    let newArray: { date: string; showings: MovieShowings[] }[] = [];
+    if (date != "") {
+      newArray = showingsPerDate.filter(
+        (showingDate) => showingDate.date.split("T")[0] == date,
+      );
+    } else {
       newArray = showingsPerDate;
     }
     return newArray;
@@ -37,10 +39,7 @@ export default function MobileShowingsPage(props: any) {
   return (
     <>
       <div className="mt-20 flex flex-row">
-        <Link
-          className="flex row items-center w-130"
-          to={HomePage.route.path}
-        >
+        <Link className="flex row items-center w-130" to={HomePage.route.path}>
           <MoveLeft className="mx-2" />
           Tillbaka till filmer
         </Link>
@@ -81,9 +80,7 @@ export default function MobileShowingsPage(props: any) {
       {switchSections ? (
         <section>
           <div className="flex flex-col justify-center px-4 bg-[url('/cinema.webp')] bg-no-repeat bg-center ">
-            <div
-              className={`flex flex-col max-w-7xl mx-auto px-1`}
-            >
+            <div className={`flex flex-col max-w-7xl mx-auto px-1`}>
               <img
                 src={details?.coverImage}
                 alt={details?.title}
@@ -106,9 +103,7 @@ export default function MobileShowingsPage(props: any) {
                       </h3>
                       <div className="flex items-center gap-2">
                         <Clock size={16} className="-mb-0.5" />
-                        <h3 className="text-lg ">
-                          {details?.length} min
-                        </h3>
+                        <h3 className="text-lg ">{details?.length} min</h3>
                       </div>
 
                       <span className="px-3 py-1 bg-white/5 rounded">
@@ -127,20 +122,30 @@ export default function MobileShowingsPage(props: any) {
                   <h3 className="text-sm text-gray-400 mb-1">Regissör</h3>
                   <h5>{details.director}</h5>
                 </div>
+                <div className="grid grid-cols-3 gap-4 mb-6 text-base font-medium">
+                  <div>
+                    <h3 className="text-sm text-gray-400 mb-1">Distributör</h3>
+                    <h5>{details?.distributor}</h5>
+                  </div>
+                  <div>
+                    <h3 className="text-sm text-gray-400 mb-1">Ljud</h3>
+                    <h5>{details?.audio}</h5>
+                  </div>
+                  <div>
+                    <h3 className="text-sm text-gray-400 mb-1">Undertexter</h3>
+                    <h5>{details?.subtitles}</h5>
+                  </div>
+                </div>
                 <div>
-                  <h3 className="text-sm text-gray-400 mb-1">
-                    Skådespelare
-                  </h3>
+                  <h3 className="text-sm text-gray-400 mb-1">Skådespelare</h3>
                   <div className="flex flex-row gap-5 h-12.5 text-base font-medium">
-                    {actors?.map((a: { name: string; }, index: number) => (
+                    {actors?.map((a: { name: string }, index: number) => (
                       <h5 key={index}>{a.name}</h5>
                     ))}
                   </div>
                 </div>
                 <div className="mb-6">
-                  <h3 className="text-sm text-gray-400 mb-1">
-                    Sammanfattning
-                  </h3>
+                  <h3 className="text-sm text-gray-400 mb-1">Sammanfattning</h3>
                   <p className="text-base font-bold">
                     {details?.filmDescription}
                   </p>
@@ -196,17 +201,22 @@ export default function MobileShowingsPage(props: any) {
             <input
               type="date"
               id="datepicker"
-              min={new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10)}
+              min={new Date(Date.now())
+                .toLocaleDateString("sv-SE")
+                .slice(0, 10)}
               value={date}
-              onChange={event => setDate(event.target.value)}
-              onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker()}
+              onChange={(event) => setDate(event.target.value)}
+              onClick={(e) =>
+                (e.currentTarget as HTMLInputElement).showPicker()
+              }
               className="
                   hover-red
                   hover:scale-105
                   px-3 py-1 h-fit w-fit
                   bg-white/5
                   border border-solid border-stone-700 rounded-2xl
-                  " />
+                  "
+            />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 justify-center items-center ">
             {FilterDates()?.map(({ date, showings }) => (
@@ -221,8 +231,7 @@ export default function MobileShowingsPage(props: any) {
                     })}
                   </h2>
                   <h3 className="font-extralight text-stone-300">
-                    {new Date(date).getDate()}/
-                    {new Date(date).getMonth() + 1}
+                    {new Date(date).getDate()}/{new Date(date).getMonth() + 1}
                   </h3>
                 </div>
                 <div className="flex justify-center">
