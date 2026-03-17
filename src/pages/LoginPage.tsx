@@ -22,6 +22,7 @@ export default function LoginPage() {
   const [duplicateEmailError, setDuplicateEmailError] = useState('');
   const [loginError, setLoginError] = useState('');
   const [registerMessage, setRegisterMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // error validation for confirming password for registration
   useEffect(() => {
@@ -67,6 +68,11 @@ export default function LoginPage() {
     // this line is to prevent the page to refresh, we only want render the component not the whole page
     e.preventDefault();
 
+    //preventing form spam clicking
+    if (isLoading) return;
+
+    setIsLoading(true);
+
     try {
       const result = await fetchJson(`/api/login`, {
         method: 'POST',
@@ -79,6 +85,7 @@ export default function LoginPage() {
 
       if (result && result.error) {
         setLoginError(result.error);
+        setIsLoading(false);
         return;
       }
       setUser(result);
@@ -87,6 +94,7 @@ export default function LoginPage() {
     } catch (error) {
       console.error('Fel:', error);
       alert('Något gick fel');
+      setIsLoading(false);
     }
   };
 
@@ -94,8 +102,14 @@ export default function LoginPage() {
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    //preventing form spam clicking
+    if (isLoading) return;
+
+    setIsLoading(true);
+
     if (pass !== confirmPass) {
       setConfirmPasswordError('Lösenord matcher inte!');
+      setIsLoading(false);
       return;
     }
 
@@ -111,6 +125,7 @@ export default function LoginPage() {
       // if the user exists, show error and stop
       if (checkUserExsistens?.length > 0) {
         setDuplicateEmailError('Användaren finns redan!');
+        setIsLoading(false);
         return;
       }
 
@@ -128,15 +143,18 @@ export default function LoginPage() {
 
       if (result && result.error) {
         alert(result.error);
+        setIsLoading(false);
         return;
       }
 
       // if account creation was successful navigate user to login
       switchToLogin();
       setRegisterMessage('Konto skapat! Du kan nu logga in.');
+      setIsLoading(false);
     } catch (error) {
       console.error('Fel:', error);
       alert('Något gick fel');
+      setIsLoading(false);
     }
   };
 
@@ -332,6 +350,7 @@ export default function LoginPage() {
 
                 <button
                   type="submit"
+                  disabled={isLoading}
                   className="
                   w-full bg-red-800 
                   mb-8
@@ -341,7 +360,13 @@ export default function LoginPage() {
                   duration-150
                   active:scale-95 active:brightness-75"
                 >
-                  {activeBtn === 'login' ? 'Logga in' : 'Skapa konto'}
+                  {isLoading
+                    ? activeBtn === 'login'
+                      ? 'loggar in...'
+                      : 'skapar konto...'
+                    : activeBtn === 'login'
+                      ? 'Logga in'
+                      : 'Skapa konto'}
                 </button>
 
                 {/* custom pop message for succesfull registeration */}
