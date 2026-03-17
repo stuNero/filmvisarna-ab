@@ -34,13 +34,12 @@ export default function LocaleDetailsPage() {
     },
     {},
   );
-  type BookingInfoRow = {
-    timeSlot: string;
-  };
 
-  const [bookingInfo] = useFetchJson<BookingInfoRow[] | null>(
-    "/api/bookingInfo",
-  );
+  const [bookingInfo] = useFetchJson<
+    {
+      timeSlot: string;
+    }[]
+  >("/api/bookingInfo");
 
   const visitorsPerYear = (bookingInfo ?? []).reduce<Record<number, number>>(
     (acc, row) => {
