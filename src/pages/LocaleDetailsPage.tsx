@@ -33,6 +33,25 @@ export default function LocaleDetailsPage() {
     },
     {},
   );
+  type BookingInfoRow = {
+    timeSlot: string;
+  };
+
+  const [bookingInfo] = useFetchJson<BookingInfoRow[] | null>(
+    "/api/bookingInfo",
+  );
+
+  const visitorsPerYear = (bookingInfo ?? []).reduce<Record<number, number>>(
+    (acc, row) => {
+      const year = new Date(row.timeSlot).getFullYear();
+      acc[year] = (acc[year] ?? 0) + 1;
+      return acc;
+    },
+    {},
+  );
+
+  const thisYear = new Date().getFullYear();
+  const visitorsThisYear = visitorsPerYear[thisYear] ?? 0;
 
   return (
     <>
@@ -96,7 +115,9 @@ export default function LocaleDetailsPage() {
             </div>
             <div className="border-1 border-white/20 rounded-2xl">
               <div className="m-8 text-center">
-                <h1 className="text-4xl text-red-600 font-bold">50k+</h1>
+                <h1 className="text-4xl text-red-600 font-bold">
+                  {visitorsThisYear}
+                </h1>
                 <h1 className="text-lg text-white/30">NÖJDA BESÖKARE/ÅR</h1>
               </div>
             </div>
