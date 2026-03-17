@@ -76,7 +76,7 @@ export default function LocaleDetailsPage() {
     <>
       <section>
         {/* Hero Section */}
-        <div className="relative h-96 mb-16 overflow-hidden">
+        <div className="relative h-[24rem] md:h-96 mb-12 md:mb-16 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black z-10" />
           <img
             src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&q=80&w=1920"
@@ -84,8 +84,10 @@ export default function LocaleDetailsPage() {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
-            <p className="text-5xl md:text-7xl font-bold mb-6">Om CineSharp</p>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl">
+            <p className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-6">
+              Om CineSharp
+            </p>
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-3xl">
               Din moderna biograf med den senaste teknologin och högsta
               komforten
             </p>
@@ -94,52 +96,58 @@ export default function LocaleDetailsPage() {
       </section>
 
       <section>
-        <div className="max-w-7xl mx-auto py-8 px-16">
-          <div className="flex flex-col items-center justify-center max-w-5xl mx-auto text-center mb-24">
+        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-16">
+          <div className="flex flex-col items-center justify-center max-w-5xl mx-auto text-center mb-12 md:mb-24">
             <h2 className="text-3xl font-bold ">Vår vision</h2>
-            <p className="mt-6 text-xl mb-5">
+            <p className="mt-6 text-base sm:text-lg md:text-xl mb-5">
               CineSharp grundades 2026 med en vision att skapa den ultimata
               bioupplevelsen. Vi kombinerar banbrytande teknik med exceptionell
               service och komfort för att ge våra gäster minnesvärda stunder.
             </p>
-            <p className="text-xl">
+            <p className="text-base sm:text-lg md:text-xl">
               Varje detalj är noggrant utvald - från de senaste
               laserprojektorerna till våra bekväma stolar och förstklassiga
               ljudsystem. Vi strävar efter att göra varje besök till något
               alldeles extra.
             </p>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4  gap-4">
             <div className="border-1 border-white/20 rounded-2xl">
-              <div className="m-8 text-center">
-                <h1 className="text-4xl text-red-600 font-bold">
+              <div className="m-4 md:m-8 text-center">
+                <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {venue?.length}
                 </h1>
-                <h1 className="text-lg text-white/30">SALAR</h1>
+                <h1 className=" text-md md:text-lg text-white/30">SALAR</h1>
               </div>
             </div>
             <div className="border-1 border-white/20 rounded-2xl">
-              <div className="m-8 text-center">
-                <h1 className="text-4xl text-red-600 font-bold">
+              <div className="m-4 md:m-8 text-center">
+                <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {seats?.length}
                 </h1>
-                <h1 className="text-lg text-white/30">SITTPLATSER</h1>
+                <h1 className="text-md md:text-lg text-white/30">
+                  SITTPLATSER
+                </h1>
               </div>
             </div>
             <div className="border-1 border-white/20 rounded-2xl">
-              <div className="m-8 text-center">
-                <h1 className="text-4xl text-red-600 font-bold">
+              <div className="m-4 md:m-8 text-center">
+                <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {moviesThisMonth}
                 </h1>
-                <h1 className="text-lg text-white/30">FILMER/MÅNAD</h1>
+                <h1 className="text-md md:text-lg text-white/30">
+                  FILMER/MÅNAD
+                </h1>
               </div>
             </div>
             <div className="border-1 border-white/20 rounded-2xl">
-              <div className="m-8 text-center">
-                <h1 className="text-4xl text-red-600 font-bold">
+              <div className="m-4 md:m-8 text-center">
+                <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {visitorsThisYear}
                 </h1>
-                <h1 className="text-lg text-white/30">BESÖKARE I ÅR</h1>
+                <h1 className="text-md md:text-lg text-white/30">
+                  BESÖKARE I ÅR
+                </h1>
               </div>
             </div>
           </div>
@@ -147,16 +155,16 @@ export default function LocaleDetailsPage() {
       </section>
 
       <section>
-        <div className="max-w-7xl mx-auto py-8 px-16">
+        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-16">
           <h2 className="text-3xl font-bold mb-4">Vår Facilitet</h2>
           <div className="border-4 border-red-800 h-1 w-24 rounded-lg" />
-          <div className=" grid grid-cols-3 gap-4 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
             <div className="border border-white/20 rounded-2xl p-6">
               <div className="mb-4 rounded-lg bg-red-800/20 w-12 h-12 items-center justify-center flex">
                 <TvMinimal className="w-8 h-8 text-red-600" />
               </div>
               <div>
-                <h2 className="text-2xl">Laser-projektion</h2>
+                <h2 className="text-xl md:text-2xl">Laser-projektion</h2>
               </div>
               <div className="mt-4">
                 <p className="text-md text-white/60">
@@ -172,7 +180,7 @@ export default function LocaleDetailsPage() {
                 <Volume2 className="w-8 h-8 text-red-600" />
               </div>
               <div>
-                <h2 className="text-2xl">Dolby Atmos</h2>
+                <h2 className="text-xl md:text-2xl">Dolby Atmos</h2>
               </div>
               <div className="mt-4">
                 <p className="text-md text-white/60">
@@ -187,7 +195,7 @@ export default function LocaleDetailsPage() {
                 <Film className="w-8 h-8 text-red-600" />
               </div>
               <div>
-                <h2 className="text-2xl">4K Ultra HD</h2>
+                <h2 className="text-xl md:text-2xl">4K Ultra HD</h2>
               </div>
               <div className="mt-4">
                 <p className="text-md text-white/60">
@@ -201,7 +209,7 @@ export default function LocaleDetailsPage() {
       </section>
 
       <section>
-        <div className="max-w-7xl mx-auto py-8 px-16">
+        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-16">
           <h2 className="text-3xl font-bold mb-4">Våra Salar</h2>
           <div className="h-1 w-24 border-4 rounded-lg border-red-800 " />
 
@@ -210,7 +218,7 @@ export default function LocaleDetailsPage() {
               <div className="relative h-64 overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800"
-                  className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl group-hover:scale-110 transition-transform duration-500"
+                  className="bg-zinc-950 border border-white/5 object-cover w-full h-full rounded-3xl group-hover:scale-110  transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
@@ -220,8 +228,8 @@ export default function LocaleDetailsPage() {
                   </div>
                 </div>
               </div>
-              <div className="pt-6 px-8">
-                <div className="grid grid-cols-2 gap-4">
+              <div className="pt-6 px-6 md:px-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-700">Kapacitet</p>
                     <p className="text-white/100 mb-4 right-0">
@@ -252,8 +260,8 @@ export default function LocaleDetailsPage() {
                   </div>
                 </div>
               </div>
-              <div className="pt-6 px-8">
-                <div className="grid grid-cols-2 gap-4">
+              <div className="pt-6 px-6 md:px-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-700">Kapacitet</p>
                     <p className="text-white/100 mb-4 right-0">
@@ -271,7 +279,7 @@ export default function LocaleDetailsPage() {
               </div>
             </div>
           </div>
-          <div className="border border-red-800 rounded-3xl bg-red-800/10 mt-12 p-8 ">
+          <div className="border border-red-800 rounded-3xl bg-red-800/10 mt-12 p-6 md:p-8">
             <div className="flex flex-col md:flex-row items-center gap-8">
               <div className="flex-shrink-0">
                 <div className="w-20 h-20 bg-red-800 rounded-2xl flex items-center justify-center">
