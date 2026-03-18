@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import HomePage from "./HomePage";
-import { MoveLeft, Clock, ArrowLeft, ArrowRight, Star, StarHalf, StarOff } from "lucide-react";
+import { MoveLeft, Clock, ArrowLeft, ArrowRight, Star, StarHalf } from "lucide-react";
 import type MovieDetails from "../interfaces/MovieDetails";
 import type MovieShowings from "../interfaces/MovieShowings";
 
@@ -170,7 +170,7 @@ export default function DesktopShowingsPage(props: any) {
                             } else if (starsAmount >= i + 0.5) {
                               return <StarHalf key={i} size={20} className="text-yellow-400 fill-yellow-400" />;
                             } else {
-                              return <StarOff key={i} size={20} className="text-gray-400" />;
+                              return <Star key={i} size={20} className="text-gray-400" />;
                             }
                           })}
                         </div>
