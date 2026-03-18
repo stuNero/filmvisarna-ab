@@ -120,7 +120,7 @@ export default function ProfilePage() {
             {/* Current Bookings */}
             <div>
               <div>
-                <h2 className="text-2xl font-bold text-white">Bokningar</h2>
+                <h2 className="text-2xl font-bold text-white px-2">Bokningar</h2>
                 {!user && (
                   <Link
                     to="/logga-in"
@@ -139,7 +139,7 @@ export default function ProfilePage() {
             {/* Booking history */}
             <div>
               <div>
-                <h2 className="text-2xl font-bold text-white">Bokningshistorik</h2>
+                <h2 className="text-2xl font-bold text-white px-2">Bokningshistorik</h2>
               </div>
               <ul className="text-white">
                 {displayCards(false)}
