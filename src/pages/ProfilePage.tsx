@@ -1,6 +1,7 @@
 import useFetchJson from '../utils/useFetchJson';
 import type UserDetails from '../interfaces/UserDetails';
 import type UserBooking from '../interfaces/UserBooking';
+import type BookingCardInfo from '../interfaces/BookingCardInfo';
 import { User } from 'lucide-react';
 import BookingCard from '../parts/BookingCard';
 import { useState } from 'react';
@@ -35,6 +36,18 @@ export default function ProfilePage() {
     `/api/userBookings?WHERE=email=${userData?.email}`
   );
 
+  //Formats all bookingId entries found in userBookings as a string
+  const bookingIds = (userBookings ?? []).map((x) => x.bookingId).join(",")
+  //Replaces spaces with correct formatting (%20)
+  const query = encodeURIComponent(`bookingId IN (${bookingIds})`);
+
+  //Get bookinginfo for all user's bookings in a single request
+  const [bookingEntries] = useFetchJson<BookingCardInfo[] | null>(`/api/bookingCard?WHERE=${query}`
+  );
+  
+  console.log(bookingIds)
+  console.log(bookingEntries)
+
   async function setUnbook(bookingId: string) {
     setCancelId(bookingId);
     setShowConfirmation(true);
@@ -43,6 +56,33 @@ export default function ProfilePage() {
   async function setConfirmed() {
     setSwitchSection(true);
     window.scrollTo(0, 0);
+  }
+
+  
+  function displayCards(current: boolean) {
+    return bookingEntries?.map((booking) => {
+      //Checks to see if the booking is still active
+      const active = new Date(booking.timeSlot) > new Date();
+      
+      //Don't return entries which don't match the desired type
+      if (current !== active) return null;
+      
+      return (
+        <li key={booking.bookingId}>
+          <BookingCard
+            key={booking.bookingId}
+            bookingId={booking.bookingId}
+            timeSlot={booking.timeSlot}
+            title={booking.title}
+            name={booking.name}
+            coverImage={booking.coverImage}
+            cost={booking.cost}
+            active={active}
+            onCancelButton={setUnbook}
+          />
+        </li>
+      );
+    });
   }
 
   return (
@@ -67,7 +107,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Booking history */}
+            {/* Current Bookings */}
             <div>
               <div>
                 <h2 className="text-2xl font-bold text-white">Bokningar</h2>
@@ -82,15 +122,17 @@ export default function ProfilePage() {
               </div>
 
               <ul className="text-white">
-                {userBookings?.map((booking) => (
-                  <li key={booking.bookingId}>
-                    <BookingCard
-                      key={booking.bookingId}
-                      bookingId={booking.bookingId}
-                      onCancelButton={setUnbook}
-                    />
-                  </li>
-                ))}
+                {displayCards(true)}
+              </ul>
+            </div>
+
+            {/* Booking history */}
+            <div>
+              <div>
+                <h2 className="text-2xl font-bold text-white">Bokningshistorik</h2>
+              </div>
+              <ul className="text-white">
+                {displayCards(false)}
               </ul>
             </div>
           </div>

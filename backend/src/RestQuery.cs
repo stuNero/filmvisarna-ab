@@ -13,13 +13,20 @@ public static class RestQuery
 
         if (where != null)
         {
+            // Detect IN (...) and treat the whole parenthesis block as a single value
+            var inMatch = Regex.Match(where, @"IN\s*\(([^)]*)\)", RegexOptions.IgnoreCase);
+            if (inMatch.Success)
+            {
+                var list = inMatch.Groups[1].Value; // A,B,C
+                where = Regex.Replace(where, @"IN\s*\(([^)]*)\)", $"IN {list}");
+            }
             // Split by operators (but keep them) so that we get
             // an array like this:
             // ["firstName","=","Maria","AND","lastName","!=","Smith"]
             // ops1 = operators ok to write in query, thus you can write _AND_ if yo want to for clearity
             // ops2 = the operators we actually translate to...
-            var ops1 = Arr("!=", ">=", "<=", "=", ">", "<", "_LIKE_", "_CONTAINS_", "_AND_", "_OR_", "LIKE", "CONTAINS", "AND", "OR");
-            var ops2 = Arr("!=", ">=", "<=", "=", ">", "<", "LIKE", "CONTAINS", "AND", "OR", "LIKE", "CONTAINS", "AND", "OR");
+            var ops1 = Arr("!=", ">=", "<=", "=", ">", "<", "_LIKE_", "_CONTAINS_", "_AND_", "_OR_", "LIKE", "CONTAINS", "AND", "OR", "IN");
+            var ops2 = Arr("!=", ">=", "<=", "=", ">", "<", "LIKE", "CONTAINS", "AND", "OR", "LIKE", "CONTAINS", "AND", "OR", "IN");
             foreach (var op in ops1)
             {
                 where = Arr(where.Split(op)).Join($"_-_{ops1.IndexOf(op)}_-_");
@@ -63,6 +70,30 @@ public static class RestQuery
                         sqlWhere += $"JSON_CONTAINS(`{key}`, @{key})";
                         parameters[key] = $"\"{value}\"";
                     }
+                    else if (op == "IN")
+                    {
+                        // Value must be a comma-separated list: A,B,C
+                        var list = value.ToString().Split(',')
+                            .Select(v => v.Trim().Trim('\'', '"'))
+                            .ToArray();
+
+                        if (list.Length == 0)
+                        {
+                            error = "IN operator requires at least one value";
+                            break;
+                        }
+
+                        // Create unique parameter names: key_0, key_1, ...
+                        var paramNames = new List<string>();
+                        for (int idx = 0; idx < list.Length; idx++)
+                        {
+                            var p = $"{key}_{idx}";
+                            paramNames.Add($"@{p}");
+                            parameters[p] = list[idx];
+                        }
+                        sqlWhere += $"`{key}` IN ({string.Join(",", paramNames)})";
+                    }
+
                     else
                     {
                         // Use backticks for MySQL column names (handles special chars like $)
