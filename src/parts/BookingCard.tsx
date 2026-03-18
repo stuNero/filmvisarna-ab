@@ -50,7 +50,7 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
 
     return <>
         <div
-            className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-6 flex flex-wrap gap-3"
+            className={`bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-6 flex flex-wrap gap-3 ${isOpen ? "" : "hover:cursor-pointer hover:bg-zinc-900"}`}
             onClick={() => setIsOpen(true)}
         >
             <div
@@ -100,7 +100,7 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
                 {active ? (
                     <button
                         onClick={() => onCancelButton(bookingId)}
-                        className="flex items-center gap-2 h-10 px-4 bg-red-800/10 hover:bg-red-800/20 hover:text-red-400 text-red-500 border border-red-700/20 rounded-xl transition-all text-sm font-medium"
+                        className="flex items-center gap-2 h-10 px-4 bg-red-800/10 hover:cursor-pointer hover:bg-red-800/20 hover:text-red-400 text-red-500 border border-red-700/20 rounded-xl transition-all text-sm font-medium"
                     >
                         Avboka
                     </button>
@@ -109,7 +109,7 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
                 )}
                 <Link to={"/bekraftelse/" + bookingId}>
                     <button
-                        className="flex items-center gap-2 h-10 px-4 text-red-500 hover:text-red-400 text-sm font-medium transition-colors"
+                        className="flex items-center gap-2 h-10 px-4 text-red-500 hover:cursor-pointer hover:text-red-400 text-sm font-medium transition-colors"
                         onClick={() => onCancelButton(bookingId)}
                     >
                         Bekräftelse <ChevronRight className="w-4 h-4" />
