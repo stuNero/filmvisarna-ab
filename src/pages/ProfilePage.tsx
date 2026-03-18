@@ -45,8 +45,18 @@ export default function ProfilePage() {
   const [bookingEntries] = useFetchJson<BookingCardInfo[] | null>(`/api/bookingCard?WHERE=${query}`
   );
   
-  console.log(bookingIds)
-  console.log(bookingEntries)
+  const now = new Date();
+
+  //Sort the bookings based on the dateTime closest to now
+  const sortedBookings = bookingEntries?.slice().sort((a, b) => {
+    const dateA = new Date(a.timeSlot);
+    const dateB = new Date(b.timeSlot);
+
+    const diffA = Math.abs(dateA.getTime() - now.getTime());
+    const diffB = Math.abs(dateB.getTime() - now.getTime());
+
+    return diffA - diffB;
+  }) ?? [];
 
   async function setUnbook(bookingId: string) {
     setCancelId(bookingId);
@@ -60,7 +70,7 @@ export default function ProfilePage() {
 
   
   function displayCards(current: boolean) {
-    return bookingEntries?.map((booking) => {
+    return sortedBookings.map((booking) => {
       //Checks to see if the booking is still active
       const active = new Date(booking.timeSlot) > new Date();
       
