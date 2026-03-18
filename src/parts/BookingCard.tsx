@@ -32,8 +32,6 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
     }[] | null>(
         `/api/bookedSeatsWithShowings?WHERE=bookingId=${bookingId}`
     );
-    const firstSeat = bookedSeats?.[0] ?? { rowNr: 0, columnNr: 0};
-
 
     //Gets date and time strings
     const dateStr = timeSlot ? new Date(timeSlot).toLocaleDateString('sv-SE') : '';
@@ -79,7 +77,9 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
                         <Ticket className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
                         <div>
                             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Platser</p>
-                            <p className="text-sm text-white truncate">{getSeatNumber(firstSeat?.rowNr, firstSeat?.columnNr, seats)}</p>
+                            <p className="text-sm text-white truncate max-w-12 md:max-w-18">
+                                {bookedSeats?.map(seat => getSeatNumber(seat.rowNr, seat.columnNr, seats)).join(", ")}
+                            </p>
                         </div>
                     </div>
                 </div>
