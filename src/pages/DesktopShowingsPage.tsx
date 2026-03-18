@@ -140,18 +140,6 @@ export default function DesktopShowingsPage(props: any) {
 
           {/* REVIEW   S E C T I O N */}
           <div>
-                    <p>
-                      {starsAmount !== null ? (
-                        <p className="text-yellow-400 font-bold text-lg">
-                          {starsAmount} / 5
-                        </p>
-                      ) : (
-                        <p className="text-gray-400 font-bold text-lg">
-                          Inga betyg tillgängliga
-                        </p>
-                      )}
-
-                    </p>
           <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 flex items-center ">
             <button
               type="button"
@@ -170,6 +158,15 @@ export default function DesktopShowingsPage(props: any) {
                     <p className="text-base md:text-base italic">
                       {activeReview.quote}
                     </p>
+                    {starsAmount !== null ? (
+                      <p className="text-yellow-400 font-bold text-lg mt-2">
+                        {starsAmount} / 5
+                      </p>
+                    ) : (
+                      <p className="text-gray-400 font-bold text-lg mt-2">
+                        Inga betyg tillgängliga
+                      </p>
+                    )}
                     <p className="text-xs text-gray-400 mt-2">
                       {reviewIndex + 1} / {reviewCount}
                     </p>
