@@ -203,7 +203,7 @@ export default function DesktopShowingsPage(props: any) {
           {FilterDates()?.map(({ date, showings }) => (
             <article
               key={date}
-              className="border rounded-xl border-stone-500 p-4 bg-black text-center place-self-center w-full max-w-xs mx-auto"
+              className="border rounded-xl border-stone-500 p-4 bg-black text-center place-self-center w-full max-w-xs mx-auto flex flex-col min-h-[300px] h-full"
             >
               <div className="flex flex-col w-full justify-center items-center pb-2 pt-2 text-center">
                 <h2 className="font-medium">
@@ -218,17 +218,19 @@ export default function DesktopShowingsPage(props: any) {
               <div className="flex justify-center">
                 <hr className="text-stone-700 w-4/5 " />
               </div>
-              {showings.map(({ showingId, time, name }: any) => (
-                <div key={showingId} className="flex flex-col gap-2 p-5">
-                  <Link
-                    to={`/boka/${showingId}`}
-                    className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300"
-                  >
-                    <p>{time.toString().slice(0, 5)}</p>
-                    <p>{name}</p>
-                  </Link>
-                </div>
-              ))}
+              <div className="flex flex-col flex-1 justify-center">
+                {showings.map(({ showingId, time, name }: any) => (
+                  <div key={showingId} className="flex flex-col gap-2 p-5">
+                    <Link
+                      to={`/boka/${showingId}`}
+                      className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300"
+                    >
+                      <p>{time.toString().slice(0, 5)}</p>
+                      <p>{name}</p>
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </article>
           ))}
         </div>
