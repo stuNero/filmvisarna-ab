@@ -162,7 +162,7 @@ const starsAmount = activeReview?.stars ? parseFloat(activeReview.stars) : null;
                 <h3 className="text-sm text-gray-400 mb-1 relative">
                   Recensioner
                 </h3>
-                <div className="h-60">
+                <div className="h-70">
                   {activeReview ? (
                     <div className="w-65 p-1">
                       <h4 className="text-lg font-bold italic">
