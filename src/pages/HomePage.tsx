@@ -96,7 +96,8 @@ export default function HomePage() {
         max-w-7xl mx-auto
         px-4 sm:px-6 lg:px-8
         mt-10 md:mt-20 lg:mt-32
-        inset-0 z-50
+        translate-y-10 md:translate-y-0 lg:translate-y-0 xl:translate-y-0 
+        z-50
         ">
           <div className='
           md:flex md:flex-row md:justify-between          
