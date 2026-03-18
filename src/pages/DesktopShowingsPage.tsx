@@ -218,7 +218,7 @@ export default function DesktopShowingsPage(props: any) {
               <div className="flex justify-center">
                 <hr className="text-stone-700 w-4/5 " />
               </div>
-              <div className="flex flex-col flex-1 justify-center">
+              <div className="flex flex-col flex-1 ">
                 {showings.map(({ showingId, time, name }: any) => (
                   <div key={showingId} className="flex flex-col gap-2 p-5">
                     <Link
