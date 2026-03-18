@@ -12,6 +12,8 @@ export default function DesktopShowingsPage(props: any) {
     props.showingsPerDate;
   const reviews = props.reviews;
 
+  
+
   const [date, setDate] = useState("");
 
   const [showTrailer, setShowTrailer] = useState(false);
@@ -20,6 +22,7 @@ export default function DesktopShowingsPage(props: any) {
   const reviewCount = reviews?.length ?? 0;
   const activeReview = reviewCount > 0 ? reviews?.[reviewIndex] : null;
 
+  const starsAmount = activeReview?.stars ? parseFloat(activeReview.stars) : null;
   function FilterDates() {
     let newArray: { date: string; showings: MovieShowings[] }[] = [];
     if (date != "") {
@@ -136,6 +139,19 @@ export default function DesktopShowingsPage(props: any) {
           </div>
 
           {/* REVIEW   S E C T I O N */}
+          <div>
+                    <p>
+                      {starsAmount !== null ? (
+                        <p className="text-yellow-400 font-bold text-lg">
+                          {starsAmount} / 5
+                        </p>
+                      ) : (
+                        <p className="text-gray-400 font-bold text-lg">
+                          Inga betyg tillgängliga
+                        </p>
+                      )}
+
+                    </p>
           <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 flex items-center ">
             <button
               type="button"
@@ -173,6 +189,7 @@ export default function DesktopShowingsPage(props: any) {
             >
               <ArrowRight size={20} />
             </button>
+          </div>
           </div>
         </div>
       </section>
