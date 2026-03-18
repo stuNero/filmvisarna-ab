@@ -251,14 +251,52 @@ S: Ja, vi har en kiosk med godis, popcorn, läsk och varmkorv.
 
 
 
-## Tillgängliga sidor på webbplatsen:
-- Startsida: `/`
-- Logga in: `/logga-in`
-- Profil: `/profil/:id` (ersätt :id med användarens ID)
-- Återställ lösenord: `/återställ-lösenord`
-- Glömt lösenord: `/glömt-lösenord`
-- Filmer: `/filmer`
-- Boka biljett: `/boka/:showingId`
+## Tillgängliga sidor på CineSharp
+
+Här är alla sidor som finns på webbplatsen. Använd dessa för att guida användare till rätt ställe.
+
+| Sida | URL | Beskrivning |
+|------|-----|-------------|
+| **Startsida** | `/` | Ingångssidan med aktuella filmer och erbjudanden |
+| **Filmer & Visningar** | `/visningar/:id` | Visa alla visningar för en specifik film (ersätt `:id` med filmens ID) |
+| **Boka biljetter** | `/boka/:id` | Välj platser för en visning (ersätt `:id` med visnings-ID) |
+| **Bokningsbekräftelse** | `/bekraftelse/:bookingId` | Visa bekräftelse efter bokning (ersätt `:bookingId` med bokningsnummer) |
+| **Avboka biljett** | `/avboka` | Sida för att avboka en befintlig bokning |
+| **Logga in** | `/logga-in` | Inloggningssida för medlemmar |
+| **Profil** | `/profil/` | Användarens profilsida (kräver inloggning) |
+| **Kiosk & Snacks** | `/kiosk-info` | Se vårt utbud av snacks, godis och drycker |
+| **Om oss** | `/om-oss` | Information om CineSharp, kontaktuppgifter och adress |
+| **Glömt lösenord** | `/glömt-lösenord` | Begär länk för att återställa lösenord |
+| **Återställ lösenord** | `/återställ-lösenord` | Sida för att välja nytt lösenord (kräver token från e-post) |
+| **404 - Sidan finns inte** | `*` | Visas när användaren försöker nå en sida som inte finns |
+
+## Speciella URL-parametrar
+
+| Parameter | Förklaring | Exempel |
+|-----------|------------|---------|
+| `:id` | Film-ID eller visnings-ID | `/visningar/5` - visningar för film med ID 5 |
+| `:bookingId` | Bokningsnummer (10 tecken) | `/bekraftelse/ABC123XYZ` |
+| `?token=` | Återställningstoken (i URL vid lösenordsåterställning) | `/återställ-lösenord?token=abc123...` |
+
+## Navigationshjälp
+
+Använd följande information för att guida användare:
+
+- **Ej inloggad användare**: Hänvisa till `/logga-in` eller `/glömt-lösenord`
+- **Inloggad användare**: Hänvisa till `/profil/` för att se sina bokningar
+- **Vill boka biljett**: Först till `/` för att välja film, sedan `/visningar/:id`, slutligen `/boka/:id`
+- **Vill avboka**: Direkt till `/avboka` med bokningsnumret
+- **Vill se kioskutbud**: Till `/kiosk-info`
+- **Vill kontakta oss**: Till `/om-oss`
+
+## Exempel på kompletta URL:er
+
+| Sida | Exempel-URL |
+|------|-------------|
+| Boka biljett för visning 42 | `/boka/42` |
+| Visa visningar för film 7 | `/visningar/7` |
+| Bekräftelse för bokning ABC123 | `/bekraftelse/ABC123` |
+| Återställ lösenord med token | `/återställ-lösenord?token=abc-123-def` |
 
 # CineSharp API-endpoints
 
