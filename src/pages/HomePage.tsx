@@ -50,9 +50,10 @@ export default function HomePage() {
               pt-20
                           ">
               <div className="
-              md:-translate-x-65
               max-w-7xl mx-auto
-              px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs ">
+              px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs
+              md:scale-80 lg:scale-100
+              sm:-translate-y-10 lg:-translate-x-40">
                 <h1 className="text-5xl md:text-7xl font-semibold md:max-w-xl">
                   Upplev bio som aldrig förr
                 </h1>
@@ -66,21 +67,16 @@ export default function HomePage() {
               <Link
                 to={KioskInfoPage.route.path}
                 className="
-                md:content-center
-                md:text-3xl
-                md:scale-130
-                md:translate-x-90 md:-translate-y-110
-                md:overflow-hidden md:hover:scale-140
-                hover:scale-110
-                md:opacity-85
-                text-shadow-black text-shadow-md
-                text-center text-lg
+                lg:content-center
+                lg:scale-130
+                translate-y-5 sm:-translate-y-10 md:-translate-y-60 lg:translate-x-90 lg:-translate-y-110
+                max-w-70 w-full py-4 h-20 md:max-w-150 md:h-20 lg:w-70 lg:h-70
+                lg:overflow-hidden lg:hover:scale-140 md:hover:scale-110
+                lg:opacity-85
+                text-shadow-black text-shadow-md text-center text-lg lg:text-3xl
                 block
-                translate-y-5
-                backdrop-blur
+                backdrop-blur bg-[url('/snack-bar.webp')] bg-cover bg-bottom
                 rounded-full
-                w-full h-20 lg:w-70 lg:h-70 py-4
-                bg-[url('/snack-bar.webp')] bg-cover bg-bottom
                 transition
                 "
               >
@@ -93,11 +89,11 @@ export default function HomePage() {
         </section>
 
         <section className="
+        md:mt-20
         flex flex-col
         max-w-7xl mx-auto
-        md:min-w-7xl
         px-4 sm:px-6 lg:px-8
-        lg:-translate-y-40 md:-translate-y-40 sm:-translate-y-20 -translate-y-20 ">
+        -translate-y-20 sm:translate-y-0 md:-translate-y-40 lg:-translate-y-40 xl:-translate-y-85 ">
           <div className='
           md:flex md:flex-row md:justify-between          
           '>
