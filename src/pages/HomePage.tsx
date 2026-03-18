@@ -34,6 +34,9 @@ export default function HomePage() {
             bg-cover                       
             h-[50vh]
             fit-content
+            md:-translate-y-5
+            lg:translate-y-0
+            -translate-y-5
             ">
             <div className="
               absolute inset-0 
@@ -69,7 +72,7 @@ export default function HomePage() {
                 className="
                 lg:content-center
                 lg:scale-130
-                translate-y-5 sm:-translate-y-10 md:-translate-y-60 lg:translate-x-90 lg:-translate-y-110
+                translate-y-2 sm:-translate-y-10 md:-translate-y-60 lg:translate-x-90 lg:-translate-y-110
                 max-w-70 w-full py-4 h-20 md:max-w-150 md:h-20 lg:w-70 lg:h-70
                 lg:overflow-hidden lg:hover:scale-140 md:hover:scale-110
                 lg:opacity-85
@@ -90,9 +93,9 @@ export default function HomePage() {
 
         <section className="
         flex flex-col
-  max-w-7xl mx-auto
-  px-4 sm:px-6 lg:px-8
-  mt-10 md:mt-20 lg:mt-32
+        max-w-7xl mx-auto
+        px-4 sm:px-6 lg:px-8
+        mt-10 md:mt-20 lg:mt-32
         ">
           <div className='
           md:flex md:flex-row md:justify-between          
@@ -104,7 +107,7 @@ export default function HomePage() {
             <section
               id="filters"
               className='
-              flex justify-between md:justify-end
+              flex justify-end
               items-end
               gap-1
               mx-4 mb-5 md:ml-0 md:mr-6'>
