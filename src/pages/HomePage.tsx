@@ -32,8 +32,11 @@ export default function HomePage() {
           <section className="
             bg-[url('/bg-image.webp')] bg-center
             bg-cover                       
-            h-[75vh]
+            h-[50vh]
             fit-content
+            md:-translate-y-5
+            lg:translate-y-0
+            -translate-y-5
             ">
             <div className="
               absolute inset-0 
@@ -50,9 +53,10 @@ export default function HomePage() {
               pt-20
                           ">
               <div className="
-              md:-translate-x-65
               max-w-7xl mx-auto
-              px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs ">
+              px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs
+              md:scale-80 lg:scale-100
+              sm:-translate-y-10 lg:-translate-x-40">
                 <h1 className="text-5xl md:text-7xl font-semibold md:max-w-xl">
                   Upplev bio som aldrig förr
                 </h1>
@@ -66,21 +70,16 @@ export default function HomePage() {
               <Link
                 to={KioskInfoPage.route.path}
                 className="
-                md:content-center
-                md:text-3xl
-                md:scale-130
-                md:translate-x-90 md:-translate-y-110
-                md:overflow-hidden md:hover:scale-140
-                hover:scale-110
-                md:opacity-85
-                text-shadow-black text-shadow-md
-                text-center text-lg
+                lg:content-center
+                lg:scale-130
+                translate-y-2 sm:-translate-y-10 md:-translate-y-60 lg:translate-x-90 lg:-translate-y-110
+                max-w-70 w-full py-4 h-20 md:max-w-150 md:h-20 lg:w-70 lg:h-70
+                lg:overflow-hidden lg:hover:scale-140 md:hover:scale-110
+                lg:opacity-85
+                text-shadow-black text-shadow-md text-center text-lg lg:text-3xl
                 block
-                translate-y-5
-                backdrop-blur
+                backdrop-blur bg-[url('/snack-bar.webp')] bg-cover bg-bottom
                 rounded-full
-                w-full h-20 lg:w-70 lg:h-70 py-4
-                bg-[url('/snack-bar.webp')] bg-cover bg-bottom
                 transition
                 "
               >
@@ -95,9 +94,11 @@ export default function HomePage() {
         <section className="
         flex flex-col
         max-w-7xl mx-auto
-        md:min-w-7xl
         px-4 sm:px-6 lg:px-8
-        lg:-translate-y-40 md:-translate-y-40 sm:-translate-y-20 -translate-y-20 ">
+        mt-10 md:mt-20 lg:mt-32
+        translate-y-10 md:translate-y-0 lg:translate-y-0 xl:translate-y-0 
+        z-50
+        ">
           <div className='
           md:flex md:flex-row md:justify-between          
           '>
@@ -108,22 +109,16 @@ export default function HomePage() {
             <section
               id="filters"
               className='
-              flex justify-between md:justify-end
+              flex justify-end
               items-end
               gap-1
               mx-4 mb-5 md:ml-0 md:mr-6'>
-              <div className='
-                    hover-red
-                    hover:scale-105
-                    px-3 py-1 md:w-fit md:h-fit 
-                    bg-white/5
-                    border border-solid border-stone-700 rounded-2xl
-                    flex flex-row justify-between'>
+              <div className="relative px-3 py-1 bg-white/5 border border-stone-700 rounded-2xl hover-red hover:scale-105">
                 <select
                   value={age ?? ""}
                   onChange={(event: any) => setAge(Number(event.target.value))}
-                  name="ageRating"
-                  id="ageRating">
+                  className="w-full bg-transparent cursor-pointer outline-none appearance-none pr-6"
+                >
                   <option value="" disabled hidden>
                     Alla åldrar
                   </option>
@@ -131,7 +126,8 @@ export default function HomePage() {
                     <option key={age} value={age}>{age}</option>
                   ))}
                 </select>
-                <Funnel className='scale-80 text-white/60 pr-0.5' />
+
+                <Funnel className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 pointer-events-none" />
               </div>
               {/* TODO: input type="date" follows os/browser locale/lang - use date picker lib to force swedish format?*/}
               <input
@@ -142,6 +138,7 @@ export default function HomePage() {
                 onChange={event => setDate(event.target.value)}
                 onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker()}
                 className="
+                   cursor-pointer
                   hover-red
                   hover:scale-105
                   px-3 py-1 h-fit

@@ -8,10 +8,11 @@ import type MovieShowings from "../interfaces/MovieShowings";
 export default function DesktopShowingsPage(props: any) {
   const details: MovieDetails = props.details;
   const actors = props.actors;
-  const showingsPerDate: { date: string, showings: MovieShowings[]; }[] = props.showingsPerDate;
+  const showingsPerDate: { date: string; showings: MovieShowings[] }[] =
+    props.showingsPerDate;
   const reviews = props.reviews;
 
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState("");
 
   const [showTrailer, setShowTrailer] = useState(false);
 
@@ -20,11 +21,12 @@ export default function DesktopShowingsPage(props: any) {
   const activeReview = reviewCount > 0 ? reviews?.[reviewIndex] : null;
 
   function FilterDates() {
-    let newArray: { date: string, showings: MovieShowings[]; }[] = [];
-    if (date != '') {
-      newArray = showingsPerDate.filter((showingDate) => showingDate.date.split("T")[0] == date);
-    }
-    else {
+    let newArray: { date: string; showings: MovieShowings[] }[] = [];
+    if (date != "") {
+      newArray = showingsPerDate.filter(
+        (showingDate) => showingDate.date.split("T")[0] == date,
+      );
+    } else {
       newArray = showingsPerDate;
     }
     return newArray;
@@ -101,18 +103,31 @@ export default function DesktopShowingsPage(props: any) {
                 <h3 className="text-sm text-gray-400 mb-1">Regissör</h3>
                 <h5>{details?.director}</h5>
               </div>
-              <div className="mb-6 md:mb-0">
+              <div className="grid grid-cols-3 gap-4 mb-6 text-base md:text-xl font-medium">
+                <div>
+                  <h3 className="text-sm text-gray-400 mb-1">Distributör</h3>
+                  <h5>{details?.distributor}</h5>
+                </div>
+                <div>
+                  <h3 className="text-sm text-gray-400 mb-1">Ljud</h3>
+                  <h5>{details?.audio}</h5>
+                </div>
+                <div>
+                  <h3 className="text-sm text-gray-400 mb-1">Undertexter</h3>
+                  <h5>{details?.subtitles}</h5>
+                </div>
+              </div>
+
+              <div className="mb-6 md:mb-4">
                 <h3 className="text-sm text-gray-400 mb-1">Skådespelare</h3>
                 <div className="flex flex-row gap-5 h-12.5 text-base md:text-xl font-medium">
-                  {actors?.map((a: { name: string; }, index: number) => (
+                  {actors?.map((a: { name: string }, index: number) => (
                     <h5 key={index}>{a.name}</h5>
                   ))}
                 </div>
               </div>
               <div className="mb-6 md:mb-4">
-                <h3 className="text-sm text-gray-400 mb-1">
-                  Sammanfattning
-                </h3>
+                <h3 className="text-sm text-gray-400 mb-1">Sammanfattning</h3>
                 <p className="text-base md:text-xl font-bold">
                   {details?.filmDescription}
                 </p>
@@ -131,15 +146,11 @@ export default function DesktopShowingsPage(props: any) {
             </button>
 
             <div className="min-h-24 max-w-7xl mt-20 px-8 sm:px-12 lg:px-16 w-200 items-center justify-center">
-              <h3 className="text-sm text-gray-400 mb-1 ">
-                Recensioner
-              </h3>
-              <div className="relative h-60 w-full overflow-hidden">
+              <h3 className="text-sm text-gray-400 mb-1 ">Recensioner</h3>
+              <div className="relative h-30 w-full overflow-hidden">
                 {activeReview ? (
                   <div className="absolute ">
-                    <h4 className="text-lg font-bold">
-                      {activeReview.source}
-                    </h4>
+                    <h4 className="text-lg font-bold">{activeReview.source}</h4>
                     <p className="text-base md:text-base italic">
                       {activeReview.quote}
                     </p>
@@ -177,7 +188,7 @@ export default function DesktopShowingsPage(props: any) {
             id="datepicker"
             min={new Date(Date.now()).toLocaleDateString("sv-SE").slice(0, 10)}
             value={date}
-            onChange={event => setDate(event.target.value)}
+            onChange={(event) => setDate(event.target.value)}
             onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker()}
             className="
                   hover-red
@@ -185,13 +196,14 @@ export default function DesktopShowingsPage(props: any) {
                   px-3 py-1 h-fit w-fit
                   bg-white/5
                   border border-solid border-stone-700 rounded-2xl
-                  " />
+                  "
+          />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 justify-center items-center ">
           {FilterDates()?.map(({ date, showings }) => (
             <article
               key={date}
-              className="border rounded-xl border-stone-500 p-4 bg-black text-center place-self-center w-full max-w-xs mx-auto"
+              className="border rounded-xl border-stone-500 p-4 bg-black text-center place-self-center w-full max-w-xs mx-auto flex flex-col min-h-[300px] h-full"
             >
               <div className="flex flex-col w-full justify-center items-center pb-2 pt-2 text-center">
                 <h2 className="font-medium">
@@ -206,17 +218,19 @@ export default function DesktopShowingsPage(props: any) {
               <div className="flex justify-center">
                 <hr className="text-stone-700 w-4/5 " />
               </div>
-              {showings.map(({ showingId, time, name }: any) => (
-                <div key={showingId} className="flex flex-col gap-2 p-5">
-                  <Link
-                    to={`/boka/${showingId}`}
-                    className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300"
-                  >
-                    <p>{time.toString().slice(0, 5)}</p>
-                    <p>{name}</p>
-                  </Link>
-                </div>
-              ))}
+              <div className="flex flex-col flex-1 ">
+                {showings.map(({ showingId, time, name }: any) => (
+                  <div key={showingId} className="flex flex-col gap-2 px-5 pt-5">
+                    <Link
+                      to={`/boka/${showingId}`}
+                      className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300"
+                    >
+                      <p>{time.toString().slice(0, 5)}</p>
+                      <p>{name}</p>
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </article>
           ))}
         </div>

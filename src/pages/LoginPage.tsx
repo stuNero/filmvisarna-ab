@@ -50,6 +50,8 @@ export default function LoginPage() {
     setFirstName('');
     setLastName('');
     setDuplicateEmailError('');
+    setConfirmPasswordError('');
+    setLoginError('');
   };
 
   const switchToRegister = () => {
@@ -61,6 +63,8 @@ export default function LoginPage() {
     setFirstName('');
     setLastName('');
     setDuplicateEmailError('');
+    setConfirmPasswordError('');
+    setLoginError('');
   };
 
   // user login function using fetchJson post method
@@ -245,13 +249,13 @@ export default function LoginPage() {
                 <label className="text-sm text-gray-400 after:content-['*'] after:ml-1 after:text-red-700">
                   E-postadress
                 </label>
-                <div className="mt-1 flex items-center bg-black border border-white/10 rounded-xl px-3 focus-within:outline-1 focus-within:outline-red-900 ">
-                  <Mail className="w-5 h-5 text-gray-500" />
+                <div className="relative mt-1  ">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                   <input
                     type="email"
                     required
                     placeholder="User@mail.com"
-                    className="flex-1 bg-black px-3 py-3 rounded-xl text-white outline-none "
+                    className="w-full bg-black border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white outline-none focus-within:outline-1 focus-within:outline-red-900 "
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value.trim());
