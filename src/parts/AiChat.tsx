@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { MessageCircle, X, Send } from 'lucide-react';
+import { MessageCircle, X, Send, Loader} from 'lucide-react';
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -25,8 +25,8 @@ export default function AiChat() {
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [messages, isOpen]);
 
   // Auto-resize textarea
   useEffect(() => {
@@ -83,35 +83,33 @@ export default function AiChat() {
     }
   };
 
-   // Enkel spinner-komponent
-  const Spinner = () => (
-    <svg className="animate-spin h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-    </svg>
-  );
 
   return (
     <>
       {/* Flytande chattfönster */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 w-96 h-[500px] z-50 shadow-2xl rounded-lg overflow-hidden bg-zinc-900 border border-white/10 flex flex-col">
+        <div className="
+        fixed bottom-24 right-0
+        w-[calc(100%-2rem)]   
+         md:right-2 sm:max-w-sm h-[300px] sm:h-[500px]  z-50
+        rounded-lg overflow-hidden bg-zinc-900
+        border border-white/10 flex flex-col mx-4 ">
           {/* Header */}
           <div className="bg-red-800 text-white p-4 flex justify-between items-center">
-            <h5 className="font-semibold">Chatta med Erika</h5>
+            <h5 className="font-semibold">Chatta med Adam</h5>
             <button
               onClick={() => setIsOpen(false)}
-              className="hover:bg-red-700 p-1 rounded transition-colors"
+              className="hover:bg-red-700 p-1 rounded "
             >
               <X size={18} />
             </button>
           </div>
 
           {/* Meddelanden */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className=" flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 ? (
               <div className="text-center text-gray-400 mt-4">
-                <p>Hej! Jag heter Erika. Hur kan jag hjälpa dig?</p>
+                <p>Hej! Jag heter Adam. Hur kan jag hjälpa dig?</p>
               </div>
             ) : (
               messages.map((message, index) => (
@@ -138,8 +136,8 @@ export default function AiChat() {
           <div className="border-t border-white/10 p-4 bg-zinc-900">
             {isLoading && (
               <div className="text-gray-400 mb-2 text-sm flex items-center gap-2">
-                <Spinner />
-                Erika skriver...
+                <Loader className="animate-spin h-4 w-4" />
+                Adam skriver...
               </div>
             )}
             <div className="flex gap-2">
