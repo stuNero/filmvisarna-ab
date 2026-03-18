@@ -3,6 +3,7 @@ import useFetchJson from "../utils/useFetchJson";
 import getSeatNumber from '../utils/getSeatNumber';
 import type Seats from '../interfaces/Seats';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 interface BookingCardProps {
     bookingId: string;
@@ -17,6 +18,10 @@ interface BookingCardProps {
 
 export default function BookingCard({bookingId, timeSlot, title, name, coverImage, cost, active, onCancelButton}: BookingCardProps) {
 
+    //Whether the booking card should be collapsed or open
+    const [isOpen, setIsOpen] = useState(active);
+
+    //Get seats
     const [seats] = useFetchJson<Seats[] | null>(
         `/api/seatsByBooking?WHERE=bookingid=${bookingId}`
     );
@@ -40,10 +45,16 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
         minute: '2-digit'
     }) : '';
 
+    //Styling constant for collapsable elements
+    const collapsable = `overflow-hidden transition-all duration-300${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0 hidden"}`;
+
     return <>
-        <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8 flex flex-wrap gap-3">
+        <div
+            className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-6 flex flex-wrap gap-3"
+            onClick={() => setIsOpen(true)}
+        >
             <div
-                className="w-32 h-48 rounded-xl overflow-hidden flex-shrink-0">
+                className={`w-32 h-48 rounded-xl overflow-hidden flex-shrink-0 ${collapsable}`}>
                     <img src={coverImage}
                     className="aspect-2/3"
                     />
@@ -51,7 +62,7 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
             <div className="flex-1 flex flex-col justify-between max-h-50 min-w-52">
                 <p className="text-2xl font-bold text-white truncate overflow-hidden max-w-60 md:max-w-none">{title}</p>
                 <p className="text-gray-500 text-sm">Bokningsnummer: <span className="text-gray-300 font-mono">{bookingId}</span></p>
-                <div className="h-28 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-20">
+                <div className={`h-28 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-20 ${collapsable}`}>
                     <div className="flex items-center gap-3">
                         <Calendar className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
                         <div>
@@ -83,9 +94,9 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
                         </div>
                     </div>
                 </div>
-                <p className="text-gray-500 text-sm">Totalbelopp: <span className="text-white font-bold ml-1">{cost} SEK</span></p>
+                <p className={`text-gray-500 text-sm ${collapsable}`}>Totalbelopp: <span className="text-white font-bold ml-1">{cost} SEK</span></p>
             </div>
-            <div className="ml-auto flex flex-row sm:flex-col items-end gap-4 sm:gap-32">
+            <div className={`ml-auto flex flex-row sm:flex-col items-end gap-4 sm:gap-32 ${collapsable}`}>
                 {active ? (
                     <button
                         onClick={() => onCancelButton(bookingId)}
