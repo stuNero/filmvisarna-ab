@@ -89,7 +89,7 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
                 {active ? (
                     <button
                         onClick={() => onCancelButton(bookingId)}
-                        className="flex items-center gap-2 h-10 px-4 bg-red-800/10 hover:bg-red-800/20 text-red-700 border border-red-700/20 rounded-xl transition-all text-sm font-medium"
+                        className="flex items-center gap-2 h-10 px-4 bg-red-800/10 hover:bg-red-800/20 hover:text-red-400 text-red-500 border border-red-700/20 rounded-xl transition-all text-sm font-medium"
                     >
                         Avboka
                     </button>
