@@ -96,6 +96,7 @@ export default function HomePage() {
         max-w-7xl mx-auto
         px-4 sm:px-6 lg:px-8
         mt-10 md:mt-20 lg:mt-32
+        inset-0 z-50
         ">
           <div className='
           md:flex md:flex-row md:justify-between          
@@ -111,18 +112,12 @@ export default function HomePage() {
               items-end
               gap-1
               mx-4 mb-5 md:ml-0 md:mr-6'>
-              <div className='
-                    hover-red
-                    hover:scale-105
-                    px-3 py-1 md:w-fit md:h-fit 
-                    bg-white/5
-                    border border-solid border-stone-700 rounded-2xl
-                    flex flex-row justify-between'>
+              <div className="relative px-3 py-1 bg-white/5 border border-stone-700 rounded-2xl hover-red hover:scale-105">
                 <select
                   value={age ?? ""}
                   onChange={(event: any) => setAge(Number(event.target.value))}
-                  name="ageRating"
-                  id="ageRating">
+                  className="w-full bg-transparent cursor-pointer outline-none appearance-none pr-6"
+                >
                   <option value="" disabled hidden>
                     Alla åldrar
                   </option>
@@ -130,7 +125,8 @@ export default function HomePage() {
                     <option key={age} value={age}>{age}</option>
                   ))}
                 </select>
-                <Funnel className='scale-80 text-white/60 pr-0.5' />
+
+                <Funnel className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 pointer-events-none" />
               </div>
               {/* TODO: input type="date" follows os/browser locale/lang - use date picker lib to force swedish format?*/}
               <input
@@ -141,6 +137,7 @@ export default function HomePage() {
                 onChange={event => setDate(event.target.value)}
                 onClick={(e) => (e.currentTarget as HTMLInputElement).showPicker()}
                 className="
+                   cursor-pointer
                   hover-red
                   hover:scale-105
                   px-3 py-1 h-fit
