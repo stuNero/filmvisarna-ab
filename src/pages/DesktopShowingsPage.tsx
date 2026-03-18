@@ -151,7 +151,7 @@ export default function DesktopShowingsPage(props: any) {
 
             <div className="min-h-24 max-w-7xl mt-20 px-8 sm:px-12 lg:px-16 w-200 items-center justify-center">
               <h3 className="text-sm text-gray-400 mb-1 ">Recensioner</h3>
-              <div className="relative h-30 w-full overflow-hidden">
+              <div className="relative h-50 w-full overflow-hidden">
                 {activeReview ? (
                   <div className="absolute ">
                     <h4 className="text-lg font-bold">{activeReview.source}</h4>
