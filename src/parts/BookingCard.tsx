@@ -48,7 +48,7 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
                     className="aspect-2/3"
                     />
             </div>
-            <div className="flex-1 flex flex-col justify-between max-h-50">
+            <div className="flex-1 flex flex-col justify-between max-h-50 min-w-50">
                 <p className="text-2xl font-bold text-white truncate overflow-hidden max-w-60 md:max-w-none">{title}</p>
                 <p className="text-gray-500 text-sm">Bokningsnummer: <span className="text-gray-300 font-mono">{bookingId}</span></p>
                 <div className="h-28 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-20">
