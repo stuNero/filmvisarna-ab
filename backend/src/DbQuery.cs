@@ -382,7 +382,7 @@ public static class DbQuery
                 'Inga', 'Aaron Horvath, Michael Jelenic',
                 'Mario ger sig ut i rymden, utforskar kosmiska världar och möter galaktiska utmaningar långt bort från det välbekanta Svampriket.',
                 'LX9kXRRJlPw', 'https://www.nintendo.com/eu/media/images/other_22/misc/the_super_mario_galaxy_movie/20260309/TheSuperMarioGalaxyMovie_Cinema_Poster.jpg'),
-                ('GOAT - Bäst i världen',2026,100,0,'Animation','Sony Pictures','Svenska','Inga',
+                ('GOAT - Bäst i världen',2026,100,1,'Animation','Sony Pictures','Svenska','Inga',
                 'Tyree Dillihay, Adam Rosette', 'Will är en liten get med stora drömmar, som får chansen att gå med i proffsligan och spela
                 roarball - en intensiv, blandsport där världens snabbaste och tuffaste djur tävlar. Will''s nya lagkamrater är inte imponerade över att ha en liten
                 get i laget, men Will är fast besluten att förändra sporten och bevisa en gång för alla att små djur kan också dribbla!',
