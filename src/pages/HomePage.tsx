@@ -122,8 +122,9 @@ export default function HomePage() {
                   <option value="" disabled hidden>
                     Alla åldrar
                   </option>
-                  {ages?.map((age) => (
-                    <option key={age} value={age}>{age}</option>
+                  {ages?.map((age) => (age === 1 ?
+                    <option className='bg-black' key={age} value={age}> ‎ ‎ Barntillåten</option> :
+                    <option className='bg-black' key={age} value={age}> ‎ ‎ {age}</option>
                   ))}
                 </select>
 
