@@ -10,7 +10,7 @@ public static class SpecialRoutes
   public static void Start()
   {
 
-     // remove all expired tokens for safety reason
+    // remove all expired tokens for safety reason
     SQLQuery("DELETE FROM passwordResets WHERE expires< NOW()");
 
     // special route for sending the recovery link for forgotten password
@@ -118,8 +118,8 @@ public static class SpecialRoutes
       return RestResult.Parse(context, new { success = true });
 
     });
-    
-    
+
+
     App.MapPost("/api/create-booking", (
         HttpContext context, JsonElement bodyJson
     ) =>
@@ -235,29 +235,7 @@ public static class SpecialRoutes
               return RestResult.Parse(context, SQLQuery(sql, query.parameters, context));
             });
 
-    App.MapPost("/api/send-confirm/{table}", (
-            HttpContext context, string table, JsonElement bodyJson
-        ) =>
-        {
-          var body = JSON.Parse(bodyJson.ToString());
-          var parsed = ReqBodyParse(table, body);
-          var columns = parsed.insertColumns;
-          var values = parsed.insertValues;
-          var sql = $"INSERT INTO {table}({columns}) VALUES({values})";
-          var result = SQLQueryOne(sql, parsed.body, context);
-          if (!result.HasKey("error"))
-          {
-            // Get the insert id and add to our result
-            result.insertId = SQLQueryOne(
-              @$"SELECT id AS __insertId 
-              FROM {table} ORDER BY id DESC LIMIT 1"
-            ).__insertId;
-          }
-          return RestResult.Parse(context, result);
-        });
-
-
-// special route for sending email when a users has confirmed and booked tickets.
+    // special route for sending email when a users has confirmed and booked tickets.
     App.MapPost("/api/send-email", (
       HttpContext context,
       JsonElement bodyJson

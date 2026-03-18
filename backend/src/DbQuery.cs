@@ -304,15 +304,138 @@ public static class DbQuery
         {
             var aclData = @"
                 INSERT INTO acl (userRoles, method, allow, route, `match`, comment) VALUES
+
                 ('visitor, user', 'GET', 'disallow', '/secret.html', 'true', 'No access to /secret.html for visitors and normal users'),
                 ('visitor,user, admin', 'GET', 'allow', '/api', 'false', 'Allow access to all routes not starting with /api'),
-                ('visitor', 'POST', 'allow', '/api/users', 'true', 'Allow registration as new user for visitors'),
-                ('visitor, user,admin', '*', 'allow', '/api/login', 'true', 'Allow access to all login routes'),
-                ('admin', '*', 'allow', '/api/users', 'true', 'Allow admins to see and edit users'),
+                
+                -- ======================
+                TABLES
+                -- ======================
+                -- sessions
+                -- GET
                 ('admin', '*', 'allow', '/api/sessions', 'true', 'Allow admins to see and edit sessions'),
+                ('visitor,user', 'POST', 'allow', '/api/sessions', 'true', 'Allow users to create their own sessions'),
+
+                -- POST
+                
+                -- acl
+                -- GET
                 ('admin', '*', 'allow', '/api/acl', 'true', 'Allow admins to see and edit acl rules'),
+                -- POST
+                
+                -- venues
+                -- GET
+                ('visitor,user,admin', 'GET', 'allow', '/api/venues', 'true', 'Allow all user roles to see the venues'),
+                -- POST
+                ('admin', '*', 'allow', '/api/venues', 'true', 'Allow admin to add new venues'),
+                
+                -- seats
+                -- GET
+                ('visitor,user,admin', 'GET', 'allow', '/api/seats', 'true', 'Allow all user roles to see seats'),
+                -- POST
+                ('admin', '*', 'allow', '/api/seats', 'true', 'Allow admin to add new seats'),
+                
+                -- films
+                -- GET
+                ('visitor,user,admin', 'GET', 'allow', '/api/films', 'true', 'Allow all user roles to see films'),
+                -- POST
+                ('admin', '*', 'allow', '/api/films', 'true', 'Allow admin to add new films'),
+                
+                -- reviews
+                -- GET
+                ('visitor,user,admin', 'GET', 'allow', '/api/reviews', 'true', 'Allow all user roles to see reviews'),
+
+                -- POST
+                ('admin', '*', 'allow', '/api/reviews', 'true', 'Allow admin to add new reviews'),
+                
+                -- showings
+                -- GET
+                ('visitor,user,admin', 'GET', 'allow', '/api/', 'true', 'Allow all user roles to see showings'),
+
+                -- POST
+                ('admin', '*', 'allow', '/api/showings', 'true', 'Allow admin to add new showings'),
+                
+                -- products
+                -- GET
                 ('visitor,user,admin', 'GET', 'allow', '/api/products', 'true', 'Allow all user roles to read products'),
-                ('visitor,user,admin', 'GET', 'allow', '/api/films', 'true', 'Allow all user roles to see films');
+                
+                -- POST
+                ('admin', '*', 'allow', '/api/products', 'true', 'Allow admin to add new products'),
+                
+                -- bookings
+                -- GET
+                ('visitor,user,admin', 'GET', 'allow', '/api/bookings', 'true', 'Allow all user roles to get bookings'),
+                
+                -- POST
+                ('admin', '*', 'allow', '/api/bookings', 'true', 'Allow admin to add new bookings'),
+                
+                -- bookedSeat
+                -- GET
+                
+                -- POST
+                
+                -- users
+                -- GET
+                ('admin', '*', 'allow', '/api/users', 'true', 'Allow admins to see and edit users'),
+                
+                -- POST
+                ('visitor', 'POST', 'allow', '/api/users', 'true', 'Allow registration as new user for visitors'),
+
+                -- userBookings
+                -- GET
+                
+                -- POST
+                
+                -- passwordResets
+                -- GET
+                
+                -- POST
+
+                -- ======================
+                -- VIEWS
+                -- ======================
+                -- bookingInfo
+                
+                -- bookingCard
+                
+                -- seatsByBooking
+                
+                -- showingsAllSeats
+                
+                -- movieShowings
+                
+                -- bookedSeatsWithShowings
+                
+                -- ageRatings
+                
+                -- comingFilms
+                
+                -- movieActors
+
+
+                -- ======================
+                -- SPECIALROUTES
+                -- ======================
+                -- forgot-password
+                ('visitor, admin', 'GET', 'allow', '/api/forgot-password', 'true', 'Allow password reset for visitors and admins'),
+                ('visitor, admin', 'POST', 'allow', '/api/forgot-password', 'true', 'Allow password reset for visitors and admins'),
+            
+                -- reset-password
+                ('visitor, user, admin', 'GET', 'allow', '/api/reset-password', 'true', 'Allow password reset for all roles'),
+                ('visitor, user, admin', 'POST', 'allow', '/api/reset-password', 'true', 'Allow password reset for all roles'),
+
+                -- create-booking
+                ('visitor, user, admin', 'GET', 'allow', '/api/create-booking', 'true', 'Allow booking creation for all roles'),
+                ('visitor, user, admin', 'POST', 'allow', '/api/create-booking', 'true', 'Allow booking creation for all roles'),
+
+                -- comingSoon
+                ('visitor, user, admin', 'GET', 'allow', '/api/comingSoon', 'true', 'Allow display coming films for all roles'),
+
+                -- send-email
+
+                -- login
+                ('visitor, user,admin', '*', 'allow', '/api/login', 'true', 'Allow access to all login routes'),
+
             ";
             command.CommandText = aclData;
             command.ExecuteNonQuery();
