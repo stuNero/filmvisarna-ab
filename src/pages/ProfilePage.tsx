@@ -130,16 +130,7 @@ export default function ProfilePage() {
             <div>
               <div>
                 <h2 className="text-2xl font-bold text-white">Bokningshistorik</h2>
-                {!user && (
-                  <Link
-                    to="/logga-in"
-                    className="block text-center text-gray-400 underline hover:text-gray-200 t "
-                  >
-                    Logga in för att see dina bokningar
-                  </Link>
-                )}
               </div>
-
               <ul className="text-white">
                 {displayCards(false)}
               </ul>
