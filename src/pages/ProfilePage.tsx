@@ -1,6 +1,7 @@
 import useFetchJson from '../utils/useFetchJson';
 import type UserDetails from '../interfaces/UserDetails';
 import type UserBooking from '../interfaces/UserBooking';
+import type BookingCardInfo from '../interfaces/BookingCardInfo';
 import { User } from 'lucide-react';
 import BookingCard from '../parts/BookingCard';
 import { useState } from 'react';
@@ -34,6 +35,16 @@ export default function ProfilePage() {
   const [userBookings] = useFetchJson<UserBooking[] | null>(
     `/api/userBookings?WHERE=email=${userData?.email}`
   );
+
+  const bookingIds = (userBookings ?? []).map((x) => x.bookingId).join(",")
+
+  const query = encodeURIComponent(`bookingId IN (${bookingIds})`);
+  //Get bookinginfo for all user's bookings in a single request
+  const [bookingEntries] = useFetchJson<BookingCardInfo[] | null>(`/api/bookingCard?WHERE=${query}`
+  );
+  
+  console.log(bookingIds)
+  console.log(bookingEntries)
 
   async function setUnbook(bookingId: string) {
     setCancelId(bookingId);
@@ -82,11 +93,16 @@ export default function ProfilePage() {
               </div>
 
               <ul className="text-white">
-                {userBookings?.map((booking) => (
+                {bookingEntries?.map((booking) => (
                   <li key={booking.bookingId}>
                     <BookingCard
                       key={booking.bookingId}
                       bookingId={booking.bookingId}
+                      timeSlot={booking.timeSlot}
+                      title={booking.title}
+                      name={booking.name}
+                      coverImage={booking.coverImage}
+                      cost={booking.cost}
                       onCancelButton={setUnbook}
                     />
                   </li>
