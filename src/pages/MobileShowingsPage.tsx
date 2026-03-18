@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { MoveLeft, Clock, ArrowRight } from "lucide-react";
+import { MoveLeft, Clock, ArrowRight, Star, StarHalf } from "lucide-react";
 import HomePage from "./HomePage";
 import type MovieShowings from "../interfaces/MovieShowings";
 import type MovieDetails from "../interfaces/MovieDetails";
@@ -19,6 +19,9 @@ export default function MobileShowingsPage(props: any) {
   const [reviewIndex, setReviewIndex] = useState(0);
   const reviewCount = reviews?.length ?? 0;
   const activeReview = reviewCount > 0 ? reviews?.[reviewIndex] : null;
+
+const starsAmount = activeReview?.stars ? parseFloat(activeReview.stars) : null;
+
   const goToNextReview = () => {
     if (!reviewCount) return;
     setReviewIndex((prev) => (prev + 1) % reviewCount);
@@ -159,7 +162,7 @@ export default function MobileShowingsPage(props: any) {
                 <h3 className="text-sm text-gray-400 mb-1 relative">
                   Recensioner
                 </h3>
-                <div className="h-60">
+                <div className="h-80">
                   {activeReview ? (
                     <div className="w-65 p-1">
                       <h4 className="text-lg font-bold italic">
@@ -168,6 +171,28 @@ export default function MobileShowingsPage(props: any) {
                       <p className="text-md italic w-60">
                         {activeReview.quote}
                       </p>
+                      {starsAmount !== null ? (
+                      <>
+                        <p className="text-yellow-400 font-bold text-lg mt-2">
+                          {starsAmount} / 5
+                        </p>
+                        <div className="flex flex-row items-center mt-1">
+                          {Array.from({ length: 5 }).map((_, i) => {
+                            if (starsAmount >= i + 1) {
+                              return <Star key={i} size={20} className="text-yellow-400 fill-yellow-400" />;
+                            } else if (starsAmount >= i + 0.5) {
+                              return <StarHalf key={i} size={20} className="text-yellow-400 fill-yellow-400" />;
+                            } else {
+                              return <Star key={i} size={20} className="text-gray-400" />;
+                            }
+                          })}
+                        </div>
+                      </>
+                    ) : (
+                      <p className="text-gray-400 font-bold text-lg mt-2">
+                        Inga betyg tillgängliga
+                      </p>
+                    )}
                       <p className="text-xs text-gray-400 mt-2">
                         {reviewIndex + 1} / {reviewCount}
                       </p>
