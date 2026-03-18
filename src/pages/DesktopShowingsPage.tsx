@@ -220,7 +220,7 @@ export default function DesktopShowingsPage(props: any) {
               </div>
               <div className="flex flex-col flex-1 ">
                 {showings.map(({ showingId, time, name }: any) => (
-                  <div key={showingId} className="flex flex-col gap-2 p-5">
+                  <div key={showingId} className="flex flex-col gap-2 px-5 pt-5">
                     <Link
                       to={`/boka/${showingId}`}
                       className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300"
