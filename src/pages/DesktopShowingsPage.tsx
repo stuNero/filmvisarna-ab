@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import HomePage from "./HomePage";
-import { MoveLeft, Clock, ArrowLeft, ArrowRight } from "lucide-react";
+import { MoveLeft, Clock, ArrowLeft, ArrowRight, Star, StarHalf } from "lucide-react";
 import type MovieDetails from "../interfaces/MovieDetails";
 import type MovieShowings from "../interfaces/MovieShowings";
 
@@ -12,6 +12,8 @@ export default function DesktopShowingsPage(props: any) {
     props.showingsPerDate;
   const reviews = props.reviews;
 
+  
+
   const [date, setDate] = useState("");
 
   const [showTrailer, setShowTrailer] = useState(false);
@@ -20,6 +22,7 @@ export default function DesktopShowingsPage(props: any) {
   const reviewCount = reviews?.length ?? 0;
   const activeReview = reviewCount > 0 ? reviews?.[reviewIndex] : null;
 
+  const starsAmount = activeReview?.stars ? parseFloat(activeReview.stars) : null;
   function FilterDates() {
     let newArray: { date: string; showings: MovieShowings[] }[] = [];
     if (date != "") {
@@ -136,6 +139,7 @@ export default function DesktopShowingsPage(props: any) {
           </div>
 
           {/* REVIEW   S E C T I O N */}
+          <div>
           <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 flex items-center ">
             <button
               type="button"
@@ -147,13 +151,35 @@ export default function DesktopShowingsPage(props: any) {
 
             <div className="min-h-24 max-w-7xl mt-20 px-8 sm:px-12 lg:px-16 w-200 items-center justify-center">
               <h3 className="text-sm text-gray-400 mb-1 ">Recensioner</h3>
-              <div className="relative h-30 w-full overflow-hidden">
+              <div className="relative h-50 w-full overflow-hidden">
                 {activeReview ? (
                   <div className="absolute ">
                     <h4 className="text-lg font-bold">{activeReview.source}</h4>
                     <p className="text-base md:text-base italic">
                       {activeReview.quote}
                     </p>
+                    {starsAmount !== null ? (
+                      <>
+                        <p className="text-yellow-400 font-bold text-lg mt-2">
+                          {starsAmount} / 5
+                        </p>
+                        <div className="flex flex-row items-center mt-1">
+                          {Array.from({ length: 5 }).map((_, i) => {
+                            if (starsAmount >= i + 1) {
+                              return <Star key={i} size={20} className="text-yellow-400 fill-yellow-400" />;
+                            } else if (starsAmount >= i + 0.5) {
+                              return <StarHalf key={i} size={20} className="text-yellow-400 fill-yellow-400" />;
+                            } else {
+                              return <Star key={i} size={20} className="text-gray-400" />;
+                            }
+                          })}
+                        </div>
+                      </>
+                    ) : (
+                      <p className="text-gray-400 font-bold text-lg mt-2">
+                        Inga betyg tillgängliga
+                      </p>
+                    )}
                     <p className="text-xs text-gray-400 mt-2">
                       {reviewIndex + 1} / {reviewCount}
                     </p>
@@ -173,6 +199,7 @@ export default function DesktopShowingsPage(props: any) {
             >
               <ArrowRight size={20} />
             </button>
+          </div>
           </div>
         </div>
       </section>
