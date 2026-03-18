@@ -1,6 +1,5 @@
 import { Calendar, Ticket, MapPin, Clock } from 'lucide-react';
 import useFetchJson from "../utils/useFetchJson";
-import type BookingCardInfo from '../interfaces/BookingCardInfo';
 import getSeatNumber from '../utils/getSeatNumber';
 import type Seats from '../interfaces/Seats';
 
@@ -11,10 +10,11 @@ interface BookingCardProps {
     name: string;
     coverImage: string;
     cost: number;
+    active: boolean
     onCancelButton: (bookingId: string) => void;
 }
 
-export default function BookingCard({bookingId, timeSlot, title, name, coverImage, cost, onCancelButton}: BookingCardProps) {
+export default function BookingCard({bookingId, timeSlot, title, name, coverImage, cost, active, onCancelButton}: BookingCardProps) {
 
     const [seats] = useFetchJson<Seats[] | null>(
         `/api/seatsByBooking?WHERE=bookingid=${bookingId}`
@@ -33,6 +33,8 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
     );
     const firstSeat = bookedSeats?.[0] ?? { rowNr: 0, columnNr: 0};
 
+
+    //Gets date and time strings
     const dateStr = timeSlot ? new Date(timeSlot).toLocaleDateString('sv-SE') : '';
     const timeStr = timeSlot ? new Date(timeSlot).toLocaleTimeString('sv-SE', {
         hour: '2-digit',
@@ -85,14 +87,18 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
                 </div>
             </div>
             <div className="ml-auto flex items-start">
-                <button
-                    onClick={() => onCancelButton(bookingId)}
-                    className={
-                        'gap-2 px-4 py-2 bg-red-800/10 hover:bg-red-800/20 text-red-700 border border-red-700/20 rounded-xl transition-all text-sm font-medium'
-                    }
-                >
-                    Avboka
-                </button>
+                {active ? (
+                    <button
+                        onClick={() => onCancelButton(bookingId)}
+                        className={
+                            'gap-2 px-4 py-2 bg-red-800/10 hover:bg-red-800/20 text-red-700 border border-red-700/20 rounded-xl transition-all text-sm font-medium'
+                        }
+                    >
+                        Avboka
+                    </button>
+                ) : (
+                    <></>
+                )}
             </div>
         </div>
     </>;
