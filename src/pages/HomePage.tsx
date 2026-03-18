@@ -32,7 +32,7 @@ export default function HomePage() {
           <section className="
             bg-[url('/bg-image.webp')] bg-center
             bg-cover                       
-            h-[75vh]
+            h-[50vh]
             fit-content
             ">
             <div className="
@@ -89,11 +89,11 @@ export default function HomePage() {
         </section>
 
         <section className="
-        md:mt-20
         flex flex-col
-        max-w-7xl mx-auto
-        px-4 sm:px-6 lg:px-8
-        -translate-y-20 sm:translate-y-0 md:-translate-y-40 lg:-translate-y-40 xl:-translate-y-85 ">
+  max-w-7xl mx-auto
+  px-4 sm:px-6 lg:px-8
+  mt-10 md:mt-20 lg:mt-32
+        ">
           <div className='
           md:flex md:flex-row md:justify-between          
           '>
