@@ -78,7 +78,7 @@ export default function DesktopShowingsPage(props: any) {
                 <div className="w-full block">
                   <div className="flex flex-row flex-wrap gap-4 w-full mb-2">
                     <span className="px-3 py-1 border border-gray-600 rounded text-white">
-                      {details?.ageRating} år
+                      {details?.ageRating === 1 ? 'Barntillåten' : `${details?.ageRating} år`}
                     </span>
                     <h3 className="text-xl md:text-lg py-1">
                       {details?.productionYear}
