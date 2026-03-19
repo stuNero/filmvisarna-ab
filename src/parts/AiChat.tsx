@@ -91,7 +91,7 @@ export default function AiChat() {
         <div className="
         fixed bottom-24 right-0
         w-[calc(100%-2rem)]   
-         md:right-2 sm:max-w-sm h-[450px] sm:h-[500px]  z-50
+         md:right-2 sm:max-w-sm h-112.5 sm:h-125  z-50
         rounded-lg overflow-hidden bg-zinc-900
         border border-white/10 flex flex-col mx-4 ">
           {/* Header */}

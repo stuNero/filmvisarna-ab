@@ -76,8 +76,8 @@ export default function LocaleDetailsPage() {
     <>
       <section>
         {/* Hero Section */}
-        <div className="relative h-[24rem] md:h-96 mb-12 md:mb-16 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black z-10" />
+        <div className="relative h-96 md:h-96 mb-12 md:mb-16 overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/50 to-black z-10" />
           <img
             src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&q=80&w=1920"
             alt="Cinema Interior"
@@ -112,7 +112,7 @@ export default function LocaleDetailsPage() {
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4  gap-4">
-            <div className="border-1 border-white/20 rounded-2xl hover:border-red-800">
+            <div className="border border-white/20 rounded-2xl hover:border-red-800">
               <div className="m-4 md:m-8 text-center">
                 <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {venue?.length}
@@ -120,7 +120,7 @@ export default function LocaleDetailsPage() {
                 <h1 className=" text-md md:text-lg text-white/30">SALAR</h1>
               </div>
             </div>
-            <div className="border-1 border-white/20 rounded-2xl hover:border-red-800">
+            <div className="border border-white/20 rounded-2xl hover:border-red-800">
               <div className="m-4 md:m-8 text-center">
                 <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {seats?.length}
@@ -130,7 +130,7 @@ export default function LocaleDetailsPage() {
                 </h1>
               </div>
             </div>
-            <div className="border-1 border-white/20 rounded-2xl hover:border-red-800">
+            <div className="border border-white/20 rounded-2xl hover:border-red-800">
               <div className="m-4 md:m-8 text-center">
                 <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {moviesThisMonth}
@@ -140,7 +140,7 @@ export default function LocaleDetailsPage() {
                 </h1>
               </div>
             </div>
-            <div className="border-1 border-white/20 rounded-2xl hover:border-red-800">
+            <div className="border border-white/20 rounded-2xl hover:border-red-800">
               <div className="m-4 md:m-8 text-center">
                 <h1 className="text-2xl md:text-4xl text-red-600 font-bold">
                   {visitorsThisYear}
@@ -240,7 +240,7 @@ export default function LocaleDetailsPage() {
                   src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=800"
                   className="bg-zinc-950 border border-white/5 object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
+                <div className="absolute inset-0 bg-linear-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
                     <h3 className="text-2xl font-semibold ">
                       {venue?.[0].info}
@@ -252,7 +252,7 @@ export default function LocaleDetailsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-700">Kapacitet</p>
-                    <p className="text-white/100 mb-4 right-0">
+                    <p className="text-white mb-4 right-0">
                       {venue?.[0]?.id != null
                         ? (seatsPerVenue[venue[0].id]?.length ?? 0)
                         : 0}{" "}
@@ -261,7 +261,7 @@ export default function LocaleDetailsPage() {
                   </div>
                   <div className="mb-4">
                     <p className="text-gray-700">Duk</p>
-                    <p className="text-white/100">15x8 meter</p>
+                    <p className="text-white">15x8 meter</p>
                   </div>
                 </div>
               </div>
@@ -272,7 +272,7 @@ export default function LocaleDetailsPage() {
                   src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&q=80&w=800"
                   className="bg-zinc-950 border border-white/5 object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent">
+                <div className="absolute inset-0 bg-linear-to-t from-zinc-950 to-transparent">
                   <div className="absolute bottom-2 p-6 text-white">
                     <h3 className="text-2xl font-semibold ">
                       {venue?.[1].info}
@@ -284,7 +284,7 @@ export default function LocaleDetailsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-700">Kapacitet</p>
-                    <p className="text-white/100 mb-4 right-0">
+                    <p className="text-white mb-4 right-0">
                       {venue?.[1]?.id != null
                         ? (seatsPerVenue[venue[1].id]?.length ?? 0)
                         : 0}{" "}
@@ -293,7 +293,7 @@ export default function LocaleDetailsPage() {
                   </div>
                   <div className="mb-4">
                     <p className="text-gray-700">Duk</p>
-                    <p className="text-white/100">15x8 meter</p>
+                    <p className="text-white">15x8 meter</p>
                   </div>
                 </div>
               </div>
@@ -301,7 +301,7 @@ export default function LocaleDetailsPage() {
           </div>
           <div className="border border-red-800 rounded-3xl bg-red-800/10 mt-12 p-6 md:p-8">
             <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <div className="w-20 h-20 bg-red-800 rounded-2xl flex items-center justify-center">
                   <Clock className="w-10 h-10 text-white" />
                 </div>
@@ -333,7 +333,7 @@ export default function LocaleDetailsPage() {
                 </div>
               </div>
 
-              <div className="flex-shrink-0 text-center md:text-right">
+              <div className="shrink-0 text-center md:text-right">
                 <div className="text-sm text-gray-400 mb-2">Kontakta oss</div>
                 <div className="text-white font-semibold mb-1">
                   info@cinesharp.se
