@@ -8,11 +8,11 @@ import type MovieShowings from "../interfaces/MovieShowings";
 export default function DesktopShowingsPage(props: any) {
   const details: MovieDetails = props.details;
   const actors = props.actors;
-  const showingsPerDate: { date: string; showings: MovieShowings[] }[] =
+  const showingsPerDate: { date: string; showings: MovieShowings[]; }[] =
     props.showingsPerDate;
   const reviews = props.reviews;
 
-  
+
 
   const [date, setDate] = useState("");
 
@@ -24,7 +24,7 @@ export default function DesktopShowingsPage(props: any) {
 
   const starsAmount = activeReview?.stars ? parseFloat(activeReview.stars) : null;
   function FilterDates() {
-    let newArray: { date: string; showings: MovieShowings[] }[] = [];
+    let newArray: { date: string; showings: MovieShowings[]; }[] = [];
     if (date != "") {
       newArray = showingsPerDate.filter(
         (showingDate) => showingDate.date.split("T")[0] == date,
@@ -124,7 +124,7 @@ export default function DesktopShowingsPage(props: any) {
               <div className="mb-6 md:mb-4">
                 <h3 className="text-sm text-gray-400 mb-1">Skådespelare</h3>
                 <div className="flex flex-row gap-5 h-12.5 text-base md:text-xl font-medium">
-                  {actors?.map((a: { name: string }, index: number) => (
+                  {actors?.map((a: { name: string; }, index: number) => (
                     <h5 key={index}>{a.name}</h5>
                   ))}
                 </div>
@@ -140,66 +140,66 @@ export default function DesktopShowingsPage(props: any) {
 
           {/* REVIEW   S E C T I O N */}
           <div>
-          <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 flex items-center ">
-            <button
-              type="button"
-              onClick={goToPrevReview}
-              className="p-2 rounded border border-stone-600 hover:bg-stone-900 "
-            >
-              <ArrowLeft className="" />
-            </button>
+            <div className="mb-6 md:mb-4 max-w-7xl px:4 lg:px-10 md:px-14 flex items-center ">
+              <button
+                type="button"
+                onClick={goToPrevReview}
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900 "
+              >
+                <ArrowLeft className="" />
+              </button>
 
-            <div className="min-h-24 max-w-7xl mt-20 px-8 sm:px-12 lg:px-16 w-200 items-center justify-center">
-              <h3 className="text-sm text-gray-400 mb-1 ">Recensioner</h3>
-              <div className="relative h-50 w-full overflow-hidden">
-                {activeReview ? (
-                  <div className="absolute ">
-                    <h4 className="text-lg font-bold">{activeReview.source}</h4>
-                    <p className="text-base md:text-base italic">
-                      {activeReview.quote}
-                    </p>
-                    {starsAmount !== null ? (
-                      <>
-                        <p className="text-yellow-400 font-bold text-lg mt-2">
-                          {starsAmount} / 5
-                        </p>
-                        <div className="flex flex-row items-center mt-1">
-                          {Array.from({ length: 5 }).map((_, i) => {
-                            if (starsAmount >= i + 1) {
-                              return <Star key={i} size={20} className="text-yellow-400 fill-yellow-400" />;
-                            } else if (starsAmount >= i + 0.5) {
-                              return <StarHalf key={i} size={20} className="text-yellow-400 fill-yellow-400" />;
-                            } else {
-                              return <Star key={i} size={20} className="text-gray-400" />;
-                            }
-                          })}
-                        </div>
-                      </>
-                    ) : (
-                      <p className="text-gray-400 font-bold text-lg mt-2">
-                        Inga betyg tillgängliga
+              <div className="min-h-24 max-w-7xl mt-20 px-8 sm:px-12 lg:px-16 w-200 items-center justify-center">
+                <h3 className="text-sm text-gray-400 mb-1 ">Recensioner</h3>
+                <div className="relative h-50 w-full overflow-hidden">
+                  {activeReview ? (
+                    <div className="absolute ">
+                      <h4 className="text-lg font-bold">{activeReview.source}</h4>
+                      <p className="text-base md:text-base italic">
+                        {activeReview.quote}
                       </p>
-                    )}
-                    <p className="text-xs text-gray-400 mt-2">
-                      {reviewIndex + 1} / {reviewCount}
+                      {starsAmount !== null ? (
+                        <>
+                          <p className="text-yellow-400 font-bold text-lg mt-2">
+                            {starsAmount} / 5
+                          </p>
+                          <div className="flex flex-row items-center mt-1">
+                            {Array.from({ length: 5 }).map((_, i) => {
+                              if (starsAmount >= i + 1) {
+                                return <Star key={i} size={20} className="text-yellow-400 fill-yellow-400" />;
+                              } else if (starsAmount >= i + 0.5) {
+                                return <StarHalf key={i} size={20} className="text-yellow-400 fill-yellow-400" />;
+                              } else {
+                                return <Star key={i} size={20} className="text-gray-400" />;
+                              }
+                            })}
+                          </div>
+                        </>
+                      ) : (
+                        <p className="text-gray-400 font-bold text-lg mt-2">
+                          Inga betyg tillgängliga
+                        </p>
+                      )}
+                      <p className="text-xs text-gray-400 mt-2">
+                        {reviewIndex + 1} / {reviewCount}
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="text-base text-gray-300">
+                      Inga Recensioner tillgängliga.
                     </p>
-                  </div>
-                ) : (
-                  <p className="text-base text-gray-300">
-                    Inga Recensioner tillgängliga.
-                  </p>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            <button
-              type="button"
-              onClick={goToNextReview}
-              className="p-2 rounded border border-stone-600 hover:bg-stone-900"
-            >
-              <ArrowRight size={20} />
-            </button>
-          </div>
+              <button
+                type="button"
+                onClick={goToNextReview}
+                className="p-2 rounded border border-stone-600 hover:bg-stone-900"
+              >
+                <ArrowRight size={20} />
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -230,7 +230,7 @@ export default function DesktopShowingsPage(props: any) {
           {FilterDates()?.map(({ date, showings }) => (
             <article
               key={date}
-              className="border rounded-xl border-stone-500 p-4 bg-black text-center place-self-center w-full max-w-xs mx-auto flex flex-col min-h-[300px] h-full"
+              className="border rounded-xl border-stone-500 p-4 bg-black text-center place-self-center w-full max-w-xs mx-auto flex flex-col min-h-75 h-full"
             >
               <div className="flex flex-col w-full justify-center items-center pb-2 pt-2 text-center">
                 <h2 className="font-medium">
