@@ -393,7 +393,7 @@ export default function SeatSelectionPage() {
         <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20 ">
           <div className='flex flex-col items-center w-full md:px-30 '>
             <div className="flex flex-row justify-center items-center px-10 md:px-40 h-10 md:h-15 gap-5 md:gap-20 
-            bg-stone-900 mask-r-from-50 mask-l-from-50 md:mask-r-from-70 md:mask-l-from-70">
+            bg-stone-900 mask-r-from-40 mask-l-from-40 md:mask-r-from-70 md:mask-l-from-70">
               <h1 className='text-xl font-black md:text-xl md:font-extrabold'>
                 {showing?.title}
               </h1>
@@ -470,15 +470,15 @@ export default function SeatSelectionPage() {
             items-center overflow-x-scroll snap-x snap-mandatory md:overflow-x-hidden"
             >
               {/*           Cinema Screen         */}
-              <h1 className="text-center text-sm italic text-stone-300/50 snap-center translate-x-9">
+              <h1 className="text-center text-sm italic text-stone-300/50 snap-center translate-x-9 md:translate-x-0">
                 Bioduk
               </h1>
-              <div className="flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full  snap-center translate-x-9" />
+              <div className="flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full  snap-center translate-x-9 md:translate-x-0" />
               {/*             S E A T S           */}
               {Array.from({ length: rows }, (_, rowIndex) => (
                 <div
                   key={rowIndex}
-                  className="flex justify-center gap-2.5 md:gap-4 mb-4  snap-center translate-x-9"
+                  className="flex justify-center gap-2.5 md:gap-4 mb-4  snap-center translate-x-9 md:translate-x-0"
                 >
                   {seats
                     ?.filter((seat) => seat.rowNr === rowIndex + 1)
@@ -515,7 +515,7 @@ export default function SeatSelectionPage() {
               ))}
               <div
                 id="seat-section"
-                className="flex flex-col min-w-40 translate-x-10 items-center"
+                className="flex flex-col min-w-40 translate-x-10 md:translate-x-0 items-center"
               >
                 <h1 className="font-semibold pb-1">Stolsnummer:</h1>
                 {selectedSeats.length > 0 ? (

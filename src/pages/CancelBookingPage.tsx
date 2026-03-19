@@ -101,7 +101,7 @@ export default function CancelBookingPage() {
           <form onSubmit={confirmSearch} className={`flex flex-col items-center bg-zinc-950 rounded-2xl 
           border-2 border-stone-700/30 
           p-8 md:p-12 mb-8 mt-40 md:mt-50
-          md:w-1/2 ${showConfirmation ? " blur-[2px]" : ""}`}
+          w-85 md:w-1/2 ${showConfirmation ? " blur-[2px]" : ""}`}
           >
             <h2 className="text-2xl md:text-3xl text-center mb-8">
               Sök bokning
@@ -186,7 +186,7 @@ export default function CancelBookingPage() {
             bg-zinc-950 rounded-2xl 
               border-2 border-stone-700/30
               p-8 md:p-12 mb-8
-              w-85 md:w-1/2
+              w-85 md:w-100
               gap-5
               ${showConfirmation ? "blur-[2px]" : ""}`}
               ref={divRef}

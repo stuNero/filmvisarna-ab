@@ -12,11 +12,11 @@ interface BookingCardProps {
     name: string;
     coverImage: string;
     cost: number;
-    active: boolean
+    active: boolean;
     onCancelButton: (bookingId: string) => void;
 }
 
-export default function BookingCard({bookingId, timeSlot, title, name, coverImage, cost, active, onCancelButton}: BookingCardProps) {
+export default function BookingCard({ bookingId, timeSlot, title, name, coverImage, cost, active, onCancelButton }: BookingCardProps) {
 
     //Whether the booking card should be collapsed or open
     const [isOpen, setIsOpen] = useState(active);
@@ -54,38 +54,38 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
             onClick={() => setIsOpen(true)}
         >
             <div
-                className={`w-32 h-48 rounded-xl overflow-hidden flex-shrink-0 ${collapsable}`}>
-                    <img src={coverImage}
+                className={`w-32 h-48 rounded-xl overflow-hidden shrink-0 ${collapsable}`}>
+                <img src={coverImage}
                     className="aspect-2/3"
-                    />
+                />
             </div>
             <div className="flex-1 flex flex-col justify-between max-h-50 min-w-52">
                 <p className="text-2xl font-bold text-white truncate overflow-hidden max-w-60 md:max-w-none">{title}</p>
                 <p className="text-gray-500 text-sm">Bokningsnummer: <span className="text-gray-300 font-mono">{bookingId}</span></p>
                 <div className={`h-28 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-20 ${collapsable}`}>
                     <div className="flex items-center gap-3">
-                        <Calendar className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
+                        <Calendar className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500" />
                         <div>
                             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Datum</p>
                             <p className="text-sm text-white">{dateStr}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <Clock className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
+                        <Clock className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500" />
                         <div>
                             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Tid</p>
                             <p className="text-sm text-white">{timeStr}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <MapPin className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
+                        <MapPin className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500" />
                         <div>
                             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Salong</p>
                             <p className="text-sm text-white">{name}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <Ticket className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
+                        <Ticket className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500" />
                         <div>
                             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Platser</p>
                             <p className="text-sm text-white truncate max-w-12 md:max-w-18">
