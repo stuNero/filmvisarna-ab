@@ -379,7 +379,7 @@ export default function SeatSelectionPage() {
                 {showing?.title}
               </h1>
             </div>
-            <div className="flex flex-row justify-center items-center mb-1.5 px-10 md:px-40 h-8 md:h-10 gap-5 md:gap-20
+            <div className="flex flex-row justify-between items-center md:-translate-x-5 lg:-translate-x-5 mb-1.5 px-10 md:px-40 h-8 md:h-10 gap-5 md:gap-20
             bg-stone-900 mask-r-from-50 mask-l-from-50 md:mask-r-from-70 md:mask-l-from-70">
               <h1 className='text-lg font-medium md:text-sm md:font-bold'>
                 {showing?.date.toString().slice(0, 10)}
