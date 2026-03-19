@@ -151,7 +151,7 @@ export default function HomePage() {
                     " />
             </section>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-14">
             <MovieCard date={date} age={age} />
           </div>
         </section>

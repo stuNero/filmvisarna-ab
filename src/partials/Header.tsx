@@ -39,7 +39,7 @@ export default function Header() {
             to={user ? `/profil/` : LoginPage.route.path}
             className="hover-red flex items-center gap-2"
           >
-            <User className="w-6 h-6 text-red-700" />
+            <User className="w-6 h-6 md:hover:text-red-700" />
 
             {/* username */}
             {user && <span className="font-bold">{user.firstName}</span>}
