@@ -8,6 +8,8 @@ import type MovieShowings from '../interfaces/MovieShowings';
 import { useAuthContext } from '../utils/AuthProvider';
 import getSeatNumber from '../utils/getSeatNumber';
 
+
+
 SeatSelectionPage.route = {
   path: '/boka/:id'
 };
@@ -51,6 +53,7 @@ function generateBookingID() {
 
 export default function SeatSelectionPage() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false)
 
   // code for email confirmation
   const [email, setEmail] = useState('');
@@ -142,6 +145,14 @@ export default function SeatSelectionPage() {
   // STARTS FINAL BOOKING LOGIC
   const bookingConfirmation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    //if the bookingconfirm button is already pressed skip exit
+    if (isLoading) return;
+
+    //if bookingconfirm button is presses for first time activate isloading
+    setIsLoading(true);
+
+
     // Variable to count the amount of tickets
     const ticketAmount =
       ticketCount.adult + ticketCount.child + ticketCount.senior;
@@ -154,6 +165,7 @@ export default function SeatSelectionPage() {
     // Aborts if email isn't input
     if (!email) {
       setEmailError('Skriv in din email först.');
+      setIsLoading(false)
       return;
     }
 
@@ -183,6 +195,7 @@ export default function SeatSelectionPage() {
       const res = await CreateBooking(seatsWithTypes);
       if (!res.ok) {
         alert("Request failed: " + res.status);
+        setIsLoading(false);
         return;
       }
 
@@ -212,18 +225,22 @@ export default function SeatSelectionPage() {
         if (response.ok) {
           // alert(`Bokningsbekräftelse skickad till ${email}!`);
           setEmail(''); // remove the mail from field when email is sent
+          setIsLoading(false);
         } else {
           alert('Något gick fel vid bokning');
+          setIsLoading(false);
         }
       } catch (error) {
         console.error('Fel:', error);
         alert('Kunde inte skicka boknings email');
+        setIsLoading(false);
       }
 
       navigate(`/bekraftelse/${bookingID}`);
     } catch (error) {
       console.error('Fel:', error);
       alert('Kunde inte skicka bokning');
+      setIsLoading(false);
       return;
     }
   };
@@ -572,9 +589,10 @@ export default function SeatSelectionPage() {
                 <div className="text-center">
                   <button
                     type="submit"
+                    disabled= {isLoading}
                     className="px-16 py-4 rounded-xl border-2 bg-red-800 border-red-800 hover:bg-red-900 hover:border-red-900 text-white transition-all text-lg font-medium"
                   >
-                    Bekräfta bokning
+                    {isLoading? 'bekräftar... ':'Bekräfta bokning'}
                   </button>
                 </div>
               </div>

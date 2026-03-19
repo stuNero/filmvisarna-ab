@@ -254,8 +254,8 @@ export default function LoginPage() {
                   <input
                     type="email"
                     required
-                    placeholder="User@mail.com"
-                    className="w-full bg-black border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white outline-none focus-within:outline-1 focus-within:outline-red-900 "
+                    placeholder="din.epost@exempel.se"
+                    className="w-full bg-black border border-white/10 rounded-xl pl-10 pr-4 py-3  outline-none focus-within:outline-1 focus-within:outline-red-900 "
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value.trim());

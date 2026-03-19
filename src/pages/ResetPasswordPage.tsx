@@ -149,7 +149,7 @@ export default function ResetPassword() {
               Tillbaka till inloggning
             </Link>
 
-            {/* custom pop message for succesfull registeration */}
+            {/* custom pop message for succesfull registration */}
             {successMessage && (
               <div className="fixed bottom-40 inset-0 flex items-center justify-center bg-black/50 z-50 backdrop-blur-sm ">
                 <div className="bg-zinc-900 text-white p-8 rounded-2xl shadow-xl w-80 text-center border border-gray-300">
