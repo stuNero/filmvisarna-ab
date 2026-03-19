@@ -148,7 +148,13 @@ export default function AiChat() {
                 onKeyDown={handleKeyDown}
                 placeholder="Skriv ditt meddelande..."
                 rows={1}
-                className="flex-1 bg-black border border-white/10 rounded-lg px-3 py-2 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-red-800 resize-none"
+                className={`
+                  flex-1 bg-black border border-white/10 
+                  rounded-lg px-3 py-2 text-white placeholder:text-gray-500 
+                  focus:outline-none focus:ring-2 focus:ring-red-800 
+                  resize-none
+                  ${input.includes('\n') ? 'overflow-auto': 'overflow-hidden'  }
+                `}
               />
               <button
                 onClick={sendMessage}
