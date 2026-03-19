@@ -45,23 +45,6 @@ filmvisarna-ab
 |-- vite.config.ts
 ```
 
-```
-
-filmvisarna-ab
-|-- backend/            # backendkod, API, databaslogik och databas konfiguration
-|-- public/             # bilder till frontend kod
-|-- src/                # all frontend kod
-|   |-- interfaces/     # datamodeller
-|   |-- pages/          # olika pages
-|   |-- partials/       # återanävndbara delar som t.ex footer, header
-|   |-- parts/          # mindre användbara komponenter
-|   |-- utils/          # hooks och hjälpfunktioner
-|-- index.html
-|-- package.json
-|-- tsconfig.json
-|-- vite.config.ts
-
-```
 
 # Viktigt att veta
 - Saker som vi lagt till som skolan inte gett oss
