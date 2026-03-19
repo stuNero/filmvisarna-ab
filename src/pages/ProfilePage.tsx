@@ -32,8 +32,9 @@ export default function ProfilePage() {
   const userData = userDataRaw?.[0];
 
   //Get userbookings
+  const email = userData?.email;
   const [userBookings] = useFetchJson<UserBooking[] | null>(
-    `/api/userBookings?WHERE=email=${userData?.email}`
+  email ? `/api/userBookings?WHERE=email=${email}` : ""
   );
 
   //Formats all bookingId entries found in userBookings as a string
