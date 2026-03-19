@@ -29,6 +29,8 @@ Nu kan du öppna webbsidan på http://localhost:5173
 
 # Projektstruktur
 
+```
+
 filmvisarna-ab
 |-- backend/            # backendkod, API, databaslogik och databas konfiguration
 |-- public/             # bilder till frontend kod
@@ -43,6 +45,7 @@ filmvisarna-ab
 |-- tsconfig.json
 |-- vite.config.ts
 
+```
 
 # Viktigt att veta
 - Saker som vi lagt till som skolan inte gett oss
