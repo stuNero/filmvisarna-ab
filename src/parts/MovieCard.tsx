@@ -89,7 +89,7 @@ export default function MovieCard(props: any) {
                 <section className="flex flex-col font-medium mt-2 mb-5 text-stone-300">
                   <div className="flex flex-row ">
                     <p className="opacity-70 border border-stone-300 rounded-md mr-1 px-1">
-                      {film.ageRating} år
+                      {film.ageRating === 1 ? 'Barntillåten' : `${film.ageRating} år`}
                     </p>
                     <p className="flex flex-row opacity-70">
                       {' '}

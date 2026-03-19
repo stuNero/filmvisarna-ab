@@ -37,6 +37,8 @@ export default function HomePage() {
             md:-translate-y-5
             lg:translate-y-0
             -translate-y-5
+            mb-10
+            md:mb-0
             ">
             <div className="
               absolute inset-0 
@@ -122,8 +124,9 @@ export default function HomePage() {
                   <option value="" disabled hidden>
                     Alla åldrar
                   </option>
-                  {ages?.map((age) => (
-                    <option key={age} value={age}>{age}</option>
+                  {ages?.map((age) => (age === 1 ?
+                    <option className='bg-black' key={age} value={age}> ‎ ‎ Barntillåten</option> :
+                    <option className='bg-black' key={age} value={age}> ‎ ‎ {age}</option>
                   ))}
                 </select>
 
