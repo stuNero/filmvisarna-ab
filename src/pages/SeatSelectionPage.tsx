@@ -372,6 +372,26 @@ export default function SeatSelectionPage() {
     return (
       <>
         <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20 ">
+          <div className='flex flex-col items-center w-full md:px-30 '>
+            <div className="flex flex-row justify-center items-center px-10 md:px-40 h-10 md:h-15 gap-5 md:gap-20 
+            bg-stone-900 mask-r-from-50 mask-l-from-50 md:mask-r-from-70 md:mask-l-from-70">
+              <h1 className='text-xl font-black md:text-xl md:font-extrabold'>
+                {showing?.title}
+              </h1>
+            </div>
+            <div className="flex flex-row justify-between items-center md:-translate-x-5 lg:-translate-x-5 mb-1.5 px-10 md:px-40 h-8 md:h-10 gap-5 md:gap-20
+            bg-stone-900 mask-r-from-50 mask-l-from-50 md:mask-r-from-70 md:mask-l-from-70">
+              <h1 className='text-lg font-medium md:text-sm md:font-bold'>
+                {showing?.date.toString().slice(0, 10)}
+              </h1>
+              <h1 className='text-lg font-medium  md:text-sm md:font-bold'>
+                {showing?.time.toString().slice(0, 5)}
+              </h1>
+              <h1 className='text-lg font-medium md:text-sm md:font-bold'>
+                {showing?.name}
+              </h1>
+            </div>
+          </div>
           {/* Ticket Selection */}
           <div className="flex flex-col items-center bg-zinc-950 rounded-2xl border-y-2 md:border-2  border-white/20 p-8 mb-8">
             <div className="max-w-2xl md:min-w-2xl w-full md:mx-auto space-y-4">

@@ -69,7 +69,7 @@ export default function HomePage() {
               </div>
               <Link
                 to={KioskInfoPage.route.path}
-                className="
+                className="mx-auto
                 lg:content-center
                 lg:scale-130
                 translate-y-2 sm:-translate-y-10 md:-translate-y-60 lg:translate-x-90 lg:-translate-y-110
