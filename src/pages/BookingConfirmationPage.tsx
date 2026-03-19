@@ -155,7 +155,9 @@ export default function BookingConfirmationPage() {
                     key={idx}
                     className="bg-zinc-700 text-white text-xs rounded px-3 py-1"
                   >
-                    {getSeatNumber(seat.row, seat.number, seats)}
+                    Nr: {getSeatNumber(seat.row, seat.number, seats)}
+                    <br />
+                    Rad: {seat.row}
                   </span>
                 ))}
               </div>
