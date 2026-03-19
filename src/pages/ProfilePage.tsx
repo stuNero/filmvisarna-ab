@@ -26,7 +26,7 @@ export default function ProfilePage() {
 
   // Fetch from userId table in DB
   const [userDataRaw] = useFetchJson<UserDetails[] | null>(
-    `/api/users?WHERE=id=${userId}`
+  userId ? `/api/users?WHERE=id=${userId}` : ""
   );
   //Gets first entry
   const userData = userDataRaw?.[0];
