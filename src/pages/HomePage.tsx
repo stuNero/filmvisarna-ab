@@ -37,6 +37,8 @@ export default function HomePage() {
             md:-translate-y-5
             lg:translate-y-0
             -translate-y-5
+            mb-10
+            md:mb-0
             ">
             <div className="
               absolute inset-0 
