@@ -5,6 +5,7 @@ import Footer from './partials/Footer';
 import { useAuthContext } from './utils/AuthProvider';
 import fetchJson from './utils/fetchJson';
 import { useEffect } from 'react';
+import AiChat from './parts/AiChat';
 
 export default function App() {
   // scroll to top when the route changes
@@ -32,6 +33,7 @@ export default function App() {
     <div className="max-w-full overflow-x-hidden">
       <Header />
       <Main />
+      <AiChat />
       <Footer />
     </div>
   );

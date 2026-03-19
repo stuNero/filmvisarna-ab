@@ -13,6 +13,7 @@ public static class Server
         FileServer.Start();
         LoginRoutes.Start();
         LiveUpdates.Start();
+        AiChatRoutes.Start();
         SpecialRoutes.Start();
         RestApi.Start();
         Session.Start();
