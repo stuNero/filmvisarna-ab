@@ -376,7 +376,7 @@ export default function SeatSelectionPage() {
         <div className="top-0 bottom-0 left-0 content-center justify-center md:mt-30 mt-20 ">
           <div className='flex flex-col items-center w-full md:px-30 '>
             <div className="flex flex-row justify-center items-center px-10 md:px-40 h-10 md:h-15 gap-5 md:gap-20 
-            bg-stone-900 mask-r-from-50 mask-l-from-50 md:mask-r-from-70 md:mask-l-from-70">
+            bg-stone-900 mask-r-from-40 mask-l-from-40 md:mask-r-from-70 md:mask-l-from-70">
               <h1 className='text-xl font-black md:text-xl md:font-extrabold'>
                 {showing?.title}
               </h1>
