@@ -26,14 +26,15 @@ export default function ProfilePage() {
 
   // Fetch from userId table in DB
   const [userDataRaw] = useFetchJson<UserDetails[] | null>(
-    `/api/users?WHERE=id=${userId}`
+  userId ? `/api/users?WHERE=id=${userId}` : ""
   );
   //Gets first entry
   const userData = userDataRaw?.[0];
 
   //Get userbookings
+  const email = userData?.email;
   const [userBookings] = useFetchJson<UserBooking[] | null>(
-    `/api/userBookings?WHERE=email=${userData?.email}`
+  email ? `/api/userBookings?WHERE=email=${email}` : ""
   );
 
   //Formats all bookingId entries found in userBookings as a string
