@@ -58,7 +58,8 @@ export default function HomePage() {
               max-w-7xl mx-auto
               px-4 sm:px-6 md:px-8 lg:px-16 min-w-xs
               md:scale-80 lg:scale-100
-              sm:-translate-y-10 lg:-translate-x-40">
+              sm:-translate-y-10 lg:-translate-x-40 xl:translate-y-10 
+              ">
                 <h1 className="text-5xl md:text-7xl font-semibold md:max-w-xl">
                   Upplev bio som aldrig förr
                 </h1>
@@ -98,7 +99,7 @@ export default function HomePage() {
         max-w-7xl mx-auto
         px-4 sm:px-6 lg:px-8
         mt-10 md:mt-20 lg:mt-32
-        translate-y-10 md:translate-y-0 lg:translate-y-0 xl:translate-y-0 
+        translate-y-10 md:translate-y-0 lg:translate-y-0 xl:translate-y-0 2xl:-translate-y-30 
         z-50
         ">
           <div className='
