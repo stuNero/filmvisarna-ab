@@ -6,6 +6,7 @@ import SeatType from '../parts/SeatType';
 import { Mail } from 'lucide-react';
 import type MovieShowings from '../interfaces/MovieShowings';
 import { useAuthContext } from '../utils/AuthProvider';
+import getSeatNumber from '../utils/getSeatNumber';
 
 SeatSelectionPage.route = {
   path: '/boka/:id'
@@ -103,6 +104,7 @@ export default function SeatSelectionPage() {
     rowNr: number,
     columnNr: number;
   }[] | null>(`/api/bookedSeatsWithShowings?WHERE=showingId=${showingId}`);
+
 
   // Extracts seatID from fetch array
   const bookedSeats = bookedSeatsRaw?.map((x) => x.seatId);
@@ -469,8 +471,10 @@ export default function SeatSelectionPage() {
                       return bookedSeats?.includes(seat.seatId) ? (
                         <button
                           key={seat.seatId}
-                          className={`hover:bg-[url('/ban-red.webp')] bg-center bg-cover
-                          px-4 py-2 rounded outline-solid outline-stone-700 bg-stone-800 h-8`}
+                          className={`md:hover:bg-[url('/ban-red.webp')] bg-center bg-cover
+                          px-3 py-1.5  h-6
+                          md:px-4 md:py-2 md:h-8
+                          rounded outline-solid outline-stone-700 bg-stone-800`}
                         ></button>
                       ) : (
                         <button
@@ -499,10 +503,14 @@ export default function SeatSelectionPage() {
                 <h1 className="font-semibold pb-1">Stolsnummer:</h1>
                 {selectedSeats.length > 0 ? (
                   <div className="grid grid-cols-4 gap-2 py-2 px-3 border-2 border-solid border-white/20 rounded-2xl min-h-21">
-                    {selectedSeats.map((seat) => (
-                      <p key={seat} className="text-center px-0.5 border border-solid rounded border-white/10 bg-gray-900 h-fit">
-                        {seat}
-                      </p>
+                    {seats?.map((seat) => (
+                      selectedSeats.includes(seat.seatId)
+                        ?
+                        <p key={seat.seatId} className="text-center px-0.5 border border-solid rounded border-white/10 bg-gray-900 h-fit">
+                          {getSeatNumber(seat.rowNr, seat.columnNr, seats)}
+                        </p>
+                        :
+                        <></>
                     ))}
                   </div>
                 ) : (

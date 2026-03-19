@@ -1,7 +1,9 @@
-import { Calendar, Ticket, MapPin, Clock } from 'lucide-react';
+import { Calendar, Ticket, MapPin, Clock, ChevronRight } from 'lucide-react';
 import useFetchJson from "../utils/useFetchJson";
 import getSeatNumber from '../utils/getSeatNumber';
 import type Seats from '../interfaces/Seats';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 interface BookingCardProps {
     bookingId: string;
@@ -16,6 +18,10 @@ interface BookingCardProps {
 
 export default function BookingCard({bookingId, timeSlot, title, name, coverImage, cost, active, onCancelButton}: BookingCardProps) {
 
+    //Whether the booking card should be collapsed or open
+    const [isOpen, setIsOpen] = useState(active);
+
+    //Get seats
     const [seats] = useFetchJson<Seats[] | null>(
         `/api/seatsByBooking?WHERE=bookingid=${bookingId}`
     );
@@ -31,8 +37,6 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
     }[] | null>(
         `/api/bookedSeatsWithShowings?WHERE=bookingId=${bookingId}`
     );
-    const firstSeat = bookedSeats?.[0] ?? { rowNr: 0, columnNr: 0};
-
 
     //Gets date and time strings
     const dateStr = timeSlot ? new Date(timeSlot).toLocaleDateString('sv-SE') : '';
@@ -41,64 +45,76 @@ export default function BookingCard({bookingId, timeSlot, title, name, coverImag
         minute: '2-digit'
     }) : '';
 
+    //Styling constant for collapsable elements
+    const collapsable = `overflow-hidden transition-all duration-300${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0 hidden"}`;
+
     return <>
-        <div className="bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-8 flex gap-3">
+        <div
+            className={`bg-zinc-950 rounded-2xl border-2 border-white/20 p-8 mb-6 flex flex-wrap gap-3 ${isOpen ? "" : "hover:cursor-pointer hover:bg-zinc-900"}`}
+            onClick={() => setIsOpen(true)}
+        >
             <div
-                className="w-32 h-48 rounded-xl overflow-hidden flex-shrink-0">
+                className={`w-32 h-48 rounded-xl overflow-hidden flex-shrink-0 ${collapsable}`}>
                     <img src={coverImage}
                     className="aspect-2/3"
                     />
             </div>
-            <div>
-                <div className="flex-1 flex flex-col justify-between max-h-50">
-                    <p className="text-2xl font-bold text-white truncate">{title}</p>
-                    <p className="text-gray-500 text-sm">Bokningsnummer: <span className="text-gray-300 font-mono">{bookingId}</span></p>
-                    <div className="h-28 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-20">
-                        <div className="flex items-center gap-3">
-                            <Calendar className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
-                            <div>
-                                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Datum</p>
-                                <p className="text-sm text-white">{dateStr}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <Clock className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
-                            <div>
-                                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Tid</p>
-                                <p className="text-sm text-white">{timeStr}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <MapPin className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
-                            <div>
-                                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Salong</p>
-                                <p className="text-sm text-white">{name}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <Ticket className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
-                            <div>
-                                <p className="text-[10px] text-gray-500 uppercase tracking-wider">Platser</p>
-                                <p className="text-sm text-white truncate">{getSeatNumber(firstSeat?.rowNr, firstSeat?.columnNr, seats)}</p>
-                            </div>
+            <div className="flex-1 flex flex-col justify-between max-h-50 min-w-52">
+                <p className="text-2xl font-bold text-white truncate overflow-hidden max-w-60 md:max-w-none">{title}</p>
+                <p className="text-gray-500 text-sm">Bokningsnummer: <span className="text-gray-300 font-mono">{bookingId}</span></p>
+                <div className={`h-28 grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-20 ${collapsable}`}>
+                    <div className="flex items-center gap-3">
+                        <Calendar className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
+                        <div>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Datum</p>
+                            <p className="text-sm text-white">{dateStr}</p>
                         </div>
                     </div>
-                    <p className="text-gray-500 text-sm">Totalbelopp: <span className="text-white font-bold ml-1">{cost} SEK</span></p>
+                    <div className="flex items-center gap-3">
+                        <Clock className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
+                        <div>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Tid</p>
+                            <p className="text-sm text-white">{timeStr}</p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <MapPin className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
+                        <div>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Salong</p>
+                            <p className="text-sm text-white">{name}</p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Ticket className="w-6 h-6 min-w-6 min-h-6 shrink-0 text-red-500"/>
+                        <div>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-wider">Platser</p>
+                            <p className="text-sm text-white truncate max-w-12 md:max-w-18">
+                                {bookedSeats?.map(seat => getSeatNumber(seat.rowNr, seat.columnNr, seats)).join(", ")}
+                            </p>
+                        </div>
+                    </div>
                 </div>
+                <p className={`text-gray-500 text-sm ${collapsable}`}>Totalbelopp: <span className="text-white font-bold ml-1">{cost} SEK</span></p>
             </div>
-            <div className="ml-auto flex items-start">
+            <div className={`ml-auto flex flex-row sm:flex-col items-end gap-4 sm:gap-32 ${collapsable}`}>
                 {active ? (
                     <button
                         onClick={() => onCancelButton(bookingId)}
-                        className={
-                            'gap-2 px-4 py-2 bg-red-800/10 hover:bg-red-800/20 text-red-700 border border-red-700/20 rounded-xl transition-all text-sm font-medium'
-                        }
+                        className="flex items-center gap-2 h-10 px-4 bg-red-800/10 hover:cursor-pointer hover:bg-red-800/20 hover:text-red-400 text-red-500 border border-red-700/20 rounded-xl transition-all text-sm font-medium"
                     >
                         Avboka
                     </button>
                 ) : (
                     <></>
                 )}
+                <Link to={"/bekraftelse/" + bookingId}>
+                    <button
+                        className="flex items-center gap-2 h-10 px-4 text-red-500 hover:cursor-pointer hover:text-red-400 text-sm font-medium transition-colors"
+                        onClick={() => onCancelButton(bookingId)}
+                    >
+                        Bekräftelse <ChevronRight className="w-4 h-4" />
+                    </button>
+                </Link>
             </div>
         </div>
     </>;
