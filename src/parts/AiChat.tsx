@@ -16,17 +16,25 @@ interface ChatResponse {
 }
 
 export default function AiChat() {
-   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Auto-scroll to bottom when messages change
+  // useEffect to focus on text area when ai window is open
+  useEffect(() => {
+    if (isOpen) {
+      textareaRef.current?.focus();
+    }
+  }
+  )
+
+  // Auto-scroll to bottom when chat box is opened
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
-  }, [messages, isOpen]);
+  }, [ isOpen]);
 
   // Auto-resize textarea
   useEffect(() => {
@@ -118,11 +126,16 @@ export default function AiChat() {
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[80%] p-3 rounded-lg ${
+                    className={`max-w-[90%] p-3 
+                      rounded-lg 
+                      leading-snug
+
+                      whitespace-pre-wrap ${
                       message.role === 'user'
                         ? 'bg-red-800 text-white'
                         : 'bg-zinc-800 text-gray-200'
-                    }`}
+                      }`}
+                    
                   >
                     {message.content}
                   </div>
