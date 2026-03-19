@@ -453,15 +453,15 @@ export default function SeatSelectionPage() {
             items-center overflow-x-scroll snap-x snap-mandatory md:overflow-x-hidden"
             >
               {/*           Cinema Screen         */}
-              <h1 className="text-center text-sm italic text-stone-300/50 snap-center translate-x-9">
+              <h1 className="text-center text-sm italic text-stone-300/50 snap-center translate-x-9 md:translate-x-0">
                 Bioduk
               </h1>
-              <div className="flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full  snap-center translate-x-9" />
+              <div className="flex bg-stone-600 h-3 w-70 md:w-140 mb-5 rounded-full  snap-center translate-x-9 md:translate-x-0" />
               {/*             S E A T S           */}
               {Array.from({ length: rows }, (_, rowIndex) => (
                 <div
                   key={rowIndex}
-                  className="flex justify-center gap-2.5 md:gap-4 mb-4  snap-center translate-x-9"
+                  className="flex justify-center gap-2.5 md:gap-4 mb-4  snap-center translate-x-9 md:translate-x-0"
                 >
                   {seats
                     ?.filter((seat) => seat.rowNr === rowIndex + 1)
@@ -498,7 +498,7 @@ export default function SeatSelectionPage() {
               ))}
               <div
                 id="seat-section"
-                className="flex flex-col min-w-40 translate-x-10 items-center"
+                className="flex flex-col min-w-40 translate-x-10 md:translate-x-0 items-center"
               >
                 <h1 className="font-semibold pb-1">Stolsnummer:</h1>
                 {selectedSeats.length > 0 ? (
