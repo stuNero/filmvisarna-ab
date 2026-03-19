@@ -79,8 +79,7 @@ export default function MovieCard(props: any) {
                 <img
                   src={film.coverImage}
                   alt={film.title}
-                  className="absolut inset-0 h-full object-cover w-full
-          duration-300 hover:scale-110 "
+                  className="absolute inset-0 h-full object-cover w-full duration-300 hover:scale-110 "
                 />
               </section>
 
