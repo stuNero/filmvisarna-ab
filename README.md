@@ -31,18 +31,18 @@ Nu kan du öppna webbsidan på http://localhost:5173
 
 ```
 {
-  "host": "5.189.183.23",
-  "port": 4567,
-  "username": "h25halmstad-grupp3",
-  "password": "GCKGK16393",
-  "database": "h25halmstad-grupp3",
+  "host": "",
+  "port": ,
+  "username": "",
+  "password": "",
+  "database": "",
   "createTablesIfNotExist": true,
   "seedDataIfEmpty": true,
-  "aiAccessToken": "h@@B[LL6j54f",
-  "smtpServer": "smtp.gmail.com",
-  "smtpPort": 587,
-  "emailUsername": "cinesharp.info@gmail.com",
-  "emailPassword": "uvsa fzgc tcsv mapn"
+  "aiAccessToken": "",
+  "smtpServer": "",
+  "smtpPort": ,
+  "emailUsername": "",
+  "emailPassword": ""
 }
 ```
 
