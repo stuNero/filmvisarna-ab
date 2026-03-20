@@ -25,24 +25,6 @@ FilmvisarnaAB/CineSharp är ett webbprojekt för en biosalong där användare ka
 
 Nu kan du öppna webbsidan på http://localhost:5173
 
-# Projektstruktur
-
-```
-filmvisarna-ab
-|-- backend/            # backendkod, API, databaslogik och databas konfiguration
-|-- public/             # bilder till frontend kod
-|-- src/                # all frontend kod
-|   |-- interfaces/     # datamodeller
-|   |-- pages/          # olika pages
-|   |-- partials/       # återanävndbara delar som t.ex footer, header
-|   |-- parts/          # mindre användbara komponenter
-|   |-- utils/          # hooks och hjälpfunktioner
-|-- index.html
-|-- package.json
-|-- tsconfig.json
-|-- vite.config.ts
-```
-
 # DB Konfiguration
 
 - innuti backend/db-config.json så måste du ha med följande för att applikationen ska fungera
@@ -62,6 +44,24 @@ filmvisarna-ab
   "emailUsername": "cinesharp.info@gmail.com",
   "emailPassword": "uvsa fzgc tcsv mapn"
 }
+```
+
+# Projektstruktur
+
+```
+filmvisarna-ab
+|-- backend/            # backendkod, API, databaslogik och databas konfiguration
+|-- public/             # bilder till frontend kod
+|-- src/                # all frontend kod
+|   |-- interfaces/     # datamodeller
+|   |-- pages/          # olika pages
+|   |-- partials/       # återanävndbara delar som t.ex footer, header
+|   |-- parts/          # mindre användbara komponenter
+|   |-- utils/          # hooks och hjälpfunktioner
+|-- index.html
+|-- package.json
+|-- tsconfig.json
+|-- vite.config.ts
 ```
 
 # Viktigt att veta
