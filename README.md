@@ -63,7 +63,3 @@ filmvisarna-ab
 |-- tsconfig.json
 |-- vite.config.ts
 ```
-
-# Viktigt att veta
-
-- Saker som vi lagt till som skolan inte gett oss
