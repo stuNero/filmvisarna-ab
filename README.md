@@ -63,3 +63,7 @@ filmvisarna-ab
 |-- tsconfig.json
 |-- vite.config.ts
 ```
+
+# Dokumentation
+- Finns i github repots wiki: 
+https://github.com/stuNero/filmvisarna-ab/wiki
