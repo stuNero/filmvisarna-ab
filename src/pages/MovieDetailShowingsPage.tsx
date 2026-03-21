@@ -28,13 +28,16 @@ export default function MovieDetailShowingsPage() {
     .filter((x) => x.toString() >= today.toString()))]
     .map((x) => ({ date: x, showings: [] as any }));
   for (let showing of showingsPerDate) {
+    // Only adds showings that are after the current time
     if (showing.date.toString().slice(0, 10) == today) {
       showing.showings = showingsRaw?.filter((x) => x.date === showing.date && x.time.toString() >= now);
     }
+    // Adds showing if date is correct
     else {
       showing.showings = showingsRaw?.filter((x) => x.date === showing.date);
     }
   }
+  // Removes dates that has no showings
   for (let showing of showingsPerDate) {
     if (showing.showings.length == 0) {
       let idx = showingsPerDate.indexOf(showing);
@@ -76,7 +79,7 @@ export default function MovieDetailShowingsPage() {
           <h2 className="text-2xl font-bold">Visningar</h2>
         </div>
         <div className="flex flex-col md:flex-row gap-2 p-5 ">
-
+          {/* Renders Date */}
           {showingsPerDate?.map(({ date, showings }) => (
             <article key={date} className="border rounded-xl border-stone-500 p-1 w-60 bg-black">
               <div className="flex flex-col w-full justify-center items-center pb-2 pt-2">
@@ -88,6 +91,7 @@ export default function MovieDetailShowingsPage() {
               <div className="flex justify-center">
                 <hr className="text-stone-700 w-4/5 " />
               </div>
+              {/* Renders Showing */}
               {showings.map(({ showingId, time, name }: any) => (
                 <div key={showingId} className="flex flex-col gap-2 p-5">
                   <Link to={`/seatselection/${showingId}`} className="bg-stone-950 border rounded-xl border-stone-600 pt-3 pb-3 hover:bg-stone-800 transition-ease-in-out duration-300">
