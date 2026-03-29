@@ -6,13 +6,16 @@ import { Clock } from 'lucide-react';
 
 export default function MovieCard() {
 
+  const today = new Date(Date.now()).toLocaleDateString('sv-SE');
   const [movieCard] = useFetchJson<MovieDetails[] | null>('/api/comingFilms');
   const [showingsTemp] = useFetchJson<MovieShowings[] | null>(`/api/movieShowings`);
 
-  function getShowingsByMovie(title: string) {
+  function GetShowings(title: string) {
+    const expDate = new Date();
+    expDate.setDate(expDate.getDate() + 30);
+
     const showings = showingsTemp?.filter((s) => s.title === title);
-    const now = new Date(Date.now()).toLocaleDateString('sv-SE');
-    let dayShowings = showings?.filter((s) => s.timeSlot.toString().slice(0, 10) === now);
+    let dayShowings = showings?.filter((s) => s.timeSlot.toString().slice(0, 10) >= today);
     return dayShowings;
   }
 
@@ -54,7 +57,7 @@ export default function MovieCard() {
                 <div>
                   <p className="text-sm opacity-70">Dagens visningar:</p>
                   <div>
-                    {getShowingsByMovie(film.title)?.map((showing) => (
+                    {GetShowings(film.title)?.map((showing) => (
                       <div key={showing.showingId}>{showing.timeSlot.toString().slice(11, 16)} {showing.name}</div>
                     ))}
                   </div>
