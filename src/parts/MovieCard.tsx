@@ -55,7 +55,7 @@ export default function MovieCard() {
                   <p className="text-sm opacity-70">Dagens visningar:</p>
                   <div>
                     {getShowingsByMovie(film.title)?.map((showing) => (
-                      <div key={showing.showingId}>{showing.timeSlot.toString().slice(11, 16)}</div>
+                      <div key={showing.showingId}>{showing.timeSlot.toString().slice(11, 16)} {showing.name}</div>
                     ))}
                   </div>
 
