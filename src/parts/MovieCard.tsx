@@ -11,9 +11,9 @@ export default function MovieCard() {
 
   function getShowingsByMovie(title: string) {
     const showings = showingsTemp?.filter((s) => s.title === title);
-    let dayShowings = showings?.filter((s) => s.timeSlot.toString().slice(0, 10) === Date.now().toString().slice(0, 10));
-    console.log(dayShowings);
-    return showings;
+    const now = new Date(Date.now()).toLocaleDateString('sv-SE');
+    let dayShowings = showings?.filter((s) => s.timeSlot.toString().slice(0, 10) === now);
+    return dayShowings;
   }
 
   function FormatLength(length: number) {
@@ -55,7 +55,7 @@ export default function MovieCard() {
                   <p className="text-sm opacity-70">Dagens visningar:</p>
                   <div>
                     {getShowingsByMovie(film.title)?.map((showing) => (
-                      <div key={showing.showingId}>{showing.timeSlot}</div>
+                      <div key={showing.showingId}>{showing.timeSlot.toString().slice(11, 16)}</div>
                     ))}
                   </div>
 
